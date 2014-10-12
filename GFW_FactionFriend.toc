@@ -1,0 +1,25 @@
+## Interface: 50200
+## Version: 5.2.1
+## X-Revision: $Rev: 789 $
+## X-Date: $Date: 2013-03-07 22:32:45 -0800 (Thu, 07 Mar 2013) $
+## Author: Gazmik Fizzwidget
+## X-Website: http://fizzwidget.com/factionfriend
+## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
+## Title: Fizzwidget FactionFriend
+## Notes: Switches WoW's builtin reputation watch bar automatically and helps keep track of faction turnin items.
+## X-Category: Interface Enhancements
+## SavedVariables: GFW_FactionFriend_DB
+## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
+## LoadManagers: AddonLoader
+## X-LoadOn-Hooks: ReputationWatchBar_Update
+## X-LoadOn-ReputationWatchBar_Update: LoadAddOn('GFW_FactionFriend')
+GFWUtils.lua
+GFWTable.lua
+
+Libs.xml
+
+LocaleSupport.lua
+Localization.lua
+FFF_ItemInfo.lua
+FactionFriend.lua
+FactionFriend.xml
