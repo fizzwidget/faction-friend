@@ -105,6 +105,9 @@ FFF_FactionIDs = {
 	OLD_HILLPAW = 1276,
 	SHO = 1278,
 	TINA_MUDCLAW = 1280,
+	
+-- Warlords of Draenor factions
+	STEAMWHEEDLE_SOCIETY = 1711,
 }
 local F = FFF_FactionIDs;
 
@@ -305,13 +308,6 @@ FFF_SpecialItems = {
 	-- vanilla; no longer obtainable
 	[12844] = FFF_ITEM_AD_TOKEN,
 	[19858] = FFF_ITEM_ZG_TOKEN,
-
-	-- wrath factions; purchased with justice points
-	[43950] = FFF_ITEM_KIRIN_TOR_BADGE,
-	[44710] = FFF_ITEM_WYRMREST_BADGE,
-	[44711] = FFF_ITEM_ARGENT_CRUSADE_BADGE,
-	[44713] = FFF_ITEM_EBON_BLADE_BADGE,
-	[49702] = FFF_ITEM_SONS_HODIR_BADGE,
 	
 	-- racial factions; purchased with champion's writ at argent tournament
 	[45714] = FFF_ITEM_NELF_BADGE,
@@ -377,16 +373,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70153] = 1,	-- Thunder Bluff Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -417,16 +403,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70150] = 1,	-- Sen'jin Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -457,16 +433,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70154] = 1,	-- Undercity Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -497,16 +463,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70151] = 1,	-- Silvermoon Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -537,16 +493,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70149] = 1,	-- Orgrimmar Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -602,16 +548,6 @@ FFF_ItemInfo = {
 	},
 	[F.GOBLIN] = {
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[71088] = 1,	-- Bilgewater Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -644,16 +580,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70145] = 1,	-- Darnassus Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -684,16 +610,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70147] = 1,	-- Gnomeregan Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -724,16 +640,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70152] = 1,	-- Stormwind Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -764,16 +670,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70146] = 1,	-- Exodar Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -804,16 +700,6 @@ FFF_ItemInfo = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[70148] = 1,	-- Ironforge Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -869,16 +755,6 @@ FFF_ItemInfo = {
 	},
 	[F.WORGEN] = {
 		-- Molten Front vendor (not really a quest, but it works here)
-		A_MarkOfWorldTree = {
-			creates = {
-				[71087] = 1,	-- Gilneas Writ of Commendation
-			},
-			value = 0,
-			buyValue = 250,
-			items = {
-				["currency:416"] = 30,	-- Justice Points
-			},
-		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -1475,26 +1351,6 @@ FFF_ItemInfo = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
-
-		-- justice vendors (not really a quest, but it works here)
-		A_JusticePoints = {
-			creates = {
-				[49702] = 1,	-- Sons of Hodir Commendation Badge
-			},
-			value = 0,
-			buyValue = 520,
-			items = {
-				["currency:395"] = 16,	-- Justice Points
-			},
-		},
-		A_CommendationBadge = {
-			value = 520,
-			useItem = 1,
-			purchased = 1,
-			items = {
-				[49702] = 1,	-- Sons of Hodir Commendation Badge
-			},
-		},
 	},
 	[F.EBON_BLADE] = {
 		ReadingTheBones = {
@@ -1502,90 +1358,6 @@ FFF_ItemInfo = {
 			minStanding = 4,	-- needs verifying 
 			items = {
 				[43089] = 15,	-- Vrykul Bones
-			},
-		},
-		
-		-- justice vendors (not really a quest, but it works here)
-		A_JusticePoints = {
-			creates = {
-				[44713] = 1,	-- Ebon Blade Commendation Badge
-			},
-			value = 0,
-			buyValue = 520,
-			items = {
-				["currency:395"] = 16,		-- Justice Points
-			},
-		},
-		A_CommendationBadge = {
-			value = 520,
-			useItem = 1,
-			purchased = 1,
-			items = {
-				[44713] = 1,	-- Ebon Blade Commendation Badge
-			},
-		},
-		
-	},
-	[F.ARGENT_CRUSADE] = {
-		-- justice vendors (not really a quest, but it works here)
-		A_JusticePoints = {
-			creates = {
-				[44711] = 1,	-- Argent Crusade Commendation Badge
-			},
-			value = 0,
-			buyValue = 520,
-			items = {
-				["currency:395"] = 16,		-- Justice Points
-			},
-		},
-		A_CommendationBadge = {
-			value = 520,
-			useItem = 1,
-			purchased = 1,
-			items = {
-				[44711] = 1,	-- Argent Crusade Commendation Badge
-			},
-		},
-	},
-	[F.KIRIN_TOR] = {
-		-- justice vendors (not really a quest, but it works here)
-		A_JusticePoints = {
-			creates = {
-				[43950] = 1,	-- Kirin Tor Commendation Badge
-			},
-			value = 0,
-			buyValue = 520,
-			items = {
-				["currency:395"] = 16,		-- Justice Points
-			},
-		},
-		A_CommendationBadge = {
-			value = 520,
-			useItem = 1,
-			purchased = 1,
-			items = {
-				[43950] = 1,	-- Kirin Tor Commendation Badge
-			},
-		},
-	},
-	[F.WYRMREST] = {
-		-- justice vendors (not really a quest, but it works here)
-		A_JusticePoints = {
-			creates = {
-				[44710] = 1,	-- Wyrmrest Commendation Badge
-			},
-			value = 0,
-			buyValue = 520,
-			items = {
-				["currency:395"] = 16,		-- Justice Points
-			},
-		},
-		A_CommendationBadge = {
-			value = 520,
-			useItem = 1,
-			purchased = 1,
-			items = {
-				[44710] = 1,	-- Wyrmrest Commendation Badge
 			},
 		},
 	},
@@ -1910,6 +1682,87 @@ FFF_ItemInfo = {
 		},
 	},
 
+	-- Warlords of Draenor factions
+	[F.STEAMWHEEDLE_SOCIETY] = {
+		ARareFind = {
+			value = 250,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118100] = 1,	-- Highmaul Relic
+			},
+		},
+		FragmentsOfThePast = {
+			value = 250,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118099] = 20,	-- Gorian Artifact Fragment
+			},
+		},
+
+		AogexonsFang = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118654] = 1,	-- Aogexon's Fang
+			},
+		},
+		BergruusHorn = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118655] = 1,	-- Bergruu's Horn
+			},
+		},
+		DekorhansTusk = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118656] = 1,	-- Dekorhan's Tusk
+			},
+		},
+		DirehoofsHide = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118657] = 1,	-- Direhoof's Hide
+			},
+		},
+		GagrogsSkull = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118658] = 1,	-- Gagrog's Skull
+			},
+		},
+		MugrasHead = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118659] = 1,	-- Mu'gra's Head
+			},
+		},
+		ThektalonsTalon = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118660] = 1,	-- Thek'talon's Talon
+			},
+		},
+		XelganaksStinger = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[118661] = 1,	-- Xelganak's Stinger
+			},
+		},
+		VileclawsClaw = {
+			value = 500,
+			minStanding = 4,	-- needs verifying 
+			items = {
+				[120172] = 1,	-- Vileclaw's Claw
+			},
+		},
+	},
 };
 
 
