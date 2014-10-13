@@ -1,7 +1,5 @@
-## Interface: 50200
-## Version: 5.2.1
-## X-Revision: $Rev: 789 $
-## X-Date: $Date: 2013-03-07 22:32:45 -0800 (Thu, 07 Mar 2013) $
+## Interface: 60000
+## Version: 6.0
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed

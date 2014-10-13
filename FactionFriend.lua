@@ -1898,9 +1898,6 @@ end
 
 function GFW_FactionFriend:OnInitialize()
 
-	local version = GetAddOnMetadata(addonName, "Version");
-	self.version = version.." (r"..gsub("$Revision: 789 $", "(%d+)", "%1")..")"
-
 	-- Create DB
 	self.db = AceDB:New("GFW_FactionFriend_DB", defaults, "Default")
 	self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged")

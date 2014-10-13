@@ -39,6 +39,11 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 6.0 - 2014/10/14
+- Updated for WoW Patch 6.0 and Warlords of Draenor.
+	- Added turnin info for the Steamwheedle Preservation Society.
+	- Removed info for reputation boosts purchasable with Justice Points, as Justice Points are no longer in the game.
+
 v. 5.2.1 - 2013/03/08
 - Fixed an error when mousing over the reputation bar for friendship factions in certain circumstances.
 
