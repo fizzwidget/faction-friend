@@ -19,7 +19,7 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				self:SetFrameLevel(max(ReputationWatchStatusBar:GetFrameLevel() - 1, 0));
+				self:SetFrameLevel(max(ReputationWatchBar.StatusBar:GetFrameLevel() - 1, 0));
 			</OnLoad>
 		</Scripts>
 	</Frame>

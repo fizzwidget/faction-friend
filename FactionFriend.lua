@@ -108,7 +108,7 @@ end
 function FFF_OnLoad(self)
 
 	hooksecurefunc("ReputationFrame_SetRowType", FFF_ReputationFrame_SetRowType);
-	hooksecurefunc("ReputationWatchBar_Update", FFF_ReputationWatchBar_Update);
+	hooksecurefunc("FFF_ReputationWatchBar_Update", FFF_ReputationWatchBar_Update);
 	ReputationWatchBar:HookScript("OnEnter", FFF_ReputationWatchBar_OnEnter);
 	ReputationWatchBar:HookScript("OnLeave", FFF_ReputationWatchBar_OnLeave);
 	hooksecurefunc("SetWatchedFactionIndex", FFF_SetWatchedFactionIndex);
@@ -868,7 +868,7 @@ function FFF_ReputationWatchBar_Update(newLevel)
 		standingText = FFF_LabelForStanding(standing);
 	end
 	
-	ReputationWatchStatusBarText:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
+	ReputationWatchBar.OverlayFrame.Text:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
 	
 	if (name ~= FFF_RecentFactions[1]) then
 		FFF_AddToRecentFactions(name);
@@ -876,9 +876,9 @@ function FFF_ReputationWatchBar_Update(newLevel)
 	
 	local potential = FFF_GetWatchedFactionPotential();
 	local totalValue = value + potential;
-	local tickSet = ((totalValue - min) / (max - min)) * ReputationWatchStatusBar:GetWidth();
+	local tickSet = ((totalValue - min) / (max - min)) * ReputationWatchBar.StatusBar:GetWidth();
 	local tickSet = math.max(tickSet, 0);
-	local tickSet = math.min(tickSet, ReputationWatchStatusBar:GetWidth());
+	local tickSet = math.min(tickSet, ReputationWatchBar.StatusBar:GetWidth());
 	FFF_ReputationTick:ClearAllPoints();
 	if (potential == 0 or not FFF_Config or not FFF_Config.ShowPotential) then
 	    FFF_ReputationTick:Hide();
@@ -889,9 +889,9 @@ function FFF_ReputationWatchBar_Update(newLevel)
 		else
 		    FFF_ReputationTick:Show();
 		end
-	    FFF_ReputationTick:SetPoint("CENTER", "ReputationWatchStatusBar", "LEFT", tickSet, 0);
+	    FFF_ReputationTick:SetPoint("CENTER", "ReputationWatchBar", "LEFT", tickSet, 0);
 	    FFF_ReputationExtraFillBarTexture:Show();
-	    FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", "ReputationWatchStatusBar", "TOPLEFT", tickSet, 0);
+	    FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", "ReputationWatchBar", "TOPLEFT", tickSet, 0);
 	    local color = FACTION_BAR_COLORS[standing];
 		FFF_ReputationTickHighlight:SetVertexColor(color.r, color.g, color.b);
 		if (totalValue > max) then 
