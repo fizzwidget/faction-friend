@@ -110,6 +110,7 @@ FFF_FactionIDs = {
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
 
+-- Legion factions (TODO: any use in tracking Ancient Mana for Nightfallen?)
 }
 local F = FFF_FactionIDs;
 
@@ -169,7 +170,8 @@ FFF_ZoneFactions = {
 		[ZONE_ICECROWN_CITADEL] = F.ASHEN_VERDICT,
 
 		-- Warlords of Draenor
-		[ZONE_FANGRILA] = F.SABERSTALKERS,
+		[ZONE_FANGRILA] = F.SABERSTALKERS, 
+			-- subzone-based switching not yet supported: https://github.com/fizzwidget/faction-friend/issues/3
 	},
 };
 
