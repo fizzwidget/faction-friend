@@ -43,6 +43,7 @@ FFF_OPTION_ZONES				= "When entering zones with faction objectives"
 FFF_OPTION_REP_GAINED			= "When gaining reputation with any faction"
 FFF_OPTION_TABARD				= "When equipping a faction's \"Champion\" tabard"
 FFF_OPTION_NO_GUILD_AUTOSWITCH	= "Don't switch bar for guild reputation"
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH = "Don't switch bar for bodyguard reputation"
 FFF_OPTION_SHOW_POTENTIAL		= "Show reputation gain from item turnins on bar"
 FFF_OPTION_SHOW_POTENTIAL_TIP	= "Adds an indicator to the reputation watch bar showing the amount of reputation to be gained by turning in or using items"
 FFF_OPTION_USE_CURRENCY			= "Include potential reputation gains from currency"
@@ -127,6 +128,7 @@ FFF_OPTION_ZONES				= "Wenn man Gebiete mit Fraktionsaufgaben betritt."
 FFF_OPTION_REP_GAINED			= "Wenn man Ruf bei einer Fraktion erhält."
 FFF_OPTION_SHOW_POTENTIAL		= "Zeige geschätzten Rufgewinn durch Abgaben."
 FFF_OPTION_TOOLTIP				= "Zeige Ruf-Abgabe Informationen im Tooltip"
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH = "Nicht bar für Leibwächter Ruf wechseln"
 
 -- Item Tooltip
 FFF_FACTION_TURNIN				= "Ruf-Abgabe für"
@@ -209,6 +211,7 @@ FFF_OPTION_MOVE_EXALTED        = "Marque les factions exaltées comme inactives"
 FFF_OPTION_COMBAT_DISABLE          		= "Désactive le menu des réputations en combat"
 FFF_OPTION_COMBAT_DISABLE_TIP 			= "Clic-droit sur la barre de réputation permet de faire apparaître un menu servant à changer la faction affichée, cette option permet de le désactiver lorsque le personnage est en combat."
 FFF_OPTIONS_TIPS				= "Astuce:  Pour un menu simplifié, utilisez le panneau de réputations pour marquer les réputations inactives ne devant pas s'afficher."
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH = "Ne mettez pas la barre pour la réputation de garde du corps"
 
 -- Item Tooltip
 FFF_FACTION_TURNIN				= "Gain de réputation envers"
@@ -298,6 +301,7 @@ FFF_SUNREAVER_ONSLAUGHT_INSIGNIA			= "Insignia del Embate de los Atracasol"
 FFF_SUNREAVER_ONSLAUGHT_INSIGNIA_GREATER	= "Insignia superior del Embate de los Atracasol"
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA			= "Insignia de la Ofensiva del Kirin Tor" 
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA_GREATER	= "Insignia superior de la Ofensiva del Kirin Tor"
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH   = "No cambie de barras para la reputación guardaespaldas"
 
 -- localizers: copy the rest from enUS at the top
 	
@@ -341,6 +345,7 @@ FFF_SUNREAVER_ONSLAUGHT_INSIGNIA			= "Insígnia da Investida Fendessol"
 FFF_SUNREAVER_ONSLAUGHT_INSIGNIA_GREATER	= "Insígnia Maior da Investida Fendessol"
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA			= "Insígnia da Ofensiva do Kirin Tor" 
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA_GREATER	= "Insígnia Maior da Ofensiva do Kirin Tor"
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH 			= "Não ligue bar para a reputação guarda-costas"
 
 -- localizers: copy the rest from enUS at the top
 
@@ -386,6 +391,7 @@ FFF_SUNREAVER_ONSLAUGHT_INSIGNIA			= "Знак отличия Войск Пох�
 FFF_SUNREAVER_ONSLAUGHT_INSIGNIA_GREATER	= "Большой знак отличия Войск Похитителей Солнца"
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA			= "Знак отличия Армии Кирин-Тора" 
 FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA_GREATER	= "Большой знак отличия Армии Кирин-Тора"
+FFF_OPTION_NO_BODYGUARD_AUTOSWITCH 			= "Не включайте планку для телохранителя репутации"
 
 -- localizers: copy the rest from enUS at the top
 

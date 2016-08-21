@@ -216,7 +216,7 @@ function FFF_CombatMessageFactionFilter(frame, event, message, ...)
 	end
 
 	FFF_AddToRecentFactions(factionName);
-	if ((amount > 0) and (GetTime() - FFF_LastRepGainTime > 5) and ((origFactionName ~= GUILD_REPUTATION) or (not FFF_Config.NoGuildAutoswitch))) then
+	if ((amount > 0) and (GetTime() - FFF_LastRepGainTime > 5) and ((origFactionName ~= GUILD_REPUTATION) or (not FFF_Config.NoGuildAutoswitch)) and ((not FFF_FactionIsBodyguard(factionName)) or (not FFF_Config.NoBodyguardAutoswitch))) then
 		if (not FFF_Config.Zones) then
 			FFF_SetWatchedFactionConditional(factionName);
 		else
@@ -609,6 +609,16 @@ function FFF_PlayerKnowsSpell(spellID, startTab)
 			end
 		end
 	end
+end
+
+function FFF_FactionIsBodyguard(faction)
+	local _, _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(faction);
+	for index, value in pairs(FFF_Bodyguards) do
+		if (value == factionID) then 
+			return true;
+		end
+	end
+	return false;
 end
 
 FFF_POPULARITY_RANK1_ID = 78634;	-- Mr. Popularity (Rank 1) guild perk: +5% reputation gain from quests/kills
@@ -1844,6 +1854,13 @@ local options = {
 							name = FFF_OPTION_NO_GUILD_AUTOSWITCH,
 							arg = "NoGuildAutoswitch",
 						},
+						bodyguard = {
+							type = 'toggle',
+							order = 50,
+							width = "double",
+							name = FFF_OPTION_NO_BODYGUARD_AUTOSWITCH,
+							arg = "NoBodyguardAutoswitch",
+					}
 					},
 				},
 				combatDisableMenu = {
@@ -1874,6 +1891,7 @@ local profileDefault = {
 	Tabard = true,
 	CombatDisableMenu = false,
 	NoGuildAutoswitch = false,
+	NoBodyguardAutoswitch = true,
 }
 local defaults = {}
 defaults.profile = profileDefault
