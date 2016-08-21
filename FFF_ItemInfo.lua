@@ -110,7 +110,6 @@ FFF_FactionIDs = {
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
 
-
 }
 local F = FFF_FactionIDs;
 
