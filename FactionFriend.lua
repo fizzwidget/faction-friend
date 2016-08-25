@@ -611,19 +611,11 @@ function FFF_PlayerKnowsSpell(spellID, startTab)
 	end
 end
 
-FFF_POPULARITY_RANK1_ID = 78634;	-- Mr. Popularity (Rank 1) guild perk: +5% reputation gain from quests/kills
-FFF_POPULARITY_RANK2_ID = 78635;	-- Mr. Popularity (Rank 2) guild perk: +10% reputation gain from quests/kills
-
 function FFF_GetReputationGainMultiplier()
 	FFF_ReputationMultiplier = 1;
 	local _, race = UnitRace("player");
 	if (race == "Human") then
 		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.1;
-	end
-	if (FFF_PlayerKnowsSpell(FFF_POPULARITY_RANK2_ID)) then
-		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.1;
-	elseif (FFF_PlayerKnowsSpell(FFF_POPULARITY_RANK1_ID)) then
-		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.05;
 	end
 end
 
