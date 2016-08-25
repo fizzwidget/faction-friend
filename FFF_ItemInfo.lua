@@ -115,6 +115,19 @@ FFF_FactionIDs = {
 local F = FFF_FactionIDs;
 
 ------------------------------------------------------
+-- For bodyguard switching option
+------------------------------------------------------
+FFF_Bodyguards = {
+	VIVIANNE = 1739,
+	TORMMOK = 1736,
+	ISHAAL = 1737,
+	LEORAJH = 1741,
+	IRONFIST = 1733,
+	ILLONA = 1738,
+	BRIGHTDAWN = 1740
+}
+
+------------------------------------------------------
 -- For zone-based switching
 ------------------------------------------------------
 FFF_ZoneFactions = {
