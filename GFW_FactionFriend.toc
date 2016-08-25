@@ -9,7 +9,7 @@
 ## SavedVariables: GFW_FactionFriend_DB
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
 ## LoadManagers: AddonLoader
-## X-LoadOn-Hooks: ReputationWatchBar_Update
+## X-LoadOn-Hooks: MainMenuBar_UpdateExperienceBars
 ## X-LoadOn-ReputationWatchBar_Update: LoadAddOn('GFW_FactionFriend')
 GFWUtils.lua
 GFWTable.lua

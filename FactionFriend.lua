@@ -108,7 +108,7 @@ end
 function FFF_OnLoad(self)
 
 	hooksecurefunc("ReputationFrame_SetRowType", FFF_ReputationFrame_SetRowType);
-	hooksecurefunc("FFF_ReputationWatchBar_Update", FFF_ReputationWatchBar_Update);
+	hooksecurefunc("MainMenuBar_UpdateExperienceBars", FFF_ReputationWatchBar_Update);
 	ReputationWatchBar:HookScript("OnEnter", FFF_ReputationWatchBar_OnEnter);
 	ReputationWatchBar:HookScript("OnLeave", FFF_ReputationWatchBar_OnLeave);
 	hooksecurefunc("SetWatchedFactionIndex", FFF_SetWatchedFactionIndex);
