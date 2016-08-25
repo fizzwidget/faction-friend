@@ -109,6 +109,7 @@ FFF_FactionIDs = {
 	
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
+	ARAKKOA_OUTCASTS = 1515
 
 -- Legion factions (TODO: any use in tracking Ancient Mana for Nightfallen?)
 }
@@ -1782,6 +1783,15 @@ FFF_ItemInfo = {
 				[120172] = 1,	-- Vileclaw's Claw
 			},
 		},
+	},
+	[F.ARAKKOA_OUTCASTS] = {
+		RelicRukhmar = {
+			value = 2500,
+			useItem = 1,
+			items = {
+				[117492] = 1, -- Relic of Rukhmar
+			}
+		}
 	},
 };
 
