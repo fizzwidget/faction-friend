@@ -39,6 +39,11 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 7.0.1 - 2016/XX/XX
+- Option to disable auto-switching reputation watch bar when gaining reputation with bodyguards. (Thanks Dragonwolf!)
+- Fix failure to load when AddonLoader is present. (Github issue #10)
+
+
 v. 7.0 - 2016/08/18
 - Updated for WoW Patch 7.0 and Legion. (Thanks Dragonwolf!)
 
