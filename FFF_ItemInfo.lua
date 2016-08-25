@@ -1073,6 +1073,12 @@ FFF_ItemInfo = {
 				[25416] = 10,	-- Oshu'gun Crystal Fragment
 			},
 		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129945] = 1,	-- Commendation of the Consortium, Timewarped Badge purchase
+			}
+		},
 	},
 	[F.MAGHAR] = {
 		Warbeads = {
@@ -1123,6 +1129,12 @@ FFF_ItemInfo = {
 			items = {
 				[35188] = 15,	-- Nesingwary Lackey Ear
 			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129949] = 1,	-- Commendation of Cenarion Expedition, Timewarped Badge purchase
+			}
 		},
 	},
 	[F.SPOREGGAR] = {
@@ -1264,6 +1276,12 @@ FFF_ItemInfo = {
 				[25719] = 30,	-- Arakkoa Feather
 			},
 		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129951] = 1,	-- Commendation of Lower City, Timewarped Badge purchase
+			}
+		},
 	},
 	[F.NETHERWING] = {
 		GreatEggHunt = {
@@ -1353,6 +1371,13 @@ FFF_ItemInfo = {
 				[29425] = 10,	-- Mark of Kil'jaeden
 			},
 		},
+
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129946] = 1,	-- Commendation of The Sha'tar, Timewarped Badge purchase
+			}
+		},
 	},
 
 	-- Wrath of the Lich King factions
@@ -1371,6 +1396,12 @@ FFF_ItemInfo = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129943] = 1,	-- Commendation of the Sons of Hodir, Timewarped Badge purchase
+			}
+		},
 	},
 	[F.EBON_BLADE] = {
 		ReadingTheBones = {
@@ -1379,6 +1410,12 @@ FFF_ItemInfo = {
 			items = {
 				[43089] = 15,	-- Vrykul Bones
 			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129941] = 1,	-- Commendation of The Ebonblade, Timewarped Badge purchase
+			}
 		},
 	},
 
@@ -1781,6 +1818,120 @@ FFF_ItemInfo = {
 			items = {
 				[120172] = 1,	-- Vileclaw's Claw
 			},
+		},
+	},
+
+	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
+	[F.HONOR_HOLD] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129948] = 1,	-- Commendation of Honor Hold, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.ALLIANCE_VANGUARD] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.ARGENT_CRUSADE] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129942] = 1,	-- Commendation of the Argent Crusade, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.DRAGONMAW] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.EARTHEN_RING] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133159] = 1,	-- Commendation of the Earthen Ring, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.GUARDIANS_HYJAL] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.HORDE_EXPEDITION] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129954] = 1,	-- Commendation of the Horde Expedition, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.KEEPERS_OF_TIME] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129950] = 1,	-- Commendation of the Keepers of Time, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.KIRIN_TOR] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129940] = 1,	-- Commendation of the Kirin Tor, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.RAMKAHEN] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133154] = 1,	-- Commendation of the Ramkahen, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.WILDHAMMER] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.WYRMREST] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.THERAZANE] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133160] = 1,	-- Commendation of Therazane, Timewarped Badge purchase
+			}
+		},
+	},
+	[F.THRALLMAR] = {
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129947] = 1,	-- Commendation of Thrallmar, Timewarped Badge purchase
+			}
 		},
 	},
 };
