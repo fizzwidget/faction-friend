@@ -44,6 +44,7 @@ v. 7.0.1 - 2016/XX/XX
 - Now tracks faction Commendations purchaseable with Timewarped Badges (thanks Dragonwolf). Also tracks available badge -> commendation -> reputation conversions.
 - Now tracks Medallion of the Legion if you're lucky enough to find one (or rich enough to buy a few at the AH).
 - Fixed failure to load when AddonLoader is present. (Github issue #10)
+- Fixed issue where the blue "!" we show in the default Reputation window (indicating a faction with available reputation gains) wouldn't appear when it was supposed to.
 
 v. 7.0 - 2016/08/18
 - Updated for WoW Patch 7.0 and Legion. (Thanks Dragonwolf!)

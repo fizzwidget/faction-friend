@@ -596,21 +596,6 @@ function FFF_GetWatchedFactionPotential(withReport)
 	return FFF_GetFactionPotential(nil, withReport);
 end
 
-function FFF_PlayerKnowsSpell(spellID, startTab)
-	if (startTab == nil) then
-		startTab = 1;
-	end
-	for tabIndex = startTab, GetNumSpellTabs() do
-		local tabName, tabIcon, offset, numSpells = GetSpellTabInfo(tabIndex);
-		for spellbookID = offset + 1, offset + numSpells do
-			local type, id = GetSpellBookItemInfo(spellbookID, BOOKTYPE_SPELL);
-			if (id == spellID and type == "SPELL") then
-				return true;
-			end
-		end
-	end
-end
-
 function FFF_FactionIsBodyguard(faction)
 	local _, _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(faction);
 	for index, value in pairs(FFF_Bodyguards) do
@@ -621,19 +606,11 @@ function FFF_FactionIsBodyguard(faction)
 	return false;
 end
 
-FFF_POPULARITY_RANK1_ID = 78634;	-- Mr. Popularity (Rank 1) guild perk: +5% reputation gain from quests/kills
-FFF_POPULARITY_RANK2_ID = 78635;	-- Mr. Popularity (Rank 2) guild perk: +10% reputation gain from quests/kills
-
 function FFF_GetReputationGainMultiplier()
 	FFF_ReputationMultiplier = 1;
 	local _, race = UnitRace("player");
 	if (race == "Human") then
 		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.1;
-	end
-	if (FFF_PlayerKnowsSpell(FFF_POPULARITY_RANK2_ID)) then
-		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.1;
-	elseif (FFF_PlayerKnowsSpell(FFF_POPULARITY_RANK1_ID)) then
-		FFF_ReputationMultiplier = FFF_ReputationMultiplier + 0.05;
 	end
 end
 
@@ -1112,9 +1089,9 @@ end
 -- reputation frame additions 
 ------------------------------------------------------
 
-function FFF_ReputationFrame_SetRowType(factionRow, rowType, hasRep)
+function FFF_ReputationFrame_SetRowType(factionRow, isChild, isHeader, hasRep)
 	local factionRowName = factionRow:GetName()
-	
+	print(factionRowName, factionRow.index, isChild, isHeader, hasRep)
 	local factionIcon = _G[factionRowName.."Icon"];
 	if (not factionIcon) then
 		factionIcon = CreateFrame("Button", factionRowName.."Icon", factionRow, "FFF_FactionButtonTemplate");
@@ -1125,7 +1102,7 @@ function FFF_ReputationFrame_SetRowType(factionRow, rowType, hasRep)
 	factionIcon.index = factionRow.index;
 
 	local potential = FFF_GetFactionPotential(factionRow.index);
-	if ( (hasRep or rowType == 0 or rowType == 1) and (potential > 0) ) then
+	if ( ((hasRep) or (not isHeader)) and (potential > 0) ) then
 		factionIcon:Show();
 	else
 		factionIcon:Hide();
