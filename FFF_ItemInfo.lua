@@ -1095,7 +1095,7 @@ FFF_ItemInfo = {
 				[25416] = 10,	-- Oshu'gun Crystal Fragment
 			},
 		},
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129945] = 1,	-- Commendation of the Consortium
 			},
@@ -1105,7 +1105,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129945] = 1,	-- Commendation of the Consortium
@@ -1153,7 +1153,7 @@ FFF_ItemInfo = {
 				[35188] = 15,	-- Nesingwary Lackey Ear
 			},
 		},
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129949] = 1,	-- Commendation of Cenarion Expedition
 			},
@@ -1163,7 +1163,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129949] = 1,	-- Commendation of Cenarion Expedition
@@ -1309,7 +1309,7 @@ FFF_ItemInfo = {
 				[25719] = 30,	-- Arakkoa Feather
 			},
 		},
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129951] = 1,	-- Commendation of Lower City
 			},
@@ -1319,7 +1319,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129951] = 1,	-- Commendation of Lower City
@@ -1415,7 +1415,7 @@ FFF_ItemInfo = {
 			},
 		},
 
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129946] = 1,	-- Commendation of The Sha'tar
 			},
@@ -1425,7 +1425,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129946] = 1,	-- Commendation of The Sha'tar
@@ -1449,7 +1449,7 @@ FFF_ItemInfo = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129943] = 1,	-- Commendation of the Sons of Hodir
 			},
@@ -1459,7 +1459,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129943] = 1,	-- Commendation of the Sons of Hodir
@@ -1474,7 +1474,7 @@ FFF_ItemInfo = {
 				[43089] = 15,	-- Vrykul Bones
 			},
 		},
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129941] = 1,	-- Commendation of The Ebonblade
 			},
@@ -1484,7 +1484,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129941] = 1,	-- Commendation of The Ebonblade
@@ -1905,7 +1905,7 @@ FFF_ItemInfo = {
 
 	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
 	[F.HONOR_HOLD] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129948] = 1,	-- Commendation of Honor Hold
 			},
@@ -1915,7 +1915,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129948] = 1,	-- Commendation of Honor Hold
@@ -1923,7 +1923,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.ALLIANCE_VANGUARD] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129955] = 1,	-- Commendation of the Alliance Vanguard
 			},
@@ -1933,7 +1933,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129955] = 1,	-- Commendation of the Alliance Vanguard
@@ -1941,7 +1941,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.ARGENT_CRUSADE] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129942] = 1,	-- Commendation of the Argent Crusade
 			},
@@ -1951,7 +1951,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129942] = 1,	-- Commendation of the Argent Crusade
@@ -1959,7 +1959,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.DRAGONMAW] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133150] = 1,	-- Commendation of the Dragonmaw Clan
 			},
@@ -1969,7 +1969,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133150] = 1,	-- Commendation of the Dragonmaw Clan
@@ -1977,7 +1977,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.EARTHEN_RING] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133159] = 1,	-- Commendation of the Earthen Ring
 			},
@@ -1987,7 +1987,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133159] = 1,	-- Commendation of the Earthen Ring
@@ -1995,7 +1995,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.GUARDIANS_HYJAL] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133152] = 1,	-- Commendation of the Guardians of Hyjal
 			},
@@ -2005,7 +2005,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133152] = 1,	-- Commendation of the Guardians of Hyjal
@@ -2013,7 +2013,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.HORDE_EXPEDITION] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129954] = 1,	-- Commendation of the Horde Expedition
 			},
@@ -2023,7 +2023,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129954] = 1,	-- Commendation of the Horde Expedition
@@ -2031,7 +2031,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.KEEPERS_OF_TIME] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129950] = 1,	-- Commendation of the Keepers of Time
 			},
@@ -2041,7 +2041,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129950] = 1,	-- Commendation of the Keepers of Time
@@ -2049,7 +2049,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.KIRIN_TOR] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129940] = 1,	-- Commendation of the Kirin Tor
 			},
@@ -2059,7 +2059,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129940] = 1,	-- Commendation of the Kirin Tor
@@ -2067,7 +2067,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.RAMKAHEN] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133154] = 1,	-- Commendation of the Ramkahen
 			},
@@ -2077,7 +2077,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133154] = 1,	-- Commendation of the Ramkahen
@@ -2085,7 +2085,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.WILDHAMMER] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133151] = 1,	-- Commendation of the Wildhammer Clan
 			},
@@ -2095,7 +2095,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133151] = 1,	-- Commendation of the Wildhammer Clan
@@ -2103,7 +2103,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.WYRMREST] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129944] = 1,	-- Commendation of the Wyrmrest Accord
 			},
@@ -2113,7 +2113,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129944] = 1,	-- Commendation of the Wyrmrest Accord
@@ -2121,7 +2121,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.THERAZANE] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[133160] = 1,	-- Commendation of Therazane
 			},
@@ -2131,7 +2131,7 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[133160] = 1,	-- Commendation of Therazane
@@ -2139,7 +2139,7 @@ FFF_ItemInfo = {
 		},
 	},
 	[F.THRALLMAR] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[129947] = 1,	-- Commendation of Thrallmar
 			},
@@ -2149,14 +2149,13 @@ FFF_ItemInfo = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		TimewarpedCommendation = {
+		A_TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129947] = 1,	-- Commendation of Thrallmar
 			}
 		},
 	},
-
 	
 };
 
