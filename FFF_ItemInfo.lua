@@ -109,7 +109,19 @@ FFF_FactionIDs = {
 	
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
-	ARAKKOA_OUTCASTS = 1515
+	ARAKKOA_OUTCASTS = 1515,
+	AWAKENED_ORDER = 1849,
+	SABERSTALKERS = 1850,
+	-- Horde
+	VOLJIN_HEADHUNTERS = 1848,
+	VOLJINS_SPEAR = 1681,
+	FROSTWOLF_ORCS = 1445,
+	LAUGHING_SKULL = 1708,
+	-- Alliance
+	EXARCHS_COUNCIL = 1731,
+	PROPHET_HAND = 1847,
+	SHATARI_DEFENSE = 1710,
+	WRYNNS_VANGUARD = 1682,
 
 -- Legion factions (TODO: any use in tracking Ancient Mana for Nightfallen?)
 }
@@ -208,6 +220,10 @@ FFF_ExcludedFactions = {
 		[F.DRAGONMAW] = 1,
 		[F.HELLSCREAM] = 1,
 		[F.SUNREAVER_ONSLAUGHT] = 1,
+		[F.EXARCHS_COUNCIL] = 1,
+		[F.PROPHET_HAND] = 1,
+		[F.SHATARI_DEFENSE] = 1,
+		[F.WRYNNS_VANGUARD] = 1,
 	},
 	["Horde"] = {
 		[F.HUMAN] = 1,
@@ -223,6 +239,10 @@ FFF_ExcludedFactions = {
 		[F.WILDHAMMER] = 1,
 		[F.BARADIN] = 1,
 		[F.KIRIN_TOR_OFFENSIVE] = 1,
+		[F.VOLJINS_SPEAR] = 1,
+		[F.VOLJIN_HEADHUNTERS] = 1,
+		[F.FROSTWOLF_ORCS] = 1,
+		[F.LAUGHING_SKULL] = 1,
 	},
 };
 
@@ -1074,6 +1094,22 @@ FFF_ItemInfo = {
 				[25416] = 10,	-- Oshu'gun Crystal Fragment
 			},
 		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129945] = 1,	-- Commendation of the Consortium
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129945] = 1,	-- Commendation of the Consortium
+			}
+		},
 	},
 	[F.MAGHAR] = {
 		Warbeads = {
@@ -1109,21 +1145,28 @@ FFF_ItemInfo = {
 				[24407] = 1,	-- Uncatalogued Species
 			},
 		},
-		--[[
-		CoilfangArmaments = {
-			value = 75,
-			minStanding = 4, 
-			items = {
-				[24368] = 1,	-- Coilfang Armaments
-			},
-		},
-		]]
 		CantGetEarnough = {
 			value = 150,
 			minStanding = 4, 
 			items = {
 				[35188] = 15,	-- Nesingwary Lackey Ear
 			},
+		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129949] = 1,	-- Commendation of Cenarion Expedition
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129949] = 1,	-- Commendation of Cenarion Expedition
+			}
 		},
 	},
 	[F.SPOREGGAR] = {
@@ -1265,6 +1308,22 @@ FFF_ItemInfo = {
 				[25719] = 30,	-- Arakkoa Feather
 			},
 		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129951] = 1,	-- Commendation of Lower City
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129951] = 1,	-- Commendation of Lower City
+			}
+		},
 	},
 	[F.NETHERWING] = {
 		GreatEggHunt = {
@@ -1354,6 +1413,23 @@ FFF_ItemInfo = {
 				[29425] = 10,	-- Mark of Kil'jaeden
 			},
 		},
+
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129946] = 1,	-- Commendation of The Sha'tar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129946] = 1,	-- Commendation of The Sha'tar
+			}
+		},
 	},
 
 	-- Wrath of the Lich King factions
@@ -1372,6 +1448,22 @@ FFF_ItemInfo = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129943] = 1,	-- Commendation of the Sons of Hodir
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129943] = 1,	-- Commendation of the Sons of Hodir
+			}
+		},
 	},
 	[F.EBON_BLADE] = {
 		ReadingTheBones = {
@@ -1380,6 +1472,22 @@ FFF_ItemInfo = {
 			items = {
 				[43089] = 15,	-- Vrykul Bones
 			},
+		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129941] = 1,	-- Commendation of The Ebonblade
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129941] = 1,	-- Commendation of The Ebonblade
+			}
 		},
 	},
 
@@ -1792,7 +1900,359 @@ FFF_ItemInfo = {
 				[117492] = 1, -- Relic of Rukhmar
 			}
 		}
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
 	},
+	[F.AWAKENED_ORDER] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.SABERSTALKERS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.VOLJIN_HEADHUNTERS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.VOLJINS_SPEAR] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.FROSTWOLF_ORCS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.LAUGHING_SKULL] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.EXARCHS_COUNCIL] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.PROPHET_HAND] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.SHATARI_DEFENSE] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.WRYNNS_VANGUARD] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+
+	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
+	[F.HONOR_HOLD] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129948] = 1,	-- Commendation of Honor Hold
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129948] = 1,	-- Commendation of Honor Hold
+			}
+		},
+	},
+	[F.ALLIANCE_VANGUARD] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
+			}
+		},
+	},
+	[F.ARGENT_CRUSADE] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129942] = 1,	-- Commendation of the Argent Crusade
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129942] = 1,	-- Commendation of the Argent Crusade
+			}
+		},
+	},
+	[F.DRAGONMAW] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
+			}
+		},
+	},
+	[F.EARTHEN_RING] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133159] = 1,	-- Commendation of the Earthen Ring
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133159] = 1,	-- Commendation of the Earthen Ring
+			}
+		},
+	},
+	[F.GUARDIANS_HYJAL] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
+			}
+		},
+	},
+	[F.HORDE_EXPEDITION] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129954] = 1,	-- Commendation of the Horde Expedition
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129954] = 1,	-- Commendation of the Horde Expedition
+			}
+		},
+	},
+	[F.KEEPERS_OF_TIME] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129950] = 1,	-- Commendation of the Keepers of Time
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129950] = 1,	-- Commendation of the Keepers of Time
+			}
+		},
+	},
+	[F.KIRIN_TOR] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129940] = 1,	-- Commendation of the Kirin Tor
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129940] = 1,	-- Commendation of the Kirin Tor
+			}
+		},
+	},
+	[F.RAMKAHEN] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133154] = 1,	-- Commendation of the Ramkahen
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133154] = 1,	-- Commendation of the Ramkahen
+			}
+		},
+	},
+	[F.WILDHAMMER] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
+			}
+		},
+	},
+	[F.WYRMREST] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
+			}
+		},
+	},
+	[F.THERAZANE] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[133160] = 1,	-- Commendation of Therazane
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133160] = 1,	-- Commendation of Therazane
+			}
+		},
+	},
+	[F.THRALLMAR] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			}
+		},
+	},
+	
 };
 
 
