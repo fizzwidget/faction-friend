@@ -2157,25 +2157,6 @@ FFF_ItemInfo = {
 		},
 	},
 
-	-- TEMP FAKE
-	[F.FROSTWOLF_ORCS] = {
-		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
-			creates = {
-				[129947] = 1,	-- Commendation of Thrallmar
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129947] = 1,	-- Commendation of Thrallmar
-			}
-		},
-	},
 	
 };
 
