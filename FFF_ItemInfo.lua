@@ -110,7 +110,6 @@ FFF_FactionIDs = {
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
 	ARAKKOA_OUTCASTS = 1515,
-	BARRACKS_BODYGUARDS = 1735,
 	AWAKENED_ORDER = 1849,
 	SABERSTALKERS = 1850,
 	-- Horde
@@ -1899,6 +1898,103 @@ FFF_ItemInfo = {
 			useItem = 1,
 			items = {
 				[117492] = 1, -- Relic of Rukhmar
+			}
+		}
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.AWAKENED_ORDER] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.SABERSTALKERS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.VOLJIN_HEADHUNTERS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.VOLJINS_SPEAR] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.FROSTWOLF_ORCS] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.LAUGHING_SKULL] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.EXARCHS_COUNCIL] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.PROPHET_HAND] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.SHATARI_DEFENSE] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
+			}
+		}
+	},
+	[F.WRYNNS_VANGUARD] = {
+		MedallionOfLegion = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[128315] = 1, -- Medallion of the Legion
 			}
 		}
 	},
