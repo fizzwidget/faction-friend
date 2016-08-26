@@ -207,6 +207,10 @@ FFF_ExcludedFactions = {
 		[F.DRAGONMAW] = 1,
 		[F.HELLSCREAM] = 1,
 		[F.SUNREAVER_ONSLAUGHT] = 1,
+		[F.EXARCHS_COUNCIL] = 1,
+		[F.PROPHET_HAND] = 1,
+		[F.SHATARI_DEFENSE] = 1,
+		[F.WRYNNS_VANGUARD] = 1,
 	},
 	["Horde"] = {
 		[F.HUMAN] = 1,
@@ -222,6 +226,10 @@ FFF_ExcludedFactions = {
 		[F.WILDHAMMER] = 1,
 		[F.BARADIN] = 1,
 		[F.KIRIN_TOR_OFFENSIVE] = 1,
+		[F.VOLJINS_SPEAR] = 1,
+		[F.VOLJIN_HEADHUNTERS] = 1,
+		[F.FROSTWOLF_ORCS] = 1,
+		[F.LAUGHING_SKULL] = 1,
 	},
 };
 
@@ -1073,10 +1081,20 @@ FFF_ItemInfo = {
 				[25416] = 10,	-- Oshu'gun Crystal Fragment
 			},
 		},
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129945] = 1,	-- Commendation of the Consortium
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129945] = 1,	-- Commendation of the Consortium, Timewarped Badge purchase
+				[129945] = 1,	-- Commendation of the Consortium
 			}
 		},
 	},
@@ -1114,15 +1132,6 @@ FFF_ItemInfo = {
 				[24407] = 1,	-- Uncatalogued Species
 			},
 		},
-		--[[
-		CoilfangArmaments = {
-			value = 75,
-			minStanding = 4, 
-			items = {
-				[24368] = 1,	-- Coilfang Armaments
-			},
-		},
-		]]
 		CantGetEarnough = {
 			value = 150,
 			minStanding = 4, 
@@ -1130,10 +1139,20 @@ FFF_ItemInfo = {
 				[35188] = 15,	-- Nesingwary Lackey Ear
 			},
 		},
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129949] = 1,	-- Commendation of Cenarion Expedition
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129949] = 1,	-- Commendation of Cenarion Expedition, Timewarped Badge purchase
+				[129949] = 1,	-- Commendation of Cenarion Expedition
 			}
 		},
 	},
@@ -1276,10 +1295,20 @@ FFF_ItemInfo = {
 				[25719] = 30,	-- Arakkoa Feather
 			},
 		},
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129951] = 1,	-- Commendation of Lower City
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129951] = 1,	-- Commendation of Lower City, Timewarped Badge purchase
+				[129951] = 1,	-- Commendation of Lower City
 			}
 		},
 	},
@@ -1372,10 +1401,20 @@ FFF_ItemInfo = {
 			},
 		},
 
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129946] = 1,	-- Commendation of The Sha'tar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129946] = 1,	-- Commendation of The Sha'tar, Timewarped Badge purchase
+				[129946] = 1,	-- Commendation of The Sha'tar
 			}
 		},
 	},
@@ -1396,10 +1435,20 @@ FFF_ItemInfo = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129943] = 1,	-- Commendation of the Sons of Hodir
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129943] = 1,	-- Commendation of the Sons of Hodir, Timewarped Badge purchase
+				[129943] = 1,	-- Commendation of the Sons of Hodir
 			}
 		},
 	},
@@ -1411,10 +1460,20 @@ FFF_ItemInfo = {
 				[43089] = 15,	-- Vrykul Bones
 			},
 		},
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129941] = 1,	-- Commendation of The Ebonblade
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129941] = 1,	-- Commendation of The Ebonblade, Timewarped Badge purchase
+				[129941] = 1,	-- Commendation of The Ebonblade
 			}
 		},
 	},
@@ -1823,114 +1882,254 @@ FFF_ItemInfo = {
 
 	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
 	[F.HONOR_HOLD] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129948] = 1,	-- Commendation of Honor Hold
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129948] = 1,	-- Commendation of Honor Hold, Timewarped Badge purchase
+				[129948] = 1,	-- Commendation of Honor Hold
 			}
 		},
 	},
 	[F.ALLIANCE_VANGUARD] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129955] = 1,	-- Commendation of the Alliance Vanguard, Timewarped Badge purchase
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
 			}
 		},
 	},
 	[F.ARGENT_CRUSADE] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129942] = 1,	-- Commendation of the Argent Crusade
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129942] = 1,	-- Commendation of the Argent Crusade, Timewarped Badge purchase
+				[129942] = 1,	-- Commendation of the Argent Crusade
 			}
 		},
 	},
 	[F.DRAGONMAW] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133150] = 1,	-- Commendation of the Dragonmaw Clan, Timewarped Badge purchase
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
 			}
 		},
 	},
 	[F.EARTHEN_RING] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133159] = 1,	-- Commendation of the Earthen Ring
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133159] = 1,	-- Commendation of the Earthen Ring, Timewarped Badge purchase
+				[133159] = 1,	-- Commendation of the Earthen Ring
 			}
 		},
 	},
 	[F.GUARDIANS_HYJAL] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133152] = 1,	-- Commendation of the Guardians of Hyjal, Timewarped Badge purchase
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
 			}
 		},
 	},
 	[F.HORDE_EXPEDITION] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129954] = 1,	-- Commendation of the Horde Expedition
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129954] = 1,	-- Commendation of the Horde Expedition, Timewarped Badge purchase
+				[129954] = 1,	-- Commendation of the Horde Expedition
 			}
 		},
 	},
 	[F.KEEPERS_OF_TIME] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129950] = 1,	-- Commendation of the Keepers of Time
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129950] = 1,	-- Commendation of the Keepers of Time, Timewarped Badge purchase
+				[129950] = 1,	-- Commendation of the Keepers of Time
 			}
 		},
 	},
 	[F.KIRIN_TOR] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129940] = 1,	-- Commendation of the Kirin Tor
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129940] = 1,	-- Commendation of the Kirin Tor, Timewarped Badge purchase
+				[129940] = 1,	-- Commendation of the Kirin Tor
 			}
 		},
 	},
 	[F.RAMKAHEN] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133154] = 1,	-- Commendation of the Ramkahen
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133154] = 1,	-- Commendation of the Ramkahen, Timewarped Badge purchase
+				[133154] = 1,	-- Commendation of the Ramkahen
 			}
 		},
 	},
 	[F.WILDHAMMER] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133151] = 1,	-- Commendation of the Wildhammer Clan, Timewarped Badge purchase
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
 			}
 		},
 	},
 	[F.WYRMREST] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129944] = 1,	-- Commendation of the Wyrmrest Accord, Timewarped Badge purchase
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
 			}
 		},
 	},
 	[F.THERAZANE] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[133160] = 1,	-- Commendation of Therazane
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[133160] = 1,	-- Commendation of Therazane, Timewarped Badge purchase
+				[133160] = 1,	-- Commendation of Therazane
 			}
 		},
 	},
 	[F.THRALLMAR] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129947] = 1,	-- Commendation of Thrallmar, Timewarped Badge purchase
+				[129947] = 1,	-- Commendation of Thrallmar
 			}
 		},
 	},
