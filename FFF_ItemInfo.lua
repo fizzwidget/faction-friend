@@ -1899,7 +1899,7 @@ FFF_ItemInfo = {
 			items = {
 				[117492] = 1, -- Relic of Rukhmar
 			}
-		}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
