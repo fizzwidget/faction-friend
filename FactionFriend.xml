@@ -108,10 +108,19 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="$parentLevel" inherits="GameFontHighlightSmallRight">
+				<Texture name="$parentIcon" file="Interface\GossipFrame\DailyQuestIcon" hidden="true">
+					<Size x="16" y="16"/>	
 					<Anchors>
 						<Anchor point="RIGHT">
 							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				
+				<FontString name="$parentLevel" inherits="GameFontHighlightSmallRight">
+					<Anchors>
+						<Anchor point="RIGHT">
+							<Offset x="-16" y=""/>
 						</Anchor>
 					</Anchors>
 				</FontString>

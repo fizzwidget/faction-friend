@@ -474,9 +474,9 @@ function FFF_SetWatchedFactionConditional(factionName)
 	end
 end
 
-function FFF_SetWatchedFaction(faction)
+function FFF_SetWatchedFaction(faction, overrideInactive)
 	local index = FFF_GetFactionIndex(faction);
-	if (index and not IsFactionInactive(index)) then
+	if (index and (overrideInactive or not IsFactionInactive(index))) then
 		SetWatchedFactionIndex(index);
 		FFF_LastBarSwitchTime = GetTime();
 	end
@@ -1009,6 +1009,7 @@ function FFF_BuildFactionTree()
 	repeat
 		name, _, standingID, barMin, barMax, value, _, _, isHeader, _, hasRep, isWatched, isChild, factionID = GetFactionInfo(factionIndex);
 		local standingText;
+		local hasPotential = (FFF_GetFactionPotential(factionIndex) > 0);
 		
 		-- check if this is a friendship faction 
 		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
@@ -1037,17 +1038,17 @@ function FFF_BuildFactionTree()
 				childIndex = 1;
 			elseif (isHeader and isChild and currentMainHeader) then
 				-- 2nd level headers
-				currentMainHeader[childIndex] = {name=name, children={}, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched, hasRep=hasRep};
+				currentMainHeader[childIndex] = {name=name, children={}, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched, hasRep=hasRep, hasPotential=hasPotential};
 				currentSubHeader = currentMainHeader[childIndex].children;
 				childIndex = childIndex + 1;
 				grandchildIndex = 1;
 			elseif (isChild and currentSubHeader) then
 				-- 3rd level items (children of 2nd level headers)
-				currentSubHeader[grandchildIndex] = {name=name, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched};
+				currentSubHeader[grandchildIndex] = {name=name, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched, hasPotential=hasPotential};
 				grandchildIndex = grandchildIndex + 1;
 			elseif (currentMainHeader) then
 				-- 2nd level items (children of top level headers)
-				currentMainHeader[childIndex] = {name=name, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched};
+				currentMainHeader[childIndex] = {name=name, standingID=standingID, standingText=standingText, barMin=barMin, barMax=barMax, value=value, isWatched=isWatched, hasPotential=hasPotential};
 				childIndex = childIndex + 1;
 			end
 		end		
@@ -1091,7 +1092,7 @@ end
 
 function FFF_ReputationFrame_SetRowType(factionRow, isChild, isHeader, hasRep)
 	local factionRowName = factionRow:GetName()
-	print(factionRowName, factionRow.index, isChild, isHeader, hasRep)
+
 	local factionIcon = _G[factionRowName.."Icon"];
 	if (not factionIcon) then
 		factionIcon = CreateFrame("Button", factionRowName.."Icon", factionRow, "FFF_FactionButtonTemplate");
@@ -1255,7 +1256,8 @@ end
 FFF_MENU_BORDER_HEIGHT = 15;
 FFF_MENU_BUTTON_HEIGHT = 16;
 FFF_MENU_BUTTON_MIN_WIDTH = 150;
-FFF_MENU_BUTTON_TEXT_PADDING = 25;
+FFF_MENU_BUTTON_TEXT_PADDING = 32;
+FFF_MENU_BUTTON_BANG_WIDTH = 16;
 FFF_MENU_BUTTON_CHECK_WIDTH = 25;
 FFF_MAX_SIMPLE_MENU_COUNT = 35;
 
@@ -1285,6 +1287,7 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 		button.standingText = data.standingText;
 		button.watched = data.isWatched;
 		button.percent = (data.value - data.barMin) / (data.barMax - data.barMin);
+		button.hasPotential = data.hasPotential;
 	elseif (name and not (func or isTitle or isHeader)) then
 		if (name == GUILD_REPUTATION) then
 			name = GetGuildInfo("player");
@@ -1309,7 +1312,12 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 		button.factionName = name;
 		button.standing = standingID;
 		button.watched = isWatched;
-		button.percent = (value - barMin) / (barMax - barMin);
+		if (barMax - barMin == 0) then
+			button.percent = 0;
+		else
+			button.percent = (value - barMin) / (barMax - barMin);
+		end
+		button.hasPotential = (FFF_GetFactionPotential(name) > 0);
 	elseif (func) then
 		button.func = func;
 		button.standing = nil;
@@ -1363,7 +1371,13 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 			if (button.watched and check) then
 				check:Show();
 			end
-			width = width + FFF_MENU_BUTTON_CHECK_WIDTH + levelText:GetWidth() + FFF_MENU_BUTTON_TEXT_PADDING;
+			local bang = _G[buttonName.."Icon"];
+			if (button.hasPotential) then
+				bang:Show();
+			else
+				bang:Hide();
+			end
+			width = width + FFF_MENU_BUTTON_CHECK_WIDTH + levelText:GetWidth() + FFF_MENU_BUTTON_TEXT_PADDING + FFF_MENU_BUTTON_BANG_WIDTH;
 		else
 			normalText:SetPoint("LEFT",0,0);
 		end
@@ -1384,11 +1398,6 @@ function FFF_MenuButtonSetWidth(buttonName, width)
 	local highlightRight = _G[buttonName.."HighlightRight"];
 	if (button.standing) then
 		color = FACTION_BAR_COLORS[button.standing];
-	    if (math.abs(button.percent) == math.huge 
-		or (button.percent == (math.huge * 0)) 
-		or tostring(button.percent) == "-1.#IND") then
-	        button.percent = 0;
-	    end
 		button.percent = min(button.percent, 1);
 		button.percent = max(button.percent, 0);
 		highlightLeft:SetTexCoord(0, button.percent, 0, 1);
@@ -1415,7 +1424,7 @@ function FFF_MenuButton_OnClick(self, button, down)
 	if (self.func) then
 		self.func();
 	elseif (self.factionName) then
-		FFF_SetWatchedFaction(self.factionName);
+		FFF_SetWatchedFaction(self.factionName, true);
 	end
 	FFF_HideMenus();
 end
