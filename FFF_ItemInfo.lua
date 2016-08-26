@@ -109,6 +109,20 @@ FFF_FactionIDs = {
 	
 -- Warlords of Draenor factions
 	STEAMWHEEDLE_SOCIETY = 1711,
+	ARAKKOA_OUTCASTS = 1515,
+	BARRACKS_BODYGUARDS = 1735,
+	AWAKENED_ORDER = 1849,
+	SABERSTALKERS = 1850,
+	-- Horde
+	VOLJIN_HEADHUNTERS = 1848,
+	VOLJINS_SPEAR = 1681,
+	FROSTWOLF_ORCS = 1445,
+	LAUGHING_SKULL = 1708,
+	-- Alliance
+	EXARCHS_COUNCIL = 1731,
+	PROPHET_HAND = 1847,
+	SHATARI_DEFENSE = 1710,
+	WRYNNS_VANGUARD = 1682,
 
 -- Legion factions (TODO: any use in tracking Ancient Mana for Nightfallen?)
 }
@@ -1879,6 +1893,15 @@ FFF_ItemInfo = {
 			},
 		},
 	},
+	[F.ARAKKOA_OUTCASTS] = {
+		RelicRukhmar = {
+			value = 2500,
+			useItem = 1,
+			items = {
+				[117492] = 1, -- Relic of Rukhmar
+			}
+		}
+	},
 
 	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
 	[F.HONOR_HOLD] = {
@@ -2133,6 +2156,27 @@ FFF_ItemInfo = {
 			}
 		},
 	},
+
+	-- TEMP FAKE
+	[F.FROSTWOLF_ORCS] = {
+		A_TimewarpedBadge = { -- early-alphabet key: order dependent with commendation
+			creates = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			}
+		},
+	},
+	
 };
 
 
