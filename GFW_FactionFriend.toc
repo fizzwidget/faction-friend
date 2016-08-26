@@ -1,5 +1,5 @@
 ## Interface: 70000
-## Version: 7.0
+## Version: 7.0.1
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed

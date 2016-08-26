@@ -39,12 +39,14 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
-v. 7.0.1 - 2016/XX/XX
+v. 7.0.1 - 2016/08/26
 - Added option to disable auto-switching reputation watch bar when gaining reputation with bodyguards. This option is on by default. (Thanks Dragonwolf!)
 - Now tracks faction Commendations purchaseable with Timewarped Badges (thanks Dragonwolf). Also tracks available badge -> commendation -> reputation conversions.
 - Now tracks Medallion of the Legion if you're lucky enough to find one (or rich enough to buy a few at the AH).
-- Fixed failure to load when AddonLoader is present. (Github issue #10)
+- Now shows a blue "!" in FactionFriend's menu (right click the reputation watch bar) for factions where you have available reputation gains.
 - Fixed issue where the blue "!" we show in the default Reputation window (indicating a faction with available reputation gains) wouldn't appear when it was supposed to.
+- Fixed failure to load when AddonLoader is present. (Github issue #10)
+- Fixed issue where choosing a recent faction from FactionFriend's reputation watch bar menu wouldn't work if that faction was marked Inactive.
 
 v. 7.0 - 2016/08/18
 - Updated for WoW Patch 7.0 and Legion. (Thanks Dragonwolf!)
