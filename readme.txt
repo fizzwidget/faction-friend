@@ -39,6 +39,10 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 7.0.2 - 2016/XX/XX
+- Updated French localization. (Thanks Irv1e3!)
+- Fixed typo in settings.
+
 v. 7.0.1 - 2016/08/26
 - Added option to disable auto-switching reputation watch bar when gaining reputation with bodyguards. This option is on by default. (Thanks Dragonwolf!)
 - Now tracks faction Commendations purchaseable with Timewarped Badges (thanks Dragonwolf). Also tracks available badge -> commendation -> reputation conversions.
