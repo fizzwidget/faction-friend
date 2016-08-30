@@ -123,7 +123,14 @@ FFF_FactionIDs = {
 	SHATARI_DEFENSE = 1710,
 	WRYNNS_VANGUARD = 1682,
 
--- Legion factions (TODO: any use in tracking Ancient Mana for Nightfallen?)
+-- Legion factions
+	HIGHMOUNTAIN_TRIBE = 1828,
+	NIGHTFALLEN = 1859,
+	DREAMWEAVERS = 1883,
+	WARDENS = 1894,
+	FARONDIS_COURT = 1900,
+	VALARJAR = 1948,
+	
 }
 local F = FFF_FactionIDs;
 
@@ -1999,6 +2006,160 @@ FFF_ItemInfo = {
 		}
 	},
 
+	-- Legion factions
+	[F.NIGHTFALLEN] = {
+		ArcaneTablet = {
+			value = 100,
+			useItem = 1,
+			items = {
+				[141870] = 1, -- Arcane Tablet of Falanaar
+			}
+		},
+		ArcaneRemnant = {
+			value = 25,
+			useItem = 1,
+			items = {
+				[140260] = 1, -- Arcane Remnant of Falanaar
+			}
+		},
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139026] = 1, -- Nightfallen Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141343] = 1, -- Nightfallen Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[141992] = 1, -- Greater Nightfallen Insignia
+			}
+		},
+	},
+	[F.VALARJAR] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139020] = 1, -- Valarjar Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141338] = 1, -- Valarjar Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[141987] = 1, -- Greater Valarjar Insignia
+			}
+		},
+	},
+	[F.HIGHMOUNTAIN_TRIBE] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139024] = 1, -- Highmountain Tribe Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141341] = 1, -- Highmountain Tribe Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[141990] = 1, -- Greater Highmountain Tribe Insignia
+			}
+		},
+	},
+	[F.DREAMWEAVERS] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139021] = 1, -- Dreamweaver Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141339] = 1, -- Dreamweaver Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[141988] = 1, -- Greater Dreamweaver Insignia
+			}
+		},
+	},
+	[F.FARONDIS_COURT] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139023] = 1, -- Court of Farondis Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141340] = 1, -- Court of Farondis Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[141989] = 1, -- Greater Court of Farondis Insignia
+			}
+		},
+	},
+	[F.WARDENS] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[139025] = 1, -- Wardens Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[141342] = 1, -- Wardens Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[141991] = 1, -- Greater Wardens Insignia
+			}
+		},
+	},
+	
 	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
 	[F.HONOR_HOLD] = {
 		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
