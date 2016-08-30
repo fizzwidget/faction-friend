@@ -39,7 +39,9 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
-v. 7.0.2 - 2016/XX/XX
+v. 7.0.2 - 2016/08/30
+- Now tracks items that increase reputation with Legion factions on use (e.g. Wardens Insignia, Arcane Tablet of Falanaar).
+- Removed AddonLoader support. (It was causing issues, and the trigger function for FF loading happens right on login anyhow.)
 - Updated French localization. (Thanks Irv1e3!)
 - Fixed typo in settings.
 
