@@ -39,6 +39,10 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 7.0.3 - 2016/09/02
+- Added Drowned Mana for Conjurer Margoss reputation.
+- Fixed an issue where the "Show enhanced reputation messages in chat" option would hide reputation gain messages for Conjurer Margoss (and possibly others).
+
 v. 7.0.2 - 2016/08/30
 - Now tracks items that increase reputation with Legion factions on use (e.g. Wardens Insignia, Arcane Tablet of Falanaar).
 - Removed AddonLoader support. (It was causing issues, and the trigger function for FF loading happens right on login anyhow.)
