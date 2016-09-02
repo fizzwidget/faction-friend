@@ -130,7 +130,7 @@ FFF_FactionIDs = {
 	WARDENS = 1894,
 	FARONDIS_COURT = 1900,
 	VALARJAR = 1948,
-	
+	CONJURER_MARGOSS = 1975,
 }
 local F = FFF_FactionIDs;
 
@@ -2156,6 +2156,21 @@ FFF_ItemInfo = {
 			useItem = 1,
 			items = {
 				[141991] = 1, -- Greater Wardens Insignia
+			}
+		},
+	},
+
+	[F.CONJURER_MARGOSS] = {
+		DrownedMana_10 = {
+			value = 500,
+			items = {
+				[138777] = 10, -- Drowned Mana
+			}
+		},
+		DrownedMana_01 = {
+			value = 50,
+			items = {
+				[138777] = 1, -- Drowned Mana
 			}
 		},
 	},
