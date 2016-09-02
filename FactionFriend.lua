@@ -413,14 +413,17 @@ end
 function FFF_GetFactionInfoByName(factionName)
 	local name;
 	local factionIndex = 1;
+	local lastFactionName;
 	repeat
+		lastFactionName = name;
 		factionInfo = {GetFactionInfo(factionIndex)};
 		name = factionInfo[1];
 		if (name == factionName) then
 			return factionIndex, unpack(factionInfo, 1, 20);	-- currently known to return 14 values, use 20 to be safe
 		end
 		factionIndex = factionIndex + 1;
-	until (not name or factionIndex > FFF_MAX_FACTIONS);
+	until (name == lastFactionName or factionIndex > FFF_MAX_FACTIONS); 
+	-- check repeats because when we run out of real factions we just get "other" ad infinitum
 end
 
 function FFF_MoveExaltedFactionsInactive()
