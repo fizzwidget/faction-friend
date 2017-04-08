@@ -331,11 +331,11 @@ function FFF_FactionInfoFromMessage(message)
 	end
 	if (factionName == nil) then
 		if (FFF_FACTION_STANDING_INCREASED_GENERIC == nil) then
-		    FFF_FACTION_STANDING_INCREASED_GENERIC = GFWUtils.FormatToPattern(FACTION_STANDING_INCREASED_GENERIC);
+			FFF_FACTION_STANDING_INCREASED_GENERIC = GFWUtils.FormatToPattern(FACTION_STANDING_INCREASED_GENERIC);
 		end
 		_, _, factionName = string.find(message, FFF_FACTION_STANDING_INCREASED_GENERIC);
 		if (factionName) then
-		    amount = 1; --A dummy value so something can be returned
+			amount = 1; --A dummy value so something can be returned
 		end
 	end
 	
