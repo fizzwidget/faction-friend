@@ -372,12 +372,17 @@ function FFF_GetReputationMessage(factionName, originalMessage, amount)
 				nextStandingName = FFF_LabelForStanding(nextStanding);
 			end
 			nextColor = GFWUtils.ColorToCode(FACTION_BAR_COLORS[nextStanding]);
-		else
+			nextStandingName = nextColor..nextStandingName;
+			repeatMessage = " "..format(FFF_REPEAT_TURNINS, gainsToNext, nextStandingName);
+		elseif (C_Reputation.IsFactionParagon(factionID)) then
+			repeatMessage = " "..PARAGON_REPUTATION_TOOLTIP_TEXT:format(factionName);
+			-- TODO calculate repeats till reward
+		else -- exalted but not paragon
 			nextStandingName = FFF_MAXIMUM;
 			nextColor = GFWUtils.ColorToCode(FACTION_BAR_COLORS[8]);
+			nextStandingName = nextColor..nextStandingName;
+			repeatMessage = " "..format(FFF_REPEAT_TURNINS, gainsToNext, nextStandingName);
 		end
-		nextStandingName = nextColor..nextStandingName;
-		repeatMessage = " "..format(FFF_REPEAT_TURNINS, gainsToNext, nextStandingName);
 	end
 	
 	return GFWUtils.ColorText(originalMessage..repeatMessage, FACTION_BAR_COLORS[standing]);
