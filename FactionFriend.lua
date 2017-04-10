@@ -445,9 +445,9 @@ function FFF_MoveExaltedFactionsInactive()
 	-- loop backwards because factions move around when marked inactive
 	for index = GetNumFactions(), 1, -1 do
 		if (not IsFactionInactive(index)) then
-			_, _, standingID, _, _, _, _, _, isHeader = GetFactionInfo(index);
-			if (not isHeader and standingID == 8) then
-				SetFactionInactive(index);
+			local name, _, standingID, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(index);
+			if (not isHeader and standingID == 8 and notC_Reputation.IsFactionParagon(factionID)) then
+				SetFactionInactive(index);	
 			end
 		end
 	end
