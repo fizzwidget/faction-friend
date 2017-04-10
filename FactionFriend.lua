@@ -446,7 +446,7 @@ function FFF_MoveExaltedFactionsInactive()
 	for index = GetNumFactions(), 1, -1 do
 		if (not IsFactionInactive(index)) then
 			local name, _, standingID, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(index);
-			if (not isHeader and standingID == 8 and notC_Reputation.IsFactionParagon(factionID)) then
+			if (not isHeader and standingID == 8 and not C_Reputation.IsFactionParagon(factionID)) then
 				SetFactionInactive(index);	
 			end
 		end
