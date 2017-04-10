@@ -39,6 +39,17 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 7.2 - 2017/04/10
+- Several changes for Legion factions that allow earning reputation past Exalted (and towards lucrative rewards!) in WoW patch 7.2:
+	- Chat messages for reputation gains no longer cause error messages (GitHub issue #22).
+	- Fixes and UI improvements for the reputation watch bar and its tooltip on such factions.
+	- The "Automatically mark Exalted factions as Inactive" setting no longer inactivates such factions. (If they're already inactive and you want to track them again, you'll need to reactivate them yourself.)
+- Now tracks several more tokens/turnins:
+	- New Insignia for Legion factions introduced in WoW patch 7.2, including the Armies of Legionfall.
+	- Commendations for Mists of Pandaria factions introduced to Timewalking vendors in WoW patch 7.1.5, and corresponding Timewarped Badge -> Commendation -> reputation conversions.
+	- Various other Mists of Pandaria faction tokens that we didn't have before.
+	- Pungent Truffle for Sporeggar reputation. Just in time for the Glowcap Festival!
+
 v. 7.0.3 - 2016/09/02
 - Added Drowned Mana for Conjurer Margoss reputation.
 - Fixed an issue where the "Show enhanced reputation messages in chat" option would hide reputation gain messages for Conjurer Margoss (and possibly others).
