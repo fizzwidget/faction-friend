@@ -95,6 +95,15 @@ FFF_FactionIDs = {
 	GOLDEN_LOTUS = 1269,
 	KIRIN_TOR_OFFENSIVE = 1387,
 	SUNREAVER_ONSLAUGHT = 1388,
+	SHADOPAN = 1270,
+	AUGUST_CELESTIALS = 1341,
+	TILLERS = 1272,
+	DOMINANCE_OFFENSIVE = 1375,
+	OPERATION_SHIELDWALL = 1376,
+	SHADOPAN_ASSAULT = 1435,
+	ANGLERS = 1302,
+	EMPEROR_SHAOHAO = 1492,
+	
 -- NPC friendships
 	CHEE_CHEE = 1277,
 	ELLA = 1275,
@@ -227,6 +236,7 @@ FFF_ExcludedFactions = {
 		[F.DRAGONMAW] = 1,
 		[F.HELLSCREAM] = 1,
 		[F.SUNREAVER_ONSLAUGHT] = 1,
+		[F.DOMINANCE_OFFENSIVE] = 1,
 		[F.EXARCHS_COUNCIL] = 1,
 		[F.PROPHET_HAND] = 1,
 		[F.SHATARI_DEFENSE] = 1,
@@ -246,6 +256,7 @@ FFF_ExcludedFactions = {
 		[F.WILDHAMMER] = 1,
 		[F.BARADIN] = 1,
 		[F.KIRIN_TOR_OFFENSIVE] = 1,
+		[F.OPERATION_SHIELDWALL] = 1,
 		[F.VOLJINS_SPEAR] = 1,
 		[F.VOLJIN_HEADHUNTERS] = 1,
 		[F.FROSTWOLF_ORCS] = 1,
@@ -1551,6 +1562,22 @@ FFF_ItemInfo = {
 				[89155] = 1,	-- Onyx Egg
 			},
 		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143942] = 1, -- Commendation of the Order of the Cloud Serpent
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143942] = 1, -- Commendation of the Order of the Cloud Serpent
+			}
+		},
 	},
 	[F.KLAXXI] = {
 		SeedsOfFear = {
@@ -1559,6 +1586,28 @@ FFF_ItemInfo = {
 			items = {
 				[87903] = 5,	-- Dread Amber Shards
 			},
+		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143935] = 1, -- Commendation of The Klaxxi
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143935] = 1, -- Commendation of The Klaxxi
+			}
+		},
+		StolenInsignia = {
+			value = 1000,
+			items = {
+				[94226] = 1, -- Stolen Klaxxi Insignia
+			}
 		},
 	},
 	[F.GOLDEN_LOTUS] = {
@@ -1576,6 +1625,100 @@ FFF_ItemInfo = {
 				[90815] = 1,	-- Relic of Guo-Lai
 			},
 		},	
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143937] = 1, -- Commendation of the Golden Lotus
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143937] = 1, -- Commendation of the Golden Lotus
+			}
+		},
+		StolenInsignia = {
+			value = 1000,
+			items = {
+				[94227] = 1, -- Stolen Golden Lotus Insignia
+			}
+		},
+	},
+	[F.SHADOPAN] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143936] = 1, -- Commendation of the Shado-Pan
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143936] = 1, -- Commendation of the Shado-Pan
+			}
+		},
+		StolenInsignia = {
+			value = 1000,
+			items = {
+				[94223] = 1, -- Stolen Shado-Pan Insignia
+			}
+		},
+	},
+	[F.AUGUST_CELESTIALS] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143938] = 1, -- Commendation of The August Celestials
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143938] = 1, -- Commendation of The August Celestials
+			}
+		},
+		StolenInsignia = {
+			value = 1000,
+			items = {
+				[94225] = 1, -- Stolen Celestial Insignia
+			}
+		},
+	},
+	[F.SHADOPAN_ASSAULT] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143945] = 1, -- Commendation of the Shado-Pan Assault
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143945] = 1, -- Commendation of the Shado-Pan Assault
+			}
+		},
+		Insignia = {
+			value = 1000,
+			items = {
+				[95496] = 1, -- Shado-Pan Assault Insignia
+			}
+		},
 	},
 
 	[F.CHEE_CHEE] = {
@@ -1777,6 +1920,22 @@ FFF_ItemInfo = {
 				[95488] = 1,	-- Greater Sunreaver Onslaught Insignia
 			},
 		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143939] = 1, -- Commendation of the Sunreaver Onslaught
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[143939] = 1, -- Commendation of the Sunreaver Onslaught
+			}
+		},
 	},
 	[F.KIRIN_TOR_OFFENSIVE] = {
 		-- vendors (not really a quest, but it works here)
@@ -1815,6 +1974,22 @@ FFF_ItemInfo = {
 			items = {
 				[95490] = 1,	-- Greater Kirin Tor Offensive Insignia
 			},
+		},
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143940] = 1, -- Commendation of the Kirin Tor Offensive
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[143940] = 1, -- Commendation of the Kirin Tor Offensive
+			}
 		},
 	},
 
@@ -2425,6 +2600,97 @@ FFF_ItemInfo = {
 			value = 500,
 			items = {
 				[129947] = 1,	-- Commendation of Thrallmar
+			}
+		},
+	},
+
+	[F.TILLERS] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143941] = 1, -- Commendation of The Tillers
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143941] = 1, -- Commendation of The Tillers
+			}
+		},
+	},
+	[F.DOMINANCE_OFFENSIVE] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143943] = 1, -- Commendation of the Dominance Offensive
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143943] = 1, -- Commendation of the Dominance Offensive
+			}
+		},
+	},
+	[F.OPERATION_SHIELDWALL] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143944] = 1, -- Commendation of Operation: Shieldwall
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143944] = 1, -- Commendation of Operation: Shieldwall
+			}
+		},
+	},
+	[F.ANGLERS] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143946] = 1, -- Commendation of The Anglers
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143946] = 1, -- Commendation of The Anglers
+			}
+		},
+	},
+	[F.EMPEROR_SHAOHAO] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143947] = 1, -- Commendation of Emperor Shaohao
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[143947] = 1, -- Commendation of Emperor Shaohao
 			}
 		},
 	},
