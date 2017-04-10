@@ -868,8 +868,12 @@ function FFF_ReputationWatchBar_Update(newLevel)
 			-- max rank, make it look like a full bar
 			min, max, value = 0, 1, 1;
 		end
-	else
+	elseif (C_Reputation.IsFactionParagon(factionID)) then
+		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID);
+		min, max, value = 0, threshold, currentValue;
 		standingText = FFF_LabelForStanding(standing);
+	else
+		standingText = FFF_LabelForStanding(standing);	
 	end
 	
 	ReputationWatchBar.OverlayFrame.Text:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
@@ -913,15 +917,22 @@ end
 function FFF_ReputationTick_Tooltip()
 	local x,y;
 	x,y = FFF_ReputationTick:GetCenter();
+	local _, _, _, _, _, factionID = GetWatchedFactionInfo();
 	if ( FFF_ReputationTick:IsVisible() ) then
 		FFF_ReputationTick:LockHighlight();
-		if ( x >= ( GetScreenWidth() / 2 ) ) then
+		if (C_Reputation.IsFactionParagon(factionID)) then 
+			GameTooltip:SetOwner(ReputationParagonTooltip, "ANCHOR_TOPRIGHT");
+		elseif ( x >= ( GetScreenWidth() / 2 ) ) then
 			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_LEFT");
 		else
 			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_RIGHT");
 		end
 	else
-		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+		if (C_Reputation.IsFactionParagon(factionID)) then 
+			GameTooltip:SetOwner(ReputationParagonTooltip, "ANCHOR_TOPRIGHT");
+		else
+			GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+		end
 	end
 	FFF_FactionReportTooltip();
 end
@@ -930,6 +941,10 @@ function FFF_FactionReportTooltip(faction)
 
 	local potential, reportLines, factionName, standing, value, factionID = FFF_GetFactionPotential(faction, true);
 	if (not standing or not factionName) then return; end
+	
+	-- no need to show just name if paragon and no report; default UI shows that and more
+	if (potential == 0 and C_Reputation.IsFactionParagon(factionID)) then return; end
+	
 	local potentialText = string.format(FFF_REPUTATION_TICK_TOOLTIP, potential);
 	
 	-- check if this is a friendship faction
@@ -979,6 +994,10 @@ function FFF_FactionReportTooltip(faction)
 			pointsInto = potentialTotal - friendThreshold;
 			summary = string.format(FFF_AFTER_TURNINS_INFO, friendTextLevel, pointsInto, nextFriendThreshold);
 		end
+	elseif (C_Reputation.IsFactionParagon(factionID)) then
+		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID);
+		pointsInto = potential + currentValue;
+		summary = string.format(FFF_AFTER_TURNINS_INFO, FFF_LabelForStanding(8), pointsInto, threshold);
 	else
 		local potentialStandingName = FFF_LabelForStanding(potentialStanding);
 		summary = string.format(FFF_AFTER_TURNINS_INFO, potentialStandingName, pointsInto, localMax);
