@@ -140,6 +140,7 @@ FFF_FactionIDs = {
 	FARONDIS_COURT = 1900,
 	VALARJAR = 1948,
 	CONJURER_MARGOSS = 1975,
+	ARMIES_LEGIONFALL = 2045,
 }
 local F = FFF_FactionIDs;
 
@@ -1224,6 +1225,12 @@ FFF_ItemInfo = {
 				[24290] = 10,	-- Mature Spore Sac
 			},
 		},
+		PungentTruffle = {
+			value = 15,
+			items = {
+				[144263] = 1, -- Pungent Truffle
+			},
+		},
 	},
 	[F.ALDOR] = {
 		Unfriendly_VenomSacs = {
@@ -2185,6 +2192,7 @@ FFF_ItemInfo = {
 	[F.NIGHTFALLEN] = {
 		ArcaneTablet = {
 			value = 100,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141870] = 1, -- Arcane Tablet of Falanaar
@@ -2192,6 +2200,7 @@ FFF_ItemInfo = {
 		},
 		ArcaneRemnant = {
 			value = 25,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[140260] = 1, -- Arcane Remnant of Falanaar
@@ -2199,6 +2208,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139026] = 1, -- Nightfallen Insignia
@@ -2206,6 +2216,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141343] = 1, -- Nightfallen Insignia
@@ -2213,15 +2224,52 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 750,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141992] = 1, -- Greater Nightfallen Insignia
+			}
+		},
+		Paragon_ArcaneTablet = {
+			value = 100,
+			useItem = 1,
+			items = {
+				[147416] = 1, -- Arcane Tablet of Falanaar
+			}
+		},
+		Paragon_ArcaneRemnant = {
+			value = 25,
+			useItem = 1,
+			items = {
+				[147418] = 1, -- Arcane Remnant of Falanaar
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146940] = 1, -- Nightfallen Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146946] = 1, -- Nightfallen Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[147413] = 1, -- Greater Nightfallen Insignia
 			}
 		},
 	},
 	[F.VALARJAR] = {
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139020] = 1, -- Valarjar Insignia
@@ -2229,6 +2277,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141338] = 1, -- Valarjar Insignia
@@ -2236,15 +2285,38 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 1500,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141987] = 1, -- Greater Valarjar Insignia
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146935] = 1, -- Valarjar Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146941] = 1, -- Valarjar Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[147414] = 1, -- Greater Valarjar Insignia
 			}
 		},
 	},
 	[F.HIGHMOUNTAIN_TRIBE] = {
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139024] = 1, -- Highmountain Tribe Insignia
@@ -2252,6 +2324,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141341] = 1, -- Highmountain Tribe Insignia
@@ -2259,15 +2332,38 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 1500,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141990] = 1, -- Greater Highmountain Tribe Insignia
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146938] = 1, -- Highmountain Tribe Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146944] = 1, -- Highmountain Tribe Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[147412] = 1, -- Greater Highmountain Tribe Insignia
 			}
 		},
 	},
 	[F.DREAMWEAVERS] = {
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139021] = 1, -- Dreamweaver Insignia
@@ -2275,6 +2371,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141339] = 1, -- Dreamweaver Insignia
@@ -2282,15 +2379,38 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 1500,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141988] = 1, -- Greater Dreamweaver Insignia
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146936] = 1, -- Dreamweaver Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146942] = 1, -- Dreamweaver Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[147411] = 1, -- Greater Dreamweaver Insignia
 			}
 		},
 	},
 	[F.FARONDIS_COURT] = {
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139023] = 1, -- Court of Farondis Insignia
@@ -2298,6 +2418,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141340] = 1, -- Court of Farondis Insignia
@@ -2305,15 +2426,38 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 1500,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141989] = 1, -- Greater Court of Farondis Insignia
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146937] = 1, -- Court of Farondis Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146943] = 1, -- Court of Farondis Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[147410] = 1, -- Greater Court of Farondis Insignia
 			}
 		},
 	},
 	[F.WARDENS] = {
 		InsigniaBoP = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[139025] = 1, -- Wardens Insignia
@@ -2321,6 +2465,7 @@ FFF_ItemInfo = {
 		},
 		InsigniaBoA = {
 			value = 250,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141342] = 1, -- Wardens Insignia
@@ -2328,9 +2473,54 @@ FFF_ItemInfo = {
 		},
 		InsigniaGreater = {
 			value = 1500,
+			maxStanding = 7, 
 			useItem = 1,
 			items = {
 				[141991] = 1, -- Greater Wardens Insignia
+			}
+		},
+		Paragon_InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146939] = 1, -- Wardens Insignia
+			}
+		},
+		Paragon_InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146945] = 1, -- Wardens Insignia
+			}
+		},
+		Paragon_InsigniaGreater = {
+			value = 1500,
+			useItem = 1,
+			items = {
+				[147415] = 1, -- Greater Wardens Insignia
+			}
+		},
+	},
+	[F.ARMIES_LEGIONFALL] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146949] = 1, -- Legionfall Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[146950] = 1, -- Legionfall Insignia
+			}
+		},
+		InsigniaGreater = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[147727] = 1, -- Greater Legionfall Insignia
 			}
 		},
 	},
