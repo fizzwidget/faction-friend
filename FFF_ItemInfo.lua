@@ -141,6 +141,13 @@ FFF_FactionIDs = {
 	VALARJAR = 1948,
 	CONJURER_MARGOSS = 1975,
 	ARMIES_LEGIONFALL = 2045,
+	
+	FISHERFRIEND_ILYSSIA = 2097,
+	FISHERFRIEND_RAYNAE = 2098,
+	FISHERFRIEND_AKULE = 2099,
+	FISHERFRIEND_CORBYN = 2100,
+	FISHERFRIEND_SHALETH = 2101,
+	FISHERFRIEND_IMPUS = 2102, 
 }
 local F = FFF_FactionIDs;
 
@@ -2536,6 +2543,55 @@ FFF_ItemInfo = {
 			value = 50,
 			items = {
 				[138777] = 1, -- Drowned Mana
+			}
+		},
+	},
+
+	[F.FISHERFRIEND_ILYSSIA] = {
+		FragmentedEnchantment_01 = {
+			value = 75,
+			items = {
+				[146848] = 1, -- Fragmented Enchantment
+			}
+		},
+	},
+	[F.FISHERFRIEND_RAYNAE] = {
+		CorruptedGlobule_01 = {
+			value = 75,
+			items = {
+				[146959] = 1, -- Corrupted Globule
+			}
+		},
+	},
+	[F.FISHERFRIEND_AKULE] = {
+		AncientTotemFragment_01 = {
+			value = 75,
+			items = {
+				[146960] = 1, -- Ancient Totem Fragment
+			}
+		},
+	},
+	[F.FISHERFRIEND_CORBYN] = {
+		ShinyBauble_01 = {
+			value = 75,
+			items = {
+				[146961] = 1, -- Shiny Bauble
+			}
+		},
+	},
+	[F.FISHERFRIEND_SHALETH] = {
+		GoldenMinnow_01 = {
+			value = 75,
+			items = {
+				[146962] = 1, -- Golden Minnow
+			}
+		},
+	},
+	[F.FISHERFRIEND_IMPUS] = {
+		DesecratedSeaweed_01 = {
+			value = 75,
+			items = {
+				[146963] = 1, -- Desecrated Seaweed
 			}
 		},
 	},
