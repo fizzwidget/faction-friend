@@ -121,6 +121,8 @@ FFF_FactionIDs = {
 	ARAKKOA_OUTCASTS = 1515,
 	AWAKENED_ORDER = 1849,
 	SABERSTALKERS = 1850,
+	NAT_PAGLE_GARRISON = 1358,
+	
 	-- Horde
 	VOLJIN_HEADHUNTERS = 1848,
 	VOLJINS_SPEAR = 1681,
@@ -2122,6 +2124,56 @@ FFF_ItemInfo = {
 			}
 		}
 	},
+	[F.NAT_PAGLE_GARRISON] = {
+		AbyssalGulperLunker = {
+			value = 350,
+			items = {
+				[116818] = 1, -- Abyssal Gulper Lunker
+			}
+		},
+		BlackwaterWhiptailLunker = {
+			value = 350,
+			items = {
+				[116817] = 1, -- Blackwater Whiptail Lunker
+			}
+		},
+		BlindLakeLunker = {
+			value = 350,
+			items = {
+				[116820] = 1, -- Blind Lake Lunker
+			}
+		},
+		FatSleeperLunker = {
+			value = 350,
+			items = {
+				[116821] = 1, -- Fat Sleeper Lunker
+			}
+		},
+		FireAmmoniteLunker = {
+			value = 350,
+			items = {
+				[116819] = 1, -- Fire Ammonite Lunker
+			}
+		},
+		JawlessSkulkerLunker = {
+			value = 350,
+			items = {
+				[116822] = 1, -- Jawless Skulker Lunker
+			}
+		},
+		SeaScorpionLunker = {
+			value = 350,
+			items = {
+				[122696] = 1, -- Sea Scorpion Lunker
+			}
+		},
+		FelmouthFrenzyLunker = {
+			value = 350,
+			items = {
+				[127994] = 1, -- Felmouth Frenzy Lunker
+			}
+		},
+	},
 	[F.VOLJIN_HEADHUNTERS] = {
 		MedallionOfLegion = {
 			value = 1000,
@@ -2546,7 +2598,6 @@ FFF_ItemInfo = {
 			}
 		},
 	},
-
 	[F.FISHERFRIEND_ILYSSIA] = {
 		FragmentedEnchantment_01 = {
 			value = 75,
