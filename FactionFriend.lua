@@ -108,9 +108,6 @@ end
 function FFF_OnLoad(self)
 
 	hooksecurefunc("ReputationFrame_SetRowType", FFF_ReputationFrame_SetRowType);
-	hooksecurefunc("MainMenuBar_UpdateExperienceBars", FFF_ReputationWatchBar_Update);
-	ReputationWatchBar:HookScript("OnEnter", FFF_ReputationWatchBar_OnEnter);
-	ReputationWatchBar:HookScript("OnLeave", FFF_ReputationWatchBar_OnLeave);
 	hooksecurefunc("SetWatchedFactionIndex", FFF_SetWatchedFactionIndex);
 	hooksecurefunc("CloseDropDownMenus", FFF_HideMenus);
 	ReputationFrame:HookScript("OnHide", GameTooltip_Hide);
@@ -160,6 +157,7 @@ function FFF_OnEvent(self, event, arg1, arg2)
 		if (FFF_Config.ReputationColors) then
 			FACTION_BAR_COLORS = FFF_FACTION_BAR_COLORS;
 		end
+		FFF_ReputationWatchBar_Update();
 		
 		--self:RegisterEvent("QUEST_LOG_UPDATE");
 	elseif( event == "PLAYER_LEAVING_WORLD" ) then
@@ -853,7 +851,36 @@ function FFF_GetAdjustedPotentialValue(numTurnins, turninValue, qInfo, currentSt
 	return potentialValue, numTurnins;
 end
 
+function FFF_GetReputationWatchBar()
+	for _, bar in pairs(StatusTrackingBarManager.bars) do
+		if bar.priority == 1 then -- this seems really fragile
+			return bar
+		end
+	end
+end
+
 function FFF_ReputationWatchBar_Update(newLevel)
+	
+	local bar = FFF_GetReputationWatchBar()
+	if bar == nil then
+		return
+	end
+	local statusBar = bar.StatusBar
+		
+	if FFF_ReputationExtraFillBar == nil then
+		FFF_ReputationExtraFillBar = CreateFrame("StatusBar", "FFF_ReputationExtraFillBar", bar, "FFF_ReputationExtraFillBarTemplate")
+		FFF_ReputationExtraFillBar:SetAllPoints()
+		FFF_ReputationExtraFillBar:SetFrameLevel(max(statusBar:GetFrameLevel() - 1, 0));
+		
+		FFF_ReputationTick = CreateFrame("Button", "FFF_ReputationTick", bar, "FFF_ReputationTickTemplate")
+		FFF_ReputationTick:SetPoint("CENTER", bar, "CENTER", 0, 0)
+		
+		-- first time seeing ReputationBar means time to hook it
+		bar:HookScript("OnEnter", FFF_ReputationWatchBar_OnEnter)
+		bar:HookScript("OnLeave", FFF_ReputationWatchBar_OnLeave)
+		bar:HookScript("OnMouseDown", FFF_ReputationWatchBar_OnClick)
+	end
+	
 	
 	local name, standing, min, max, value, factionID = GetWatchedFactionInfo();
 	if (not name) then return; end
@@ -876,7 +903,7 @@ function FFF_ReputationWatchBar_Update(newLevel)
 		standingText = FFF_LabelForStanding(standing);	
 	end
 	
-	ReputationWatchBar.OverlayFrame.Text:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
+	bar.OverlayFrame.Text:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
 	
 	if (name ~= FFF_RecentFactions[1]) then
 		FFF_AddToRecentFactions(name);
@@ -884,9 +911,9 @@ function FFF_ReputationWatchBar_Update(newLevel)
 	
 	local potential = FFF_GetWatchedFactionPotential();
 	local totalValue = value + potential;
-	local tickSet = ((totalValue - min) / (max - min)) * ReputationWatchBar.StatusBar:GetWidth();
+	local tickSet = ((totalValue - min) / (max - min)) * statusBar:GetWidth();
 	local tickSet = math.max(tickSet, 0);
-	local tickSet = math.min(tickSet, ReputationWatchBar.StatusBar:GetWidth());
+	local tickSet = math.min(tickSet, statusBar:GetWidth());
 	FFF_ReputationTick:ClearAllPoints();
 	if (potential == 0 or not FFF_Config or not FFF_Config.ShowPotential) then
 	    FFF_ReputationTick:Hide();
@@ -897,9 +924,9 @@ function FFF_ReputationWatchBar_Update(newLevel)
 		else
 		    FFF_ReputationTick:Show();
 		end
-	    FFF_ReputationTick:SetPoint("CENTER", "ReputationWatchBar", "LEFT", tickSet, 0);
+	    FFF_ReputationTick:SetPoint("CENTER", bar, "LEFT", tickSet, 0);
 	    FFF_ReputationExtraFillBarTexture:Show();
-	    FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", "ReputationWatchBar", "TOPLEFT", tickSet, 0);
+	    FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", bar, "TOPLEFT", tickSet, 0);
 	    local color = FACTION_BAR_COLORS[standing];
 		FFF_ReputationTickHighlight:SetVertexColor(color.r, color.g, color.b);
 		if (totalValue > max) then 
@@ -911,7 +938,6 @@ function FFF_ReputationWatchBar_Update(newLevel)
 		    FFF_ReputationExtraFillBarTexture:SetVertexColor(color.r, color.g, color.b, 0.15);
 		end
 	end
-
 end
 
 function FFF_ReputationTick_Tooltip()
@@ -1300,11 +1326,9 @@ FFF_MAX_SIMPLE_MENU_COUNT = 35;
 function FFF_ReputationWatchBar_OnClick(self, button)
 	if (button == "RightButton" and not (FFF_Config.CombatDisableMenu and InCombatLockdown())) then
 		FFF_ShowMenu(1);
-		PlaySound("igMainMenuOptionCheckBoxOn");
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 	end
 end
-
-ReputationWatchBar:HookScript("OnMouseDown", FFF_ReputationWatchBar_OnClick);
 
 function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHeader)
 	local buttonName = "FFF_Menu"..level.."Button"..index;

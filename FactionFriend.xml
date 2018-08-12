@@ -9,7 +9,7 @@
 		</Scripts> 
 	</Frame> 
 
-	<Frame name="FFF_ReputationExtraFillBar" parent="ReputationWatchBar" setAllPoints="true">
+	<Frame name="FFF_ReputationExtraFillBarTemplate" virtual="true">
 		<Layers>
 			<Layer level="BORDER">
 				<Texture name="$parentTexture" hidden="true" setAllPoints="true">
@@ -17,23 +17,12 @@
 				</Texture>
 			</Layer>
 		</Layers>
-		<Scripts>
-			<OnLoad>
-				self:SetFrameLevel(max(ReputationWatchBar.StatusBar:GetFrameLevel() - 1, 0));
-			</OnLoad>
-		</Scripts>
 	</Frame>
-	<Button name="FFF_ReputationTick" parent="ReputationWatchBar" hidden="true" frameStrata="DIALOG">
+
+	<Button name="FFF_ReputationTickTemplate" hidden="true" frameStrata="DIALOG" virtual="true">
 		<Size>
 			<AbsDimension x="32" y="32"/>
 		</Size>
-		<Anchors>
-			<Anchor point="CENTER" relativeTo="ReputationWatchBar">
-				<Offset>
-					<AbsDimension x="0" y="0"/>
-				</Offset>
-			</Anchor>
-		</Anchors>
 		<Scripts>
 			<OnEnter>
 				FFF_ReputationTick_Tooltip();
@@ -49,7 +38,7 @@
 		<NormalTexture file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
 		<HighlightTexture name="FFF_ReputationTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
 	</Button>
-
+		
 	<Button name="FFF_MenuListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
 		<Frames>
 			<Frame name="$parentBackdrop" setAllPoints="true">
