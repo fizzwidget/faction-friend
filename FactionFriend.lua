@@ -230,7 +230,7 @@ function FFF_CombatMessageFactionFilter(frame, event, message, ...)
 
 	FFF_LastRepGainTime = GetTime();
 	local index, _, _, standing, min, max, value = FFF_GetFactionInfoByName(factionName);
-	if (FFF_Config.MoveExaltedInactive and standing == 8) then
+	if (FFF_Config.MoveExaltedInactive and standing == 8 and not C_Reputation.IsFactionParagon(factionID)) then
 		SetFactionInactive(index);
 	end
 
@@ -264,7 +264,7 @@ function FFF_SystemMessageFactionFilter(frame, event, message, ...)
 	if (factionName == GUILD_REPUTATION or factionName == GUILD) then
 		factionName = GetGuildInfo("player");
 	end
-	if (FFF_Config.MoveExaltedInactive and (standingText == FACTION_STANDING_LABEL8 or standingText == FACTION_STANDING_LABEL8_FEMALE)) then
+	if (FFF_Config.MoveExaltedInactive and (standingText == FACTION_STANDING_LABEL8 or standingText == FACTION_STANDING_LABEL8_FEMALE) and not C_Reputation.IsFactionParagon(factionID)) then
 		local index = FFF_GetFactionInfoByName(factionName);
 		SetFactionInactive(index);
 	end
