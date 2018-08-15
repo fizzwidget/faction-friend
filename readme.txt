@@ -39,6 +39,12 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 8.0 - 2018/08/13
+- Updated for WoW Patch 8.0 and Battle for Azeroth.
+- Fixed issue where "paragon" factions (those that allow additional gain past exalted for extra rewards) kept getting marked as inactive.
+- Tracks fishing-related factions and turnins introduced in patch 7.2. (Thanks Hrazmadul!)
+- Tracks "Lunker" fish turnins for Nat Pagle faction in the Draenor Garrison. (Thanks milotic!)
+
 v. 7.2 - 2017/04/10
 - Several changes for Legion factions that allow earning reputation past Exalted (and towards lucrative rewards!) in WoW patch 7.2:
 	- Chat messages for reputation gains no longer cause error messages (GitHub issue #22).
