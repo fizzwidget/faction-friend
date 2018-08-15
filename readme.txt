@@ -39,6 +39,9 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 8.0.1 - 2018/08/14
+- Oops. The version released as "8.0" didn't include the v8.0 TOC update and readme content. This one does.
+
 v. 8.0 - 2018/08/13
 - Updated for WoW Patch 8.0 and Battle for Azeroth.
 - Fixed issue where "paragon" factions (those that allow additional gain past exalted for extra rewards) kept getting marked as inactive.
