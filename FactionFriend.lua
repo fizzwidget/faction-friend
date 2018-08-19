@@ -1346,7 +1346,12 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 		button.standing = data.standingID;
 		button.standingText = data.standingText;
 		button.watched = data.isWatched;
-		button.percent = (data.value - data.barMin) / (data.barMax - data.barMin);
+		local span = data.barMax - data.barMin;
+		if span == 0 then
+			button.percent = 0;
+		else
+			button.percent = (data.value - data.barMin) / span;
+		end
 		button.hasPotential = data.hasPotential;
 	elseif (name and not (func or isTitle or isHeader)) then
 		if (name == GUILD_REPUTATION) then
