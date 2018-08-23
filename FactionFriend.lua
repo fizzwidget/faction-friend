@@ -940,30 +940,30 @@ function FFF_ReputationWatchBar_Update(newLevel)
 	end
 end
 
-function FFF_ReputationTick_Tooltip()
+function FFF_ReputationTick_Tooltip(self)
 	local x,y;
 	x,y = FFF_ReputationTick:GetCenter();
 	local _, _, _, _, _, factionID = GetWatchedFactionInfo();
-	if ( FFF_ReputationTick:IsVisible() ) then
+	local tooltip = GameTooltip;
+	if (C_Reputation.IsFactionParagon(factionID)) then 
+		self.UpdateTooltip = ReputationParagonFrame_SetupParagonTooltip;
+		GameTooltip_SetDefaultAnchor(EmbeddedItemTooltip, self);
+		ReputationParagonFrame_SetupParagonTooltip(self);
+		tooltip = EmbeddedItemTooltip;
+	elseif ( FFF_ReputationTick:IsVisible() ) then
 		FFF_ReputationTick:LockHighlight();
-		if (C_Reputation.IsFactionParagon(factionID)) then 
-			GameTooltip:SetOwner(ReputationParagonTooltip, "ANCHOR_TOPRIGHT");
-		elseif ( x >= ( GetScreenWidth() / 2 ) ) then
+		if ( x >= ( GetScreenWidth() / 2 ) ) then
 			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_LEFT");
 		else
 			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_RIGHT");
 		end
 	else
-		if (C_Reputation.IsFactionParagon(factionID)) then 
-			GameTooltip:SetOwner(ReputationParagonTooltip, "ANCHOR_TOPRIGHT");
-		else
-			GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
-		end
+		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 	end
-	FFF_FactionReportTooltip();
+	FFF_FactionReportTooltip(nil, tooltip);
 end
 
-function FFF_FactionReportTooltip(faction)
+function FFF_FactionReportTooltip(faction, tooltip)
 
 	local potential, reportLines, factionName, standing, value, factionID = FFF_GetFactionPotential(faction, true);
 	if (not standing or not factionName) then return; end
@@ -987,20 +987,20 @@ function FFF_FactionReportTooltip(faction)
 	-- First line: name of faction and label for current standing
 	-- e.g. "The Aldor: Friendly"
 	local color = FACTION_BAR_COLORS[standing];
-	GameTooltip:SetText(factionName..": "..standingText, color.r, color.g, color.b);
+	tooltip:SetText(factionName..": "..standingText, color.r, color.g, color.b);
 
 	if (potential == 0) then return; end
 
 	-- Report lines summarizing faction available from turnins
 	-- e.g. "500 points (2 turnins): 20x[Mark of Sargeras] (13 in bank)"
-	GameTooltip:AddLine(potentialText);
+	tooltip:AddLine(potentialText);
 	for _, reportLine in pairs(reportLines) do
 		for reportHeader, itemLines in pairs(reportLine) do
 			local r, g, b = HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b;
-			GameTooltip:AddDoubleLine(reportHeader, itemLines[1], r, g, b, r, g, b);
+			tooltip:AddDoubleLine(reportHeader, itemLines[1], r, g, b, r, g, b);
 			if (table.getn(itemLines) > 1) then
 				for i = 2, table.getn(itemLines) do
-					GameTooltip:AddDoubleLine(" ", itemLines[i], r, g, b, r, g, b);
+					tooltip:AddDoubleLine(" ", itemLines[i], r, g, b, r, g, b);
 				end
 			end
 		end
@@ -1010,7 +1010,7 @@ function FFF_FactionReportTooltip(faction)
 	-- e.g. "After turnins: Honored (100/12000)"
 	local potentialTotal = potential + value;
 	local potentialStanding, pointsInto, localMax = FFF_StandingForValue(potentialTotal);
-	GameTooltip:AddLine(" ");
+	tooltip:AddLine(" ");
 	local summary;
 	if (friendID ~= nil) then
 		local currentRank, maxRank = GetFriendshipReputationRanks(factionID);
@@ -1030,23 +1030,22 @@ function FFF_FactionReportTooltip(faction)
 	end
 	local c1 = HIGHLIGHT_FONT_COLOR;
 	local c2 = FACTION_BAR_COLORS[potentialStanding];
-	GameTooltip:AddDoubleLine(FFF_AFTER_TURNINS_LABEL, summary, c1.r, c1.g, c1.b, c2.r, c2.g, c2.b);
+	tooltip:AddDoubleLine(FFF_AFTER_TURNINS_LABEL, summary, c1.r, c1.g, c1.b, c2.r, c2.g, c2.b);
 	
-	GameTooltip:Show();
-	
+	tooltip:Show();
+	return tooltip
 end
 
-function FFF_ReputationWatchBar_OnEnter()
+function FFF_ReputationWatchBar_OnEnter(self)
 	if (not FFF_Config.ShowPotential) then return; end
-	FFF_ReputationTick_Tooltip();
-	FFF_ShowingTooltip = true;
+	FFF_ShowingTooltip = FFF_ReputationTick_Tooltip(self);
 end
 
 function FFF_ReputationWatchBar_OnLeave()
 	FFF_ReputationTick:UnlockHighlight();
-	if (FFF_ShowingTooltip) then
-		GameTooltip:Hide();
-		FFF_ShowingTooltip = false;
+	if (FFF_ShowingTooltip ~= nil) then
+		tooltip:Hide();
+		FFF_ShowingTooltip = nil;
 	end
 end
 
