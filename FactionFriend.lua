@@ -960,7 +960,7 @@ function FFF_ReputationTick_Tooltip(self)
 	else
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 	end
-	FFF_FactionReportTooltip(nil, tooltip);
+	return FFF_FactionReportTooltip(nil, tooltip);
 end
 
 function FFF_FactionReportTooltip(faction, tooltip)
@@ -1044,7 +1044,7 @@ end
 function FFF_ReputationWatchBar_OnLeave()
 	FFF_ReputationTick:UnlockHighlight();
 	if (FFF_ShowingTooltip ~= nil) then
-		tooltip:Hide();
+		FFF_ShowingTooltip:Hide();
 		FFF_ShowingTooltip = nil;
 	end
 end
@@ -1173,7 +1173,7 @@ end
 
 function FFF_FactionButtonTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	FFF_FactionReportTooltip(self.index);
+	FFF_FactionReportTooltip(self.index, GameTooltip);
 end
 
 ------------------------------------------------------
