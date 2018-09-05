@@ -227,7 +227,7 @@ function FFF_CombatMessageFactionFilter(frame, event, message, ...)
 	end
 
 	FFF_LastRepGainTime = GetTime();
-	local index, _, _, standing, min, max, value = FFF_GetFactionInfoByName(factionName);
+	local index, _, _, standing, min, max, value, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(factionName);	
 	if (FFF_Config.MoveExaltedInactive and standing == 8 and not C_Reputation.IsFactionParagon(factionID)) then
 		SetFactionInactive(index);
 	end
@@ -262,6 +262,7 @@ function FFF_SystemMessageFactionFilter(frame, event, message, ...)
 	if (factionName == GUILD_REPUTATION or factionName == GUILD) then
 		factionName = GetGuildInfo("player");
 	end
+	local _, _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(factionName);	
 	if (FFF_Config.MoveExaltedInactive and (standingText == FACTION_STANDING_LABEL8 or standingText == FACTION_STANDING_LABEL8_FEMALE) and not C_Reputation.IsFactionParagon(factionID)) then
 		local index = FFF_GetFactionInfoByName(factionName);
 		SetFactionInactive(index);
@@ -867,7 +868,7 @@ function FFF_ReputationWatchBar_Update(newLevel)
 	end
 	local statusBar = bar.StatusBar
 		
-	if FFF_ReputationExtraFillBar == nil then
+	if FFF_ReputationExtraFillBar == nil --[[and not InCombatLockdown()]] then
 		FFF_ReputationExtraFillBar = CreateFrame("StatusBar", "FFF_ReputationExtraFillBar", bar, "FFF_ReputationExtraFillBarTemplate")
 		FFF_ReputationExtraFillBar:SetAllPoints()
 		FFF_ReputationExtraFillBar:SetFrameLevel(max(statusBar:GetFrameLevel() - 1, 0));
