@@ -987,10 +987,6 @@ function FFF_FactionReportTooltip(faction, tooltip)
 	-- First line: name of faction and label for current standing
 	-- e.g. "The Aldor: Friendly"
 	local color = FACTION_BAR_COLORS[standing];
-
-	if (tooltip == nil) then
-		tooltip = GameTooltip;
-	end
 	tooltip:SetText(factionName..": "..standingText, color.r, color.g, color.b);
 
 	if (potential == 0) then return; end
@@ -1177,7 +1173,7 @@ end
 
 function FFF_FactionButtonTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	FFF_FactionReportTooltip(self.index);
+	FFF_FactionReportTooltip(self.index, GameTooltip);
 end
 
 ------------------------------------------------------
