@@ -1,7 +1,6 @@
 ## Interface: 80200
 ## Version: 8.2.1
 ## Author: Gazmik Fizzwidget
-## Contributor: Dragonwolf Dreamwalker
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
 ## Title: Fizzwidget FactionFriend
