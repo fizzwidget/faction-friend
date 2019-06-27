@@ -968,8 +968,13 @@ function FFF_FactionReportTooltip(faction, tooltip)
 	local potential, reportLines, factionName, standing, value, factionID = FFF_GetFactionPotential(faction, true);
 	if (not standing or not factionName) then return; end
 	
-	-- no need to show just name if paragon and no report; default UI shows that and more
-	if (potential == 0 and C_Reputation.IsFactionParagon(factionID)) then return; end
+	-- no need to show just name if paragon or no report; default UI shows that and more
+	if (potential == 0 or C_Reputation.IsFactionParagon(factionID)) then return; end
+
+	-- Still going? Then make sure we have a tooltip object to fill
+	if (tooltip == nil) then
+		tooltip = GameTooltip;
+	end
 	
 	local potentialText = string.format(FFF_REPUTATION_TICK_TOOLTIP, potential);
 	
@@ -1173,7 +1178,7 @@ end
 
 function FFF_FactionButtonTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	FFF_FactionReportTooltip(self.index, GameTooltip);
+	FFF_FactionReportTooltip(self.index);
 end
 
 ------------------------------------------------------
