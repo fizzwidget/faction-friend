@@ -1,5 +1,5 @@
-## Interface: 80000
-## Version: 8.0.1
+## Interface: 11302
+## Version: 8.0.1-classic
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
