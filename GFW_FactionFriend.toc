@@ -8,6 +8,7 @@
 ## X-Category: Interface Enhancements
 ## SavedVariables: GFW_FactionFriend_DB
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
+## X-LoadOn-Hooks: MainMenuBar_UpdateExperienceBars
 GFWUtils.lua
 GFWTable.lua
 
@@ -16,5 +17,8 @@ Libs.xml
 LocaleSupport.lua
 Localization.lua
 FFF_ItemInfo.lua
+
+Interfaces.xml
+
 FactionFriend.lua
 FactionFriend.xml
