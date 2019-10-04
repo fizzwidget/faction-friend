@@ -18,7 +18,9 @@ LocaleSupport.lua
 Localization.lua
 FFF_ItemInfo.lua
 
-Interfaces.xml
+FactionFriend.xml
+
+Interfaces\FFF_ReputationWatchBar_Classic.lua
 
 FactionFriend.lua
-FactionFriend.xml
+
