@@ -8,10 +8,26 @@
 
 FFF_ReputationWatchBar_Classic = {};
 
-function FFF_ReputationWatchBar_Classic:Update(newLevel)
-
+function FFF_ReputationWatchBar_Classic.Update()
     local name, standing, min, max, value, factionID = GetWatchedFactionInfo();
     if (not name) then return; end
+
+    local bar = ReputationWatchBar;
+    local statusBar = bar.StatusBar;
+
+    if FFF_ReputationExtraFillBar == nil then
+        FFF_ReputationExtraFillBar = CreateFrame("StatusBar", "FFF_ReputationExtraFillBar", bar, "FFF_ReputationExtraFillBarTemplate")
+        FFF_ReputationExtraFillBar:SetAllPoints()
+        FFF_ReputationExtraFillBar:SetFrameLevel(math.max(statusBar:GetFrameLevel() - 1, 0));
+        
+        FFF_ReputationTick = CreateFrame("Button", "FFF_ReputationTick", bar, "FFF_ReputationTickTemplate");
+        FFF_ReputationTick:SetPoint("CENTER", bar, "CENTER", 0, 0);
+        
+        -- first time seeing ReputationBar means time to hook it
+        bar:HookScript("OnEnter", FFF_ReputationWatchBar.OnEnter);
+        bar:HookScript("OnLeave", FFF_ReputationWatchBar.OnLeave);
+        bar:HookScript("OnMouseDown", FFF_ReputationWatchBar.OnClick);
+    end
 
     local standingText;
     standingText = FFF_LabelForStanding(standing);

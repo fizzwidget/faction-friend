@@ -42,7 +42,7 @@ function FFF_ReputationWatchBar_Update(newLevel)
             -- max rank, make it look like a full bar
             min, max, value = 0, 1, 1;
         end
-    elseif (C_Reputation.IsFactionParagon(factionID)) then
+    elseif (GFW_FactionFriend.Utils.isParagon(factionID)) then
         local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID);
         min, max, value = 0, threshold, currentValue;
         standingText = FFF_LabelForStanding(standing);
@@ -83,6 +83,14 @@ function FFF_ReputationWatchBar_Update(newLevel)
             FFF_ReputationExtraFillBarTexture:SetVertexColor(color.r, color.g, color.b, 0.25);
         else
             FFF_ReputationExtraFillBarTexture:SetVertexColor(color.r, color.g, color.b, 0.15);
+        end
+    end
+end
+
+local function FFF_GetReputationWatchBar()
+    for _, bar in pairs(StatusTrackingBarManager.bars) do
+        if bar.priority == 1 then -- this seems really fragile
+            return bar
         end
     end
 end

@@ -9,6 +9,7 @@
 ## SavedVariables: GFW_FactionFriend_DB
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
 ## X-LoadOn-Hooks: MainMenuBar_UpdateExperienceBars
+
 GFWUtils.lua
 GFWTable.lua
 
@@ -18,9 +19,15 @@ LocaleSupport.lua
 Localization.lua
 FFF_ItemInfo.lua
 
-FactionFriend.xml
+FFF_ReputationWatchBar.xml
 
-Interfaces\FFF_ReputationWatchBar_Classic.lua
+Mixins\FFF_Utils_Retail.lua
+Mixins\FFF_Utils_Classic.lua
+
+Initialize.lua
+
+Mixins\FFF_ReputationWatchBar_Classic.lua
+FFF_ReputationWatchBar.lua
 
 FactionFriend.lua
-
+FactionFriend.xml

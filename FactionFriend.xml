@@ -18,26 +18,6 @@
 			</Layer>
 		</Layers>
 	</Frame>
-
-	<Button name="FFF_ReputationTickTemplate" hidden="true" frameStrata="DIALOG" virtual="true">
-		<Size>
-			<AbsDimension x="32" y="32"/>
-		</Size>
-		<Scripts>
-			<OnEnter>
-				FFF_ReputationTick_Tooltip();
-			</OnEnter>
-			<OnLeave>
-				GameTooltip:Hide();
-				self:UnlockHighlight();
-			</OnLeave>
-			<OnMouseDown>
-				FFF_ReputationWatchBar_OnClick(arg1);
-			</OnMouseDown>
-		</Scripts>
-		<NormalTexture file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
-		<HighlightTexture name="FFF_ReputationTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
-	</Button>
 		
 	<Button name="FFF_MenuListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
 		<Frames>
