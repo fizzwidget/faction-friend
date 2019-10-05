@@ -335,7 +335,7 @@ function FFF_GetReputationMessage(factionName, originalMessage, amount)
 	local _, _, _, standing, min, max, value, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(factionName);
 	
 	-- check if this is a friendship faction 
-	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 	if (friendID ~= nil) then
 		if ( nextFriendThreshold ) then
 			min, max, value = friendThreshold, nextFriendThreshold, friendRep;
@@ -854,7 +854,7 @@ function FFF_FactionReportTooltip(faction, tooltip)
 	
 	-- check if this is a friendship faction
 	local standingText;
-	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 	if (friendID ~= nil) then
 		value = friendRep;
 		local currentRank, maxRank = GetFriendshipReputationRanks(factionID);
@@ -1086,7 +1086,7 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 		local _, _, _, standingID, barMin, barMax, value, _, _, isHeader, _, hasRep, isWatched, isChild, factionID = FFF_GetFactionInfoByName(name);
 		
 		-- check if this is a friendship faction 
-		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 		if (friendID ~= nil) then
 			button.standingText = friendTextLevel;
 			if ( nextFriendThreshold ) then

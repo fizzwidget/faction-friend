@@ -19,9 +19,9 @@ function u.isExaltedLabel(standingText)
 end
 
 function u.isParagon()
-    return false;
+    return nil;
 end
 
 function u.getFriendshipReputation()
-    return false;
+    return nil;
 end
