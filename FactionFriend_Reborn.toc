@@ -1,5 +1,5 @@
 ## Interface: 11302
-## Version: 0.1
+## Version: 1.0
 ## Author: Dragonwolf Dreamwalker
 ## X-Website: https://dreamwalker-collective.github.io/
 ## Title: FactionFriend Reborn
