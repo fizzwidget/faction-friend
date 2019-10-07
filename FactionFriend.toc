@@ -8,6 +8,7 @@
 ## SavedVariables: GFW_FactionFriend_DB
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
 ## X-LoadOn-Hooks: MainMenuBar_UpdateExperienceBars
+## X-Curse-Project-ID: 345969
 
 GFWUtils.lua
 GFWTable.lua
