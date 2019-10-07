@@ -54,9 +54,9 @@ function FFF_ReputationWatchBar_Classic.Update()
         else
             FFF_ReputationTick:Show();
         end
-        FFF_ReputationTick:SetPoint("CENTER", "ReputationWatchStatusBar", "LEFT", tickSet, 0);
+        FFF_ReputationTick:SetPoint("CENTER", "ReputationWatchBar", "LEFT", tickSet, 0);
         FFF_ReputationExtraFillBarTexture:Show();
-        FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", "ReputationWatchStatusBar", "TOPLEFT", tickSet, 0);
+        FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", "ReputationWatchBar", "TOPLEFT", tickSet, 0);
         local color = FACTION_BAR_COLORS[standing];
         FFF_ReputationTickHighlight:SetVertexColor(color.r, color.g, color.b);
         if (totalValue > max) then 
