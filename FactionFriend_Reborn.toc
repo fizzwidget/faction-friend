@@ -1,14 +1,14 @@
 ## Interface: 11302
-## Version: 8.0.1-classic
-## Author: Gazmik Fizzwidget
-## X-Website: http://fizzwidget.com/factionfriend
-## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
-## Title: Fizzwidget FactionFriend
+## Version: 0.1
+## Author: Dragonwolf Dreamwalker
+## X-Website: https://dreamwalker-collective.github.io/
+## Title: FactionFriend Reborn
 ## Notes: Switches WoW's builtin reputation watch bar automatically and helps keep track of faction turnin items.
 ## X-Category: Interface Enhancements
 ## SavedVariables: GFW_FactionFriend_DB
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
 ## X-LoadOn-Hooks: MainMenuBar_UpdateExperienceBars
+## X-Curse-Project-ID: 345969
 
 GFWUtils.lua
 GFWTable.lua
