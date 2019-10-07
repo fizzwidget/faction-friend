@@ -4,7 +4,7 @@ Founded by a Druidic Ambassador, the Dreamwalker Collective knows the tremendous
 
 As he so aptly put it:
 
-> It's amazing the lengths some will go to to win friends. Gaining the trust of furblog tribes, mushroom men, frost giants, and other organizations of demi-goblinoid races can be a lot of work, and it can be easy sometimes to lose track of one's progress. That's where Fizzwidget Industries comes in! Our newest gadget not only helps you keep tabs on whose respect you're earning, but also how much more you could earn by turning in certain items you're carrying.
+> It's amazing the lengths some will go to to win friends. Gaining the trust of furbolg tribes, mushroom men, frost giants, and other organizations of demi-goblinoid races can be a lot of work, and it can be easy sometimes to lose track of one's progress. That's where Fizzwidget Industries comes in! Our newest gadget not only helps you keep tabs on whose respect you're earning, but also how much more you could earn by turning in certain items you're carrying.
 
 Is it any wonder why we couldn't just let it be relegated to a corner of his workshop, while he is off to someplace unknown, possibly never to return?
 
