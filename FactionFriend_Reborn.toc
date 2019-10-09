@@ -1,5 +1,5 @@
 #@retail@
-## Interface: 80200
+## Interface: 80205
 #@end-retail@
 #@non-retail@
 ## Interface: 11302
@@ -25,6 +25,7 @@ FFF_ItemInfo.lua
 
 FFF_ReputationWatchBar.xml
 
+Initialize.lua
 
 # Branching Mixins
 #@retail@
@@ -33,8 +34,6 @@ Mixins\FFF_Utils_Retail.lua
 #@non-retail@
 Mixins\FFF_Utils_Classic.lua
 #@end-non-retail@
-
-Initialize.lua
 
 Mixins\FFF_ReputationWatchBar_Classic.lua
 FFF_ReputationWatchBar.lua
