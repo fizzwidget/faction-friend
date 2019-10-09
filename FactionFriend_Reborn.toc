@@ -1,5 +1,10 @@
+#@retail@
+## Interface: 80205
+#@end-retail@
+#@non-retail@
 ## Interface: 11302
-## Version: 1.0
+#@end-non-retail@
+## Version: @project-version@
 ## Author: Dragonwolf Dreamwalker
 ## X-Website: https://dreamwalker-collective.github.io/
 ## Title: FactionFriend Reborn
@@ -20,10 +25,15 @@ FFF_ItemInfo.lua
 
 FFF_ReputationWatchBar.xml
 
-Mixins\FFF_Utils_Retail.lua
-Mixins\FFF_Utils_Classic.lua
-
 Initialize.lua
+
+# Branching Mixins
+#@retail@
+Mixins\FFF_Utils_Retail.lua
+#@end-retail@
+#@non-retail@
+Mixins\FFF_Utils_Classic.lua
+#@end-non-retail@
 
 Mixins\FFF_ReputationWatchBar_Classic.lua
 FFF_ReputationWatchBar.lua

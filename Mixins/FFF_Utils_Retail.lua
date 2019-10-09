@@ -2,9 +2,9 @@
 -- Retail-Specific Utils
 -----------------------------------------------
 
-FFF_Utils_Retail = {}
+GFW_FactionFriend.Utils = {};
 
-local u = FFF_Utils_Retail;
+local u = GFW_FactionFriend.Utils;
 
 function u.noPotential(potential, factionID)
     return potential == 0 and C_Reputation.IsFactionParagon(factionID);

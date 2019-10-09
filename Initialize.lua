@@ -23,7 +23,6 @@ local AceDB = LibStub("AceDB-3.0")
 -- AceAddon Initialization
 GFW_FactionFriend = LibStub("AceAddon-3.0"):NewAddon(addonName);
 GFW_FactionFriend.date = gsub("$Date: 2013-03-07 22:32:45 -0800 (Thu, 07 Mar 2013) $", "^.-(%d%d%d%d%-%d%d%-%d%d).-$", "%1");
-GFW_FactionFriend.Utils = FFF_Utils_Classic;
 
 function GFW_FactionFriend:OnProfileChanged(event, database, newProfileKey)
     -- this is called every time our profile changes (after the change)

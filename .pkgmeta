@@ -24,7 +24,6 @@ externals:
         tag: latest
 
 ignore:
-    - Libs/
     - readme.txt
     - readme-API.txt
     - .travis.yml
