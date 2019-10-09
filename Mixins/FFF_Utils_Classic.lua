@@ -2,9 +2,9 @@
 -- Classic-Specific Utils
 -----------------------------------------------
 
-FFF_Utils_Classic = {}
+GFW_FactionFriend.Utils = {};
 
-local u = FFF_Utils_Classic;
+local u = GFW_FactionFriend.Utils;
 
 function u.noPotential(potential)
     return potential == 0;
