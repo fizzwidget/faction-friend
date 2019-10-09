@@ -11,17 +11,6 @@ FFF_QueuedMessageFrames = {};
 FFF_MAX_RECENTS = 10;
 FFF_MAX_FACTIONS = 300;	-- infinite loop protection
 
--- TODO: do something about fancy colors for friendship levels?
-FFF_FACTION_BAR_COLORS = {
-	[1] = {r = 1, g = 0.1, b = 0.05},	-- Hated
-	[2] = {r = 0.8, g = 0.3, b = 0.22},	-- Hostile		}
-	[3] = {r = 0.75, g = 0.27, b = 0},	-- Unfriendly	} same as default
-	[4] = {r = 0.9, g = 0.7, b = 0},	-- Neutral		}
-	[5] = {r = 0, g = 0.6, b = 0.1},	-- Friendly		}
-	[6] = {r = 0, g = 0.6, b = 0.4},	-- Honored
-	[7] = {r = 0, g = 0.7, b = 0.6},	-- Revered
-	[8] = {r = 0, g = 0.7, b = 0.8},	-- Exalted
-};
 
 function FFF_HookTooltip(frame)
 	if (frame:GetScript("OnTooltipSetItem")) then
@@ -106,8 +95,7 @@ function FFF_AddTooltipLine(tooltip, leftText, factionID, isOnlyLine)
 end
 
 function FFF_OnLoad(self)
-
-	hooksecurefunc("ReputationFrame_SetRowType", FFF_ReputationFrame_SetRowType);
+	hooksecurefunc("MainMenuBar_UpdateExperienceBars", FFF_ReputationWatchBar.Update);
 	hooksecurefunc("SetWatchedFactionIndex", FFF_SetWatchedFactionIndex);
 	hooksecurefunc("CloseDropDownMenus", FFF_HideMenus);
 	ReputationFrame:HookScript("OnHide", GameTooltip_Hide);
@@ -145,6 +133,9 @@ function FFF_OnLoad(self)
 	SLASH_FFF2 = "/ff";
 	SlashCmdList["FFF"] = function(msg)
 		GFW_FactionFriend:ShowConfig();
+		-- Call a second time to handle the bug of slash
+		-- commands not going to the actual options panel
+		GFW_FactionFriend:ShowConfig();
 	end
 		
 end
@@ -157,7 +148,7 @@ function FFF_OnEvent(self, event, arg1, arg2)
 		if (FFF_Config.ReputationColors) then
 			FACTION_BAR_COLORS = FFF_FACTION_BAR_COLORS;
 		end
-		FFF_ReputationWatchBar_Update();
+		FFF_ReputationWatchBar.Update();
 		
 		--self:RegisterEvent("QUEST_LOG_UPDATE");
 	elseif( event == "PLAYER_LEAVING_WORLD" ) then
@@ -178,10 +169,10 @@ function FFF_OnEvent(self, event, arg1, arg2)
 --	elseif( event == "QUEST_LOG_UPDATE" ) then
 --		FFF_BeginQuestScan();
 	elseif ( event == "BAG_UPDATE") then
-		FFF_ReputationWatchBar_Update();
+		FFF_ReputationWatchBar.Update();
 	elseif ( event == "UNIT_INVENTORY_CHANGED") then
 		if (arg1 == "player") then
-			FFF_ReputationWatchBar_Update();
+			FFF_ReputationWatchBar.Update();
 			if (FFF_Config.Tabard) then
 				local itemID = GetInventoryItemID("player", GetInventorySlotInfo("TabardSlot"));
 				if (itemID ~= FFF_LastTabardID) then
@@ -228,7 +219,7 @@ function FFF_CombatMessageFactionFilter(frame, event, message, ...)
 
 	FFF_LastRepGainTime = GetTime();
 	local index, _, _, standing, min, max, value = FFF_GetFactionInfoByName(factionName);
-	if (FFF_Config.MoveExaltedInactive and standing == 8 and not C_Reputation.IsFactionParagon(factionID)) then
+	if (FFF_Config.MoveExaltedInactive and GFW_FactionFriend.Utils.isExalted(standing, factionID)) then
 		SetFactionInactive(index);
 	end
 
@@ -262,7 +253,7 @@ function FFF_SystemMessageFactionFilter(frame, event, message, ...)
 	if (factionName == GUILD_REPUTATION or factionName == GUILD) then
 		factionName = GetGuildInfo("player");
 	end
-	if (FFF_Config.MoveExaltedInactive and (standingText == FACTION_STANDING_LABEL8 or standingText == FACTION_STANDING_LABEL8_FEMALE) and not C_Reputation.IsFactionParagon(factionID)) then
+	if (FFF_Config.MoveExaltedInactive and GFW_FactionFriend.Utils.isExaltedLabel(standingText, factionID)) then
 		local index = FFF_GetFactionInfoByName(factionName);
 		SetFactionInactive(index);
 	end
@@ -344,7 +335,7 @@ function FFF_GetReputationMessage(factionName, originalMessage, amount)
 	local _, _, _, standing, min, max, value, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(factionName);
 	
 	-- check if this is a friendship faction 
-	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 	if (friendID ~= nil) then
 		if ( nextFriendThreshold ) then
 			min, max, value = friendThreshold, nextFriendThreshold, friendRep;
@@ -372,7 +363,7 @@ function FFF_GetReputationMessage(factionName, originalMessage, amount)
 			nextColor = GFWUtils.ColorToCode(FACTION_BAR_COLORS[nextStanding]);
 			nextStandingName = nextColor..nextStandingName;
 			repeatMessage = " "..format(FFF_REPEAT_TURNINS, gainsToNext, nextStandingName);
-		elseif (C_Reputation.IsFactionParagon(factionID)) then
+		elseif (GFW_FactionFriend.Utils.isParagon(factionID)) then
 			repeatMessage = " "..PARAGON_REPUTATION_TOOLTIP_TEXT:format(factionName);
 			-- TODO calculate repeats till reward
 		else -- exalted but not paragon
@@ -444,7 +435,7 @@ function FFF_MoveExaltedFactionsInactive()
 	for index = GetNumFactions(), 1, -1 do
 		if (not IsFactionInactive(index)) then
 			local name, _, standingID, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(index);
-			if (not isHeader and standingID == 8 and not C_Reputation.IsFactionParagon(factionID)) then
+			if (not isHeader and GFW_FactionFriend.Utils.isExalted(standing, factionID)) then
 				SetFactionInactive(index);	
 			end
 		end
@@ -851,131 +842,19 @@ function FFF_GetAdjustedPotentialValue(numTurnins, turninValue, qInfo, currentSt
 	return potentialValue, numTurnins;
 end
 
-function FFF_GetReputationWatchBar()
-	for _, bar in pairs(StatusTrackingBarManager.bars) do
-		if bar.priority == 1 then -- this seems really fragile
-			return bar
-		end
-	end
-end
-
-function FFF_ReputationWatchBar_Update(newLevel)
-	
-	local bar = FFF_GetReputationWatchBar()
-	if bar == nil then
-		return
-	end
-	local statusBar = bar.StatusBar
-		
-	if FFF_ReputationExtraFillBar == nil then
-		FFF_ReputationExtraFillBar = CreateFrame("StatusBar", "FFF_ReputationExtraFillBar", bar, "FFF_ReputationExtraFillBarTemplate")
-		FFF_ReputationExtraFillBar:SetAllPoints()
-		FFF_ReputationExtraFillBar:SetFrameLevel(max(statusBar:GetFrameLevel() - 1, 0));
-		
-		FFF_ReputationTick = CreateFrame("Button", "FFF_ReputationTick", bar, "FFF_ReputationTickTemplate")
-		FFF_ReputationTick:SetPoint("CENTER", bar, "CENTER", 0, 0)
-		
-		-- first time seeing ReputationBar means time to hook it
-		bar:HookScript("OnEnter", FFF_ReputationWatchBar_OnEnter)
-		bar:HookScript("OnLeave", FFF_ReputationWatchBar_OnLeave)
-		bar:HookScript("OnMouseDown", FFF_ReputationWatchBar_OnClick)
-	end
-	
-	
-	local name, standing, min, max, value, factionID = GetWatchedFactionInfo();
-	if (not name) then return; end
-	
-	local standingText;
-	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
-	if (friendID ~= nil) then
-		standingText = friendTextLevel;
-		if ( nextFriendThreshold ) then
-			min, max, value = friendThreshold, nextFriendThreshold, friendRep;
-		else
-			-- max rank, make it look like a full bar
-			min, max, value = 0, 1, 1;
-		end
-	elseif (C_Reputation.IsFactionParagon(factionID)) then
-		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID);
-		min, max, value = 0, threshold, currentValue;
-		standingText = FFF_LabelForStanding(standing);
-	else
-		standingText = FFF_LabelForStanding(standing);	
-	end
-	
-	bar.OverlayFrame.Text:SetText(name..": "..standingText.." "..value-min.." / "..max-min);
-	
-	if (name ~= FFF_RecentFactions[1]) then
-		FFF_AddToRecentFactions(name);
-	end
-	
-	local potential = FFF_GetWatchedFactionPotential();
-	local totalValue = value + potential;
-	local tickSet = ((totalValue - min) / (max - min)) * statusBar:GetWidth();
-	local tickSet = math.max(tickSet, 0);
-	local tickSet = math.min(tickSet, statusBar:GetWidth());
-	FFF_ReputationTick:ClearAllPoints();
-	if (potential == 0 or not FFF_Config or not FFF_Config.ShowPotential) then
-	    FFF_ReputationTick:Hide();
-	    FFF_ReputationExtraFillBarTexture:Hide();
-	else
-		if (totalValue > max) then 
-			FFF_ReputationTick:Hide();
-		else
-		    FFF_ReputationTick:Show();
-		end
-	    FFF_ReputationTick:SetPoint("CENTER", bar, "LEFT", tickSet, 0);
-	    FFF_ReputationExtraFillBarTexture:Show();
-	    FFF_ReputationExtraFillBarTexture:SetPoint("TOPRIGHT", bar, "TOPLEFT", tickSet, 0);
-	    local color = FACTION_BAR_COLORS[standing];
-		FFF_ReputationTickHighlight:SetVertexColor(color.r, color.g, color.b);
-		if (totalValue > max) then 
-			-- TODO: something better about friendships here?
-			local potentialStanding = FFF_StandingForValue(totalValue);
-			color = FACTION_BAR_COLORS[potentialStanding];
-		    FFF_ReputationExtraFillBarTexture:SetVertexColor(color.r, color.g, color.b, 0.25);
-		else
-		    FFF_ReputationExtraFillBarTexture:SetVertexColor(color.r, color.g, color.b, 0.15);
-		end
-	end
-end
-
-function FFF_ReputationTick_Tooltip(self)
-	local x,y;
-	x,y = FFF_ReputationTick:GetCenter();
-	local _, _, _, _, _, factionID = GetWatchedFactionInfo();
-	local tooltip = GameTooltip;
-	if (C_Reputation.IsFactionParagon(factionID)) then 
-		self.UpdateTooltip = ReputationParagonFrame_SetupParagonTooltip;
-		GameTooltip_SetDefaultAnchor(EmbeddedItemTooltip, self);
-		ReputationParagonFrame_SetupParagonTooltip(self);
-		tooltip = EmbeddedItemTooltip;
-	elseif ( FFF_ReputationTick:IsVisible() ) then
-		FFF_ReputationTick:LockHighlight();
-		if ( x >= ( GetScreenWidth() / 2 ) ) then
-			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_LEFT");
-		else
-			GameTooltip:SetOwner(FFF_ReputationTick, "ANCHOR_RIGHT");
-		end
-	else
-		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
-	end
-	FFF_FactionReportTooltip(nil, tooltip);
-end
-
 function FFF_FactionReportTooltip(faction, tooltip)
 
 	local potential, reportLines, factionName, standing, value, factionID = FFF_GetFactionPotential(faction, true);
 	if (not standing or not factionName) then return; end
 	
 	-- no need to show just name if paragon and no report; default UI shows that and more
-	if (potential == 0 and C_Reputation.IsFactionParagon(factionID)) then return; end
+	if (GFW_FactionFriend.Utils.noPotential(potential, factionID)) then return; end
 	
 	local potentialText = string.format(FFF_REPUTATION_TICK_TOOLTIP, potential);
 	
 	-- check if this is a friendship faction
 	local standingText;
-	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+	local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 	if (friendID ~= nil) then
 		value = friendRep;
 		local currentRank, maxRank = GetFriendshipReputationRanks(factionID);
@@ -1020,7 +899,7 @@ function FFF_FactionReportTooltip(faction, tooltip)
 			pointsInto = potentialTotal - friendThreshold;
 			summary = string.format(FFF_AFTER_TURNINS_INFO, friendTextLevel, pointsInto, nextFriendThreshold);
 		end
-	elseif (C_Reputation.IsFactionParagon(factionID)) then
+	elseif (GFW_FactionFriend.Utils.isParagon(factionID)) then
 		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID);
 		pointsInto = potential + currentValue;
 		summary = string.format(FFF_AFTER_TURNINS_INFO, FFF_LabelForStanding(8), pointsInto, threshold);
@@ -1034,19 +913,6 @@ function FFF_FactionReportTooltip(faction, tooltip)
 	
 	tooltip:Show();
 	return tooltip
-end
-
-function FFF_ReputationWatchBar_OnEnter(self)
-	if (not FFF_Config.ShowPotential) then return; end
-	FFF_ShowingTooltip = FFF_ReputationTick_Tooltip(self);
-end
-
-function FFF_ReputationWatchBar_OnLeave()
-	FFF_ReputationTick:UnlockHighlight();
-	if (FFF_ShowingTooltip ~= nil) then
-		tooltip:Hide();
-		FFF_ShowingTooltip = nil;
-	end
 end
 
 function FFF_BuildFactionTree()
@@ -1073,7 +939,7 @@ function FFF_BuildFactionTree()
 		local hasPotential = (FFF_GetFactionPotential(factionIndex) > 0);
 		
 		-- check if this is a friendship faction 
-		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation;
 		if (friendID ~= nil) then
 			standingText = friendTextLevel;
 			if ( nextFriendThreshold ) then
@@ -1176,140 +1042,7 @@ function FFF_FactionButtonTooltip(self)
 	FFF_FactionReportTooltip(self.index);
 end
 
-------------------------------------------------------
--- quest log reputation scanning (unused)
-------------------------------------------------------
 
---[[
-function FFF_OnUpdate(self, elapsed)
-	if (FFF_QuestScanIndex) then
-		FFF_GetQuestReputation();
-	end
-end
-
-function FFF_BeginQuestScan()
-	FFF_QuestReputation = {};
-	FFF_QuestReputationIncomplete = {};
-
-	if (GetNumQuestLogEntries() == 0) then
-		return;	-- no quests!
-	end
-	
-	FFF_QuestScanIndex = 0;
-	FFF_SavedQuestSelection = GetQuestLogSelection();
-	FFF_ScanQuestReputation();
-end
-
-function FFF_ScanQuestReputation()
-	local numEntries, numQuests = GetNumQuestLogEntries();
-	local maxEntries = math.max(numEntries, numEntries + numQuests);
-	repeat
-		-- not doing for loop to GetNumQuestLogEntries() because
-		-- stuff under collapsed headers gets indices higher than that
-		FFF_QuestScanIndex = FFF_QuestScanIndex + 1;
-		local questTitle, _, _, _, isHeader, _, isComplete = GetQuestLogTitle(FFF_QuestScanIndex);
-	until ((questTitle == nil and FFF_QuestScanIndex > maxEntries) or (questTitle and not isHeader));
-	if (questTitle == nil and FFF_QuestScanIndex > maxEntries) then
-		FFF_FinishQuestScan();
-		return;
-	end
-	SelectQuestLogEntry(FFF_QuestScanIndex);
-end
-
-function FFF_GetQuestReputation()
-	-- muck with "complete" status the way builtin quest watch UI does
-	local questTitle, _, _, _, isHeader, _, isComplete = GetQuestLogTitle(FFF_QuestScanIndex);
-	local requiredMoney = GetQuestLogRequiredMoney(FFF_QuestScanIndex);			
-	local numObjectives = GetNumQuestLeaderBoards(FFF_QuestScanIndex);
-	local playerMoney = GetMoney();
-	if ( isComplete and isComplete < 0 ) then
-		isComplete = false;	-- failed quest
-	elseif ( numObjectives == 0 and playerMoney >= requiredMoney ) then
-		isComplete = true;	-- no objectives means "complete" (a la breadcrumb quest)
-	end
-	
-	-- save info for the quest
-	local numReputations = GetNumQuestLogRewardFactions();
-	print(questTitle)
-	--local factionID, amount, factionName, isHeader, hasRep;
-	for i = 1, numReputations do		
-		local factionID, amount = GetQuestLogRewardFactionInfo(i);
-		local factionName, _, _, _, _, _, _, _, isHeader, _, hasRep = GetFactionInfoByID(factionID);
-		if ( factionName and ( not isHeader or hasRep ) ) then
-			amount = floor(amount / 100);
-			print(factionName, amount)
-			if (isComplete) then
-				if (FFF_QuestReputation[questTitle] == nil) then
-					FFF_QuestReputation[questTitle] = {};
-				end
-				FFF_QuestReputation[questTitle][factionName] = amount;
-			else
-				if (FFF_QuestReputationIncomplete[questTitle] == nil) then
-					FFF_QuestReputationIncomplete[questTitle] = {};
-				end
-				FFF_QuestReputationIncomplete[questTitle][factionName] = amount;
-			end
-		end
-	end
-	
-	-- get ready for the next quest (or finish)
-	FFF_QuestScanIndex = FFF_QuestScanIndex + 1;
-	local nextQuest = GetQuestLogTitle(FFF_QuestScanIndex);
-	if (not nextQuest) then
-		FFF_FinishQuestScan();
-	else
-		FFF_ScanQuestReputation();
-	end
-end
-
-function FFF_FinishQuestScan()
-	FFF_QuestScanIndex = nil;
-	SelectQuestLogEntry(FFF_SavedQuestSelection);
-	
-	-- filter out "spillover" reputation past friendly
-	--for questTitle, gains in pairs(FFF_QuestReputation) do
-	--	local filteredGains = {};
-	--	for factionID, amount in pairs(gains) do
-	--		filteredGains[factionID] = FFF_RealFactionGainForQuest(factionID, amount, gains);
-	--	end
-	--	-- save the filtered table
-	--	FFF_QuestReputation[questTitle] = filteredGains;
-	--end
-	--for questTitle, gains in pairs(FFF_QuestReputationIncomplete) do
-	--	local filteredGains = {};
-	--	for factionID, amount in pairs(gains) do
-	--		filteredGains[factionID] = FFF_RealFactionGainForQuest(factionID, amount, gains);
-	--	end
-	--	-- save the filtered table
-	--	FFF_QuestReputationIncomplete[questTitle] = filteredGains;
-	--end
-end	
-
-function FFF_RealFactionGainForQuest(factionID, amount, allGains)
-	--DevTools_Dump({factionID=factionID,amount=amount,allGains=allGains})
-	local groupID = FFF_FactionGroups[factionID];
-	if (groupID) then
-		for _, otherFactionID in pairs(FFF_GroupFactions[groupID]) do
-			if (otherFactionID ~= factionID) then
-				local otherAmount = allGains[otherFactionID] or 0;
-				if (amount < otherAmount) then
-					-- this is "spillover" rep, it doesn't apply past friendly
-					local _, _, _, standing, barMin, barMax, value = GetFactionInfoByID(factionID);
-					if (standing > 5) then
-						-- above friendly: no spillover rep
-						return 0;
-					elseif (standing == 5) then
-						-- at friendly: no spillover rep past 5999/6000
-						local _, pointsInto, localMax = FFF_StandingForValue(value);
-						return math.min(localMax - pointsInto, value);
-					end
-				end
-			end
-		end
-	end
-	return amount;
-end
-]]
 ------------------------------------------------------
 -- ReputationWatchBar menu 
 ------------------------------------------------------
@@ -1322,12 +1055,6 @@ FFF_MENU_BUTTON_BANG_WIDTH = 16;
 FFF_MENU_BUTTON_CHECK_WIDTH = 25;
 FFF_MAX_SIMPLE_MENU_COUNT = 35;
 
-function FFF_ReputationWatchBar_OnClick(self, button)
-	if (button == "RightButton" and not (FFF_Config.CombatDisableMenu and InCombatLockdown())) then
-		FFF_ShowMenu(1);
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-	end
-end
 
 function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHeader)
 	local buttonName = "FFF_Menu"..level.."Button"..index;
@@ -1359,7 +1086,7 @@ function FFF_SetupMenuButton(menuFrame, level, index, data, isTitle, func, isHea
 		local _, _, _, standingID, barMin, barMax, value, _, _, isHeader, _, hasRep, isWatched, isChild, factionID = FFF_GetFactionInfoByName(name);
 		
 		-- check if this is a friendship faction 
-		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
+		local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GFW_FactionFriend.Utils.getFriendshipReputation(factionID);
 		if (friendID ~= nil) then
 			button.standingText = friendTextLevel;
 			if ( nextFriendThreshold ) then
@@ -1755,232 +1482,3 @@ function FFF_Menu_StopCounting(frame)
 	end
 end
 
-------------------------------------------------------
--- Ace3 options panel stuff
-------------------------------------------------------
-
-local AceConfig = LibStub("AceConfig-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local AceDB = LibStub("AceDB-3.0")
-
--- AceAddon Initialization
-GFW_FactionFriend = LibStub("AceAddon-3.0"):NewAddon(addonName)
-GFW_FactionFriend.date = gsub("$Date: 2013-03-07 22:32:45 -0800 (Thu, 07 Mar 2013) $", "^.-(%d%d%d%d%-%d%d%-%d%d).-$", "%1")
-
-function GFW_FactionFriend:OnProfileChanged(event, database, newProfileKey)
-	-- this is called every time our profile changes (after the change)
-	FFF_Config = database.profile
-end
-
-local function getProfileOption(info)
-	return FFF_Config[info.arg]
-end
-
-local function setProfileOption(info, value)
-	FFF_Config[info.arg] = value
-	FFF_ReputationWatchBar_Update();
-	if (FFF_Config.MoveExaltedInactive) then
-		-- move any already exalted factions when the preference is first enabled
-		FFF_MoveExaltedFactionsInactive();
-	end
-	if (FFF_Config.CountRepeatGains) then
-		-- TODO: check whether reputation messages are set to show in chat windows, warn if not
-		
-	end
-	if (info.arg == "ReputationColors") then
-		if (value) then
-			FACTION_BAR_COLORS = FFF_FACTION_BAR_COLORS;
-		else
-			-- TODO: prompt for UI reload
-		end
-	end
-end
-
-local titleText = GetAddOnMetadata(addonName, "Title");
-local version = GetAddOnMetadata(addonName, "Version");
-titleText = titleText .. " " .. version;
-
-function FFF_ColorsOptionTipText()
-	local text = ""
-	for standing = 1, 8 do
-		local colorCode = GFWUtils.ColorToCode(FFF_FACTION_BAR_COLORS[standing]);
-		text = text .. colorCode .. _G["FACTION_STANDING_LABEL"..standing] .. FONT_COLOR_CODE_CLOSE;
-		if standing < 8 then
-			text = text .. " ";
-		end
-	end
-	return text;
-end
-
-local options = {
-	type = 'group',
-	name = titleText,
-	args = {
-		general = {
-			type = 'group',
-			cmdInline = true,
-			order = -1,
-			get = getProfileOption,
-			set = setProfileOption,
-			name = FFF_OPTIONS_GENERAL,
-			args = {
-				showPotential = {
-					type = 'toggle',
-					order = 10,
-					width = "double",
-					name = FFF_OPTION_SHOW_POTENTIAL,
-					desc = FFF_OPTION_SHOW_POTENTIAL_TIP,
-					arg = "ShowPotential",
-				},
-				-- useCurrency = {
-				-- 	type = 'toggle',
-				-- 	order = 15,
-				-- 	width = "double",
-				-- 	name = FFF_OPTION_USE_CURRENCY,
-				-- 	desc = FFF_OPTION_USE_CURRENCY_TIP,
-				-- 	arg = "UseCurrency",
-				-- },
-				tooltip = {
-					type = 'toggle',
-					order = 20,
-					width = "double",
-					name = FFF_OPTION_TOOLTIP,
-					arg = "Tooltip",
-				},
-				countRepeatGains = {
-					type = 'toggle',
-					order = 30,
-					width = "double",
-					name = FFF_OPTION_REPEAT_GAINS,
-					desc = FFF_OPTION_REPEAT_GAINS_TIP,
-					arg = "CountRepeatGains",
-				},
-				moveExaltedInactive = {
-					type = 'toggle',
-					order = 40,
-					width = "double",
-					name = FFF_OPTION_MOVE_EXALTED,
-					arg = "MoveExaltedInactive",
-				},
-				reputationColors = {
-					type = 'toggle',
-					order = 40,
-					width = "double",
-					name = FFF_OPTION_REPUTATION_COLORS,
-					desc = FFF_ColorsOptionTipText(),
-					arg = "ReputationColors",
-				},
-				switchBar = {
-					type = "group",
-					name = FFF_OPTIONS_SWITCHBAR,
-					order = 50,
-					inline = true,
-					args = {
-						zones = {
-							type = 'toggle',
-							order = 10,
-							width = "double",
-							name = FFF_OPTION_ZONES,
-							arg = "Zones",
-						},
-						repGained = {
-							type = 'toggle',
-							order = 20,
-							width = "double",
-							name = FFF_OPTION_REP_GAINED,
-							arg = "RepGained",
-						},
-						tabard = {
-							type = 'toggle',
-							order = 30,
-							width = "double",
-							name = FFF_OPTION_TABARD,
-							arg = "Tabard",
-						},
-						guild = {
-							type = 'toggle',
-							order = 40,
-							width = "double",
-							name = FFF_OPTION_NO_GUILD_AUTOSWITCH,
-							arg = "NoGuildAutoswitch",
-						},
-						bodyguard = {
-							type = 'toggle',
-							order = 50,
-							width = "double",
-							name = FFF_OPTION_NO_BODYGUARD_AUTOSWITCH,
-							arg = "NoBodyguardAutoswitch",
-					}
-					},
-				},
-				combatDisableMenu = {
-					type = 'toggle',
-					order = 60,
-					width = "double",
-					name = FFF_OPTION_COMBAT_DISABLE,
-					desc = FFF_OPTION_COMBAT_DISABLE_TIP,
-					arg = "CombatDisableMenu",
-				},
-				tips = {
-					type = "description",
-					name = FFF_OPTIONS_TIPS,
-					order = 100,
-				},
-			},
-		},
-	},
-}
-local profileDefault = {
-	ShowPotential = true,
-	Tooltip = true,
-	CountRepeatGains = false,
-	MoveExaltedInactive = false,
-	ReputationColors = false,
-	Zones = false,
-	RepGained = true,
-	Tabard = true,
-	CombatDisableMenu = false,
-	NoGuildAutoswitch = false,
-	NoBodyguardAutoswitch = true,
-}
-local defaults = {}
-defaults.profile = profileDefault
-
-function GFW_FactionFriend:SetupOptions()
-	-- Inject profile options
-	options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
-	options.args.profile.order = -2
-	
-	-- Register options table
-	AceConfig:RegisterOptionsTable(addonName, options)
-	
-	local titleText = GetAddOnMetadata(addonName, "Title");
-	titleText = string.gsub(titleText, "Fizzwidget", "GFW");		-- shorter so it fits in the list width
-
-	-- Setup Blizzard option frames
-	self.optionsFrames = {}
-	-- The ordering here matters, it determines the order in the Blizzard Interface Options
-	self.optionsFrames.general = AceConfigDialog:AddToBlizOptions(addonName, titleText, nil, "general")
-	self.optionsFrames.profile = AceConfigDialog:AddToBlizOptions(addonName, FFF_OPTIONS_PROFILE, titleText, "profile")
-end
-
-function GFW_FactionFriend:OnInitialize()
-
-	-- Create DB
-	self.db = AceDB:New("GFW_FactionFriend_DB", defaults, "Default")
-	self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged")
-	self.db.RegisterCallback(self, "OnProfileCopied", "OnProfileChanged")
-	self.db.RegisterCallback(self, "OnProfileReset", "OnProfileChanged")
-	
-	FFF_Config = self.db.profile
-
-	self:SetupOptions()
-	
-	--TEMP
-	--FFF_NewMenuTest()
-	
-end
-
-function GFW_FactionFriend:ShowConfig()
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.general)
-end
