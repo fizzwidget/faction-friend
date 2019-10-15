@@ -10,6 +10,8 @@
 # -g -- Version to release for
 # -e -- "noLib" build (we keep a local copy so we're not constantly downloading them)
 
+build_script="https://raw.githubusercontent.com/Dreamwalker-Collective/packager/master/release.sh"
+
 build_retail="true"
 build_classic="true"
 
@@ -33,16 +35,16 @@ if [[ "${build_classic}" == "true" ]]; then
     # Classic
     echo "Building Classic version"
     classic="/home/dragonwolf/Games/diablo-iii/drive_c/Program Files (x86)/World of Warcraft/_classic_/Interface/AddOns/"
-    curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -d -e -z -r "$classic" -g 1.13.2
+    curl -s "$build_script" | bash -s -- -d -e -z -r "$classic" -g 1.13.2
     echo "Copying local Libs"
-    cp -r ../Ace3 "$classic$addon/Libs"
+    cp -r ../../Ace3 "$classic$addon/Libs"
 fi
 
 if [[ "${build_retail}" == "true" ]]; then
     echo "Building Retail version"
     # Retail
     retail="/home/dragonwolf/Games/diablo-iii/drive_c/Program Files (x86)/World of Warcraft/_retail_/Interface/AddOns/"
-    curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -d -e -z -r "$retail"
+    curl -s "$build_script" | bash -s -- -d -e -z -r "$retail"
     echo "Copying local Libs"
-    cp -r ../Ace3 "$retail$addon/Libs"
+    cp -r ../../Ace3 "$retail$addon/Libs"
 fi
