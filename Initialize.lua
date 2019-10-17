@@ -240,4 +240,6 @@ end
 
 function GFW_FactionFriend:ShowConfig()
     InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.general)
+    -- Fix for bug where calling it the first time doesn't actually open to the addon options
+    InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.general)
 end
