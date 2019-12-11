@@ -16,6 +16,8 @@ FFF_FactionIDs = {
     TIMBERMAW = 576,
     THORIUM_BROTHERHOOD = 59,
     HYDRAXIAN_WATERLORDS = 749,
+    SHENDRALAR = 809,
+    GADGETZAN = 369,
 -- Horde/Alliance racial factions   
     HORDE = 67,
         ORC = 76,
@@ -52,6 +54,7 @@ FFF_ZoneFactions = {
         [ZONE_WSG] = F.SILVERWING,
     },
     ["Neutral"] = {
+        [ZONE_MOONGLADE] = F.CENARION_CIRCLE,
         [ZONE_SILITHUS] = F.CENARION_CIRCLE,
         [ZONE_AQ20] = F.CENARION_CIRCLE,
         [ZONE_AQ40] = F.BROOD_NOZDORMU,
@@ -62,6 +65,8 @@ FFF_ZoneFactions = {
         [ZONE_MOLTEN_CORE] = F.HYDRAXIAN_WATERLORDS,
         [ZONE_BLACKROCK_DEPTHS] = F.THORIUM_BROTHERHOOD,
         [ZONE_SEARING_GORGE] = F.THORIUM_BROTHERHOOD,
+        [ZONE_DIRE_MAUL] = F.SHENDRALAR,
+        [ZONE_TANARIS] = F.GADGETZAN,
     },
 };
 
@@ -753,6 +758,14 @@ FFF_ItemInfo = {
             value = 200,
             items = {
                 [11382] = 1,    -- Blood of the Mountain
+            },
+        },
+    },
+    [F.GADGETZAN] = {
+        WaterPouch = {
+            value = 10,
+            items = {
+                [8483] = 5,     -- Wastewander Water Pouches
             },
         },
     },
