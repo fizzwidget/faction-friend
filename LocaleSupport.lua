@@ -19,6 +19,8 @@ ZONE_AQ20           			= "Ruins of Ahn'Qiraj"
 ZONE_AQ40           			= "Ahn'Qiraj" -- TODO: temple?
 ZONE_FELWOOD					= "Felwood"
 ZONE_WINTERSPRING				= "Winterspring"
+ZONE_WESTERN_PLAGUELANDS        = "Western Plaguelands"
+ZONE_EASTERN_PLAGUELANDS        = "Eastern Plaguelands"
 -- Burning Crusade zones & instances
 ZONE_GHOSTLANDS					= "Ghostlands"
 ZONE_ISLE_QUELDANAS				= "Isle of Quel'Danas"
