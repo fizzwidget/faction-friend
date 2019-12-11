@@ -25,3 +25,7 @@ end
 function u.getFriendshipReputation()
     return nil;
 end
+
+function u.isBodyguard(faction)
+    return false;
+end

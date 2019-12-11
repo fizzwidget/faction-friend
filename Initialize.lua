@@ -57,8 +57,8 @@ local titleText = GetAddOnMetadata(addonName, "Title");
 local version = GetAddOnMetadata(addonName, "Version");
 titleText = titleText .. " " .. version;
 
-function FFF_ColorsOptionTipText()
-    local text = ""
+function FFF_ColorsOptionTipText(
+)    local text = ""
     for standing = 1, 8 do
         local colorCode = GFWUtils.ColorToCode(FFF_FACTION_BAR_COLORS[standing]);
         text = text .. colorCode .. _G["FACTION_STANDING_LABEL"..standing] .. FONT_COLOR_CODE_CLOSE;
@@ -147,13 +147,13 @@ local options = {
                             name = FFF_OPTION_REP_GAINED,
                             arg = "RepGained",
                         },
-                        tabard = {
-                            type = 'toggle',
-                            order = 30,
-                            width = "double",
-                            name = FFF_OPTION_TABARD,
-                            arg = "Tabard",
-                        },
+                        --tabard = {
+                        --    type = 'toggle',
+                        --    order = 30,
+                        --    width = "double",
+                        --    name = FFF_OPTION_TABARD,
+                        --    arg = "Tabard",
+                        --},
                         guild = {
                             type = 'toggle',
                             order = 40,
@@ -161,13 +161,13 @@ local options = {
                             name = FFF_OPTION_NO_GUILD_AUTOSWITCH,
                             arg = "NoGuildAutoswitch",
                         },
-                        bodyguard = {
-                            type = 'toggle',
-                            order = 50,
-                            width = "double",
-                            name = FFF_OPTION_NO_BODYGUARD_AUTOSWITCH,
-                            arg = "NoBodyguardAutoswitch",
-                    }
+                        --bodyguard = {
+                        --    type = 'toggle',
+                        --    order = 50,
+                        --    width = "double",
+                        --    name = FFF_OPTION_NO_BODYGUARD_AUTOSWITCH,
+                        --    arg = "NoBodyguardAutoswitch",
+                        --}
                     },
                 },
                 combatDisableMenu = {
@@ -192,13 +192,13 @@ local profileDefault = {
     Tooltip = true,
     CountRepeatGains = false,
     MoveExaltedInactive = false,
-    ReputationColors = false,
-    Zones = false,
+    ReputationColors = true,
+    Zones = true,
     RepGained = true,
-    Tabard = true,
+    --Tabard = true,
     CombatDisableMenu = false,
     NoGuildAutoswitch = false,
-    NoBodyguardAutoswitch = true,
+    --NoBodyguardAutoswitch = true,
 }
 local defaults = {}
 defaults.profile = profileDefault

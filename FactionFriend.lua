@@ -44,25 +44,25 @@ function FFF_OnTooltipSetItem(self)
 			end
 		end
 		
-		local tabardFactionID = FFF_TabardFactions[itemID];
-		if (tabardFactionID) then
-			local _, _, standing, min, max, value = GetFactionInfoByID(tabardFactionID);
-			if (standing) then
-				local displayValue = value - min;
-				local displayMax = max - min;
+		--local tabardFactionID = FFF_TabardFactions[itemID];
+		--if (tabardFactionID) then
+		--	local _, _, standing, min, max, value = GetFactionInfoByID(tabardFactionID);
+		--	if (standing) then
+		--		local displayValue = value - min;
+		--		local displayMax = max - min;
 			
-				-- fudge the color a bit for better text-in-tooltip readability
-				local baseColor = FACTION_BAR_COLORS[standing];
-				local color = {};
-				for key, value in pairs(baseColor) do 
-					color[key] = math.min(1, value * 1.25);
-				end
+		--		-- fudge the color a bit for better text-in-tooltip readability
+		--		local baseColor = FACTION_BAR_COLORS[standing];
+		--		local color = {};
+		--		for key, value in pairs(baseColor) do 
+		--			color[key] = math.min(1, value * 1.25);
+		--		end
 			
-				local text = format("%s (%d/%d)", FFF_LabelForStanding(standing), displayValue, displayMax);
-				local c = HIGHLIGHT_FONT_COLOR;
-				self:AddDoubleLine(REPUTATION..":", text, c.r, c.g, c.b, color.r, color.g, color.b);
-			end
-		end
+		--		local text = format("%s (%d/%d)", FFF_LabelForStanding(standing), displayValue, displayMax);
+		--		local c = HIGHLIGHT_FONT_COLOR;
+		--		self:AddDoubleLine(REPUTATION..":", text, c.r, c.g, c.b, color.r, color.g, color.b);
+		--	end
+		--end
 
 	end
 	
@@ -205,7 +205,7 @@ function FFF_CombatMessageFactionFilter(frame, event, message, ...)
 	end
 
 	FFF_AddToRecentFactions(factionName);
-	if ((amount > 0) and (GetTime() - FFF_LastRepGainTime > 5) and ((origFactionName ~= GUILD_REPUTATION) or (not FFF_Config.NoGuildAutoswitch)) and ((not FFF_FactionIsBodyguard(factionName)) or (not FFF_Config.NoBodyguardAutoswitch))) then
+	if ((amount > 0) and (GetTime() - FFF_LastRepGainTime > 5) and ((origFactionName ~= GUILD_REPUTATION) or (not FFF_Config.NoGuildAutoswitch)) and ((not GFW_FactionFriend.Utils.isBodyguard(factionName)) or (not FFF_Config.NoBodyguardAutoswitch))) then
 		if (not FFF_Config.Zones) then
 			FFF_SetWatchedFactionConditional(factionName);
 		else
@@ -600,16 +600,6 @@ end
 
 function FFF_GetWatchedFactionPotential(withReport)
 	return FFF_GetFactionPotential(nil, withReport);
-end
-
-function FFF_FactionIsBodyguard(faction)
-	local _, _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(faction);
-	for index, value in pairs(FFF_Bodyguards) do
-		if (value == factionID) then 
-			return true;
-		end
-	end
-	return false;
 end
 
 function FFF_GetReputationGainMultiplier()
