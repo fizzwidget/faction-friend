@@ -21,6 +21,10 @@ ZONE_FELWOOD					= "Felwood"
 ZONE_WINTERSPRING				= "Winterspring"
 ZONE_WESTERN_PLAGUELANDS        = "Western Plaguelands"
 ZONE_EASTERN_PLAGUELANDS        = "Eastern Plaguelands"
+ZONE_SEARING_GORGE              = "Searing Gorge"
+ZONE_MOLTEN_CORE                = "Molten Core"
+ZONE_BLACKROCK_DEPTHS           = "Blackrock Depths"
+
 -- Burning Crusade zones & instances
 ZONE_GHOSTLANDS					= "Ghostlands"
 ZONE_ISLE_QUELDANAS				= "Isle of Quel'Danas"
