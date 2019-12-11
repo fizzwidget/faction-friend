@@ -22,7 +22,14 @@ Libs.xml
 
 LocaleSupport.lua
 Localization.lua
-FFF_ItemInfo.lua
+
+# Branching Item Info
+#@retail@
+Mixins\FFF_ItemInfo_Retail.lua
+#@end-retail@
+#@non-retail@
+Mixins\FFF_ItemInfo_Classic.lua
+#@end-non-retail@
 
 FFF_ReputationWatchBar.xml
 
