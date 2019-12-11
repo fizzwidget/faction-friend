@@ -133,9 +133,6 @@ function FFF_OnLoad(self)
 	SLASH_FFF2 = "/ff";
 	SlashCmdList["FFF"] = function(msg)
 		GFW_FactionFriend:ShowConfig();
-		-- Call a second time to handle the bug of slash
-		-- commands not going to the actual options panel
-		GFW_FactionFriend:ShowConfig();
 	end
 		
 end

@@ -154,13 +154,13 @@ local options = {
                         --    name = FFF_OPTION_TABARD,
                         --    arg = "Tabard",
                         --},
-                        guild = {
-                            type = 'toggle',
-                            order = 40,
-                            width = "double",
-                            name = FFF_OPTION_NO_GUILD_AUTOSWITCH,
-                            arg = "NoGuildAutoswitch",
-                        },
+                        --guild = {
+                        --    type = 'toggle',
+                        --    order = 40,
+                        --    width = "double",
+                        --    name = FFF_OPTION_NO_GUILD_AUTOSWITCH,
+                        --    arg = "NoGuildAutoswitch",
+                        --},
                         --bodyguard = {
                         --    type = 'toggle',
                         --    order = 50,
@@ -239,5 +239,6 @@ function GFW_FactionFriend:OnInitialize()
 end
 
 function GFW_FactionFriend:ShowConfig()
+    InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.general)
     InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.general)
 end
