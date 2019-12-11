@@ -25,3 +25,13 @@ end
 function u.getFriendshipReputation(factionID)
     return GetFriendshipReputation(factionID);
 end
+
+function u.isBodyguard(faction)
+    local _, _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = FFF_GetFactionInfoByName(faction);
+    for index, value in pairs(FFF_Bodyguards) do
+        if (value == factionID) then 
+            return true;
+        end
+    end
+    return false;
+end
