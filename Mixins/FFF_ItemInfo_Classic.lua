@@ -542,6 +542,12 @@ FFF_ItemInfo = {
                 [17326] = 1,    -- Stormpike Soldier's Flesh
             },
         },
+        AV_MarkOfHonor = {
+            value = 100,
+            items = {
+                [20560] = 3
+            }
+        },
     },
     [F.STORMPIKE] = {
         AV_RiderHarnesses = {
@@ -586,6 +592,29 @@ FFF_ItemInfo = {
                 [17502] = 1,    -- Frostwolf Soldier's Medal
             },
         },
+        AV_MarkOfHonor = {
+            value = 100,
+            items = {
+                [20560] = 3
+            }
+        },
+    },
+
+    [F.SILVERWING] = {
+        WSG_MarkOfHonor = {
+            value = 50,
+            items = {
+                [20558] = 3
+            }
+        }
+    },
+    [F.WARSONG_OUTRIDERS] = {
+        WSG_MarkOfHonor = {
+            value = 50,
+            items = {
+                [20558] = 3
+            }
+        }
     },
 
     -- Other factions
@@ -684,13 +713,29 @@ FFF_ItemInfo = {
                 [12844] = 1,    -- Argent Dawn Valor Token
             },
         },
-        Scourgestones = {
+        CorruptorsScourgestones = {
             value = 50,     -- Includes value of AD Valor Token use
             items = {
                 [12843] = 1, -- Corruptor's Scourgestones
+            },
+        },
+        InvadersScourgestones = {
+            value = 50,     -- Includes value of AD Valor Token use
+            items = {
                 [12841] = 5, -- Invader's Scourgestones
+            },
+        },
+        MinionsScourgestones = {
+            value = 50,     -- Includes value of AD Valor Token use
+            items = {
                 [12840] = 20, -- Minion's Scourgestones
-            }
+            },
+        },
+        HealthyDragonScale = {
+            value = 50,
+            items = {
+                [13920] = 1
+            },
         }
     },
     [F.TIMBERMAW] = {
@@ -763,7 +808,7 @@ FFF_ItemInfo = {
     },
     [F.GADGETZAN] = {
         WaterPouch = {
-            value = 10,
+            value = 10,         -- Max value, degrades by level to 1 @60
             items = {
                 [8483] = 5,     -- Wastewander Water Pouches
             },
