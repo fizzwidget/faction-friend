@@ -660,7 +660,7 @@ function FFF_GetFactionPotential(faction, withReport)
 				local created = itemsCreated[itemID] or 0;
 				local alreadyCounted = itemsAccountedFor[itemID] or 0;
 				local turnins = math.floor((countIncludingBank + created - alreadyCounted) / qtyPerTurnin);
---				print(quest, countIncludingBank, created, alreadyCounted)
+				--print(quest, countIncludingBank, created, alreadyCounted)
 				table.insert(turninCounts, turnins);
 			end
 			
