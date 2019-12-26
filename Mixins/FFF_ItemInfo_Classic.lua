@@ -722,7 +722,7 @@ FFF_ItemInfo = {
         InvadersScourgestones = {
             value = 50,     -- Includes value of AD Valor Token use
             items = {
-                [12841] = 5, -- Invader's Scourgestones
+                [12841] = 10, -- Invader's Scourgestones
             },
         },
         MinionsScourgestones = {
@@ -770,7 +770,7 @@ FFF_ItemInfo = {
         DarkIronResidue = {
             value = 25,
             minStanding = 5,
-            maxStanding = 7, 
+            maxStanding = 5,
             items = {
                 [18945] = 4,    -- Dark Iron Residue
             },
