@@ -12,6 +12,6 @@ We've picked up the mantle in his stead, keeping one of our most favorite gadget
 
 # What About The Classic-Retail Split?
 
-We've started our journey anew in Old Azeroth, and that is where our focus is going to be for the time being. However, we are taking care to preserve the original legacy of FactionFriend, so that we can polish it up for our friends fighting in the Battle for Azeroth. Earthmother knows, diplomacy hasn't gotten any less complicated in recent years!
+We've started our journey anew in Old Azeroth, and that is where our focus is going to be.
 
-Because of recent changes to the addon system, we've needed to make some significant changes to get it working properly. We're hoping that the changes and improvements we're making in the process of porting it to Classic will fix some of the issues that have stumped us in previous attempts to fix it for Retail.
+Unfortunately, due to changes in how Retail now works, we have been unable to get FactionFriend as it was originally built back into working order. Earthmother knows diplomacy hasn't gotten any easier in recents times, though, and so we are taking what Fizzwidget's work has taught us and are starting on a new gadget built from the ground up specifically for the Battle for Azeroth. Since we don't spend much time in Kul'Tiras or Zandalar, though, we don't know when we'll have it up and running.
