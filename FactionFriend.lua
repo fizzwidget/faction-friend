@@ -532,7 +532,7 @@ function FFF_GetItemCount(itemID, includeBank)
 		-- currency
 		local _, _, currencyID = string.find(itemID, "currency:(%d+)");
 		currencyID = tonumber(currencyID);
-		local _, count = GetCurrencyInfo(currencyID);
+		local count = C_CurrencyInfo.GetCurrencyInfo(currencyID).quantity;
 		return count;
 	end
 	
@@ -548,7 +548,8 @@ function FFF_ItemLink(itemID)
 		-- currency
 		local _, _, currencyID = string.find(itemID, "currency:(%d+)");
 		currencyID = tonumber(currencyID);
-		local name, countIncludingBank = GetCurrencyInfo(currencyID);
+		local name = C_CurrencyInfo.GetCurrencyInfo(currencyID).name;
+		
 		return NORMAL_FONT_COLOR_CODE .. name .. FONT_COLOR_CODE_CLOSE;
 	end
 	
@@ -1486,6 +1487,7 @@ function FFF_MenuButtonSetWidth(buttonName, width)
 end
 
 function FFF_MenuButton_OnClick(self, button, down)
+	GFWUtils.Print("FFF_MenuButton_OnClick")
 	if (self.func) then
 		self.func();
 	elseif (self.factionName) then
@@ -1683,7 +1685,7 @@ function FFF_ShowMenu(level, parentName, parentFrame)
 	menuFrame:SetWidth(menuWidth);
 	
 	-- hide unused children
-	for index = numMenuItems + 1, menuFrame:GetNumChildren() - 1 do
+	for index = numMenuItems + 1, menuFrame:GetNumChildren() do
 		local buttonName = "FFF_Menu"..level.."Button"..index;
 		button = _G[buttonName];
 		if (button) then
