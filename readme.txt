@@ -39,6 +39,11 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
+v. 11.xxxx - 2025/xxxx/xxxx
+- TODO info about revamp
+- Uses Blizzard's built-in Settings UI system (searchable; less library dependencies).
+	- Note for non-English players: text for existing settings has changed. Where the sense of the English text is different from before, I've deactivated old localizations; for others, the new UI may truncate settings text. (If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend!)
+
 v. 8.0.1 - 2018/08/14
 - Oops. The version released as "8.0" didn't include the v8.0 TOC update and readme content. This one does.
 
