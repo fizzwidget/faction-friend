@@ -43,6 +43,8 @@ ZONE_HYJAL_SUMMIT				= "Hyjal Summit"
 -- Wrath of the Lich King zones & instances
 ZONE_SOTA						= "Strand of the Ancients"
 ZONE_ICECROWN_CITADEL			= "Icecrown Citadel"
+-- Mists of Pandaria zones & instances
+ZONE_VALE_OF_ETERNAL_BLOSSOMS   = "Vale of Eternal Blossoms"
 -- Warlords of Draenor zones
 ZONE_FANGRILA					= "Fang'rila"
 

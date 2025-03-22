@@ -221,9 +221,59 @@ FFF_ZoneFactions = {
 		-- Wrath of the Lich King
 		[ZONE_ICECROWN_CITADEL] = F.ASHEN_VERDICT,
 
+		-- Cataclysm
+		--[[
+		TODO:
+		firelands = avengers of hyjal
+		???
+		]]
+		
+		-- Mists of Pandaria
+		[ZONE_VALE_OF_ETERNAL_BLOSSOMS] = F.GOLDEN_LOTUS,
+		--[[
+		TODO:
+		isle of thunder = sunreavers/kirin tor
+		throne of thunder = shado pan assault
+		dread wastes = klaxxi
+		timeless isle = emperor shaohao
+		???
+		]]
+		
 		-- Warlords of Draenor
 		[ZONE_FANGRILA] = F.SABERSTALKERS, 
 			-- subzone-based switching not yet supported: https://github.com/fizzwidget/faction-friend/issues/3
+		
+		-- Legion
+		--[[
+		TODO:
+		???
+		]]
+
+		-- Battle for Azeroth
+		--[[
+		TODO:
+		mechagon = rustbolt resistance
+		???
+		]]
+
+		-- Shadowlands
+		--[[
+		TODO:
+		???
+		]]
+
+		-- Dragonflight
+		--[[
+		TODO:
+		???
+		]]
+
+		-- War Within
+		--[[
+		TODO:
+		???
+		]]
+
 	},
 };
 

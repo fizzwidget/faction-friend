@@ -6,15 +6,14 @@
 ## Title: Fizzwidget FactionFriend
 ## Notes: Switches WoW's builtin reputation watch bar automatically and helps keep track of faction turnin items.
 ## X-Category: Interface Enhancements
-## SavedVariables: GFW_FactionFriend_DB
+## SavedVariables: GFW_FactionFriend_Settings
 ## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
 GFWUtils.lua
 GFWTable.lua
-
-Libs.xml
 
 LocaleSupport.lua
 Localization.lua
 FFF_ItemInfo.lua
 FactionFriend.lua
+FFF_Settings.lua
 FactionFriend.xml
