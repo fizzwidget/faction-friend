@@ -1,17 +1,8 @@
 local addonName, T = ...
-local Events = T.EventHandlers
-
-function Events:ADDON_LOADED(addon, ...)
-    if addon == addonName then
-        T:SetupSettings()
-        self:UnregisterEvent("ADDON_LOADED")
-    end
-end
 
 function T:SetupSettings()
     local category, layout = Settings.RegisterVerticalLayoutCategory(T.Title)
-    local settingsTable = _G[addonName .. "_Settings"]
-    T.Settings = settingsTable
+    local settingsTable = T.Settings
     
     -- TODO: setup factories for other settings control types as needed
     -- TODO: shorter label locale-lookup keys, derive tooltip key from label
@@ -36,7 +27,7 @@ function T:SetupSettings()
     Checkbox("ShowPotential", true, FFF_OPTION_SHOW_POTENTIAL, FFF_OPTION_SHOW_POTENTIAL_TIP)
     -- Checkbox("UseCurrency", true, FFF_OPTION_USE_CURRENCY, FFF_OPTION_USE_CURRENCY_TIP)
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
-    Checkbox("CountRepeatGains", false, FFF_OPTION_REPEAT_GAINS, FFF_OPTION_REPEAT_GAINS_TIP)
+    Checkbox("ModifyChat", false, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
     Checkbox("MoveExaltedInactive", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
     -- Checkbox("ReputationColors", false, FFF_OPTION_REPUTATION_COLORS)
 

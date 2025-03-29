@@ -41,6 +41,15 @@ VERSION HISTORY
 
 v. 11.xxxx - 2025/xxxx/xxxx
 - TODO info about revamp
+- Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
+	- Click to open the default UI's Reputation pane and reveal that faction.
+	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
+	- A new settings option, "Modify chat window output", controls both this and the existing feature for showing the number of gains to reach the next threshold.
+- When gaining reputation with several factions at once, we switch the reputation watch bar to whichever faction gained the most.
+- Zone-based reputation bar switching now accounts for named subzones; for example, entering the Fang'rila area in Tanaan Jungle (Warlords of Draenor) will watch Saberstalkers reputation.
+
+- TODO new feature ideas
+	- open blizz rep window to expansion of current zone
 - Uses Blizzard's built-in Settings UI system (searchable; less library dependencies).
 	- Note for non-English players: text for existing settings has changed. Where the sense of the English text is different from before, I've deactivated old localizations; for others, the new UI may truncate settings text. (If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend!)
 

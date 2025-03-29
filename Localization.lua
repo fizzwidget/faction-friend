@@ -9,10 +9,14 @@ FFF_UNKNOWN_ITEM				= "(Item #%d)"
 FFF_REPUTATION_TICK_TOOLTIP		= "%d reputation points available:"
 FFF_AFTER_TURNINS_LABEL			= "After turnins:"
 FFF_AFTER_TURNINS_INFO			= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
-FFF_REPEAT_TURNINS				= "(%.1f equal gains to %s.)"
+
+FFF_REPEAT_TURNINS				= "(%.1f more times to %s.)"
 FFF_MAXIMUM						= "maximum"
 FFF_NEXT_RANK					= "next rank"
-
+FFF_PARAGON_REWARD				= "reward"
+FFF_AT_MAXIMUM					= "(At maximum.)"
+FFF_TOOLTIP_CLICK_FOR_DETAILS	= "<Click to view details>"
+FFF_TOOLTIP_DONT_CLICK			= "<Cannot click while in combat>"
 FFF_REPORT_LINE_ITEM			= "%dx %s"				-- C in example below
 FFF_REPORT_NUM_TURNINS			= " (%d turnins)"		-- B in example below
 FFF_REPORT_NUM_POINTS			= "%d points"			-- A in example below
@@ -51,8 +55,8 @@ FFF_OPTION_SHOW_POTENTIAL_TIP	= "Adds an indicator to the reputation watch bar s
 FFF_OPTION_USE_CURRENCY			= "Include potential reputation gains from currency"
 FFF_OPTION_TOOLTIP				= "Enhance item tooltips"
 FFF_OPTION_TOOLTIP_TIP			= "Adds info to tooltips for items that can be turned in or used to gain reputation"
-FFF_OPTION_REPEAT_GAINS			= "Enhance chat window output"
-FFF_OPTION_REPEAT_GAINS_TIP		= "Causes reputation gain messages in the chat window to also show the number of equal gains required to reach the next standing"
+FFF_OPTION_MODIFY_CHAT			= "Enhance chat window output"
+FFF_OPTION_MODIFY_CHAT_TIP		= "Adds info to reputation messages in chat windows, including an estimated number of repeated reputation gains until the next rank/reward. (Use chat window settings to enable reputation messages.) "
 FFF_OPTION_MOVE_EXALTED			= "Hide Exalted factions"
 FFF_OPTION_MOVE_EXALTED_TIP		= "Automatically move faction to Inactive after reaching Exalted standing" 
 FFF_OPTION_REPUTATION_COLORS	= "Use distinct colors for reputation standings"
