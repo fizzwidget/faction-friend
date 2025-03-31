@@ -623,9 +623,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 		-- TODO also branch for major faction (renown)?
 		
 		local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
-		if isCapped then
-			return FFF_AT_MAXIMUM
-		elseif C_Reputation.IsFactionParagon(factionID) then
+		if C_Reputation.IsFactionParagon(factionID) then
 			local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
 
 			maxValue = threshold
@@ -638,6 +636,8 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 				currentValue = currentValue + threshold
 			end
 			nextStatusName = FFF_PARAGON_REWARD
+		elseif isCapped then
+			return FFF_AT_MAXIMUM
 		else
 			maxValue = factionData.nextReactionThreshold
 			currentValue = factionData.currentStanding

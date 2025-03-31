@@ -45,6 +45,7 @@ v. 11.xxxx - 2025/xxxx/xxxx
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
 	- A new settings option, "Modify chat window output", controls both this and the existing feature for showing the number of gains to reach the next threshold.
+	- Counting repeat gains to the next threshold now includes "paragon" factions (which provide repeatable rewards for reputation gain past Exalted).
 - When gaining reputation with several factions at once, we switch the reputation watch bar to whichever faction gained the most.
 - Zone-based reputation bar switching now accounts for named subzones; for example, entering the Fang'rila area in Tanaan Jungle (Warlords of Draenor) will watch Saberstalkers reputation.
 
