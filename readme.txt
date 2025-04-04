@@ -5,7 +5,7 @@ http://www.fizzwidget.com/factionfriend
 gazmik@fizzwidget.com
 ------------------------------------------------------
 
-It's amazing the lengths some will go to to win friends. Gaining the trust of furbolg tribes, mushroom men, frost giants, and other organizations of demi-goblinoid races can be a lot of work, and it can be easy sometimes to lose track of one's progress. That's where Fizzwidget Industries comes in! Our newest gadget not only helps you keep tabs on whose respect you're earning, but also how much more you could earn by turning in certain items you're carrying.
+It's amazing the lengths some will go to to win friends. Gaining the trust of furbolg tribes, mushroom men, frost giants, and other organizations of demi-goblinoid races can be a lot of work, and it can be easy sometimes to lose track of one's progress. That's where Fizzwidget Industries comes in! Our most famous gadget not only helps you keep tabs on whose respect you're earning, but also how much more you could earn by turning in certain items you're carrying.
 
 ------------------------------------------------------
 
@@ -40,7 +40,20 @@ CAVEATS, KNOWN BUGS, ETC.:
 VERSION HISTORY
 
 v. 11.xxxx - 2025/xxxx/xxxx
-- TODO info about revamp
+- TODO info about rewrite
+- TODO rewrite tasks remaining
+	- reputation watch bar
+		- potential gains overlay (or not, taint issue?)
+		- tooltip
+			- note base UI already provides tooltip only when paragon
+		- right click for faction menu
+			- menu tree for all factions
+			- recent factions list
+	- chat message parsing / watch bar switching handle major factions (renown)
+	- switch watch bar on tabard equip (or retire that?)
+	- ???
+	- profit!
+
 - Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
