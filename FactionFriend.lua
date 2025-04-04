@@ -313,6 +313,7 @@ function Events:ADDON_LOADED(addon, ...)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
 
 		T:SetupSettings()
+		
 		self:UnregisterEvent("ADDON_LOADED")
 	end
 end
@@ -372,6 +373,76 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 		self:AddToRecents(factionID)
 	end
 end
+
+------------------------------------------------------
+-- Item tooltip & potential gain
+------------------------------------------------------
+
+_G[addonName.."_DB"] = {}
+local DB = _G[addonName.."_DB"]
+DB.ByQuest = FFF_ItemInfo -- TODO move some of this?
+
+function T:SetupReverseCache()
+	DB.ByItem = {}	
+	for faction, quests in pairs(FFF_ItemInfo) do
+		local myExcludedFactions = FFF_ExcludedFactions[UnitFactionGroup("player")];
+		if (myExcludedFactions ~= nil and not myExcludedFactions[faction]) then
+			for quest, questInfo in pairs(quests) do
+				if (not questInfo.otherFactionRequired) then
+					for itemID in pairs(questInfo.items) do
+						if not DB.ByItem[itemID] then
+							DB.ByItem[itemID] = {}
+						end
+						DB.ByItem[itemID][faction] = true
+					end
+				end
+			end
+		end
+	end
+end
+
+function T.OnTooltipSetItem(tooltip, data)
+	local name, link = TooltipUtil.GetDisplayedItem(tooltip)
+	if not link then return; end
+	if not T.Settings.Tooltip then return; end
+
+	local type, info = LinkUtil.ExtractLink(link)
+	if type == "item" then 
+		local id = strsplit(":", info)
+		local itemID = tonumber(id)
+		T:TooltipAddItemInfo(tooltip, itemID)
+		-- TODO tabard info
+	end
+	-- TODO also handle currency?
+	
+end
+
+TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, T.OnTooltipSetItem)
+
+function T:TooltipAddItemInfo(tooltip, itemID)
+	if not DB.ByItem then 
+		T:SetupReverseCache()
+	end
+	local itemInfo = DB.ByItem[itemID]
+	if not itemInfo then return; end
+
+	local firstLine = true
+	for factionID in pairs(itemInfo) do
+			
+		local factionData = C_Reputation.GetFactionDataByID(factionID)
+		local color = FACTION_BAR_COLORS[factionData.reaction]
+		local factionText = FFF_FACTION_STANDING:format(factionData.name, GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player")))
+		
+		if firstLine then
+			GameTooltip_AddColoredDoubleLine(tooltip, FFF_FACTION_TURNIN, factionText, color, color)
+			firstLine = false
+		else
+			GameTooltip_AddColoredDoubleLine(tooltip, " ", factionText, color, color)
+		end
+	end
+
+end
+
 
 ------------------------------------------------------
 -- Message filter for reputation / standing change
