@@ -8,7 +8,7 @@
 FFF_UNKNOWN_ITEM				= "(Item #%d)"
 FFF_REPUTATION_TICK_TOOLTIP		= "%d reputation points available:"
 FFF_AFTER_TURNINS_LABEL			= "After turnins:"
-FFF_AFTER_TURNINS_INFO			= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
+FFF_STANDING_VALUES 			= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
 
 FFF_FACTION_STANDING			= "%s (%s)" -- e.g. "Ratchet (Neutral)"
 FFF_REPEAT_TURNINS				= "(%.1f more times to %s.)"

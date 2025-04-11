@@ -128,11 +128,15 @@ function T:FactionLink(factionID, factionData, friendshipData)
 	end
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 	
-	local colorIndex = factionData.reaction
+	local color
 	if isFriendship then
-		colorIndex = 5
+		color = RGBTableToColorCode(FACTION_BAR_COLORS[5])
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		color = RGBTableToColorCode(BLUE_FONT_COLOR)
+		
+	else
+		color = RGBTableToColorCode(FACTION_BAR_COLORS[factionData.reaction])
 	end
-	local color = RGBTableToColorCode(FACTION_BAR_COLORS[colorIndex])
 	
 	return format("%s|Haddon:%s:faction:%d|h[%s]|h|r", color, addonName, factionID, factionData.name)
 end
@@ -277,10 +281,19 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 			reactionText = reactionText.." ("..current.." / "..max..")"
 		end
 		GameTooltip_AddHighlightLine(GameTooltip, reactionText, wrapText)
-	else
 		
-		-- TODO major faction (renown)
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
 		
+		local current = majorFactionData.renownReputationEarned
+		local max = majorFactionData.renownLevelThreshold
+		
+		local renownLevel = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel)
+		local text = FFF_STANDING_VALUES:format(renownLevel, current, max)
+					
+		GameTooltip_AddColoredLine(GameTooltip, text, BLUE_FONT_COLOR)
+
+	else		
 		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
 		local color = FACTION_BAR_COLORS[factionData.reaction]
 		
@@ -289,10 +302,9 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 		
 		local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
 		if not isCapped then
-			standingText = standingText.." ("..current.." / "..max..")"
+			standingText = FFF_STANDING_VALUES:format(standingText, current, max)
 		end
-		GameTooltip_AddColoredLine(GameTooltip, standingText
-			, color)
+		GameTooltip_AddColoredLine(GameTooltip, standingText, color)
 	end
 	
 	-- TODO more lines from potential gains report
@@ -340,8 +352,9 @@ function Events:ADDON_LOADED(addon, ...)
 		for i, container in pairs(StatusTrackingBarManager.barContainers) do
 			local bar = container.bars[1]
 			bar:HookScript("OnEnter", function(frame)
-				-- TODO no double tooltip for paragon
-				if frame.factionID then
+				-- TODO potential gains in tooltip
+				-- TODO in the paragon tooltip for paragon
+				if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
 					T:ShowFactionToolip(frame.factionID, frame)
 				end
 			end)
