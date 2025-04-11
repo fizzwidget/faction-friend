@@ -151,137 +151,26 @@ FFF_FactionIDs = {
 	FISHERFRIEND_SHALETH = 2101,
 	FISHERFRIEND_IMPUS = 2102, 
 }
-local F = FFF_FactionIDs;
+local F = FFF_FactionIDs
 
 ------------------------------------------------------
 -- For bodyguard switching option
 ------------------------------------------------------
 FFF_Bodyguards = {
-	VIVIANNE = 1739,
-	TORMMOK = 1736,
-	ISHAAL = 1737,
-	LEORAJH = 1741,
-	IRONFIST = 1733,
-	ILLONA = 1738,
-	BRIGHTDAWN = 1740
+	[1739] = 1, -- Vivianne
+	[1736] = 1, -- Tormmok
+	[1737] = 1, -- Ishaal
+	[1741] = 1, -- Leorajh
+	[1733] = 1, -- Ironfist
+	[1738] = 1, -- Illona
+	[1740] = 1, -- Brightdawn
 }
-
-------------------------------------------------------
--- For zone-based switching
-------------------------------------------------------
-FFF_ZoneFactions = {
-	["Horde"] = {
-		[ZONE_AV] = F.FROSTWOLF,
-		[ZONE_AB] = F.DEFILERS,
-		[ZONE_WSG] = F.WARSONG_OUTRIDERS,
-		[ZONE_SOTA] = F.WARSONG_OFFENSIVE,
-		
-		-- BC zones/dungeons
-		[ZONE_GHOSTLANDS] = F.TRANQUILLIEN,
-		[ZONE_HELLFIRE_RAMPARTS] = F.THRALLMAR,
-		[ZONE_BLOOD_FURNACE] = F.THRALLMAR,
-		[ZONE_SHATTERED_HALLS] = F.THRALLMAR,
-	},
-	["Alliance"] = {
-		[ZONE_AV] = F.STORMPIKE,
-		[ZONE_AB] = F.ARATHOR,
-		[ZONE_WSG] = F.SILVERWING,
-		[ZONE_SOTA] = F.VALIANCE,
-
-		-- BC zones/dungeons
-		[ZONE_HELLFIRE_RAMPARTS] = F.HONOR_HOLD,
-		[ZONE_BLOOD_FURNACE] = F.HONOR_HOLD,
-		[ZONE_SHATTERED_HALLS] = F.HONOR_HOLD,
-	},
-	["Neutral"] = {
-		[ZONE_SILITHUS] = F.CENARION_CIRCLE,
-		[ZONE_AQ20] = F.CENARION_CIRCLE,
-		[ZONE_AQ40] = F.BROOD_NOZDORMU,
-		[ZONE_FELWOOD] = F.TIMBERMAW,
-		[ZONE_WINTERSPRING] = F.TIMBERMAW,
-		
-		-- BC zones/dungeons
-		[ZONE_ISLE_QUELDANAS] = F.SHATTERED_SUN,
-		[ZONE_AUCHENAI_CRYPTS] = F.LOWER_CITY,
-		[ZONE_MANA_TOMBS] = F.CONSORTIUM,
-		[ZONE_SETHEKK_HALLS] = F.LOWER_CITY,
-		[ZONE_SHADOW_LABYRINTH] = F.LOWER_CITY,
-		[ZONE_OLD_HILLSBRAD] = F.KEEPERS_OF_TIME,
-		[ZONE_BLACK_MORASS] = F.KEEPERS_OF_TIME,
-		[ZONE_SLAVE_PENS] = F.CENARION_EXPEDITION,
-		[ZONE_STEAMVAULT] = F.CENARION_EXPEDITION,
-		[ZONE_UNDERBOG] = F.CENARION_EXPEDITION,
-		[ZONE_MAGISTERS_TERRACE] = F.SHATTERED_SUN,
-		[ZONE_ARCATRAZ] = F.SHATAR,
-		[ZONE_BOTANICA] = F.SHATAR,
-		[ZONE_MECHANAR] = F.SHATAR,
-		[ZONE_KARAZHAN] = F.VIOLET_EYE,
-		[ZONE_HYJAL_SUMMIT] = F.SCALE_SANDS,
-		
-		-- Wrath of the Lich King
-		[ZONE_ICECROWN_CITADEL] = F.ASHEN_VERDICT,
-
-		-- Cataclysm
-		--[[
-		TODO:
-		firelands = avengers of hyjal
-		???
-		]]
-		
-		-- Mists of Pandaria
-		[ZONE_VALE_OF_ETERNAL_BLOSSOMS] = F.GOLDEN_LOTUS,
-		--[[
-		TODO:
-		isle of thunder = sunreavers/kirin tor
-		throne of thunder = shado pan assault
-		dread wastes = klaxxi
-		timeless isle = emperor shaohao
-		???
-		]]
-		
-		-- Warlords of Draenor
-		[ZONE_FANGRILA] = F.SABERSTALKERS, 
-			-- subzone-based switching not yet supported: https://github.com/fizzwidget/faction-friend/issues/3
-		
-		-- Legion
-		--[[
-		TODO:
-		???
-		]]
-
-		-- Battle for Azeroth
-		--[[
-		TODO:
-		mechagon = rustbolt resistance
-		???
-		]]
-
-		-- Shadowlands
-		--[[
-		TODO:
-		???
-		]]
-
-		-- Dragonflight
-		--[[
-		TODO:
-		???
-		]]
-
-		-- War Within
-		--[[
-		TODO:
-		???
-		]]
-
-	},
-};
 
 ------------------------------------------------------
 -- keeps Alliance/Horde-specific factions from showing up for opposing players
 ------------------------------------------------------
 FFF_ExcludedFactions = {
-	["Alliance"] = {
+	Alliance = {
 		[F.FORSAKEN] = 1,
 		[F.TROLL] = 1,
 		[F.TAUREN] = 1,
@@ -302,7 +191,7 @@ FFF_ExcludedFactions = {
 		[F.SHATARI_DEFENSE] = 1,
 		[F.WRYNNS_VANGUARD] = 1,
 	},
-	["Horde"] = {
+	Horde = {
 		[F.HUMAN] = 1,
 		[F.GNOME] = 1,
 		[F.NELF] = 1,
@@ -322,109 +211,13 @@ FFF_ExcludedFactions = {
 		[F.FROSTWOLF_ORCS] = 1,
 		[F.LAUGHING_SKULL] = 1,
 	},
-};
-
---[[ only used in disabled quest-rep scanning
--- TODO: autogenerate one or the other of these
-FFF_FactionGroups = {
-	[F.ORC]			= F.HORDE,
-	[F.TROLL]		= F.HORDE,
-	[F.TAUREN]		= F.HORDE,
-	[F.FORSAKEN]	= F.HORDE,
-	[F.BELF]		= F.HORDE,
-	[F.GOBLIN]		= F.HORDE,
-	[F.HUOJIN]		= F.HORDE,
-	
-	[F.HUMAN]	= F.ALLIANCE,
-	[F.DWARF]	= F.ALLIANCE,
-	[F.GNOME]	= F.ALLIANCE,
-	[F.NELF]	= F.ALLIANCE,
-	[F.DRAENEI]	= F.ALLIANCE,
-	[F.WORGEN]	= F.ALLIANCE,
-	[F.TUSHUI]	= F.ALLIANCE,
-	
-	[F.HAND_VENGEANCE]		= F.HORDE_EXPEDITION,
-	[F.TAUNKA]				= F.HORDE_EXPEDITION,
-	[F.SUNREAVERS]			= F.HORDE_EXPEDITION,
-	[F.WARSONG_OFFENSIVE]	= F.HORDE_EXPEDITION,
-
-	[F.EXPLORERS]		= F.ALLIANCE_VANGUARD,
-	[F.FROSTBORN]		= F.ALLIANCE_VANGUARD,
-	[F.SILVER_COVENANT]	= F.ALLIANCE_VANGUARD,
-	[F.VALIANCE]		= F.ALLIANCE_VANGUARD,
 }
-FFF_GroupFactions = {
-	[F.HORDE] = {
-		F.ORC,
-		F.TROLL,
-		F.TAUREN,
-		F.FORSAKEN,
-		F.BELF,
-		F.GOBLIN,
-		F.HUOJIN,
-	},
-	[F.ALLIANCE] = {
-		F.HUMAN,
-		F.DWARF,
-		F.GNOME,
-		F.NELF,
-		F.DRAENEI,
-		F.WORGEN,
-		F.TUSHUI,
-	},
-	[F.HORDE_EXPEDITION] = {
-		F.HAND_VENGEANCE,
-		F.TAUNKA,
-		F.SUNREAVERS,
-		F.WARSONG_OFFENSIVE,
-	},
-	[F.ALLIANCE_VANGUARD] = {
-		F.EXPLORERS,
-		F.FROSTBORN,
-		F.SILVER_COVENANT,
-		F.VALIANCE,
-	},
-}
-]]
-------------------------------------------------------
--- For tabard-based switching
-------------------------------------------------------
-FFF_TabardFactions = {
-	-- Northrend
-	[43154]	= F.ARGENT_CRUSADE,
-	[43155]	= F.EBON_BLADE,
-	[43156]	= F.WYRMREST,
-	[43157]	= F.KIRIN_TOR,
-	-- Cataclysm
-	[65904]	= F.RAMKAHEN,
-	[65905]	= F.EARTHEN_RING,
-	[65906]	= F.GUARDIANS_HYJAL,
-	[65907]	= F.THERAZANE,
-	[65908]	= F.WILDHAMMER,
-	[65909]	= F.DRAGONMAW,
-	-- Racial (Horde)
-	[45581]	= F.ORC,
-	[45582]	= F.TROLL,
-	[45584]	= F.TAUREN,
-	[45583]	= F.FORSAKEN,
-	[45585]	= F.BELF,
-	[64884]	= F.GOBLIN,
-	[83080]	= F.HUOJIN,
-	-- Racial (Alliance)
-	[45574]	= F.HUMAN,
-	[45577]	= F.DWARF,
-	[45578]	= F.GNOME,
-	[45579]	= F.NELF,
-	[45580]	= F.DRAENEI,
-	[64882]	= F.WORGEN,
-	[83079]	= F.TUSHUI,
-};
 
 ------------------------------------------------------
 -- Localized item names for "created" items, since they can appear without being cached by client
 ------------------------------------------------------
 FFF_SpecialItems = {
-	-- vanilla; no longer obtainable
+	-- vanilla no longer obtainable
 	[12844] = FFF_ITEM_AD_TOKEN,
 	[19858] = FFF_ITEM_ZG_TOKEN,
 	
@@ -3042,7 +2835,7 @@ FFF_ItemInfo = {
 		},
 	},
 	
-};
+}
 
 
 

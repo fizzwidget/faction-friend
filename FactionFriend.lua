@@ -27,6 +27,7 @@ _G[addonName .. "_Recents"] = {}
 
 -- FormatToPattern cache
 T.Patterns = setmetatable({}, {__index = function(table, key)
+	-- TODO does FormatToPattern correctly handle reordered format string tokens?
 	return GFWUtils.FormatToPattern(_G[key])
 end})
 
@@ -87,14 +88,7 @@ T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 	end
 end})
 
--- TODO get rid of the forward table if we only use the reverse?
-T.BodyguardFactionID = setmetatable({}, {__index = function(table, key)
-	for name, factionID in pairs(FFF_Bodyguards) do
-		if factionID == key then
-			return name
-		end
-	end
-end})
+T.BodyguardFactionID = FFF_Bodyguards
 
 local MAX_RECENTS = 8
 function T:AddToRecents(factionID)
@@ -116,16 +110,6 @@ function T:AddToRecents(factionID)
 		_G[addonName .. "_Recents"] = { unpack(T.Recents, #T.Recents - MAX_RECENTS + 1) }
 		T.Recents = _G[addonName .. "_Recents"]
 	end
-end
-
-function T:CurrentZoneFaction()
-	local currentZone = GetRealZoneText()
-	local zoneFaction = FFF_ZoneFactions[UnitFactionGroup("player")][currentZone] or FFF_ZoneFactions.Neutral[currentZone]
-	if not zoneFaction then
-		local subzone = GetSubZoneText()
-		zoneFaction = FFF_ZoneFactions[UnitFactionGroup("player")][subzone] or FFF_ZoneFactions.Neutral[subzone]
-	end
-	return zoneFaction
 end
 
 EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
@@ -234,29 +218,54 @@ function T:ShowReputationPane(factionID)
 
 end
 
-------------------------------------------------------
--- GFW_HoverTips integration
-------------------------------------------------------
+function T:TrySetWatchedFaction(factionID, overrideInactive)
 
-function T.ShowAddonTooltip(frame, link)
-	-- "addon":addonName:type:payload
-	local _, _, type, factionID = strsplit(":", link)
-	factionID = tonumber(factionID)
+	local function setWatchedFaction(factionID)
+		C_Reputation.SetWatchedFactionByID(factionID)
+		self:AddToRecents(factionID)
+	end
 	
+	local watchedFaction = C_Reputation.GetWatchedFactionData()
+	if watchedFaction and watchedFaction.factionID == factionID then
+		-- print("no switch: already watching factionID", factionID)
+		return
+	end
+	
+	if overrideInactive then
+		setWatchedFaction(factionID)
+	else
+		
+		local index = self.FactionIndexForID[factionID]
+		if not index then
+			-- print("no switch: index not found for factionID", factionID)
+			return
+		end
+	
+		if C_Reputation.IsFactionActive(index) then
+			setWatchedFaction(factionID)
+		end
+	end
+end
+
+function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstructions)
 	-- TODO factor out the rest because it'll be the same as other places we show tooltip for the same faction?
 	local factionData = C_Reputation.GetFactionDataByID(factionID)
 	local friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 	
-	GameTooltip:SetOwner(frame, "ANCHOR_TOPLEFT")
+	if anchor then
+		GameTooltip:SetOwner(anchorFrame, "ANCHOR_TOPLEFT")
+	else
+		GameTooltip_SetDefaultAnchor(GameTooltip, anchorFrame)
+	end
 	GameTooltip_SetTitle(GameTooltip, factionData.name, HIGHLIGHT_FONT_COLOR)
-
+	
 	if C_Reputation.IsAccountWideReputation(factionID) then
 		GameTooltip_AddColoredLine(GameTooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
 	end
 	
 	GameTooltip_AddBlankLineToTooltip(GameTooltip)
-
+	
 	local standingText, color
 	if isFriendship then
 		local wrapText = true
@@ -273,7 +282,7 @@ function T.ShowAddonTooltip(frame, link)
 		-- TODO major faction (renown)
 		
 		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
-	    local color = FACTION_BAR_COLORS[factionData.reaction]
+		local color = FACTION_BAR_COLORS[factionData.reaction]
 		
 		local current = factionData.currentStanding - factionData.currentReactionThreshold
 		local max = factionData.nextReactionThreshold - factionData.currentReactionThreshold
@@ -288,14 +297,29 @@ function T.ShowAddonTooltip(frame, link)
 	
 	-- TODO more lines from potential gains report
 	
-	GameTooltip_AddBlankLineToTooltip(GameTooltip)
-	if InCombatLockdown() then
-		GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_DONT_CLICK)
-	else
-		GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_CLICK_FOR_DETAILS)
+	if (showHyperlinkInstructions) then
+		GameTooltip_AddBlankLineToTooltip(GameTooltip)
+		if InCombatLockdown() then
+			GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_DONT_CLICK)
+		else
+			GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_CLICK_FOR_DETAILS)
+		end
 	end
 	
 	GameTooltip:Show()
+
+end
+
+------------------------------------------------------
+-- GFW_HoverTips integration
+------------------------------------------------------
+
+function T.ShowAddonTooltip(frame, link)
+	-- "addon":addonName:type:payload
+	local _, _, type, factionID = strsplit(":", link)
+	factionID = tonumber(factionID)
+	
+	T:ShowFactionToolip(factionID, frame, "ANCHOR_TOPLEFT", true)
 end
 
 ------------------------------------------------------
@@ -306,11 +330,23 @@ function Events:ADDON_LOADED(addon, ...)
 	if addon == addonName then
 		
 		-- conveniences for generated SavedVariables names
+		-- works only after SavedVariables have been loaded
 		T.Settings = _G[addonName .. "_Settings"]
 		T.Recents = _G[addonName .. "_Recents"]
 		
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_FACTION_CHANGE", T.CombatMessageFilter)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
+
+		for i, container in pairs(StatusTrackingBarManager.barContainers) do
+			local bar = container.bars[1]
+			bar:HookScript("OnEnter", function(frame)
+				-- TODO no double tooltip for paragon
+				if frame.factionID then
+					T:ShowFactionToolip(frame.factionID, frame)
+				end
+			end)
+			bar:HookScript("OnLeave", GameTooltip_Hide)
+		end
 
 		T:SetupSettings()
 		
@@ -318,64 +354,8 @@ function Events:ADDON_LOADED(addon, ...)
 	end
 end
 
-function Events:ZONE_CHANGED(...)
-	T:HandleZoneChange()
-end
-
-function Events:ZONE_CHANGED_NEW_AREA(...)
-	T:HandleZoneChange()
-end
-
-function Events:PLAYER_CONTROL_GAINED(...)
-	T:HandleDeferredZoneChange()
-end
-
 ------------------------------------------------------
--- Switch watched faction by zone
-------------------------------------------------------
-
-function T:HandleZoneChange()
-	if (UnitOnTaxi("player")) then
-		self.PlayerWasOnTaxi = 1
-		return
-	end
-
-	if (not self.Settings.Zones) then return; end
-
-	local zoneFaction = T:CurrentZoneFaction()
-	if (zoneFaction) then
-		self:TrySetWatchedFaction(zoneFaction)
-	end
-end
-
-function T:HandleDeferredZoneChange()
-	if (self.PlayerWasOnTaxi) then
-		self.PlayerWasOnTaxi = nil
-		self:HandleZoneChange()
-	end
-end
-
-function T:TrySetWatchedFaction(factionID, overrideInactive)
-
-	local watchedFaction = C_Reputation.GetWatchedFactionData()
-	if watchedFaction.factionID == factionID then
-		-- print("no switch: already watching factionID", factionID)
-		return
-	end
-	local index = self.FactionIndexForID[factionID]
-	if not index then
-		-- print("no switch: index not found for factionID", factionID)
-		return
-	end
-	
-	if overrideInactive or C_Reputation.IsFactionActive(index) then
-		C_Reputation.SetWatchedFactionByID(factionID)
-		self:AddToRecents(factionID)
-	end
-end
-
-------------------------------------------------------
--- Item tooltip & potential gain
+-- Item tooltip 
 ------------------------------------------------------
 
 _G[addonName.."_DB"] = {}
@@ -411,7 +391,6 @@ function T.OnTooltipSetItem(tooltip, data)
 		local id = strsplit(":", info)
 		local itemID = tonumber(id)
 		T:TooltipAddItemInfo(tooltip, itemID)
-		-- TODO tabard info
 	end
 	-- TODO also handle currency?
 	
@@ -625,10 +604,7 @@ function T:SystemMessageFilter(event, message, ...)
 	-- add to recents
 	T:AddToRecents(factionID)
 		
-	-- switch watched faction
-	if T:ShouldSetWatchedFaction(factionID) then
-		T:TrySetWatchedFaction(factionID)
-	end
+	-- (don't switch watched faction; we do that only for gains)
 	
 	-- move to inactive if exalted / max rank
 	-- unless paragon faction
@@ -659,19 +635,10 @@ function T:SystemMessageFilter(event, message, ...)
 end
 
 function T:ShouldSetWatchedFaction(factionID)
-	-- TODO handle tabard setting 
 	if factionID == GUILD_FACTION_ID then
 		return self.Settings.IncludeGuild
 	elseif self.BodyguardFactionID[factionID] then
 		return self.Settings.IncludeBodyguards
-	elseif self.Settings.Zones then
-		-- if we're in a zone with an associated faction...
-		local zoneFaction = self.CurrentZoneFaction()
-		if zoneFaction then
-			-- ...switch the bar only to the zone faction
-			-- TODO option to override?
-			return factionID == zoneFaction
-		end
 	end
 	return true
 end
@@ -726,3 +693,75 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 	return message
 end
 
+------------------------------------------------------
+-- Potential gains from turnins
+------------------------------------------------------
+
+function T:FactionPotential(factionID, withReport)
+
+	local function reactionInRange(reaction, qInfo)
+		local atOrAboveMin = reaction >= (qInfo.minStanding or 1)
+		local atOrBelowMax = reaction <= (qInfo.maxStanding or MAX_REPUTATION_REACTION)
+		return atOrAboveMin and atOrBelowMax
+	end
+
+	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	
+	local factionQuests = DB.ByQuest[factionID]
+	if (factionQuests == nil) then return 0; end
+	
+	local totalPotential = 0
+	local reportLines = {}
+
+	local itemsAccounted = {}
+	local itemsCreated = {}
+	for quest, qInfo in GFWTable.PairsByKeys(factionInfo, function(a,b) return a > b end) do
+		-- is our rep in range for this quest?
+		local meetsRequirements = reactionInRange(factionData.reaction, qInfo)
+		
+		-- if quest requires another faction too,
+		-- is our rep with them in range?
+		if meetsRequirements and qInfo.otherFactionRequired then
+			local otherFactionData = C_Reputation.GetFactionDataByID(qInfo.otherFactionRequired.faction)
+			meetsRequirements = meetsRequirements and reactionInRange(otherFactionData.reaction, qInfo.otherFactionRequired)
+		end
+		
+		local potentialValue = T:QuestPotential(qInfo, factionData)
+	end
+
+
+end
+
+function T:QuestPotential(qInfo, factionData)
+	local potentialValue = 0
+	local reportItemLines = {}
+	
+	-- first, figure out how many turnins' worth we have of each item the quest requres
+	local turninCounts = {}
+	for itemID, qtyPerTurnin in pairs(qInfo.items) do
+		local countIncludingBank = FFF_GetItemCount(itemID, true);
+		local created = itemsCreated[itemID] or 0;
+		local alreadyCounted = itemsAccountedFor[itemID] or 0;
+		local turnins = math.floor((countIncludingBank + created - alreadyCounted) / qtyPerTurnin);
+--				print(quest, countIncludingBank, created, alreadyCounted)
+		tinsert(turninCounts, turnins);
+	end
+
+end
+
+function T:ItemCount(itemID, includeBank)
+	if (type(itemID) == "string") then
+		-- currency
+		local currencyID = strmatch(itemID, "currency:(%d+)")
+		currencyID = tonumber(currencyID)
+		local count = C_CurrencyInfo.GetCurrencyInfo(currencyID).quantity
+		return count
+	end
+	
+	if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
+		-- useful for debugging
+		return FFF_FakeItemCount[itemID]
+	end
+	return C_Item.GetItemCount(itemID, includeBank)
+
+end

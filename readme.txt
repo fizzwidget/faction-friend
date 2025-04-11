@@ -12,11 +12,9 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 INSTALLATION: Put the GFW_FactionFriend folder into your World Of Warcraft/Interface/AddOns folder and launch WoW.
 
 FEATURES: 
-	- Automatically switches the Blizzard builtin reputation watch bar (i.e. the "Show as experience bar" option in the Reputation pane)...
-		- When entering certain zones. (Argent Dawn in Plaguelands, Cenarion Expedition in Coilfang Reservoir instances, etc.)
-		- When gaining reputation. (If gaining reputation with multiple factions at once, the bar will switch for only the first.)
-		- When equipping a faction's tabard (i.e. tabards which apply reputation gains in dungeons to that faction).
-	- Factions marked as "Inactive" in the reputation pane won't be automatically switched to.
+	- Automatically switches the Blizzard builtin reputation watch bar (i.e. the "Show as experience bar" option in the Reputation pane) when you gain reputation.
+		- If gaining reputation with multiple factions at once, the bar will switch to whichever faction gained the most.
+		- Factions marked as "Inactive" in the reputation pane won't be automatically switched to.
 	
 	- Enhances the reputation watch bar with extra shading and a marker to show how much reputation you can readily gain by turning in and/or using items in your bags or bank.
 		- Mousing over the reputation watch bar (or the aforementioned marker) will show a summary of the reputation points that can be earned through turning in or consuming items.
@@ -47,23 +45,24 @@ v. 11.xxxx - 2025/xxxx/xxxx
 		- tooltip
 			- note base UI already provides tooltip only when paragon
 		- right click for faction menu
-			- menu tree for all factions
+			- menu tree for all factions?
 			- recent factions list
+	- reputation pane
+		- potential gains tooltip
+		- 
+	- auto hide maxed factions
 	- chat message parsing / watch bar switching handle major factions (renown)
-	- switch watch bar on tabard equip (or retire that?)
 	- ???
 	- profit!
 
 - Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
-	- A new settings option, "Modify chat window output", controls both this and the existing feature for showing the number of gains to reach the next threshold.
-	- Counting repeat gains to the next threshold now includes "paragon" factions (which provide repeatable rewards for reputation gain past Exalted).
-- When gaining reputation with several factions at once, we switch the reputation watch bar to whichever faction gained the most.
-- Zone-based reputation bar switching now accounts for named subzones; for example, entering the Fang'rila area in Tanaan Jungle (Warlords of Draenor) will watch Saberstalkers reputation.
-
-- TODO new feature ideas
-	- open blizz rep window to expansion of current zone
+- Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) This now also supports "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
+- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
+- Removed some older features for which it's cumbersome to maintain support:
+	- Switching reputation watch bar when entering certain zones
+	- Switching reputation watch bar when equipping certain tabards
 - Uses Blizzard's built-in Settings UI system (searchable; less library dependencies).
 	- Note for non-English players: text for existing settings has changed. Where the sense of the English text is different from before, I've deactivated old localizations; for others, the new UI may truncate settings text. (If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend!)
 

@@ -7,7 +7,7 @@
 ## Notes: Switches WoW's builtin reputation watch bar automatically and helps keep track of faction turnin items.
 ## Category: User Interface
 ## SavedVariables: GFW_FactionFriend_Settings
-## SavedVariablesPerCharacter: GFW_FactionFriend_Recents, FFF_LastTabardID
+## SavedVariablesPerCharacter: GFW_FactionFriend_Recents
 ## OptionalDeps: GFW_HoverTips
 
 GFWUtils.lua

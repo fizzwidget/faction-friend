@@ -41,14 +41,8 @@ FFF_ALL_PURCHASED				= "purchased"
 
 -- Options panel
 
-FFF_OPTIONS_GENERAL				= "General Options"
-FFF_OPTIONS_PROFILE				= "Options Profile"
 FFF_OPTIONS_SWITCHBAR			= "Show/switch the reputation watch bar:"
-FFF_OPTION_ZONES				= "When entering certain zones"
-FFF_OPTION_ZONES_TIP			= "Applies to places with closely associated reputation, like certain dungeons, raids, and battlegrounds"
 FFF_OPTION_REP_GAINED			= "When gaining reputation"
-FFF_OPTION_TABARD				= "When equipping tabards"
-FFF_OPTION_TABARD_TIP			= "Applies to factions whose tabard provides reputation gain in dungeons"
 FFF_OPTION_GUILD_AUTOSWITCH		= "Include guild reputation"
 FFF_OPTION_BODYGUARD_AUTOSWITCH = "Include bodyguard reputations"
 FFF_OPTION_SHOW_POTENTIAL		= "Show potential reputation gain"
