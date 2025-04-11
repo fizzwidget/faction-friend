@@ -13,7 +13,6 @@
 GFWUtils.lua
 GFWTable.lua
 
-LocaleSupport.lua
 Localization.lua
 FFF_ItemInfo.lua
 FactionFriend.lua
