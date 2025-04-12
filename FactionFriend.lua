@@ -661,8 +661,8 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 	local nextStatusName
 	
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-	local isMaxRank = friendshipData.nextThreshold == nil
 	if isFriendship then
+		local isMaxRank = friendshipData.nextThreshold == nil
 		if isMaxRank then
 			return FFF_AT_MAXIMUM
 		else
@@ -670,9 +670,24 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 			currentValue = friendshipData.standing
 			nextStatusName = FFF_NEXT_RANK -- can't get next name for friendships
 		end
-	else
-		-- TODO also branch for major faction (renown)?
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
 		
+		currentValue = majorFactionData.renownReputationEarned
+		maxValue = majorFactionData.renownLevelThreshold
+
+		local renownLevelsInfo = C_MajorFactions.GetRenownLevels(factionID)
+		local maxRenownLevel = renownLevelsInfo[#renownLevelsInfo].level
+
+		if majorFactionData.renownLevel == maxRenownLevel then
+			nextStatusName = FFF_MAXIMUM
+		else 
+			nextStatusName = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel + 1)
+		end
+		
+		nextStatusName = BLUE_FONT_COLOR:WrapTextInColorCode(nextStatusName)
+
+	else
 		local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
 		if C_Reputation.IsFactionParagon(factionID) then
 			local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
@@ -695,13 +710,14 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 			
 			local nextStanding = factionData.reaction + 1
 			nextStatusName = GetText("FACTION_STANDING_LABEL"..nextStanding, UnitSex("player"))
+			local nextStatusColor = FACTION_BAR_COLORS[math.min(nextStanding, MAX_REPUTATION_REACTION)]
+			nextStatusName = nextStatusColor:WrapTextInColorCode(nextStatusName)
 		end
 	end
 	
 	local repToNext = maxValue - currentValue;
 	local gainsToNext = repToNext / amount;
 	local message = format(FFF_REPEAT_TURNINS, gainsToNext, nextStatusName)
-	-- TODO color nextStatusName?
 	
 	return message
 end
