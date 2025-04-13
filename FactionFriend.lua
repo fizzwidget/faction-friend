@@ -4,6 +4,8 @@
 local addonName, T = ...
 _G[addonName] = T
 
+local DB = _G[addonName.."_DB"]
+
 T.Title = C_AddOns.GetAddOnMetadata(addonName, "Title")
 T.Version = C_AddOns.GetAddOnMetadata(addonName, "Version")
 
@@ -30,6 +32,7 @@ T.Patterns = setmetatable({}, {__index = function(table, key)
 	-- TODO does FormatToPattern correctly handle reordered format string tokens?
 	return GFWUtils.FormatToPattern(_G[key])
 end})
+
 
 ------------------------------------------------------
 -- Constants
@@ -88,8 +91,6 @@ T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 	end
 end})
 
-T.BodyguardFactionID = FFF_Bodyguards
-
 local MAX_RECENTS = 8
 function T:AddToRecents(factionID)
 	-- remove it if it's already in the list
@@ -139,87 +140,6 @@ function T:FactionLink(factionID, factionData, friendshipData)
 	end
 	
 	return format("%s|Haddon:%s:faction:%d|h[%s]|h|r", color, addonName, factionID, factionData.name)
-end
-
-function T:ShowReputationPane(factionID)
-	-- TODO: refactor for similarity with popup menu
-	
-	-- force all filtering off
-	-- (can't know if factionID will be hidden by filters)
-	C_Reputation.SetLegacyReputationsShown(true)
-	C_Reputation.SetReputationSortType(0)
-	
-	-- remember collapsed headers
-	local collapsed = {}
-	for i = 1, MAX_FACTIONS do
-		local data = C_Reputation.GetFactionDataByIndex(i)
-		if not data then break; end
-		if data.isCollapsed then
-			collapsed[data.factionID] = true
-		end
-	end
-		
-	C_Reputation.ExpandAllFactionHeaders()
-	
-	-- iterate again to find headers containing factionID
-	local headerID, subHeaderID
-	for index = 1, C_Reputation.GetNumFactions() do
-		local data = C_Reputation.GetFactionDataByIndex(index)
-		if data.isHeader and not data.isChild then
-			headerID = data.factionID
-			subHeaderID = nil
-		elseif data.isHeader and data.isChild then
-			subHeaderID = data.factionID
-		end
-		if factionID == data.factionID then
-			if factionID == subHeaderID then
-				-- found factionID has rep and children
-				-- don't override collapse state
-				subHeaderID = nil
-			end
-			break
-		end
-	end
-	
-	-- TODO: finding under sub headers doesn't work when header starts collapsed
-	
-	-- override collapsed state for parents of factionID
-	local parentNames = {}
-	if subHeaderID then
-		tinsert(parentNames, C_Reputation.GetFactionDataByID(subHeaderID).name)
-		collapsed[subHeaderID] = nil
-	end
-	tinsert(parentNames, C_Reputation.GetFactionDataByID(headerID).name)
-	collapsed[headerID] = nil
-	print(
-		C_Reputation.GetFactionDataByID(factionID).name,
-		"parents:",
-		strjoin(", ", unpack(parentNames))
-	)
-	
-	-- restore collapsed state
-	for index = C_Reputation.GetNumFactions(), 1, -1 do
-		local data = C_Reputation.GetFactionDataByIndex(index)
-		if collapsed[data.factionID] then
-			C_Reputation.CollapseFactionHeader(index)
-		end
-	end
-	
-	-- select the faction and scroll to it
-	C_Reputation.SetSelectedFaction(T.FactionIndexForID[factionID])
-	
-	-- update rep frame & show it if we can
-	if not ReputationFrame:IsVisible() and InCombatLockdown() then
-		UIErrorsFrame:AddMessage(ERR_CANT_DO_THAT_RIGHT_NOW, RED_FONT_COLOR:GetRGBA())
-		return
-	elseif ReputationFrame:IsVisible() then
-		ReputationFrame:Update()
-	else
-		ToggleCharacter("ReputationFrame")
-	end
-	-- scroll faction to visible
-	ReputationFrame.ScrollBox:ScrollToElementDataByPredicate(function(elementData) return elementData.factionID == factionID; end)
-
 end
 
 function T:TrySetWatchedFaction(factionID, overrideInactive)
@@ -371,22 +291,19 @@ end
 -- Item tooltip 
 ------------------------------------------------------
 
-_G[addonName.."_DB"] = {}
-local DB = _G[addonName.."_DB"]
-DB.ByQuest = FFF_ItemInfo -- TODO move some of this?
 
 function T:SetupReverseCache()
-	DB.ByItem = {}	
-	for faction, quests in pairs(FFF_ItemInfo) do
-		local myExcludedFactions = FFF_ExcludedFactions[UnitFactionGroup("player")];
+	DB.TurninsByItem = {}	
+	for faction, quests in pairs(DB.TurninsByQuest) do
+		local myExcludedFactions = DB.ExcludedFactions[UnitFactionGroup("player")]
 		if (myExcludedFactions ~= nil and not myExcludedFactions[faction]) then
 			for quest, questInfo in pairs(quests) do
 				if (not questInfo.otherFactionRequired) then
 					for itemID in pairs(questInfo.items) do
-						if not DB.ByItem[itemID] then
-							DB.ByItem[itemID] = {}
+						if not DB.TurninsByItem[itemID] then
+							DB.TurninsByItem[itemID] = {}
 						end
-						DB.ByItem[itemID][faction] = true
+						DB.TurninsByItem[itemID][faction] = true
 					end
 				end
 			end
@@ -412,10 +329,10 @@ end
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, T.OnTooltipSetItem)
 
 function T:TooltipAddItemInfo(tooltip, itemID)
-	if not DB.ByItem then 
+	if not DB.TurninsByItem then 
 		T:SetupReverseCache()
 	end
-	local itemInfo = DB.ByItem[itemID]
+	local itemInfo = DB.TurninsByItem[itemID]
 	if not itemInfo then return; end
 
 	local firstLine = true
@@ -434,434 +351,3 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 	end
 
 end
-
-
-------------------------------------------------------
--- Message filter for reputation / standing change
-------------------------------------------------------
-
-function T:ParseFactionMessage(message, patternList)
-	for _, pattern in pairs(patternList) do
-		local regex = T.Patterns[pattern]
-		local match1, match2 = strmatch(message, regex)
-		if match1 then
-			-- for the patterns we use:
-			-- faction amount gain: match1 is factionName, match1 is amount or nil
-			-- faction standing change: match1 is new standing, match2 is factionName or nil
-			return match1, match2, pattern
-		end
-	end
-end
-
-function T:FactionAmountChangeFromMessage(message)
-	
-	local factionName, amount, pattern
-
-	-- patterns from format strings in BlizzardInterfaceResources/GlobalStrings/[locale].lua
-	local decreasePatterns = {
-		"FACTION_STANDING_DECREASED",
-		"FACTION_STANDING_DECREASED_ACCOUNT_WIDE",
-		"FACTION_STANDING_DECREASED_GENERIC", -- no amount
-		"FACTION_STANDING_DECREASED_GENERIC_ACCOUNT_WIDE", -- no amount
-	}
-	local increasePatterns = {
-		"FACTION_STANDING_INCREASED",
-		"FACTION_STANDING_INCREASED_ACCOUNT_WIDE",
-		"FACTION_STANDING_INCREASED_ACH_BONUS",
-		"FACTION_STANDING_INCREASED_ACH_BONUS_ACCOUNT_WIDE",
-		"FACTION_STANDING_INCREASED_BONUS",
-		"FACTION_STANDING_INCREASED_DOUBLE_BONUS",
-		"FACTION_STANDING_INCREASED_GENERIC", -- no amount
-		"FACTION_STANDING_INCREASED_GENERIC_ACCOUNT_WIDE", -- no amount
-	}
-	 
-	factionName, amount, pattern = self:ParseFactionMessage(message, decreasePatterns)
-	if (factionName) then
-		if amount then
-			amount = tonumber(amount) * -1 
-		else
-			amount = 0
-		end
-		return factionName, amount, pattern
-	end
-
-	factionName, amount, pattern = self:ParseFactionMessage(message, increasePatterns)
-	if (factionName) then
-		if amount then
-			amount = tonumber(amount)
-		else
-			amount = 0
-		end
-		return factionName, amount, pattern
-	end
-end
-
-T.QueuedFactionGains = {}
-T.QueuedFactionGainsCheckTimer = nil
-function T:QueuedFactionGainsCheck(timer)
-	if #T.QueuedFactionGains == 0 then
-		T.QueuedFactionGainsCheckTimer:Cancel()
-		return
-	end
-	
-	sort(T.QueuedFactionGains, function(a, b) return a.amount > b.amount end)
-	
-	local highestGainFactionID = T.QueuedFactionGains[1].id
-	T:TrySetWatchedFaction(highestGainFactionID)
-	wipe(T.QueuedFactionGains)
-end
-
-function T:CombatMessageFilter(event, message, ...)	
-	local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
-	local factionID = T.FactionIDForName[factionName]
-		
-	-- add to recents
-	T:AddToRecents(factionID)
-	
-	-- check name of guild faction
-	-- message might have either actual guild name or a generic token
-	if not factionID and (factionName == GUILD or factionName == GUILD_REPUTATION) then
-		factionID = GUILD_FACTION_ID
-		factionName = GetGuildInfo("player")
-	end
-	
-	-- switch watched faction only for gains
-	if amount > 0 and T:ShouldSetWatchedFaction(factionID) then
-		-- accumulate recent changes, switch bar only for the "best"
-		-- e.g. 5 everlook, 5 ratchet, 10 gadgetzan, 5 booty bay -> switch to gadgetzan
-		tinsert(T.QueuedFactionGains, { id = factionID, amount = amount })
-		if T.QueuedFactionGainsCheckTimer then
-			T.QueuedFactionGainsCheckTimer:Cancel()
-		end
-		T.QueuedFactionGainsCheckTimer = C_Timer.NewTimer(0.5, T.QueuedFactionGainsCheck)
-	end
-	
-	local factionData = C_Reputation.GetFactionDataByID(factionID)
-	local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-
-	-- move to inactive if exalted / max rank
-		-- unless paragon faction
-			-- unless setting to do that anyway?
-	
-	-- output modified message according to settings
-	if not T.Settings.ModifyChat then
-		return false
-	end
-		
-	local link = T:FactionLink(factionID, factionData, friendshipData)
-	
-	local message
-	if amount > 0 then
-		local addendum = T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
-		message = format(_G[pattern], link, amount) .. " " .. addendum
-	else
-		message = format(_G[pattern], link)
-	end
-	
-	return false, message, ...
-end
-
-function T:FactionStandingChangeFromMessage(message)
-	local newStanding, factionName, pattern
-
-	local factionPatterns = {
-		"FACTION_STANDING_CHANGED",
-		"FACTION_STANDING_CHANGED_ACCOUNT_WIDE",
-	}
-	
-	local friendshipPatterns = {
-		"FRIENDSHIP_STANDING_CHANGED",
-		"FRIENDSHIP_STANDING_CHANGED_ACCOUNT_WIDE",
-	}
-	local guildPatterns = {
-		"FACTION_STANDING_CHANGED_GUILD", -- no factionName
-		"FACTION_STANDING_CHANGED_GUILDNAME",
-	}
-	
-	local isGuild, isFriendship
-	
-	newStanding, factionName, pattern = self:ParseFactionMessage(message, factionPatterns)
-	if factionName then
-		return newStanding, factionName, pattern
-	end
-	
-	-- these reverse standing and factionName
-	factionName, newStanding, pattern = self:ParseFactionMessage(message, friendshipPatterns)
-	if factionName then
-		isFriendship = true
-		return newStanding, factionName, pattern, isFriendship, isGuild
-	end
-	
-	newStanding, factionName, pattern = self:ParseFactionMessage(message, guildPatterns)
-	if factionName then
-		isGuild = true
-		return newStanding, factionName, pattern, isFriendship, isGuild
-	end
-
-end
-
-function T:SystemMessageFilter(event, message, ...)
-	local newStanding, factionName, pattern, isFriendship, isGuild = T:FactionStandingChangeFromMessage(message)
-	if not newStanding then
-		-- lots of CHAT_MSG_SYSTEM we're not interested in
-		return false
-	end
-
-	local factionID = T.FactionIDForName[factionName]
-	if not factionID and isGuild then
-		factionID = GUILD_FACTION_ID
-		factionName = GetGuildInfo("player")
-	end
-			
-	-- add to recents
-	T:AddToRecents(factionID)
-		
-	-- (don't switch watched faction; we do that only for gains)
-	
-	-- move to inactive if exalted / max rank
-	-- unless paragon faction
-		-- unless setting to do that anyway?
-
-	-- TODO queued message stuff from original version?
-
-	-- output modified message according to settings
-	if not T.Settings.ModifyChat then
-		return false
-	end
-	
-		
-	local factionData = C_Reputation.GetFactionDataByID(factionID)
-	local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
-
-	local link = T:FactionLink(factionID, factionData, friendshipData)
-	
-	local message
-	if isFriendship then
-		message = format(_G[pattern], link, newStanding)
-	else
-		message = format(_G[pattern], newStanding, link)		
-	end
-	
-	return false, message, ...
-
-end
-
-function T:ShouldSetWatchedFaction(factionID)
-	if factionID == GUILD_FACTION_ID then
-		return self.Settings.IncludeGuild
-	elseif self.BodyguardFactionID[factionID] then
-		return self.Settings.IncludeBodyguards
-	end
-	return true
-end
-
-function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
-	local maxValue, currentValue
-	local nextStatusName
-	
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-	if isFriendship then
-		local isMaxRank = friendshipData.nextThreshold == nil
-		if isMaxRank then
-			return FFF_AT_MAXIMUM
-		else
-			maxValue = friendshipData.nextThreshold
-			currentValue = friendshipData.standing
-			nextStatusName = FFF_NEXT_RANK -- can't get next name for friendships
-		end
-	elseif C_Reputation.IsMajorFaction(factionID) then
-		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
-		
-		currentValue = majorFactionData.renownReputationEarned
-		maxValue = majorFactionData.renownLevelThreshold
-
-		local renownLevelsInfo = C_MajorFactions.GetRenownLevels(factionID)
-		local maxRenownLevel = renownLevelsInfo[#renownLevelsInfo].level
-
-		if majorFactionData.renownLevel == maxRenownLevel then
-			nextStatusName = FFF_MAXIMUM
-		else 
-			nextStatusName = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel + 1)
-		end
-		
-		nextStatusName = BLUE_FONT_COLOR:WrapTextInColorCode(nextStatusName)
-
-	else
-		local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
-		if C_Reputation.IsFactionParagon(factionID) then
-			local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
-
-			maxValue = threshold
-
-			-- TODO is this condition applicable?
-			-- if ( not hasRewardPending and currentValue and threshold ) then
-			currentValue = mod(currentStanding, threshold)
-			-- show overflow if reward is pending
-			if hasRewardPending then
-				currentValue = currentValue + threshold
-			end
-			nextStatusName = FFF_PARAGON_REWARD
-		elseif isCapped then
-			return FFF_AT_MAXIMUM
-		else
-			maxValue = factionData.nextReactionThreshold
-			currentValue = factionData.currentStanding
-			
-			local nextStanding = factionData.reaction + 1
-			nextStatusName = GetText("FACTION_STANDING_LABEL"..nextStanding, UnitSex("player"))
-			local nextStatusColor = FACTION_BAR_COLORS[math.min(nextStanding, MAX_REPUTATION_REACTION)]
-			nextStatusName = nextStatusColor:WrapTextInColorCode(nextStatusName)
-		end
-	end
-	
-	local repToNext = maxValue - currentValue;
-	local gainsToNext = repToNext / amount;
-	local message = format(FFF_REPEAT_TURNINS, gainsToNext, nextStatusName)
-	
-	return message
-end
-
-------------------------------------------------------
--- Potential gains from turnins
-------------------------------------------------------
-
-function T:FactionPotential(factionID, withReport)
-
-	local function reactionInRange(reaction, qInfo)
-		local atOrAboveMin = reaction >= (qInfo.minStanding or 1)
-		local atOrBelowMax = reaction <= (qInfo.maxStanding or MAX_REPUTATION_REACTION)
-		return atOrAboveMin and atOrBelowMax
-	end
-
-	local factionData = C_Reputation.GetFactionDataByID(factionID)
-	
-	local factionQuests = DB.ByQuest[factionID]
-	if (factionQuests == nil) then return 0; end
-	
-	local totalPotential = 0
-	local reportLines = {}
-
-	local itemsAccounted = {}
-	local itemsCreated = {}
-	for quest, qInfo in GFWTable.PairsByKeys(factionInfo, function(a,b) return a > b end) do
-		-- is our rep in range for this quest?
-		local meetsRequirements = reactionInRange(factionData.reaction, qInfo)
-		
-		-- if quest requires another faction too,
-		-- is our rep with them in range?
-		if meetsRequirements and qInfo.otherFactionRequired then
-			local otherFactionData = C_Reputation.GetFactionDataByID(qInfo.otherFactionRequired.faction)
-			meetsRequirements = meetsRequirements and reactionInRange(otherFactionData.reaction, qInfo.otherFactionRequired)
-		end
-		
-		local potentialValue = T:QuestPotential(qInfo, factionData)
-	end
-
-
-end
-
-function T:QuestPotential(qInfo, factionData)
-	local potentialValue = 0
-	local reportItemLines = {}
-	
-	-- first, figure out how many turnins' worth we have of each item the quest requres
-	local turninCounts = {}
-	for itemID, qtyPerTurnin in pairs(qInfo.items) do
-		local countIncludingBank = FFF_GetItemCount(itemID, true);
-		local created = itemsCreated[itemID] or 0;
-		local alreadyCounted = itemsAccountedFor[itemID] or 0;
-		local turnins = math.floor((countIncludingBank + created - alreadyCounted) / qtyPerTurnin);
---				print(quest, countIncludingBank, created, alreadyCounted)
-		tinsert(turninCounts, turnins);
-	end
-
-end
-
-function T:ItemCount(itemID, includeBank)
-	if (type(itemID) == "string") then
-		-- currency
-		local currencyID = strmatch(itemID, "currency:(%d+)")
-		currencyID = tonumber(currencyID)
-		local count = C_CurrencyInfo.GetCurrencyInfo(currencyID).quantity
-		return count
-	end
-	
-	if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
-		-- useful for debugging
-		return FFF_FakeItemCount[itemID]
-	end
-	return C_Item.GetItemCount(itemID, includeBank)
-
-end
-
-------------------------------------------------------
--- Reputation pane additions
-------------------------------------------------------
-
-FFF_ExpandCollapseButtonMixin = {}
-
-function FFF_ExpandCollapseButtonMixin:Setup(expand)
-	self.expand = expand
-	self:GetNormalTexture():SetAtlas(expand and "campaign_headericon_closed" or "campaign_headericon_open", TextureKitConstants.UseAtlasSize)
-	self:GetPushedTexture():SetAtlas(expand and "campaign_headericon_closedpressed" or "campaign_headericon_openpressed", TextureKitConstants.UseAtlasSize)
-end
-
-function FFF_ExpandCollapseButtonMixin:OnEnter()
-	GameTooltip:SetOwner(self, "ANCHOR_TOP")
-	GameTooltip_SetTitle(GameTooltip, self.expand and FFF_EXPAND_ALL or FFF_COLLAPSE_ALL)
-	if self.expand then
-		GameTooltip_AddInstructionLine(GameTooltip, FFF_EXPAND_SUBHEADERS_HINT:format(GetBindingText("ALT")))
-		GameTooltip_AddInstructionLine(GameTooltip, FFF_EXPAND_INACTIVE_HINT:format(GetBindingText("CTRL")))
-	else
-		GameTooltip_AddInstructionLine(GameTooltip, FFF_COLLAPSE_SUBHEADERS_HINT:format(GetBindingText("ALT")))
-	end
-	GameTooltip:Show()
-end
-
-function FFF_ExpandCollapseButtonMixin:OnLeave()
-	GameTooltip_Hide()
-end
-
-function FFF_ExpandCollapseButtonMixin:OnClick()
-	-- Blizzard bug?
-	-- C_Reputation.(Expand|Collapse)AllFactionHeaders don't
-	-- workaround by iterating the list and expanding/collapsing each
-	if self.expand then
-		for index = C_Reputation.GetNumFactions(), 1, -1 do
-			local data = C_Reputation.GetFactionDataByIndex(index)
-			if data.isHeader and not data.isChild then
-				if data.name ~= FACTION_INACTIVE or IsControlKeyDown() then
-					C_Reputation.ExpandFactionHeader(index)
-				end
-			elseif data.isHeader and data.isChild then
-				if IsAltKeyDown() then
-					C_Reputation.ExpandFactionHeader(index)
-				end
-			end
-		end
-	else
-		for index = C_Reputation.GetNumFactions(), 1, -1 do
-			local data = C_Reputation.GetFactionDataByIndex(index)
-			if data.isHeader and not data.isChild then
-				C_Reputation.CollapseFactionHeader(index)
-			elseif data.isHeader and data.isChild then
-				if IsAltKeyDown() then
-					C_Reputation.CollapseFactionHeader(index)
-				end
-			end
-		end
-	end
-end
-
-EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
-	local shouldExpand = true
-	T.ExpandAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
-	T.ExpandAllButton:Setup(shouldExpand)
-	T.ExpandAllButton:SetPoint("RIGHT", ReputationFrame.filterDropdown, "LEFT", -2, 0)
-	
-	shouldExpand = false
-	T.CollapseAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
-	T.CollapseAllButton:Setup(shouldExpand)
-	T.CollapseAllButton:SetPoint("RIGHT", T.ExpandAllButton, "LEFT")
-end)

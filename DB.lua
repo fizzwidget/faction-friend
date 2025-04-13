@@ -1,13 +1,15 @@
 ------------------------------------------------------
--- FFF_ItemInfo.lua
-------------------------------------------------------
 -- LOCALIZATION: nothing locale-specific here (any localized names are all in comments)
 ------------------------------------------------------
+
+local addonName, T = ...
+_G[addonName.."_DB"] = {}
+local DB = _G[addonName.."_DB"]
 
 ------------------------------------------------------
 -- Faction IDs
 ------------------------------------------------------
-FFF_FactionIDs = {
+local F = {
 -- Classic
 	ZANDALAR = 270,
 	BROOD_NOZDORMU = 910,
@@ -151,12 +153,11 @@ FFF_FactionIDs = {
 	FISHERFRIEND_SHALETH = 2101,
 	FISHERFRIEND_IMPUS = 2102, 
 }
-local F = FFF_FactionIDs
 
 ------------------------------------------------------
 -- For bodyguard switching option
 ------------------------------------------------------
-FFF_Bodyguards = {
+DB.BodyguardFactionID = {
 	[1739] = 1, -- Vivianne
 	[1736] = 1, -- Tormmok
 	[1737] = 1, -- Ishaal
@@ -169,7 +170,7 @@ FFF_Bodyguards = {
 ------------------------------------------------------
 -- keeps Alliance/Horde-specific factions from showing up for opposing players
 ------------------------------------------------------
-FFF_ExcludedFactions = {
+DB.ExcludedFactions = {
 	Alliance = {
 		[F.FORSAKEN] = 1,
 		[F.TROLL] = 1,
@@ -261,7 +262,7 @@ FFF_SpecialItems = {
 ------------------------------------------------------
 -- For item tooltips and potential rep gain calculation
 ------------------------------------------------------
-FFF_ItemInfo = {
+DB.TurninsByQuest = {
 	
 	-- Racial factions: Horde
 	[F.TAUREN] = {

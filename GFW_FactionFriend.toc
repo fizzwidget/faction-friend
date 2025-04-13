@@ -14,7 +14,12 @@ GFWUtils.lua
 GFWTable.lua
 
 Localization.lua
-FFF_ItemInfo.lua
+DB.lua
 FactionFriend.lua
-FFF_Settings.lua
+MessageFilter.lua
+PotentialGains.lua
+ReputationPane.lua
+Settings.lua
+
 FactionFriend.xml
+ReputationPane.xml
