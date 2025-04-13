@@ -41,24 +41,27 @@ v. 11.xxxx - 2025/xxxx/xxxx
 - TODO info about rewrite
 - TODO rewrite tasks remaining
 	- reputation watch bar
-		- potential gains overlay (or not, taint issue?)
-		- tooltip
-			- note base UI already provides tooltip only when paragon
+		- potential gains 
+			- overlay (or not, taint issue?)
+			- in tooltip
 		- right click for faction menu
 			- menu tree for all factions?
 			- recent factions list
 	- reputation pane
 		- potential gains tooltip
-		- 
+		- icon for factions with potential gains
+		- expand/collapse all
+		- search?
 	- auto hide maxed factions
-	- chat message parsing / watch bar switching handle major factions (renown)
 	- ???
 	- profit!
 
 - Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
-- Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) This now also supports "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
+- Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) Now:
+	- We handle Renown factions in recent expansions, correctly showing the next renown level and the number of gains left to reach it.
+	- We support "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
 - When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
 - Removed some older features for which it's cumbersome to maintain support:
 	- Switching reputation watch bar when entering certain zones
