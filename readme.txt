@@ -50,7 +50,6 @@ v. 11.xxxx - 2025/xxxx/xxxx
 	- reputation pane
 		- potential gains tooltip
 		- icon for factions with potential gains
-		- expand/collapse all
 		- search?
 	- auto hide maxed factions
 	- ???

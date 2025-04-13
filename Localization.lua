@@ -67,6 +67,13 @@ FFF_RECENT_FACTIONS				= "Recent factions"
 FFF_SHOW_REPUTATION_PANE		= "Show Reputation Pane"
 FFF_SHOW_OPTIONS				= "Show FactionFriend Options"
 
+-- Reputation frame additions
+FFF_EXPAND_ALL					= "Expand All Headers"
+FFF_COLLAPSE_ALL				= "Collapse All Headers"
+FFF_EXPAND_SUBHEADERS_HINT		= "<Hold %s to expand subheaders>"
+FFF_COLLAPSE_SUBHEADERS_HINT	= "<Hold %s to collapse subheaders>"
+FFF_EXPAND_INACTIVE_HINT		= "<Hold %s to expand Inactive>"
+
 -- We keep the names of these items because it's quite possible for them to show up without being cached by the WoW client.
 FFF_ITEM_AD_TOKEN				= "Argent Dawn Valor Token"
 FFF_ITEM_ZG_TOKEN				= "Zandalar Honor Token"
