@@ -1,7 +1,7 @@
 local addonName, T = ...
 
 ------------------------------------------------------
--- Expand / Collapse All buttons
+-- Utilities
 ------------------------------------------------------
 
 function T:ShowReputationPane(factionID)
@@ -14,7 +14,7 @@ function T:ShowReputationPane(factionID)
     
     -- remember collapsed headers
     local collapsed = {}
-    for i = 1, MAX_FACTIONS do
+    for i = 1, T.MAX_FACTIONS do
         local data = C_Reputation.GetFactionDataByIndex(i)
         if not data then break; end
         if data.isCollapsed then
@@ -90,14 +90,15 @@ end
 ------------------------------------------------------
 
 FFF_ExpandCollapseButtonMixin = {}
+local ExpandCollapse = FFF_ExpandCollapseButtonMixin
 
-function FFF_ExpandCollapseButtonMixin:Setup(expand)
+function ExpandCollapse:Setup(expand)
     self.expand = expand
     self:GetNormalTexture():SetAtlas(expand and "campaign_headericon_closed" or "campaign_headericon_open", TextureKitConstants.UseAtlasSize)
     self:GetPushedTexture():SetAtlas(expand and "campaign_headericon_closedpressed" or "campaign_headericon_openpressed", TextureKitConstants.UseAtlasSize)
 end
 
-function FFF_ExpandCollapseButtonMixin:OnEnter()
+function ExpandCollapse:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_TOP")
     GameTooltip_SetTitle(GameTooltip, self.expand and FFF_EXPAND_ALL or FFF_COLLAPSE_ALL)
     if self.expand then
@@ -109,7 +110,7 @@ function FFF_ExpandCollapseButtonMixin:OnEnter()
     GameTooltip:Show()
 end
 
-function FFF_ExpandCollapseButtonMixin:OnClick()
+function ExpandCollapse:OnClick()
     -- Blizzard bug?
     -- C_Reputation.(Expand|Collapse)AllFactionHeaders don't
     -- workaround by iterating the list and expanding/collapsing each
@@ -140,6 +141,53 @@ function FFF_ExpandCollapseButtonMixin:OnClick()
     end
 end
 
+------------------------------------------------------
+-- Search field
+------------------------------------------------------
+
+FFF_SearchBoxMixin = {}
+local Search = FFF_SearchBoxMixin
+
+function Search:OnLoad()
+end
+
+function Search:OnShow()
+end
+
+function Search:OnEnterPressed()
+    local text = self:GetText()
+    if strlen(text) < MIN_CHARACTER_SEARCH then return; end
+    
+    -- TODO autocomplete, not this dumb temporary search
+    text = strlower(text)
+    for index = 1, T.MAX_FACTIONS do
+        local data = C_Reputation.GetFactionDataByIndex(index)
+        if not data then break; end
+
+        if text == strlower(data.name) then
+            T:ShowReputationPane(data.factionID)
+            return
+        end
+    end
+end
+
+function Search:OnTextChanged()
+end
+
+function Search:OnEditFocusLost()
+end
+
+function Search:OnEditFocusGained()
+end
+
+function Search:OnKeyDown()
+end
+
+
+------------------------------------------------------
+-- Setup
+------------------------------------------------------
+
 EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     local shouldExpand = true
     T.ExpandAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
@@ -150,4 +198,8 @@ EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     T.CollapseAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
     T.CollapseAllButton:Setup(shouldExpand)
     T.CollapseAllButton:SetPoint("RIGHT", T.ExpandAllButton, "LEFT")
+    
+    T.SearchBox = CreateFrame("EditBox", "SearchBox", ReputationFrame, "FFF_SearchBoxTemplate")
+    T.SearchBox:SetPoint("RIGHT", T.CollapseAllButton, "LEFT", -2, 0)
+    T.SearchBox:SetPoint("BOTTOMLEFT", CharacterFramePortrait, "BOTTOMRIGHT", 6, -2)
 end)
