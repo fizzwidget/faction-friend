@@ -109,10 +109,6 @@ function FFF_ExpandCollapseButtonMixin:OnEnter()
     GameTooltip:Show()
 end
 
-function FFF_ExpandCollapseButtonMixin:OnLeave()
-    GameTooltip_Hide()
-end
-
 function FFF_ExpandCollapseButtonMixin:OnClick()
     -- Blizzard bug?
     -- C_Reputation.(Expand|Collapse)AllFactionHeaders don't
