@@ -50,7 +50,7 @@ v. 11.xxxx - 2025/xxxx/xxxx
 	- reputation pane
 		- potential gains tooltip
 		- icon for factions with potential gains
-		- search?
+		- cleanup button to hide maxed factions
 	- auto hide maxed factions
 	- ???
 	- profit!

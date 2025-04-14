@@ -27,4 +27,78 @@
 		</Scripts>
 	</EditBox>
 
+	<Button name="FFF_SearchResultButtonTemplate" mixin="FFF_SearchResultButtonMixin" parentArray="searchResults" virtual="true">
+		<Size x="120" y="14"/>
+		<Scripts>
+			<OnClick method="OnClick"/>
+			<OnLoad method="OnLoad"/>
+		</Scripts>
+		<ButtonText name="$parentText"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<HighlightTexture inherits="UIPanelButtonHighlightTexture"/>
+	</Button>
+
+	<Frame name="FFF_SearchResultsContainer" parent="ReputationFrame" enableMouse="true" frameStrata="TOOLTIP" hidden="true" inherits="TooltipBackdropTemplate">
+		<Size x="5" y="5"/>
+		<Frames>
+			<Button parentKey="result1" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<!--This 10 is a magic number used in AutoComplete_Update when checking whether the AutoComplete box should be above or below the EditBox. Please update the number there if you change it here-->
+							<AbsDimension x="0" y="-10"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button parentKey="result2" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result1" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result3" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result2" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result4" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result3" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result5" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result4" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result6" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result5" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result7" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result6" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result8" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result7" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="result9" inherits="FFF_SearchResultButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.result8" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+			SharedTooltip_SetBackdropStyle(self, TOOLTIP_BACKDROP_STYLE_DEFAULT)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
 </Ui>

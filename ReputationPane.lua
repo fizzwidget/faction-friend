@@ -9,6 +9,7 @@ function T:ShowReputationPane(factionID)
     
     -- force all filtering off
     -- (can't know if factionID will be hidden by filters)
+    -- TODO can we preserve this for search?
     C_Reputation.SetLegacyReputationsShown(true)
     C_Reputation.SetReputationSortType(0)
     
@@ -17,15 +18,24 @@ function T:ShowReputationPane(factionID)
     for i = 1, T.MAX_FACTIONS do
         local data = C_Reputation.GetFactionDataByIndex(i)
         if not data then break; end
-        if data.isCollapsed then
+        if data.isCollapsed and data.factionID ~= 0 then
             collapsed[data.factionID] = true
         end
     end
         
-    C_Reputation.ExpandAllFactionHeaders()
+    -- Blizzard bug: C_Reputation.ExpandAllFactionHeaders doesn't
+    for index = C_Reputation.GetNumFactions(), 1, -1 do
+        local data = C_Reputation.GetFactionDataByIndex(index)
+        if data.isHeader and not data.isChild then
+            C_Reputation.ExpandFactionHeader(index)
+        elseif data.isHeader and data.isChild then
+            C_Reputation.ExpandFactionHeader(index)
+        end
+    end
     
     -- iterate again to find headers containing factionID
     local headerID, subHeaderID
+    local isTopLevelHeader
     for index = 1, C_Reputation.GetNumFactions() do
         local data = C_Reputation.GetFactionDataByIndex(index)
         if data.isHeader and not data.isChild then
@@ -35,31 +45,49 @@ function T:ShowReputationPane(factionID)
             subHeaderID = data.factionID
         end
         if factionID == data.factionID then
+            if factionID == headerID then
+                -- found factionID has children
+                -- don't override collapse state
+                headerID = nil
+            end
             if factionID == subHeaderID then
                 -- found factionID has rep and children
                 -- don't override collapse state
                 subHeaderID = nil
             end
+            isTopLevelHeader = data.isHeader and not data.isChild
             break
         end
     end
+        
+    -- for debug
+    local function name(id)
+        return id and C_Reputation.GetFactionDataByID(id).name
+    end
+    local function names(table)
+        local names = {}
+        for key in pairs(table) do
+            tinsert(names, name(key))
+        end
+        return names
+    end
+
+    -- DevTools_Dump({faction = name(factionID), subHeader = name(subHeaderID), header = name(headerID)})
     
-    -- TODO: finding under sub headers doesn't work when header starts collapsed
-    
-    -- override collapsed state for parents of factionID
-    local parentNames = {}
+    -- override collapsed state for parents of factionID    
+    -- print("before:", strjoin(", ", unpack(names(collapsed))))
     if subHeaderID then
-        tinsert(parentNames, C_Reputation.GetFactionDataByID(subHeaderID).name)
         collapsed[subHeaderID] = nil
     end
-    tinsert(parentNames, C_Reputation.GetFactionDataByID(headerID).name)
-    collapsed[headerID] = nil
-    print(
-        C_Reputation.GetFactionDataByID(factionID).name,
-        "parents:",
-        strjoin(", ", unpack(parentNames))
-    )
-    
+    if (headerID) then
+        collapsed[headerID] = nil
+    end
+    -- if trying to select a top-level header, expand it
+    if isTopLevelHeader then
+        collapsed[factionID] = nil
+    end
+    -- print("after:", strjoin(", ", unpack(names(collapsed))))
+
     -- restore collapsed state
     for index = C_Reputation.GetNumFactions(), 1, -1 do
         local data = C_Reputation.GetFactionDataByIndex(index)
@@ -68,8 +96,11 @@ function T:ShowReputationPane(factionID)
         end
     end
     
-    -- select the faction and scroll to it
-    C_Reputation.SetSelectedFaction(T.FactionIndexForID[factionID])
+    -- select the faction
+    if not isTopLevelHeader then
+        -- top level isn't normally selectable
+        C_Reputation.SetSelectedFaction(T.FactionIndexForID[factionID])
+    end
     
     -- update rep frame & show it if we can
     if not ReputationFrame:IsVisible() and InCombatLockdown() then
@@ -149,40 +180,155 @@ FFF_SearchBoxMixin = {}
 local Search = FFF_SearchBoxMixin
 
 function Search:OnLoad()
+    self.HasStickyFocus = function()
+        local ancestry = FFF_SearchResultsContainer
+        return DoesAncestryIncludeAny(ancestry, GetMouseFoci());
+    end
 end
 
 function Search:OnShow()
+    
 end
 
 function Search:OnEnterPressed()
     local text = self:GetText()
     if strlen(text) < MIN_CHARACTER_SEARCH then return; end
     
-    -- TODO autocomplete, not this dumb temporary search
-    text = strlower(text)
-    for index = 1, T.MAX_FACTIONS do
-        local data = C_Reputation.GetFactionDataByIndex(index)
-        if not data then break; end
-
-        if text == strlower(data.name) then
-            T:ShowReputationPane(data.factionID)
-            return
-        end
+    local container = FFF_SearchResultsContainer
+    local result = container.searchResults[container.selectedIndex]
+    if result:IsShown() then
+        result:Click()
     end
 end
 
 function Search:OnTextChanged()
+    self:QueueUpdateSearchResults()
 end
 
 function Search:OnEditFocusLost()
+    FFF_SearchResultsContainer:Hide()
 end
 
 function Search:OnEditFocusGained()
+    T.UpdateSearchResults()
 end
 
-function Search:OnKeyDown()
+function Search:OnKeyDown(key)
+    local container = FFF_SearchResultsContainer
+    local newIndex 
+    if key == "UP" or key == "TAB" and IsShiftKeyDown() then
+        newIndex = max(1, container.selectedIndex - 1)
+        self:SelectResult(newIndex)
+    elseif key == "DOWN" or key == "TAB" then
+        newIndex = min(#container.results, container.selectedIndex + 1)
+        self:SelectResult(newIndex)
+    end
 end
 
+function Search:SelectResult(index)
+    local container = FFF_SearchResultsContainer
+    container.selectedIndex = index
+    for buttonIndex, button in pairs(container.searchResults) do
+        if buttonIndex == index then
+            button:LockHighlight()
+        else
+            button:UnlockHighlight()
+        end
+    end
+end
+
+local SEARCH_UPDATE_DELAY = 0.3
+Search.QueuedResultsUpdateTimer = nil
+function Search:QueueUpdateSearchResults()
+    if not self:HasFocus() or strlen(self:GetText()) < MIN_CHARACTER_SEARCH then
+        FFF_SearchResultsContainer:Hide()
+        FFF_SearchResultsContainer.results = {}
+        return
+    end
+    
+    if T.QueuedResultsUpdateTimer then
+        T.QueuedResultsUpdateTimer:Cancel()
+    end
+    T.QueuedResultsUpdateTimer = C_Timer.NewTimer(SEARCH_UPDATE_DELAY, T.UpdateSearchResults)
+
+end
+
+function T:SearchFactionList(searchText)
+    local text = strlower(searchText)
+    local results = {}
+    for index = 1, T.MAX_FACTIONS do
+        local factionData = C_Reputation.GetFactionDataByIndex(index)
+        if not factionData or factionData.factionID == 0 then break; end
+        if strmatch(strlower(factionData.name), text) then
+            tinsert(results, factionData)
+        end
+    end
+    return results
+end
+
+function T.UpdateSearchResults(timer)
+    
+    local text = T.SearchBox:GetText()
+    local container = FFF_SearchResultsContainer
+    if strlen(text) < MIN_CHARACTER_SEARCH then 
+        container.results = {}
+        container:Hide()
+        return
+    end
+    container.results = T:SearchFactionList(text)
+    
+    local maxWidth = 120
+    if #container.results > 0 then
+        for index, resultButton in pairs(container.searchResults) do
+            if index <= #container.results then
+                resultButton:SetData(container.results[index])
+                resultButton:Show()
+                maxWidth = max(maxWidth, resultButton:GetFontString():GetWidth() + 30)
+            else
+                resultButton:Hide()
+            end
+        end
+        for _, resultButton in pairs(container.searchResults) do
+            resultButton:SetWidth(maxWidth)
+        end
+
+        T.SearchBox:SelectResult(1)
+        container:SetHeight(#container.results * container.result1:GetHeight() + 22)
+        container:SetWidth(maxWidth)
+        container:SetPoint("TOPLEFT", T.SearchBox, "BOTTOMLEFT")
+        container:SetFrameLevel(T.SearchBox:GetFrameLevel() + 10)
+        container:Show()        
+    else
+        container:Hide()
+    end
+end
+
+FFF_SearchResultButtonMixin = {}
+local ResultButton = FFF_SearchResultButtonMixin
+
+function ResultButton:SetData(factionData)
+    self.data = factionData
+    self:SetText(factionData.name)
+    -- TODO highlight matched text?
+    -- TODO display more?
+end
+
+function ResultButton:OnLoad()
+    self:GetFontString():SetPoint("LEFT", self, "LEFT", 15, 0)
+end
+
+function ResultButton:OnClick()
+    if self.data and self.data.factionID then
+        T:ShowReputationPane(self.data.factionID)
+        FFF_SearchResultsContainer:Hide()
+        T.SearchBox:ClearFocus()
+        
+        -- this isn't a filter, so when we pick a result 
+        -- we clear the search state
+        FFF_SearchResultsContainer.results = {}
+        T.SearchBox:SetText("")
+    end
+end
 
 ------------------------------------------------------
 -- Setup
