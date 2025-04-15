@@ -116,7 +116,7 @@ end
 EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
 	local type, addon, subtype, id = strsplit(":", link)
 	if type == "addon" and addon == addonName and subtype == "faction" then
-		T:ShowReputationPane(tonumber(id))
+		T:ShowReputationPane(tonumber(id), forceAll)
 	end
 end)
 
@@ -240,6 +240,93 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 	
 	GameTooltip:Show()
 
+end
+
+function T:GetCollapsedFactionHeaders()
+	local collapsed = {}
+	for i = 1, T.MAX_FACTIONS do
+		local data = C_Reputation.GetFactionDataByIndex(i)
+		if not data then break; end
+		if data.isCollapsed and data.factionID ~= 0 then
+			collapsed[data.factionID] = true
+		end
+	end
+	return collapsed
+end
+
+function T:SetCollapsedFactionHeaders(collapsed)
+	for index = C_Reputation.GetNumFactions(), 1, -1 do
+		local data = C_Reputation.GetFactionDataByIndex(index)
+		if collapsed[data.factionID] then
+			C_Reputation.CollapseFactionHeader(index)
+		end
+	end	
+end
+
+function T:ExpandAllFactionHeaders(includeSubheaders, includeInactive)
+	for index = C_Reputation.GetNumFactions(), 1, -1 do
+		local data = C_Reputation.GetFactionDataByIndex(index)
+		if data.isHeader and not data.isChild then
+			if data.name ~= FACTION_INACTIVE or includeInactive then
+				C_Reputation.ExpandFactionHeader(index)
+			end
+		elseif data.isHeader and data.isChild then
+			if includeSubheaders then
+				C_Reputation.ExpandFactionHeader(index)
+			end
+		end
+	end
+end
+
+function T:CollapseAllFactionHeaders(includeSubheaders)
+	for index = C_Reputation.GetNumFactions(), 1, -1 do
+		local data = C_Reputation.GetFactionDataByIndex(index)
+		if data.isHeader and not data.isChild then
+			C_Reputation.CollapseFactionHeader(index)
+		elseif data.isHeader and data.isChild then
+			if includeSubheaders then
+				C_Reputation.CollapseFactionHeader(index)
+			end
+		end
+	end
+end
+
+function T:FactionAtMaximum(factionData) 
+	local id = factionData.factionID
+	local friendshipData = C_GossipInfo.GetFriendshipReputation(id)
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+	if isFriendship then
+		return friendshipData.nextThreshold == nil
+	elseif C_Reputation.IsMajorFaction(id) then
+		local majorFactionData = C_MajorFactions.GetMajorFactionData(id)		
+		local renownLevelsInfo = C_MajorFactions.GetRenownLevels(id)
+		local maxRenownLevel = renownLevelsInfo[#renownLevelsInfo].level
+		return majorFactionData.renownLevel == maxRenownLevel
+	else
+		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(id)
+	end
+end
+
+function T:CleanUpCompletedFactions()
+	-- remember current expand/collapse state
+	local collapsed = T:GetCollapsedFactionHeaders()
+	
+	-- expand all so we can see the whole list
+	local includeSubheaders = true
+	T:ExpandAllFactionHeaders(includeSubheaders)
+	
+	-- iterate visible faction list backwards 
+	-- because moving changes positions after
+	for index = C_Reputation.GetNumFactions(), 1, -1 do
+		local data = C_Reputation.GetFactionDataByIndex(index)
+		if T:FactionAtMaximum(data) then
+			-- print("moving", data.name, "to inactive")
+			C_Reputation.SetFactionActive(index, false)
+		end
+	end
+	
+	-- restore expand/collapse state
+	T:SetCollapsedFactionHeaders(collapsed)
 end
 
 ------------------------------------------------------

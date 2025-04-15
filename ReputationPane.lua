@@ -4,34 +4,21 @@ local addonName, T = ...
 -- Utilities
 ------------------------------------------------------
 
-function T:ShowReputationPane(factionID)
-    -- TODO: refactor for similarity with popup menu?
+function T:ShowReputationPane(factionID, forceAll)
     
     -- force all filtering off
     -- (can't know if factionID will be hidden by filters)
-    -- TODO can we preserve this for search?
-    C_Reputation.SetLegacyReputationsShown(true)
-    C_Reputation.SetReputationSortType(0)
+    if forceAll then
+        -- TODO instead of forcing this for links, revert to searching all only after failing to search with current filters
+        C_Reputation.SetLegacyReputationsShown(true)
+        C_Reputation.SetReputationSortType(0)
+    end
     
     -- remember collapsed headers
-    local collapsed = {}
-    for i = 1, T.MAX_FACTIONS do
-        local data = C_Reputation.GetFactionDataByIndex(i)
-        if not data then break; end
-        if data.isCollapsed and data.factionID ~= 0 then
-            collapsed[data.factionID] = true
-        end
-    end
+    local collapsed = T:GetCollapsedFactionHeaders()
         
     -- Blizzard bug: C_Reputation.ExpandAllFactionHeaders doesn't
-    for index = C_Reputation.GetNumFactions(), 1, -1 do
-        local data = C_Reputation.GetFactionDataByIndex(index)
-        if data.isHeader and not data.isChild then
-            C_Reputation.ExpandFactionHeader(index)
-        elseif data.isHeader and data.isChild then
-            C_Reputation.ExpandFactionHeader(index)
-        end
-    end
+    T:ExpandAllFactionHeaders()
     
     -- iterate again to find headers containing factionID
     local headerID, subHeaderID
@@ -89,12 +76,7 @@ function T:ShowReputationPane(factionID)
     -- print("after:", strjoin(", ", unpack(names(collapsed))))
 
     -- restore collapsed state
-    for index = C_Reputation.GetNumFactions(), 1, -1 do
-        local data = C_Reputation.GetFactionDataByIndex(index)
-        if collapsed[data.factionID] then
-            C_Reputation.CollapseFactionHeader(index)
-        end
-    end
+    T:SetCollapsedFactionHeaders(collapsed)
     
     -- select the faction
     if not isTopLevelHeader then
@@ -145,30 +127,12 @@ function ExpandCollapse:OnClick()
     -- Blizzard bug?
     -- C_Reputation.(Expand|Collapse)AllFactionHeaders don't
     -- workaround by iterating the list and expanding/collapsing each
+    local includeSubheaders = IsAltKeyDown()
     if self.expand then
-        for index = C_Reputation.GetNumFactions(), 1, -1 do
-            local data = C_Reputation.GetFactionDataByIndex(index)
-            if data.isHeader and not data.isChild then
-                if data.name ~= FACTION_INACTIVE or IsControlKeyDown() then
-                    C_Reputation.ExpandFactionHeader(index)
-                end
-            elseif data.isHeader and data.isChild then
-                if IsAltKeyDown() then
-                    C_Reputation.ExpandFactionHeader(index)
-                end
-            end
-        end
+        local includeInactive = IsControlKeyDown()
+        T:ExpandAllFactionHeaders(includeSubheaders, includeInactive)
     else
-        for index = C_Reputation.GetNumFactions(), 1, -1 do
-            local data = C_Reputation.GetFactionDataByIndex(index)
-            if data.isHeader and not data.isChild then
-                C_Reputation.CollapseFactionHeader(index)
-            elseif data.isHeader and data.isChild then
-                if IsAltKeyDown() then
-                    C_Reputation.CollapseFactionHeader(index)
-                end
-            end
-        end
+        T:CollapseAllFactionHeaders(includeSubheaders)
     end
 end
 
@@ -187,7 +151,7 @@ function Search:OnLoad()
 end
 
 function Search:OnShow()
-    
+    -- TODO bug: placeholder text sometimes appears on top of user text after hide/re-show reputation frame
 end
 
 function Search:OnEnterPressed()
@@ -196,7 +160,7 @@ function Search:OnEnterPressed()
     
     local container = FFF_SearchResultsContainer
     local result = container.searchResults[container.selectedIndex]
-    if result:IsShown() then
+    if result and result:IsShown() then
         result:Click()
     end
 end
@@ -299,6 +263,7 @@ function T.UpdateSearchResults(timer)
         container:SetFrameLevel(T.SearchBox:GetFrameLevel() + 10)
         container:Show()        
     else
+        container.selectedIndex = nil
         container:Hide()
     end
 end
@@ -344,8 +309,22 @@ EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     T.CollapseAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
     T.CollapseAllButton:Setup(shouldExpand)
     T.CollapseAllButton:SetPoint("RIGHT", T.ExpandAllButton, "LEFT")
+  
+    T.CleanupButton = CreateFrame("Button", nil, ReputationFrame, "BankAutoSortButtonTemplate")
+    T.CleanupButton:SetScript("OnEnter", function(frame)
+        GameTooltip:SetOwner(frame)
+        GameTooltip_SetTitle(GameTooltip, FFF_CLEAN_UP_FACTIONS)
+        GameTooltip_AddColoredLine(GameTooltip, FFF_CLEAN_UP_FACTIONS_TIP, GRAY_FONT_COLOR)
+        GameTooltip:Show()
+    end)
+    T.CleanupButton:SetScript("OnClick", function()
+        T:CleanUpCompletedFactions()
+    end)
+    T.CleanupButton:SetPoint("BOTTOMLEFT", CharacterFramePortrait, "BOTTOMRIGHT", 0, 0)
     
     T.SearchBox = CreateFrame("EditBox", "SearchBox", ReputationFrame, "FFF_SearchBoxTemplate")
     T.SearchBox:SetPoint("RIGHT", T.CollapseAllButton, "LEFT", -2, 0)
-    T.SearchBox:SetPoint("BOTTOMLEFT", CharacterFramePortrait, "BOTTOMRIGHT", 6, -2)
+    T.SearchBox:SetPoint("LEFT", T.CleanupButton, "RIGHT", 6, 0)
+    
+
 end)

@@ -73,6 +73,8 @@ FFF_COLLAPSE_ALL				= "Collapse All Headers"
 FFF_EXPAND_SUBHEADERS_HINT		= "<Hold %s to expand subheaders>"
 FFF_COLLAPSE_SUBHEADERS_HINT	= "<Hold %s to collapse subheaders>"
 FFF_EXPAND_INACTIVE_HINT		= "<Hold %s to expand Inactive>"
+FFF_CLEAN_UP_FACTIONS			= "Clean Up Completed Factions"
+FFF_CLEAN_UP_FACTIONS_TIP		= "Moves factions with maximum reputation to Inactive"
 
 -- We keep the names of these items because it's quite possible for them to show up without being cached by the WoW client.
 FFF_ITEM_AD_TOKEN				= "Argent Dawn Valor Token"

@@ -50,11 +50,15 @@ v. 11.xxxx - 2025/xxxx/xxxx
 	- reputation pane
 		- potential gains tooltip
 		- icon for factions with potential gains
-		- cleanup button to hide maxed factions
 	- auto hide maxed factions
+	- profession frame unlearned recipe source info button, show how current reputation compares to required?
 	- ???
 	- profit!
-
+	
+- Adds a few widgets to the default UI's Reputation pane:
+	- A button to move all completed (exalted, max friendship, max renown) factions to Inactive
+	- A search field -- find a faction by part of its name and select it, expand any headers needed to make it visible, and scroll to it
+	- Buttons to expand/collapse all top-level headers (with modifier key options to expand/collapse more)
 - Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
