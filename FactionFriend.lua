@@ -319,7 +319,7 @@ function T:CleanUpCompletedFactions()
 	-- because moving changes positions after
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if T:FactionAtMaximum(data) then
+		if T:FactionAtMaximum(data) and data.factionID ~= GUILD_FACTION_ID then
 			-- print("moving", data.name, "to inactive")
 			C_Reputation.SetFactionActive(index, false)
 		end

@@ -106,7 +106,7 @@ function T:CombatMessageFilter(event, message, ...)
 
     -- move to inactive if exalted / max rank
         -- unless paragon faction
-            -- unless setting to do that anyway?
+        -- skip guild faction too
     
     -- output modified message according to settings
     if not T.Settings.ModifyChat then
@@ -184,8 +184,8 @@ function T:SystemMessageFilter(event, message, ...)
     -- (don't switch watched faction; we do that only for gains)
     
     -- move to inactive if exalted / max rank
-    -- unless paragon faction
-        -- unless setting to do that anyway?
+        -- unless paragon faction
+        -- skip guild faction too
 
     -- TODO queued message stuff from original version?
 
