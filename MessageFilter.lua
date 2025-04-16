@@ -1,4 +1,5 @@
 local addonName, T = ...
+local DB = _G[addonName.."_DB"]
 
 ------------------------------------------------------
 -- Message filter for reputation / standing change
