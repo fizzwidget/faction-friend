@@ -38,28 +38,6 @@ end})
 -- Constants
 ------------------------------------------------------
 
-FFF_PointsPerStanding = {
-	[1] = 36000,	-- Hated
-	[2] = 3000,		-- Hostile
-	[3] = 3000,		-- Unfriendly
-	[4] = 3000,		-- Neutral
-	[5] = 6000,		-- Friendly
-	[6] = 12000,	-- Honored
-	[7] = 21000,	-- Revered
-	[8] = 999,
-}
-FFF_AbsMinForStanding = {
-	[1] = 0 - FFF_PointsPerStanding[3] - FFF_PointsPerStanding[2] - FFF_PointsPerStanding[1],
-	[2] = 0 - FFF_PointsPerStanding[3] - FFF_PointsPerStanding[2],
-	[3] = 0 - FFF_PointsPerStanding[3],
-	[4] = 0,
-	[5] = FFF_PointsPerStanding[4],
-	[6] = FFF_PointsPerStanding[4] + FFF_PointsPerStanding[5],
-	[7] = FFF_PointsPerStanding[4] + FFF_PointsPerStanding[5] + FFF_PointsPerStanding[6],
-	[8] = FFF_PointsPerStanding[4] + FFF_PointsPerStanding[5] + FFF_PointsPerStanding[6] + FFF_PointsPerStanding[7],
-	[9] = FFF_PointsPerStanding[4] + FFF_PointsPerStanding[5] + FFF_PointsPerStanding[6] + FFF_PointsPerStanding[7] + FFF_PointsPerStanding[8],
-}
-
 local GUILD_FACTION_ID = 1168
 
 ------------------------------------------------------
@@ -298,10 +276,7 @@ function T:FactionAtMaximum(factionData)
 	if isFriendship then
 		return friendshipData.nextThreshold == nil
 	elseif C_Reputation.IsMajorFaction(id) then
-		local majorFactionData = C_MajorFactions.GetMajorFactionData(id)		
-		local renownLevelsInfo = C_MajorFactions.GetRenownLevels(id)
-		local maxRenownLevel = renownLevelsInfo[#renownLevelsInfo].level
-		return majorFactionData.renownLevel == maxRenownLevel
+		return C_MajorFactions.HasMaximumRenown(factionID)
 	else
 		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(id)
 	end

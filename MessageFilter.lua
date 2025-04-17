@@ -241,10 +241,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
         currentValue = majorFactionData.renownReputationEarned
         maxValue = majorFactionData.renownLevelThreshold
 
-        local renownLevelsInfo = C_MajorFactions.GetRenownLevels(factionID)
-        local maxRenownLevel = renownLevelsInfo[#renownLevelsInfo].level
-
-        if majorFactionData.renownLevel == maxRenownLevel then
+        if C_MajorFactions.HasMaximumRenown(factionID) then
             nextStatusName = FFF_MAXIMUM
         else 
             nextStatusName = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel + 1)
