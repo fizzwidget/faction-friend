@@ -315,6 +315,9 @@ EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
         GameTooltip:SetOwner(frame)
         GameTooltip_SetTitle(GameTooltip, FFF_CLEAN_UP_FACTIONS)
         GameTooltip_AddColoredLine(GameTooltip, FFF_CLEAN_UP_FACTIONS_TIP, GRAY_FONT_COLOR)
+        
+        -- TODO preprocess cleanup, show moves to be done in tooltip?
+        
         GameTooltip:Show()
     end)
     T.CleanupButton:SetScript("OnClick", function()
