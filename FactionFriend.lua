@@ -399,16 +399,17 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 
 	local firstLine = true
 	for factionID in pairs(itemInfo) do
-			
+		
+		-- TODO major faction renown
+		
 		local factionData = C_Reputation.GetFactionDataByID(factionID)
 		local color = FACTION_BAR_COLORS[factionData.reaction]
-		local factionText = FFF_FACTION_STANDING:format(factionData.name, GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player")))
+		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
 		
+		GameTooltip_AddBlankLineToTooltip(GameTooltip)
+		GameTooltip_AddNormalLine(tooltip, FFF_FACTION_TURNIN)
 		if firstLine then
-			GameTooltip_AddColoredDoubleLine(tooltip, FFF_FACTION_TURNIN, factionText, color, color)
-			firstLine = false
-		else
-			GameTooltip_AddColoredDoubleLine(tooltip, " ", factionText, color, color)
+			GameTooltip_AddColoredDoubleLine(tooltip, factionData.name, standingText, HIGHLIGHT_FONT_COLOR, color)
 		end
 	end
 
