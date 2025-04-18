@@ -165,9 +165,7 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 	if C_Reputation.IsAccountWideReputation(factionID) then
 		GameTooltip_AddColoredLine(GameTooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
 	end
-	
-	GameTooltip_AddBlankLineToTooltip(GameTooltip)
-	
+		
 	local standingText, color
 	if isFriendship then
 		local wrapText = true
@@ -205,7 +203,8 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 		GameTooltip_AddColoredLine(GameTooltip, standingText, color)
 	end
 	
-	-- TODO more lines from potential gains report
+	-- more lines from potential gains report
+	T:TooltipAddFactionReport(GameTooltip, factionID)
 	
 	if (showHyperlinkInstructions) then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
@@ -406,11 +405,12 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 		local color = FACTION_BAR_COLORS[factionData.reaction]
 		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
 		
-		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		GameTooltip_AddNormalLine(tooltip, FFF_FACTION_TURNIN)
 		if firstLine then
-			GameTooltip_AddColoredDoubleLine(tooltip, factionData.name, standingText, HIGHLIGHT_FONT_COLOR, color)
+			GameTooltip_AddBlankLineToTooltip(GameTooltip)
+			GameTooltip_AddNormalLine(tooltip, FFF_FACTION_TURNIN)
+			firstLine = false
 		end
+		GameTooltip_AddColoredDoubleLine(tooltip, factionData.name, standingText, HIGHLIGHT_FONT_COLOR, color)
 	end
 
 end
