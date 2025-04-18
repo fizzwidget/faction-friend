@@ -94,7 +94,7 @@ function T:ShowReputationPane(factionID, forceAll)
         ToggleCharacter("ReputationFrame")
     end
     -- scroll faction to visible
-    ReputationFrame.ScrollBox:ScrollToElementDataByPredicate(function(elementData) return elementData.factionID == factionID; end)
+    ReputationFrame.ScrollBox:ScrollToElementDataByPredicate(function(elementData) return elementData.factionID == factionID end)
 
 end
 
@@ -156,7 +156,7 @@ end
 
 function Search:OnEnterPressed()
     local text = self:GetText()
-    if strlen(text) < MIN_CHARACTER_SEARCH then return; end
+    if strlen(text) < MIN_CHARACTER_SEARCH then return end
     
     local container = FFF_SearchResultsContainer
     local result = container.searchResults[container.selectedIndex]
@@ -222,7 +222,7 @@ function T:SearchFactionList(searchText)
     local results = {}
     for index = 1, T.MAX_FACTIONS do
         local factionData = C_Reputation.GetFactionDataByIndex(index)
-        if not factionData or factionData.factionID == 0 then break; end
+        if not factionData or factionData.factionID == 0 then break end
         if strmatch(strlower(factionData.name), text) then
             tinsert(results, factionData)
         end

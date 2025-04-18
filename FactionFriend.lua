@@ -52,7 +52,7 @@ T.MAX_FACTIONS = 600
 T.FactionIndexForID = setmetatable({}, {__index = function(table, key)
 	for index = 1, T.MAX_FACTIONS do
 		local factionData = C_Reputation.GetFactionDataByIndex(index)
-		if not factionData then break; end
+		if not factionData then break end
 		if factionData.factionID == key then
 			return index
 		end
@@ -62,7 +62,7 @@ end})
 T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 	for index = 1, T.MAX_FACTIONS do
 		local factionData = C_Reputation.GetFactionDataByIndex(index)
-		if not factionData then break; end
+		if not factionData then break end
 		if factionData.name == key then
 			return factionData.factionID
 		end
@@ -224,7 +224,7 @@ function T:GetCollapsedFactionHeaders()
 	local collapsed = {}
 	for i = 1, T.MAX_FACTIONS do
 		local data = C_Reputation.GetFactionDataByIndex(i)
-		if not data then break; end
+		if not data then break end
 		if data.isCollapsed and data.factionID ~= 0 then
 			collapsed[data.factionID] = true
 		end
@@ -375,8 +375,8 @@ end
 
 function T.OnTooltipSetItem(tooltip, data)
 	local name, link = TooltipUtil.GetDisplayedItem(tooltip)
-	if not link then return; end
-	if not T.Settings.Tooltip then return; end
+	if not link then return end
+	if not T.Settings.Tooltip then return end
 
 	local type, info = LinkUtil.ExtractLink(link)
 	if type == "item" then 
@@ -395,7 +395,7 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 		T:SetupReverseCache()
 	end
 	local itemInfo = DB.TurninsByItem[itemID]
-	if not itemInfo then return; end
+	if not itemInfo then return end
 
 	local firstLine = true
 	for factionID in pairs(itemInfo) do
