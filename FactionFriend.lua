@@ -91,6 +91,13 @@ function T.AddToRecents(factionID)
 	end
 end
 
+function T.AddToRecentsByIndex(index)
+	local factionData = C_Reputation.GetFactionDataByIndex(index)
+	if factionData then
+		T.AddToRecents(factionData.factionID)
+	end
+end
+
 EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
 	local type, addon, subtype, id = strsplit(":", link)
 	if type == "addon" and addon == addonName and subtype == "faction" then
@@ -325,6 +332,7 @@ function Events:ADDON_LOADED(addon, ...)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
 		
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.AddToRecents)
+		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.AddToRecentsByIndex)
 		
 		T.BarOverlays = {}
 		for i, container in pairs(StatusTrackingBarManager.barContainers) do
