@@ -70,7 +70,7 @@ T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 end})
 
 local MAX_RECENTS = 8
-function T:AddToRecents(factionID)
+function T.AddToRecents(factionID)
 	-- remove it if it's already in the list
 	for index, id in pairs(T.Recents) do
 		if id == factionID then
@@ -121,11 +121,6 @@ function T:FactionLink(factionID, factionData, friendshipData)
 end
 
 function T:TrySetWatchedFaction(factionID, overrideInactive)
-
-	local function setWatchedFaction(factionID)
-		C_Reputation.SetWatchedFactionByID(factionID)
-		self:AddToRecents(factionID)
-	end
 	
 	local watchedFaction = C_Reputation.GetWatchedFactionData()
 	if watchedFaction and watchedFaction.factionID == factionID then
@@ -134,7 +129,7 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 	end
 	
 	if overrideInactive then
-		setWatchedFaction(factionID)
+		C_Reputation.SetWatchedFactionByID(factionID)
 	else
 		
 		local index = self.FactionIndexForID[factionID]
@@ -144,13 +139,12 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 		end
 	
 		if C_Reputation.IsFactionActive(index) then
-			setWatchedFaction(factionID)
+			C_Reputation.SetWatchedFactionByID(factionID)
 		end
 	end
 end
 
 function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstructions)
-	-- TODO factor out the rest because it'll be the same as other places we show tooltip for the same faction?
 	local factionData = C_Reputation.GetFactionDataByID(factionID)
 	local friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
@@ -329,12 +323,22 @@ function Events:ADDON_LOADED(addon, ...)
 		
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_FACTION_CHANGE", T.CombatMessageFilter)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
-
+		
+		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.AddToRecents)
+		
+		T.BarOverlays = {}
 		for i, container in pairs(StatusTrackingBarManager.barContainers) do
 			local bar = container.bars[1]
+
+			local overlay = CreateFrame("Button", "FFF_BarOverlay"..i, bar)
+			overlay:SetAllPoints()
+			overlay:RegisterForClicks("RightButtonUp")
+			overlay:EnableMouseMotion(false)
+			overlay:SetScript("OnClick", T.ShowFactionMenu)
+			T.BarOverlays[i] = overlay
+			
 			bar:HookScript("OnEnter", function(frame)
-				-- TODO potential gains in tooltip
-				-- TODO in the paragon tooltip for paragon
+				-- TODO add to the Blizzard paragon tooltip for paragon
 				if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
 					T:ShowFactionToolip(frame.factionID, frame)
 				end

@@ -17,7 +17,7 @@ FFF_NEXT_RANK					= "next rank"
 FFF_PARAGON_REWARD				= "reward"
 FFF_AT_MAXIMUM					= "(At maximum.)"
 FFF_TOOLTIP_CLICK_FOR_DETAILS	= "<Click to view details>"
-FFF_TOOLTIP_DONT_CLICK			= "<Cannot click while in combat>"
+FFF_TOOLTIP_DONT_CLICK			= "<Unavailable while in combat>"
 FFF_REPORT_LINE_ITEM			= "%dx %s"				-- C in example below
 FFF_REPORT_NUM_TURNINS			= " (%d turnins)"		-- B in example below
 FFF_REPORT_NUM_POINTS			= "%d points"			-- A in example below
@@ -65,7 +65,7 @@ FFF_FACTION_TURNIN				= "Reputation turnin for"
 -- ReputationWatchBar menu
 FFF_RECENT_FACTIONS				= "Recent factions"
 FFF_SHOW_REPUTATION_PANE		= "Show Reputation Pane"
-FFF_SHOW_OPTIONS				= "Show FactionFriend Options"
+FFF_SHOW_OPTIONS				= "Show FactionFriend Settings"
 
 -- Reputation frame additions
 FFF_EXPAND_ALL					= "Expand All Headers"

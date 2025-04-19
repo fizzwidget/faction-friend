@@ -41,12 +41,8 @@ v. 11.xxxx - 2025/xxxx/xxxx
 - TODO info about rewrite
 - TODO rewrite tasks remaining
 	- reputation watch bar
-		- potential gains 
-			- overlay (or not, taint issue?)
-			- in tooltip
-		- right click for faction menu
-			- menu tree for all factions?
-			- recent factions list
+		- potential gains overlay (or not, taint issue?)
+		- right click menu faction for all factions?
 	- reputation pane
 		- potential gains tooltip
 		- icon for factions with potential gains
@@ -65,7 +61,9 @@ v. 11.xxxx - 2025/xxxx/xxxx
 - Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) Now:
 	- We handle Renown factions in recent expansions, correctly showing the next renown level and the number of gains left to reach it.
 	- We support "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
-- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
+- Notable minor fixes and improvements from the rewrite:
+	- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
+	- In the reputation watch bar's context menu, choosing Show Reputation Pane when in combat no longar causes "action blocked because of an addon" errors; instead that option is disabled during combat (and shows a tooltip indicating why).
 - Removed some older features for which it's cumbersome to maintain support:
 	- Switching reputation watch bar when entering certain zones
 	- Switching reputation watch bar when equipping certain tabards

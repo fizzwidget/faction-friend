@@ -81,7 +81,7 @@ function T:CombatMessageFilter(event, message, ...)
     local factionID = T.FactionIDForName[factionName]
         
     -- add to recents
-    T:AddToRecents(factionID)
+    T.AddToRecents(factionID)
     
     -- check name of guild faction
     -- message might have either actual guild name or a generic token
@@ -180,7 +180,7 @@ function T:SystemMessageFilter(event, message, ...)
     end
             
     -- add to recents
-    T:AddToRecents(factionID)
+    T.AddToRecents(factionID)
         
     -- (don't switch watched faction; we do that only for gains)
     
@@ -277,8 +277,8 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
         end
     end
     
-    local repToNext = maxValue - currentValue;
-    local gainsToNext = repToNext / amount;
+    local repToNext = maxValue - currentValue
+    local gainsToNext = repToNext / amount
     local message = format(FFF_REPEAT_TURNINS, gainsToNext, nextStatusName)
     
     return message

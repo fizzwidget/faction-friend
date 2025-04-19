@@ -10,12 +10,16 @@
 ## SavedVariablesPerCharacter: GFW_FactionFriend_Recents
 ## OptionalDeps: GFW_HoverTips
 
+# libraries
 GFWUtils.lua
 GFWTable.lua
 
+# core
 Localization.lua
 DB.lua
 FactionFriend.lua
+
+FactionMenu.lua
 MessageFilter.lua
 PotentialGains.lua
 ReputationPane.lua

@@ -3,6 +3,7 @@ local addonName, T = ...
 function T:SetupSettings()
     local category, layout = Settings.RegisterVerticalLayoutCategory(T.Title)
     local settingsTable = T.Settings
+    T.SettingsCategoryID = category:GetID()
     
     -- TODO: setup factories for other settings control types as needed
     -- TODO: shorter label locale-lookup keys, derive tooltip key from label
@@ -35,13 +36,11 @@ function T:SetupSettings()
     -- Checkbox("CombatDisableMenu", true, FFF_OPTION_COMBAT_DISABLE, FFF_OPTION_COMBAT_DISABLE_TIP)
     -- TODO: non-settings text for FFF_OPTIONS_TIPS
     
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_SWITCHBAR));
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_SWITCHBAR))
 
     local repGainParent = Checkbox("RepGained", true, FFF_OPTION_REP_GAINED)
     Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_AUTOSWITCH, FFF_OPTION_GUILD_AUTOSWITCH_TIP, repGainParent)
     Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_AUTOSWITCH, FFF_OPTION_BODYGUARD_AUTOSWITCH_TIP, repGainParent)
-    Checkbox("Tabard", true, FFF_OPTION_TABARD, FFF_OPTION_TABARD_TIP)
-    Checkbox("Zones", false, FFF_OPTION_ZONES, FFF_OPTION_ZONES_TIP)
     
     Settings.RegisterAddOnCategory(category)
 
