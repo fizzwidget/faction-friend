@@ -274,8 +274,6 @@ local ResultButton = FFF_SearchResultButtonMixin
 function ResultButton:SetData(factionData)
     self.data = factionData
     self:SetText(factionData.name)
-    -- TODO highlight matched text?
-    -- TODO display more?
 end
 
 function ResultButton:OnLoad()
