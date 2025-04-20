@@ -99,6 +99,30 @@ function T:ShowReputationPane(factionID, forceAll)
 end
 
 ------------------------------------------------------
+-- Potential gains indicator
+------------------------------------------------------
+
+function T.ReputationEntrySetupPotentialIcon(frame, elementData)
+    icon = frame.Content.PotentialIcon
+    local potential = T:FactionPotential(elementData.factionID, false, elementData)
+    if potential > 0 then
+        if not icon then
+            icon = frame:CreateTexture()
+            icon:SetSize(16, 16)
+            icon:SetTexture("Interface\\GossipFrame\\DailyQuestIcon")
+            icon:SetPoint("RIGHT", frame.Content.ReputationBar, "LEFT")
+        
+            frame.Content.PotentialIcon = icon
+        end
+        icon:Show()
+    elseif icon then
+        icon:Hide()
+    end 
+end
+
+-- TODO hook ReputationEntryMixin:ShowStandardTooltip for adding potential gains to tooltip
+
+------------------------------------------------------
 -- Expand / Collapse All buttons
 ------------------------------------------------------
 
@@ -297,6 +321,8 @@ end
 -- Setup
 ------------------------------------------------------
 
+hooksecurefunc(ReputationEntryMixin, "Initialize", T.ReputationEntrySetupPotentialIcon)
+
 EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     local shouldExpand = true
     T.ExpandAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
@@ -327,5 +353,4 @@ EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     T.SearchBox:SetPoint("RIGHT", T.CollapseAllButton, "LEFT", -2, 0)
     T.SearchBox:SetPoint("LEFT", T.CleanupButton, "RIGHT", 6, 0)
     
-
 end)

@@ -44,7 +44,6 @@ v. 11.xxxx - 2025/xxxx/xxxx
 		- potential gains overlay (or not, taint issue?)
 	- reputation pane
 		- potential gains tooltip
-		- icon for factions with potential gains
 	- auto hide maxed factions
 	- profession frame unlearned recipe source info button, show how current reputation compares to required?
 	- ???
