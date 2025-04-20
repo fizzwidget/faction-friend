@@ -42,7 +42,6 @@ v. 11.xxxx - 2025/xxxx/xxxx
 - TODO rewrite tasks remaining
 	- reputation watch bar
 		- potential gains overlay (or not, taint issue?)
-		- right click menu faction for all factions?
 	- reputation pane
 		- potential gains tooltip
 		- icon for factions with potential gains
