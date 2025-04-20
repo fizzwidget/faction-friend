@@ -178,7 +178,7 @@ function T:TooltipAddFactionReport(tooltip, factionID)
     )
 end
 
-function T:FactionPotential(factionID, withReport)
+function T:FactionPotential(factionID, withReport, factionData)
     local calculator = CreateFromMixins(PotentialGainsMixin)
     
     if withReport then
@@ -190,15 +190,18 @@ end
 
 local PG = PotentialGainsMixin
 
-function PG:GetPotential(factionID)
+function PG:GetPotential(factionID, factionData)
     local function reactionInRange(reaction, min, max, cap)
         local atOrAboveMin = reaction >= (min or 1)
         local atOrBelowMax = reaction <= (max or cap)
         return atOrAboveMin and atOrBelowMax
     end
 
-    self.factionData = C_Reputation.GetFactionDataByID(factionID)
-    
+    if factionData then
+        self.factionData = factionData
+    else
+        self.factionData = C_Reputation.GetFactionDataByID(factionID)
+    end
     local factionQuests = DB.TurninsByQuest[factionID]
     if (factionQuests == nil) then return 0 end
     

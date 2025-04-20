@@ -27,6 +27,15 @@ function T.ShowFactionMenu(frame)
                 local text, color = T:StandingText(factionID, false, factionData)
                 fontString2:SetTextToFit(text)
                 fontString2:SetTextColor(color:GetRGBA())
+                
+                local potential = T:FactionPotential(factionID, true, factionData)
+                if potential > 0 then
+                    local fontString = frame.fontString
+                    local icon = frame:AttachTexture()
+                    icon:SetSize(16, 16)
+                    icon:SetPoint("LEFT", fontString, "RIGHT")
+                    icon:SetTexture("Interface\\GossipFrame\\DailyQuestIcon")
+                end
             end)
             radio:SetTooltip(function(tooltip, element) 
                 T.TooltipAddFactionInfo(tooltip, factionID, factionData)
