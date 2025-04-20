@@ -152,60 +152,14 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 end
 
 function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstructions)
-	local factionData = C_Reputation.GetFactionDataByID(factionID)
-	local friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 	
 	if anchor then
 		GameTooltip:SetOwner(anchorFrame, "ANCHOR_TOPLEFT")
 	else
 		GameTooltip_SetDefaultAnchor(GameTooltip, anchorFrame)
 	end
-	GameTooltip_SetTitle(GameTooltip, factionData.name, HIGHLIGHT_FONT_COLOR)
 	
-	if C_Reputation.IsAccountWideReputation(factionID) then
-		GameTooltip_AddColoredLine(GameTooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
-	end
-		
-	local standingText, color
-	if isFriendship then
-		local wrapText = true
-		GameTooltip:AddLine(friendshipData.text, nil, nil, nil, wrapText)
-		local reactionText = friendshipData.reaction
-		if friendshipData.nextThreshold then
-			local current = friendshipData.standing - friendshipData.reactionThreshold
-			local max = friendshipData.nextThreshold - friendshipData.reactionThreshold
-			reactionText = reactionText.." ("..current.." / "..max..")"
-		end
-		GameTooltip_AddHighlightLine(GameTooltip, reactionText, wrapText)
-		
-	elseif C_Reputation.IsMajorFaction(factionID) then
-		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
-		
-		local current = majorFactionData.renownReputationEarned
-		local max = majorFactionData.renownLevelThreshold
-		
-		local renownLevel = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel)
-		local text = FFF_STANDING_VALUES:format(renownLevel, current, max)
-					
-		GameTooltip_AddColoredLine(GameTooltip, text, BLUE_FONT_COLOR)
-
-	else		
-		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
-		local color = FACTION_BAR_COLORS[factionData.reaction]
-		
-		local current = factionData.currentStanding - factionData.currentReactionThreshold
-		local max = factionData.nextReactionThreshold - factionData.currentReactionThreshold
-		
-		local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
-		if not isCapped then
-			standingText = FFF_STANDING_VALUES:format(standingText, current, max)
-		end
-		GameTooltip_AddColoredLine(GameTooltip, standingText, color)
-	end
-	
-	-- more lines from potential gains report
-	T:TooltipAddFactionReport(GameTooltip, factionID)
+	T.TooltipAddFactionInfo(GameTooltip, factionID)
 	
 	if (showHyperlinkInstructions) then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
@@ -218,6 +172,89 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 	
 	GameTooltip:Show()
 
+end
+
+function T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData)
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+	end
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+
+	GameTooltip_SetTitle(tooltip, factionData.name, HIGHLIGHT_FONT_COLOR)
+	
+	if C_Reputation.IsAccountWideReputation(factionID) then
+		GameTooltip_AddColoredLine(tooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
+	end
+		
+	if isFriendship then
+		local wrapText = true
+		tooltip:AddLine(friendshipData.text, nil, nil, nil, wrapText)
+	end
+	
+	local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
+	GameTooltip_AddColoredLine(tooltip, standingText, color)
+	
+	-- more lines from potential gains report
+	T:TooltipAddFactionReport(tooltip, factionID)
+
+end
+
+function T:StandingText(factionID, includePoints, factionData, friendshipData)
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+	end
+		
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+	if isFriendship then
+		local reactionText = friendshipData.reaction
+		
+		if includePoints and friendshipData.nextThreshold then -- not maxed
+			local current = friendshipData.standing - friendshipData.reactionThreshold
+			local max = friendshipData.nextThreshold - friendshipData.reactionThreshold
+			reactionText = reactionText.." ("..current.." / "..max..")"
+		end
+
+		-- friendship is always green 
+		-- because don't know how many levels above / below
+		local color = FACTION_BAR_COLORS[5]
+		return reactionText, color
+		
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)		
+		local renownText = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel)
+		
+		if includePoints then
+			-- no need to check if maxed out because max renown isn't a separate standing?
+			local current = majorFactionData.renownReputationEarned
+			local max = majorFactionData.renownLevelThreshold
+			renownText = FFF_STANDING_VALUES:format(renownText, current, max)
+		end
+					
+		return renownText, BLUE_FONT_COLOR
+
+	else		
+		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
+		local color = FACTION_BAR_COLORS[factionData.reaction]
+		
+		if includePoints then
+			local current = factionData.currentStanding - factionData.currentReactionThreshold
+			local max = factionData.nextReactionThreshold - factionData.currentReactionThreshold
+			
+			local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
+			if not isCapped then
+				standingText = FFF_STANDING_VALUES:format(standingText, current, max)
+			end
+		end
+
+		return standingText, color
+	end
+	
 end
 
 function T:GetCollapsedFactionHeaders()
