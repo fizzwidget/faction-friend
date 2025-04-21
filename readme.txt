@@ -39,11 +39,8 @@ VERSION HISTORY
 
 v. 11.xxxx - 2025/xxxx/xxxx
 - TODO info about rewrite
-- TODO rewrite tasks remaining
-	- reputation watch bar
-		- potential gains overlay (or not, taint issue?)
-	- auto hide maxed factions
-	- profession frame unlearned recipe source info button, show how current reputation compares to required?
+- TODO rewrite features remaining
+	- auto hide factions when reaching maxed
 	- ???
 	- profit!
 	
@@ -55,8 +52,8 @@ v. 11.xxxx - 2025/xxxx/xxxx
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
 - Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) Now:
-	- We handle Renown factions in recent expansions, correctly showing the next renown level and the number of gains left to reach it.
-	- We support "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
+	- Handles Renown factions in recent expansions, correctly showing the next renown level and the number of gains left to reach it.
+	- Suppotrs "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
 - Notable minor fixes and improvements from the rewrite:
 	- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
 	- In the reputation watch bar's context menu, choosing Show Reputation Pane when in combat no longar causes "action blocked because of an addon" errors; instead that option is disabled during combat (and shows a tooltip indicating why).

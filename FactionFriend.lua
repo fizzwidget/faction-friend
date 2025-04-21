@@ -217,7 +217,7 @@ function T:StandingText(factionID, includePoints, factionData, friendshipData)
 		if includePoints and friendshipData.nextThreshold then -- not maxed
 			local current = friendshipData.standing - friendshipData.reactionThreshold
 			local max = friendshipData.nextThreshold - friendshipData.reactionThreshold
-			reactionText = reactionText.." ("..current.." / "..max..")"
+			reactionText = FFF_STANDING_VALUES:format(reactionText, current, max)
 		end
 
 		-- friendship is always green 
@@ -306,14 +306,16 @@ function T:CollapseAllFactionHeaders(includeSubheaders)
 	end
 end
 
-function T:FactionAtMaximum(factionData) 
+function T:FactionAtMaximum(factionData, friendshipData) 
 	local id = factionData.factionID
-	local friendshipData = C_GossipInfo.GetFriendshipReputation(id)
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(id)
+	end
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 	if isFriendship then
 		return friendshipData.nextThreshold == nil
 	elseif C_Reputation.IsMajorFaction(id) then
-		return C_MajorFactions.HasMaximumRenown(factionID)
+		return C_MajorFactions.HasMaximumRenown(id)
 	else
 		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(id)
 	end
@@ -354,6 +356,67 @@ function T.ShowAddonTooltip(frame, link)
 end
 
 ------------------------------------------------------
+-- Reputation watch bar 
+------------------------------------------------------
+
+function T:SetupWatchBarOverlays()
+	T.BarOverlays = {}
+	for i, container in pairs(StatusTrackingBarManager.barContainers) do
+		local barFrame = container.bars[1]
+	
+		local overlay = CreateFrame("Button", "FFF_BarOverlay"..i, barFrame)
+		overlay:SetAllPoints()
+		overlay:RegisterForClicks("RightButtonUp")
+		overlay:EnableMouseMotion(false)
+		overlay:SetScript("OnClick", T.ShowFactionMenu)
+		T.BarOverlays[i] = overlay
+		
+		barFrame:HookScript("OnEnter", function(frame)
+			-- TODO add to the Blizzard paragon tooltip for paragon
+			if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
+				T:ShowFactionToolip(frame.factionID, frame)
+			end
+		end)
+		barFrame:HookScript("OnLeave", GameTooltip_Hide)
+	
+		local bar = overlay.potentialBar
+		if not bar then
+			bar = CreateFrame("StatusBar", nil, overlay)
+			bar:SetAllPoints()
+			bar:SetFrameLevel(0)
+			bar:SetAlpha(0.33)
+			bar:EnableMouse(false)
+			bar:EnableMouseMotion(false)
+			overlay.potentialBar = bar
+		end
+		hooksecurefunc(barFrame, "Update", T.ReputationStatusBarUpdate)
+	end
+
+end
+
+function T.ReputationStatusBarUpdate(frame)
+	local factionData = C_Reputation.GetWatchedFactionData()
+	if not factionData or factionData.factionID == 0 then
+		return nil
+	end
+	
+	local factionID = factionData.factionID
+	local potential = T:FactionPotential(factionID, false, factionData)
+	if potential > 0 then
+		for _, overlay in pairs(T.BarOverlays) do
+			local bar = overlay.potentialBar
+			local baseBar = overlay:GetParent().StatusBar
+			local asset = baseBar:GetStatusBarTexture():GetAtlas()
+			if asset then
+				bar:SetStatusBarTexture(asset)
+			end
+			bar:SetMinMaxValues(baseBar:GetMinMaxValues())
+			bar:SetValue(baseBar:GetValue() + potential)
+		end
+	end
+end
+
+------------------------------------------------------
 -- Events
 ------------------------------------------------------
 
@@ -370,27 +433,8 @@ function Events:ADDON_LOADED(addon, ...)
 		
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.AddToRecents)
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.AddToRecentsByIndex)
-		
-		T.BarOverlays = {}
-		for i, container in pairs(StatusTrackingBarManager.barContainers) do
-			local bar = container.bars[1]
 
-			local overlay = CreateFrame("Button", "FFF_BarOverlay"..i, bar)
-			overlay:SetAllPoints()
-			overlay:RegisterForClicks("RightButtonUp")
-			overlay:EnableMouseMotion(false)
-			overlay:SetScript("OnClick", T.ShowFactionMenu)
-			T.BarOverlays[i] = overlay
-			
-			bar:HookScript("OnEnter", function(frame)
-				-- TODO add to the Blizzard paragon tooltip for paragon
-				if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
-					T:ShowFactionToolip(frame.factionID, frame)
-				end
-			end)
-			bar:HookScript("OnLeave", GameTooltip_Hide)
-		end
-
+		T:SetupWatchBarOverlays()
 		T:SetupSettings()
 		
 		self:UnregisterEvent("ADDON_LOADED")
@@ -400,7 +444,6 @@ end
 ------------------------------------------------------
 -- Item tooltip 
 ------------------------------------------------------
-
 
 function T:SetupReverseCache()
 	DB.TurninsByItem = {}	
