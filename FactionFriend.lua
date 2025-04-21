@@ -198,7 +198,7 @@ function T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData
 	GameTooltip_AddColoredLine(tooltip, standingText, color)
 	
 	-- more lines from potential gains report
-	T:TooltipAddFactionReport(tooltip, factionID)
+	T:TooltipAddFactionReport(tooltip, factionID, factionData)
 
 end
 

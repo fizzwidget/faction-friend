@@ -42,8 +42,6 @@ v. 11.xxxx - 2025/xxxx/xxxx
 - TODO rewrite tasks remaining
 	- reputation watch bar
 		- potential gains overlay (or not, taint issue?)
-	- reputation pane
-		- potential gains tooltip
 	- auto hide maxed factions
 	- profession frame unlearned recipe source info button, show how current reputation compares to required?
 	- ???

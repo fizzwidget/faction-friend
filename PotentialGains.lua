@@ -14,7 +14,7 @@ local PointsPerStanding = {
     [5] = 6000,		-- Friendly
     [6] = 12000,	-- Honored
     [7] = 21000,	-- Revered
-    [8] = 0, -- TODO test effects of exalted no longer having points
+    [8] = 1, -- Exalted doesn't really have points
 }
 local AbsMinForStanding = {
     [1] = 0 - PointsPerStanding[3] - PointsPerStanding[2] - PointsPerStanding[1],
@@ -80,16 +80,53 @@ function T:ItemLink(itemID)
 end
 
 ------------------------------------------------------
--- Potential rep gain calculator
+-- Tooltip report
 ------------------------------------------------------
 
-local PotentialGainsMixin = {
-    totalPotential = 0,
-    itemsAccounted = {},
-    itemsCreated = {}
-    -- reportLines: table
-    -- factionData: table
-}
+function T:TooltipAddFactionReport(tooltip, factionID, factionData)
+    local potential, reportLines, factionData = T:FactionPotential(factionID, true, factionData)
+    
+    if potential == 0 then return end
+    
+    -- TODO friendship, paragon, major faction renown
+    
+    GameTooltip_AddBlankLineToTooltip(tooltip)
+    GameTooltip_AddNormalLine(tooltip, FFF_REPUTATION_TICK_TOOLTIP:format(potential))
+    
+    local currentStandingColor = FACTION_BAR_COLORS[factionData.reaction]
+    for _, reportLine in pairs(reportLines) do
+        for reportHeader, itemLines in pairs(reportLine) do
+            for index, line in pairs(itemLines) do
+                GameTooltip_AddColoredDoubleLine(tooltip,
+                    index == 1 and reportHeader or "  ",
+                    line,
+                    HIGHLIGHT_FONT_COLOR,
+                    HIGHLIGHT_FONT_COLOR
+                )
+            end
+        end
+    end
+    
+    local potentialTotal = potential + factionData.currentStanding
+    local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
+    local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
+    local potentialStandingColor = FACTION_BAR_COLORS[potentialStanding]
+    
+    if potentialStanding < MAX_REPUTATION_REACTION then
+        potentialStandingText = FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax)
+    end
+
+    GameTooltip_AddColoredDoubleLine(tooltip,
+        FFF_AFTER_TURNINS_LABEL,
+        potentialStandingText,
+        HIGHLIGHT_FONT_COLOR,
+        potentialStandingColor
+    )
+end
+
+------------------------------------------------------
+-- Debug aids
+------------------------------------------------------
 
 -- debug only
 function FFF_PrintReport(factionID)
@@ -130,7 +167,7 @@ function FFF_PrintExploitableFactions()
         local factionData = C_Reputation.GetFactionDataByIndex(index)
         if not factionData then break end
         
-        local potential = T:FactionPotential(factionData.factionID)
+        local potential = T:FactionPotential(factionData.factionID, false, factionData)
         if potential > 0 then
             print(
                 T:FactionLink(factionData.factionID, factionData),
@@ -141,42 +178,18 @@ function FFF_PrintExploitableFactions()
     end
 end
 
-function T:TooltipAddFactionReport(tooltip, factionID)
-    local potential, reportLines, factionData = T:FactionPotential(factionID, true)
-    
-    if potential == 0 then return end
-    
-    -- TODO friendship, paragon, major faction renown
-    
-    GameTooltip_AddBlankLineToTooltip(tooltip)
-    GameTooltip_AddNormalLine(tooltip, FFF_REPUTATION_TICK_TOOLTIP:format(potential))
-    
-    local currentStandingColor = FACTION_BAR_COLORS[factionData.reaction]
-    for _, reportLine in pairs(reportLines) do
-        for reportHeader, itemLines in pairs(reportLine) do
-            for index, line in pairs(itemLines) do
-                GameTooltip_AddColoredDoubleLine(tooltip,
-                    index == 1 and reportHeader or "  ",
-                    line,
-                    HIGHLIGHT_FONT_COLOR,
-                    HIGHLIGHT_FONT_COLOR
-                )
-            end
-        end
-    end
-    
-    local potentialTotal = potential + factionData.currentStanding
-    local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
-    local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
-    local potentialStandingColor = FACTION_BAR_COLORS[potentialStanding]
 
-    GameTooltip_AddColoredDoubleLine(tooltip,
-        FFF_AFTER_TURNINS_LABEL,
-        FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax),
-        HIGHLIGHT_FONT_COLOR,
-        potentialStandingColor
-    )
-end
+------------------------------------------------------
+-- Potential rep gain calculator
+------------------------------------------------------
+
+local PotentialGainsMixin = {
+    totalPotential = 0,
+    itemsAccounted = {},
+    itemsCreated = {}
+    -- reportLines: table
+    -- factionData: table
+}
 
 function T:FactionPotential(factionID, withReport, factionData)
     local calculator = CreateFromMixins(PotentialGainsMixin)
@@ -185,7 +198,7 @@ function T:FactionPotential(factionID, withReport, factionData)
         calculator.reportLines = {}
     end
     
-    return calculator:GetPotential(factionID)
+    return calculator:GetPotential(factionID, factionData)
 end
 
 local PG = PotentialGainsMixin
@@ -365,7 +378,7 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
     local currentStanding = self.factionData.reaction
     local currentValue = self.factionData.currentStanding
     
-    -- TODO handle major faction
+    -- TODO handle friendship, paragon, major faction
     
     -- figure out how much rep we can gain from what we have for the turnin
     -- but adjust how many turnins to make if it'll max us out
@@ -378,7 +391,6 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
     end
 
     -- if current standing is below exalted, count only the turnins needed to reach exalted
-    -- if current standing is exalted, count turnins needed to max out at 999/1000
     local absMaxStanding = max(7, currentStanding)
     local turninMaxStanding = info.maxStanding or absMaxStanding
     if turninValue > 0 and potentialStanding >= turninMaxStanding then

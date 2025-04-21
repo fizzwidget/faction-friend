@@ -120,7 +120,19 @@ function T.ReputationEntrySetupPotentialIcon(frame, elementData)
     end 
 end
 
--- TODO hook ReputationEntryMixin:ShowStandardTooltip for adding potential gains to tooltip
+hooksecurefunc(ReputationEntryMixin, "Initialize", T.ReputationEntrySetupPotentialIcon)
+
+function T.ReputationEntryShowStandardTooltip(entry)
+    T:TooltipAddFactionReport(GameTooltip, entry.elementData.factionID, entry.elementData)
+    GameTooltip:Show()
+end
+
+-- TODO more tooltip hooks once the report can handle them
+-- ShowParagonRewardsTooltip
+-- ShowFriendshipReputationTooltip
+-- ShowMajorFactionRenownTooltip
+-- TODO position added content above instruction line?
+hooksecurefunc(ReputationEntryMixin, "ShowStandardTooltip", T.ReputationEntryShowStandardTooltip)
 
 ------------------------------------------------------
 -- Expand / Collapse All buttons
@@ -321,7 +333,6 @@ end
 -- Setup
 ------------------------------------------------------
 
-hooksecurefunc(ReputationEntryMixin, "Initialize", T.ReputationEntrySetupPotentialIcon)
 
 EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     local shouldExpand = true
