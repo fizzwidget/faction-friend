@@ -39,10 +39,6 @@ VERSION HISTORY
 
 v. 11.xxxx - 2025/xxxx/xxxx
 - TODO info about rewrite
-- TODO rewrite features remaining
-	- auto hide factions when reaching maxed
-	- ???
-	- profit!
 	
 - Adds a few widgets to the default UI's Reputation pane:
 	- A button to move all completed (exalted, max friendship, max renown) factions to Inactive

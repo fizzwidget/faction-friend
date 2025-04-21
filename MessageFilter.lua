@@ -103,11 +103,10 @@ function T:CombatMessageFilter(event, message, ...)
     
     local factionData = C_Reputation.GetFactionDataByID(factionID)
     local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
-    local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 
-    -- move to inactive if exalted / max rank
-        -- unless paragon faction
-        -- skip guild faction too
+    if T.Settings.MoveInactiveOnComplete then
+        T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
+    end
     
     -- output modified message according to settings
     if not T.Settings.ModifyChat then
@@ -184,28 +183,25 @@ function T:SystemMessageFilter(event, message, ...)
         
     -- (don't switch watched faction; we do that only for gains)
     
-    -- move to inactive if exalted / max rank
-        -- unless paragon faction
-        -- skip guild faction too
+    local factionData = C_Reputation.GetFactionDataByID(factionID)
+    local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
 
+    if T.Settings.MoveInactiveOnComplete then
+        T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
+    end
     -- TODO queued message stuff from original version?
 
     -- output modified message according to settings
     if not T.Settings.ModifyChat then
         return false
     end
-    
-        
-    local factionData = C_Reputation.GetFactionDataByID(factionID)
-    local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
 
     local link = T:FactionLink(factionID, factionData, friendshipData)
-    
     local message
     if isFriendship then
         message = format(_G[pattern], link, newStanding)
     else
-        message = format(_G[pattern], newStanding, link)		
+        message = format(_G[pattern], newStanding, link)
     end
     
     return false, message, ...

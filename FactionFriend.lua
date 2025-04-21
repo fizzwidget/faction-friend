@@ -306,18 +306,20 @@ function T:CollapseAllFactionHeaders(includeSubheaders)
 	end
 end
 
-function T:FactionAtMaximum(factionData, friendshipData) 
-	local id = factionData.factionID
+function T:FactionAtMaximum(factionID, factionData, friendshipData) 
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
 	if not friendshipData then
-		friendshipData = C_GossipInfo.GetFriendshipReputation(id)
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
 	end
 	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
 	if isFriendship then
 		return friendshipData.nextThreshold == nil
-	elseif C_Reputation.IsMajorFaction(id) then
-		return C_MajorFactions.HasMaximumRenown(id)
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		return C_MajorFactions.HasMaximumRenown(factionID)
 	else
-		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(id)
+		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(factionID)
 	end
 end
 
@@ -333,7 +335,7 @@ function T:CleanUpCompletedFactions()
 	-- because moving changes positions after
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if T:FactionAtMaximum(data) and data.factionID ~= GUILD_FACTION_ID then
+		if T:FactionAtMaximum(data.factionID, data) and data.factionID ~= GUILD_FACTION_ID then
 			-- print("moving", data.name, "to inactive")
 			C_Reputation.SetFactionActive(index, false)
 		end
@@ -341,6 +343,34 @@ function T:CleanUpCompletedFactions()
 	
 	-- restore expand/collapse state
 	T:SetCollapsedFactionHeaders(collapsed)
+end
+
+function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
+	-- FactionAtMaximum accounts for not paragon faction
+	-- cleaning up guild causes issues, don't
+	if factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData, friendshipData) then
+		
+		-- remember current expand/collapse state
+		-- and expand all so we can see the whole list
+		-- faction to clean may be under a collapsed header
+		local collapsed = T:GetCollapsedFactionHeaders()
+		local includeSubheaders = true
+		T:ExpandAllFactionHeaders(includeSubheaders)
+		
+		-- iterate visible faction list forward 
+		-- because we stop when we find the one
+		for index = 1, C_Reputation.GetNumFactions() do
+			local data = C_Reputation.GetFactionDataByIndex(index)
+			if data.factionID == factionID and data.canSetInactive then
+				-- print("moving", data.name, "to inactive")
+				C_Reputation.SetFactionActive(index, false)
+			end
+		end
+		
+		-- restore expand/collapse state
+		T:SetCollapsedFactionHeaders(collapsed)
+
+	end
 end
 
 ------------------------------------------------------
@@ -395,6 +425,11 @@ function T:SetupWatchBarOverlays()
 end
 
 function T.ReputationStatusBarUpdate(frame)
+	if not T.Settings.ShowPotential then
+		-- TODO show/hide bar appropriately
+		return 
+	end
+
 	local factionData = C_Reputation.GetWatchedFactionData()
 	if not factionData or factionData.factionID == 0 then
 		return nil

@@ -29,7 +29,7 @@ function T:SetupSettings()
     -- Checkbox("UseCurrency", true, FFF_OPTION_USE_CURRENCY, FFF_OPTION_USE_CURRENCY_TIP)
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
     Checkbox("ModifyChat", false, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
-    Checkbox("MoveExaltedInactive", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
+    Checkbox("MoveInactiveOnComplete", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
     -- Checkbox("ReputationColors", false, FFF_OPTION_REPUTATION_COLORS)
 
     -- TODO: header for menu settings?
