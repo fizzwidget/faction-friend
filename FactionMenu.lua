@@ -27,8 +27,11 @@ function T.ShowFactionMenu(frame)
                 if not factionData.isCollapsed then
                     topLevelButton = root:CreateButton(factionData.name)
                 end
+                afterChild = false
             elseif factionData.isHeader and factionData.isChild then
-                topLevelButton:CreateSpacer()
+                if not factionData.isCollapsed then
+                    topLevelButton:CreateSpacer()
+                end
                 if factionData.isHeaderWithRep then
                     local radio = topLevelButton:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
                     radio:AddInitializer(function(frame, description, menu)
