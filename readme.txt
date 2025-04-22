@@ -42,7 +42,6 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 TODO for rewrite
 - faction report in special paragon tooltip
 - paragon info in context menu
-- update rep watch bar (potential gains) when getting items (BAG_UPDATE, UNIT_INVENTORY_CHANGED?)
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - shorter reputation watch bar menu when few factions / hide legacy factions?

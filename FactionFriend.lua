@@ -483,6 +483,21 @@ function Events:ADDON_LOADED(addon, ...)
 	end
 end
 
+function Events:BAG_UPDATE(slot)
+	if not T.Settings.ShowPotential then return end
+	T.ReputationStatusBarUpdate()
+end
+
+function Events:UNIT_INVENTORY_CHANGED(unit)
+	if unit ~= "player" or not T.Settings.ShowPotential then return end
+	T.ReputationStatusBarUpdate()
+end
+
+function Events:PLAYERREAGENTBANKSLOTS_CHANGED(slot)
+	if not T.Settings.ShowPotential then return end
+	T.ReputationStatusBarUpdate()
+end
+
 ------------------------------------------------------
 -- Item tooltip 
 ------------------------------------------------------
