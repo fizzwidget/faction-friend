@@ -417,5 +417,3 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
     end
     return potentialValue, numTurnins
 end
-
--- FFF_PrintReport(932) -- TODO TEMP DEBUG REMOVE

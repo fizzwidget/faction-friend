@@ -47,7 +47,8 @@ TODO for rewrite
 - faction report tooltip for friendship, paragon, major faction renown
 - shorter reputation watch bar menu when few factions / hide legacy factions?
 - potential gains count warband bank (and reagent bank? are any turnin items reagents?)
-- reputation pane search box doesn't work after dismiss/re-show window
+- BUG: reputation pane search box doesn't work after dismiss/re-show window
+- BUG: potential report flipflops showing 0 for some factions
 - get rid of locale support for certain item names -- pre-cache?
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
