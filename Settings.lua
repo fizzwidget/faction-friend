@@ -7,10 +7,11 @@ function T:SetupSettings()
     
     -- TODO: setup factories for other settings control types as needed
     -- TODO: shorter label locale-lookup keys, derive tooltip key from label
-    local function Checkbox(settingKey, defaultValue, labelText, tooltipText, parentInit)
+    local function Checkbox(settingKey, defaultValue, labelText, tooltipText, parentInit, onValueChanged)
+        local variable = addonName .. "_" .. settingKey
         local setting = Settings.RegisterAddOnSetting(
             category, 
-            addonName .. "_" .. settingKey, 
+            variable, 
             settingKey, 
             settingsTable,
             type(defaultValue), 
@@ -22,25 +23,26 @@ function T:SetupSettings()
             init:Indent()
             init:SetParentInitializer(parentInit)
         end
+        if onValueChanged then
+            Settings.SetOnValueChangedCallback(variable, onValueChanged)
+        end
         return init
     end
     
-    Checkbox("ShowPotential", true, FFF_OPTION_SHOW_POTENTIAL, FFF_OPTION_SHOW_POTENTIAL_TIP)
-    -- Checkbox("UseCurrency", true, FFF_OPTION_USE_CURRENCY, FFF_OPTION_USE_CURRENCY_TIP)
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
     Checkbox("ModifyChat", false, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
     Checkbox("MoveInactiveOnComplete", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
-    -- Checkbox("ReputationColors", false, FFF_OPTION_REPUTATION_COLORS)
 
     -- TODO: header for menu settings?
-    -- Checkbox("CombatDisableMenu", true, FFF_OPTION_COMBAT_DISABLE, FFF_OPTION_COMBAT_DISABLE_TIP)
-    -- TODO: non-settings text for FFF_OPTIONS_TIPS
+    -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu
     
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_SWITCHBAR))
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_WATCHBAR, FFF_OPTIONS_WATCHBAR_TIP:format(MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL)))
 
-    local repGainParent = Checkbox("RepGained", true, FFF_OPTION_REP_GAINED)
-    Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_AUTOSWITCH, FFF_OPTION_GUILD_AUTOSWITCH_TIP, repGainParent)
-    Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_AUTOSWITCH, FFF_OPTION_BODYGUARD_AUTOSWITCH_TIP, repGainParent)
+    Checkbox("ShowPotential", true, FFF_OPTION_SHOW_POTENTIAL, FFF_OPTION_SHOW_POTENTIAL_TIP, nil, T.ReputationStatusBarUpdate)
+
+    local repGainParent = Checkbox("RepGained", true, FFF_OPTION_REP_GAINED, FFF_OPTION_REP_GAINED_TIP)
+    Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_SWITCH, FFF_OPTION_GUILD_SWITCH_TIP, repGainParent)
+    Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_SWITCH, FFF_OPTION_BODYGUARD_SWITCH_TIP, repGainParent)
     
     Settings.RegisterAddOnCategory(category)
 

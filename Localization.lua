@@ -39,24 +39,27 @@ FFF_ALL_PURCHASED				= "purchased"
 --	100 points:		2x [Zandalar Honor Token] (from turnins)
 --  |---A----|		|------------C----------|  |----F-----|
 
--- Options panel
+-- Settings panel
 
-FFF_OPTIONS_SWITCHBAR			= "Show/switch the reputation watch bar"
-FFF_OPTION_REP_GAINED			= "When gaining reputation"
-FFF_OPTION_GUILD_AUTOSWITCH		= "Include guild reputation"
-FFF_OPTION_BODYGUARD_AUTOSWITCH = "Include bodyguard reputations"
+FFF_OPTIONS_WATCHBAR			= "Reputation watch bar"
+FFF_OPTIONS_WATCHBAR_TIP		= "Settings related to the Blizzard UI's built-in reputation tracking bar (enabled through “%s” in the Character window's Reputation pane)"
+-- quoted substitution is base UI localized string MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL
+
+FFF_OPTION_REP_GAINED			= "Update for reputation gains"
+FFF_OPTION_REP_GAINED_TIP		= "When gaining reputation, switches the reputation watch bar to the affected faction (and shows it if hidden)"
+FFF_OPTION_GUILD_SWITCH			= "Include guild"
+FFF_OPTION_GUILD_SWITCH_TIP		= "Uncheck to disable automatic watch bar switching for guild reputation. (Useful if you're gaining other reputations at the same time as guild reputation.)"
+FFF_OPTION_BODYGUARD_SWITCH 	= "Include bodyguards"
+FFF_OPTION_BODYGUARD_SWITCH_TIP	= "Uncheck to disable automatic watch bar switching for Barracks Bodyguards reputations in Warlords of Draenor. (Useful if you're gaining other reputations at the same time as bodyguard reputation.)"
 FFF_OPTION_SHOW_POTENTIAL		= "Show potential reputation gain"
 FFF_OPTION_SHOW_POTENTIAL_TIP	= "Adds an indicator to the reputation watch bar showing the amount of reputation to be gained by turning in or using items"
-FFF_OPTION_USE_CURRENCY			= "Include potential reputation gains from currency"
 FFF_OPTION_TOOLTIP				= "Enhance item tooltips"
 FFF_OPTION_TOOLTIP_TIP			= "Adds info to tooltips for items that can be turned in or used to gain reputation"
 FFF_OPTION_MODIFY_CHAT			= "Enhance chat window output"
 FFF_OPTION_MODIFY_CHAT_TIP		= "Adds info to reputation messages in chat windows, including an estimated number of repeated reputation gains until the next rank/reward. (Use chat window settings to enable reputation messages.) "
 FFF_OPTION_MOVE_EXALTED			= "Move completed to Inactive"
-FFF_OPTION_MOVE_EXALTED_TIP		= "Automatically move factions to Inactive upon reaching maximum standing, friendship, or renown" 
-FFF_OPTION_REPUTATION_COLORS	= "Use distinct colors for reputation standings"
-FFF_OPTION_COMBAT_DISABLE		= "Disable reputation bar menu in combat"
-FFF_OPTION_COMBAT_DISABLE_TIP	= "Right-click the reputation watch bar for a menu to change which faction it shows"
+FFF_OPTION_MOVE_EXALTED_TIP		= "Automatically moves factions to Inactive upon reaching maximum standing, friendship, or renown" 
+
 FFF_OPTIONS_TIPS				= "Tip: For a simpler menu, use the Reputation pane to mark factions as inactive."
 
 -- Item Tooltip
