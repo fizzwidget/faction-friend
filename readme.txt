@@ -37,173 +37,51 @@ CAVEATS, KNOWN BUGS, ETC.:
 ------------------------------------------------------
 VERSION HISTORY
 
-v. 11.xxxx - 2025/xxxx/xxxx
-- TODO info about rewrite
-	
+v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
+
+TODO for rewrite
+- faction report in special paragon tooltip
+- paragon info in context menu
+- update rep watch bar (potential gains) when getting items (BAG_UPDATE, UNIT_INVENTORY_CHANGED?)
+- potential gains for friendship, paragon, major faction renown
+- faction report tooltip for friendship, paragon, major faction renown
+- shorter reputation watch bar menu when few factions / hide legacy factions?
+- potential gains count warband bank (and reagent bank? are any turnin items reagents?)
+- reputation pane search box doesn't work after dismiss/re-show window
+- get rid of locale support for certain item names -- pre-cache?
+
+Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
+	- Modern WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
+	- Modern WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
+	- TODO All relevant features support major faction renown, friendship factions, and paragon factions (those which provide repeatable rewards for continued reputation gain past Exalted)
+
+New Features
+
 - Adds a few widgets to the default UI's Reputation pane:
 	- A button to move all completed (exalted, max friendship, max renown) factions to Inactive
 	- A search field -- find a faction by part of its name and select it, expand any headers needed to make it visible, and scroll to it
 	- Buttons to expand/collapse all top-level headers (with modifier key options to expand/collapse more)
+	
 - Modifies the default UI's reputation-related chat messages to add a hyperlink for the relevant faction.
 	- Click to open the default UI's Reputation pane and reveal that faction.
 	- If you also have Fizzwidget HoverTips installed, mousing over the link shows a tooltip with reputation info.
-- Reputation-gain chat messages still count the number of repeated gains needed to reach the next threshold. (Only 4,396 pirates left to kill before that other cartel stops hating you!) Now:
-	- Handles Renown factions in recent expansions, correctly showing the next renown level and the number of gains left to reach it.
-	- Suppotrs "paragon" factions (which provide repeatable rewards for continuing to gain reputation after reaching Exalted), showing the number of repetitions needed to reach the next reward.
-- Notable minor fixes and improvements from the rewrite:
-	- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
-	- In the reputation watch bar's context menu, choosing Show Reputation Pane when in combat no longar causes "action blocked because of an addon" errors; instead that option is disabled during combat (and shows a tooltip indicating why).
+	
+Other Improvements & Bug Fixes
+
+- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
+- Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
+
+Legacy
+
 - Removed some older features for which it's cumbersome to maintain support:
 	- Switching reputation watch bar when entering certain zones
 	- Switching reputation watch bar when equipping certain tabards
-- Uses Blizzard's built-in Settings UI system (searchable; less library dependencies).
-	- Note for non-English players: text for existing settings has changed. Where the sense of the English text is different from before, I've deactivated old localizations; for others, the new UI may truncate settings text. (If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend!)
-
-v. 8.0.1 - 2018/08/14
-- Oops. The version released as "8.0" didn't include the v8.0 TOC update and readme content. This one does.
-
-v. 8.0 - 2018/08/13
-- Updated for WoW Patch 8.0 and Battle for Azeroth.
-- Fixed issue where "paragon" factions (those that allow additional gain past exalted for extra rewards) kept getting marked as inactive.
-- Tracks fishing-related factions and turnins introduced in patch 7.2. (Thanks Hrazmadul!)
-- Tracks "Lunker" fish turnins for Nat Pagle faction in the Draenor Garrison. (Thanks milotic!)
-
-v. 7.2 - 2017/04/10
-- Several changes for Legion factions that allow earning reputation past Exalted (and towards lucrative rewards!) in WoW patch 7.2:
-	- Chat messages for reputation gains no longer cause error messages (GitHub issue #22).
-	- Fixes and UI improvements for the reputation watch bar and its tooltip on such factions.
-	- The "Automatically mark Exalted factions as Inactive" setting no longer inactivates such factions. (If they're already inactive and you want to track them again, you'll need to reactivate them yourself.)
-- Now tracks several more tokens/turnins:
-	- New Insignia for Legion factions introduced in WoW patch 7.2, including the Armies of Legionfall.
-	- Commendations for Mists of Pandaria factions introduced to Timewalking vendors in WoW patch 7.1.5, and corresponding Timewarped Badge -> Commendation -> reputation conversions.
-	- Various other Mists of Pandaria faction tokens that we didn't have before.
-	- Pungent Truffle for Sporeggar reputation. Just in time for the Glowcap Festival!
-
-v. 7.0.3 - 2016/09/02
-- Added Drowned Mana for Conjurer Margoss reputation.
-- Fixed an issue where the "Show enhanced reputation messages in chat" option would hide reputation gain messages for Conjurer Margoss (and possibly others).
-
-v. 7.0.2 - 2016/08/30
-- Now tracks items that increase reputation with Legion factions on use (e.g. Wardens Insignia, Arcane Tablet of Falanaar).
-- Removed AddonLoader support. (It was causing issues, and the trigger function for FF loading happens right on login anyhow.)
-- Updated French localization. (Thanks Irv1e3!)
-- Fixed typo in settings.
-
-v. 7.0.1 - 2016/08/26
-- Added option to disable auto-switching reputation watch bar when gaining reputation with bodyguards. This option is on by default. (Thanks Dragonwolf!)
-- Now tracks faction Commendations purchaseable with Timewarped Badges (thanks Dragonwolf). Also tracks available badge -> commendation -> reputation conversions.
-- Now tracks Medallion of the Legion if you're lucky enough to find one (or rich enough to buy a few at the AH).
-- Now shows a blue "!" in FactionFriend's menu (right click the reputation watch bar) for factions where you have available reputation gains.
-- Fixed issue where the blue "!" we show in the default Reputation window (indicating a faction with available reputation gains) wouldn't appear when it was supposed to.
-- Fixed failure to load when AddonLoader is present. (Github issue #10)
-- Fixed issue where choosing a recent faction from FactionFriend's reputation watch bar menu wouldn't work if that faction was marked Inactive.
-
-v. 7.0 - 2016/08/18
-- Updated for WoW Patch 7.0 and Legion. (Thanks Dragonwolf!)
-
-v. 6.0 - 2014/10/14
-- Updated for WoW Patch 6.0 and Warlords of Draenor.
-	- Added turnin info for the Steamwheedle Preservation Society.
-	- Removed info for reputation boosts purchasable with Justice Points, as Justice Points are no longer in the game.
-
-v. 5.2.1 - 2013/03/08
-- Fixed an error when mousing over the reputation bar for friendship factions in certain circumstances.
-
-v. 5.2 - 2013/03/05
-- Updated for WoW Patch 5.2.
-	- FactionFriend no longer needs to observe an increase in reputation to detect whether a faction has a Grand Commendation bonus.
-	- Added turnin information for Sunreaver Onslaught and Kirin Tor Offensive (Tattered Historical Documents -> faction-specific insignia)
-- The Klaxxi turnin "Seeds of Fear" requires 5 Dread Amber Shards, not 20.
-- The feature that recolors reputation bars and related UI (such that, e.g. Friendly through Exalted use distinct colors instead of the same green) is now optional and disabled by default. It was causing "taint" and "blocked action" errors for some users, but if it causes you no trouble you're welcome to enable it.
-
-v. 5.1.1 - 2013/01/14
-- More handling of "friendship" factions (Tillers/Anglers NPCs and the Brawler's Guild factions):
-	- Friendship ranks appear appropriately on the reputation watch bar and in its tooltip.
-	- Chat-window messages correctly reflect the amount of reputation until the next friendship rank.
-	- The indicator for additional reputation available from turnins is correctly placed.
-- We now detect when you gain reputation with the bonus from a Grand Commendation; thereafter, estimates of reputation gain for that faction reflect the bonus.
-- Fixed an error that could occur when showing a faction report tooltip including info on purchasable tokens (e.g. [Sons of Hodir Commendation Badge]) when info for said tokens is not yet available to the WoW client. The names of such items are now in FactionFriend's database (for English, German, French, Spanish, Portuguese and Russian locales), and if we still don't have the name for an item we'll show its numeric ID instead of throwing an error.
-- Fixed an issue where we'd fail to detect the "Mr. Popularity" guild perk (which increases reputation gain) as intended.
-- Fixed an issue where we'd fail to recognize a reputation gain message for a faction to which a Grand Commendation bonus applies, and thus not do things we're supposed to, like automatically switching the reputation bar. (This issue didn't surface in English clients, but would on German and possibly other locales.)
-- Better late than never: we now track Writs of Commendation purchasable at the Molten Front. (So if you're still sitting on some Marks of the World Tree, your Reputation window will tell you how much reputation you can gain with your faction's racial cities.)
-- Some internal architecture improvements.
-
-v. 5.1 - 2012/12/19
-- Updated TOC to indicate compatibility with WoW Patch 5.1.
-- Added Huojin and Tushui for automatically switching the rep bar when the appropriate tabard is equipped.
-- Added turnin info for the following Mists of Pandaria factions:
-	- Onyx Eggs for Order of the Cloud Serpent
-	- Dread Amber Shards for The Klaxxi
-	- Relics of Guo-Lai and the Thunder King for Golden Lotus
-	- Favorite foods and gifts for each of the ten Tillers NPCs you can befriend
-- Fixed an issue where "gibberish" (color codes) could appear before text.
-- The reputation watch bar menu uses friendship-level names for friendship factions.
+	- Customizing the color of reputation bars (caused taint errors, no longer works with some bars)
 	
-v. 5.0 - 2012/08/28
-- Updated for WoW Patch 5.0 and Mists of Pandaria.
-- Fixes errors which could appear when playing a Pandaren character who has not yet chosen a faction.
-- Fixes error when attempting to apply a glyph.
-
-v. 4.3.3 - 2012/08/03
-- Fixed an error that could occur when gaining/losing guild reputation while not in a guild.
-
-v. 4.3.2 - 2012/06/18
-- When calculating potential reputation gain, we now ignore rep gain from items purchased with currency unless no other turnins are available. 
-	- For example, if you are farming Relics of Ulduar for Sons of Hodir reputation, the reputation bar will show only the gains you can make by turning in those items, instead of obscuring that information by showing that you can gain lots of reputation by spending Justice Points on Commendation Badges. Once you run out of Relics, the bar will show how much further you can get using Justice Points. 
-	- Better customization and reporting for this feature will come in a future update.
-
-v. 4.3.1 - 2012/01/04
-- Now supports the Brazilian Portuguese localization of the WoW client thanks to data from pt.wowhead.com. (Only the client-specific strings needed for full functionality under Portuguese are translated; if you'd like to help provide a translation for FactionFriend's own UI text, see the localization.lua file.)
-- Removed the Coilfang Armaments turnin for Cenarion Expedition, as WoW Patch 4.3 removed the turnin quest. (The items still drop and are still white, so maybe this is a bug and the turnin will come back later?)
-- Removed turnins from the old (before Patch 4.3) Darkmoon Faire as they are no longer available. You can get rid of your Evil Bat Eyes now.
-- Fixed database entry for Oshu'gun Crystal Fragments so that those items are properly counted for potential reputation gains.
-- Fixed an issue where certain kinds of turnins (including some from the old Darkmoon Faire) could be incorrectly counted as providing negative reputation.
-
-v. 4.3 - 2011/11/29
-- Updated TOC to indicate compatibility with WoW Patch 4.3.
-
-v. 4.2.3 - 2011/07/07
-- Fixed error on login introduced in 4.2.2. (I don't know how I managed to end up with the entire contents of FactionFriend.lua duplicated -- probably gnome sabotage or something-- but it's back to normal now.)
-
-v. 4.2.2 - 2011/07/06
-- Fixed incorrect numbers shown on the reputation watch bar (bug introduced in 4.2.1).
-
-v. 4.2.1 - 2011/07/03
-- Fixed an error when using zone-based switching of the reputation watch bar.
-- Fixed strange behaviors related to the quest log.
-- The text on the reputation watch bar (when moused over, or shown by the default UI in various other circumstances) now displays your current standing (Hated, Neutral, Friendly, etc) with the watched faction.
-
-v. 4.2 - 2011/06/28 - Big Update!
-
-New Features & Bug Fixes:
-
-- Updated TOC to indicate compatibility with WoW Patch 4.2.
-- Now adds an icon to the builtin UI's Reputation panel for each faction you can readily increase -- mouse over it for details. Didn't know your bank was full of stuff you could gain reputation from? Now you do! 
-- Improved item info caching, so tooltips indicating which items can be used to gain reputation should always have the actual item name.
-- Altered FactionFriend counts reputation gains which are available up through Exalted standing:
-	- If your current reputation is below Exalted, we indicate only the number of gains (turnins / item uses / etc) required to raise the reputation into Exalted.
-	- If your current reputation is Exalted, we indicate the number of gains required to max out at 999/1000.
-	- (Fixed issue where we'd say you could turn in / use more items than were needed to max out.)
-- The tooltip detailing reputation gains (now visible both from the reputation panel and reputation watch bar) now always shows the amount of reputation you'll have after all applicable gains (instead of only showing such if you have enough to reach a new standing).
-- Fixes an error which could appear when we try to draw the reputation watch bar menu.
-- Options now default to being shared across all characters; see the Options Profile panel if you'd prefer per-character, per-server, or per-class settings. (This change may not take effect if you already have saved options; choose the Default options profile if you'd prefer this behavior)
-
-Content Updates:
-
-- Potential reputation gains are displayed for Baradin's Wardens / Hellscream's Reach Commendations purchasable with Tol Barad currency.
-- Some overdue additions regarding Wrath of the Lich King content:
-	- Icecrown Citadel / Ashen Verdict is now included for zone-based switching of the reputation watch bar.
-	- Potential reputation gains are displayed for racial faction Commendation Badges and [Champion's Writ] from the Argent Tournament.
-	- Potential gains are also displayed for Northrend faction Commendation Badges purchasable via Justice Points.
-- Further updates of turnin info to match post-Shattering changes to Classic quests:
-	- Thorium Brotherhood: removed Fiery Flux quests, changed availability of [Dark Iron Residue] turnin, increased reputation from various turnins
-	- Zandalar Tribe: no longer associated with Zul'Gurub for zone-based switching of the reputation watch bar.
-	- Argent Dawn: no longer associated with Plaguelands, Stratholme, or Scholomance for zone-based switching of the reputation watch bar.
-
-Stuff For Localizers & Other Addon Authors:
-
-- Redesigned internals for better locale support: most of FactionFriend's feature set is now available in all WoW locales. (Now, the only feature that requires explicit localization is zone-based switching of the reputation watch bar. If you'd like to help provide such support for languages other than English, Spanish, German, French, and Russian, see the LocaleSupport.lua file.)
-- The API we provide (so that other reputation bar addons can make use of FactionFriend's features) has been expanded and better documented. See readme-API.txt for details.
+- Some changes have disrupted existing localizations:
+	- New Settings UI may truncate settings text
+	- Many new or changed text strings not localized
+	- If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend
 
 
 See http://fizzwidget.com/notes/factionfriend/ for older release notes.
