@@ -418,6 +418,10 @@ function T:SetupWatchBarOverlays()
 			bar:EnableMouse(false)
 			bar:EnableMouseMotion(false)
 			overlay.potentialBar = bar
+			
+			if not T.Settings.ShowPotential then
+				bar:Hide()
+			end
 		end
 		hooksecurefunc(barFrame, "Update", T.ReputationStatusBarUpdate)
 	end
@@ -426,7 +430,9 @@ end
 
 function T.ReputationStatusBarUpdate(frame)
 	if not T.Settings.ShowPotential then
-		-- TODO show/hide bar appropriately
+		for _, overlay in pairs(T.BarOverlays) do
+			overlay.potentialBar:Hide()
+		end
 		return 
 	end
 
@@ -440,6 +446,7 @@ function T.ReputationStatusBarUpdate(frame)
 	if potential > 0 then
 		for _, overlay in pairs(T.BarOverlays) do
 			local bar = overlay.potentialBar
+			bar:Show()
 			local baseBar = overlay:GetParent().StatusBar
 			local asset = baseBar:GetStatusBarTexture():GetAtlas()
 			if asset then
