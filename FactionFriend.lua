@@ -91,11 +91,17 @@ function T.AddToRecents(factionID)
 	end
 end
 
-function T.AddToRecentsByIndex(index)
+function T.SetWatchedFactionByID(factionID)
+	T.AddToRecents(factionID)
+	T:ReputationStatusBarUpdate()
+end
+
+function T.SetWatchedFactionByIndex(index)
 	local factionData = C_Reputation.GetFactionDataByIndex(index)
 	if factionData then
 		T.AddToRecents(factionData.factionID)
 	end
+	T:ReputationStatusBarUpdate()
 end
 
 EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
@@ -414,7 +420,6 @@ function T:SetupWatchBarOverlays()
 			bar = CreateFrame("StatusBar", nil, overlay)
 			bar:SetAllPoints()
 			bar:SetFrameLevel(0)
-			bar:SetAlpha(0.33)
 			bar:EnableMouse(false)
 			bar:EnableMouseMotion(false)
 			overlay.potentialBar = bar
@@ -428,7 +433,7 @@ function T:SetupWatchBarOverlays()
 
 end
 
-function T.ReputationStatusBarUpdate(frame)
+function T.ReputationStatusBarUpdate()
 	if not T.Settings.ShowPotential then
 		for _, overlay in pairs(T.BarOverlays) do
 			overlay.potentialBar:Hide()
@@ -443,17 +448,20 @@ function T.ReputationStatusBarUpdate(frame)
 	
 	local factionID = factionData.factionID
 	local potential = T:FactionPotential(factionID, false, factionData)
-	if potential > 0 then
-		for _, overlay in pairs(T.BarOverlays) do
-			local bar = overlay.potentialBar
+	for _, overlay in pairs(T.BarOverlays) do
+		local bar = overlay.potentialBar
+		if potential > 0 then
 			bar:Show()
 			local baseBar = overlay:GetParent().StatusBar
 			local asset = baseBar:GetStatusBarTexture():GetAtlas()
 			if asset then
 				bar:SetStatusBarTexture(asset)
 			end
+			bar:SetStatusBarColor(0.5, 0.5, 0.5, 1)
 			bar:SetMinMaxValues(baseBar:GetMinMaxValues())
 			bar:SetValue(baseBar:GetValue() + potential)
+		else
+			bar:Hide()
 		end
 	end
 end
@@ -473,8 +481,8 @@ function Events:ADDON_LOADED(addon, ...)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_FACTION_CHANGE", T.CombatMessageFilter)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
 		
-		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.AddToRecents)
-		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.AddToRecentsByIndex)
+		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.SetWatchedFactionByID)
+		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.SetWatchedFactionByIndex)
 
 		T:SetupWatchBarOverlays()
 		T:SetupSettings()
