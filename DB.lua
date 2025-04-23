@@ -215,48 +215,49 @@ DB.ExcludedFactions = {
 }
 
 ------------------------------------------------------
--- Localized item names for "created" items, since they can appear without being cached by client
+-- Items to precache, since they can appear in reports as created/purchased before getting cached by client otherwise
 ------------------------------------------------------
-FFF_SpecialItems = {
-	-- vanilla no longer obtainable
-	[12844] = FFF_ITEM_AD_TOKEN,
-	[19858] = FFF_ITEM_ZG_TOKEN,
+-- TODO generate/augment this list at runtime from turnins with a "creates" item?
+DB.PrecacheItems = {
+	-- vanilla / no longer obtainable
+	12844, -- Argent Dawn Valor Token
+	19858, -- Zandalar Honor Token
 	
 	-- racial factions; purchased with champion's writ at argent tournament
-	[45714] = FFF_ITEM_NELF_BADGE,
-	[45715] = FFF_ITEM_DRAENEI_BADGE,
-	[45716] = FFF_ITEM_GNOME_BADGE,
-	[45717] = FFF_ITEM_DWARF_BADGE,
-	[45718] = FFF_ITEM_HUMAN_BADGE,
-	[45719] = FFF_ITEM_ORC_BADGE,
-	[45720] = FFF_ITEM_TROLL_BADGE,
-	[45721] = FFF_ITEM_BELF_BADGE,
-	[45722] = FFF_ITEM_TAUREN_BADGE,
-	[45723] = FFF_ITEM_FORSAKEN_BADGE,
+	45714, -- Darnassus Commendation Badge
+	45715, -- Exodar Commendation Badge
+	45716, -- Gnomeregan Commendation Badge
+	45717, -- Ironforge Commendation Badge
+	45718, -- Stormwind Commendation Badge
+	45719, -- Orgrimmar Commendation Badge
+	45720, -- Sen'jin Commendation Badge
+	45721, -- Silvermoon Commendation Badge
+	45722, -- Thunder Bluff Commendation Badge
+	45723, -- Undercity Commendation Badge
 	
 	-- cata tol barad factions; purchase with tol barad commendations
-	[63517] = FFF_ITEM_BARADIN_COMMENDATION,
-	[63518] = FFF_ITEM_HELLSCREAM_COMMENDATION,
+	63517, -- Baradin's Wardens Commendation
+	63518, -- Hellscream's Reach Commendation
 	
 	-- racial factions; purchase with marks of the world tree at molten front
-	[70145] = FFF_ITEM_NELF_WRIT,
-	[70146] = FFF_ITEM_DRAENEI_WRIT,
-	[70147] = FFF_ITEM_GNOME_WRIT,
-	[70148] = FFF_ITEM_DWARF_WRIT,
-	[70149] = FFF_ITEM_ORC_WRIT,
-	[70150] = FFF_ITEM_TROLL_WRIT,
-	[70151] = FFF_ITEM_BELF_WRIT,
-	[70152] = FFF_ITEM_HUMAN_WRIT,
-	[70153] = FFF_ITEM_TAUREN_WRIT,
-	[70154] = FFF_ITEM_FORSAKEN_WRIT,
-	[71087] = FFF_ITEM_WORGEN_WRIT,
-	[71088] = FFF_ITEM_GOBLIN_WRIT,
+	70145, -- Darnassus Writ of Commendation
+	70146, -- Exodar Writ of Commendation
+	70147, -- Gnomeregan Writ of Commendation
+	70148, -- Ironforge Writ of Commendation
+	70149, -- Orgrimmar Writ of Commendation
+	70150, -- Sen'jin Writ of Commendation
+	70151, -- Silvermoon Writ of Commendation
+	70152, -- Stormwind Writ of Commendation
+	70153, -- Thunder Bluff Writ of Commendation
+	70154, -- Undercity Writ of Commendation
+	71087, -- Gilneas Writ of Commendation
+	71088, -- Bilgewater Writ of Commendation
 	
 	-- mists isle of thunder factions; purchase with tattered historical parchments
-	[95487] = FFF_SUNREAVER_ONSLAUGHT_INSIGNIA, 
-	[95488] = FFF_SUNREAVER_ONSLAUGHT_INSIGNIA_GREATER, 
-	[95489] = FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA, 
-	[95490] = FFF_KIRIN_TOR_OFFENSIVE_INSIGNIA_GREATER, 
+	95487, -- Sunreaver Onslaught Insignia 
+	95488, -- Greater Sunreaver Onslaught Insignia
+	95489, -- Kirin Tor Offensive Insignia 
+	95490, -- Greater Kirin Tor Offensive Insignia
 }
 
 ------------------------------------------------------

@@ -48,12 +48,13 @@ TODO for rewrite
 - potential gains count warband bank (and reagent bank? are any turnin items reagents?)
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
 - BUG: potential report flipflops showing 0 for some factions
-- get rid of locale support for certain item names -- pre-cache?
+- content updates
+	- DF faction turnins
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
 	- Modern WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
 	- Modern WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
-	- More efficient, locale-independent handling of faction data should improve reliability and performance.
+	- More efficient, locale-independent handling of faction and item data should improve reliability and performance.
 	- TODO All relevant features support major faction renown, friendship factions, and paragon factions (those which provide repeatable rewards for continued reputation gain past Exalted), and correctly handle the change (from several expansions ago) where regular factions no longer earn up to 999 points of reputation at Exalted status.
 
 New Features

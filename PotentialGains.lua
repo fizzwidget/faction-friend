@@ -66,17 +66,10 @@ function T:ItemLink(itemID)
         return C_CurrencyInfo.GetCurrencyLink(currencyID)
     end
     
-    local _, link = GetItemInfo(itemID)
-    if link then return link end
-    -- otherwise it's already been queued to cache for future calls
-    
-    -- if we don't have a link, load our localized name and color it green
-    -- (all items we might use this for are uncommon)
-    local name = FFF_SpecialItems[itemID]
-    if (name) then
-        local green = ITEM_QUALITY_COLORS[2].color
-        return green:WrapTextInColorCode(name)
-    end
+    local _, link = C_Item.GetItemInfo(itemID)
+    return link
+    -- if nil, it's already been queued to cache for future calls
+    -- but we should have precached any items we know about
 end
 
 ------------------------------------------------------

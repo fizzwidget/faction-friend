@@ -133,6 +133,13 @@ function T:FactionLink(factionID, factionData, friendshipData)
 	return format("%s|Haddon:%s:faction:%d|h[%s]|h|r", color, addonName, factionID, factionData.name)
 end
 
+function T:PrecacheItems()
+	for _, itemID in pairs(DB.PrecacheItems) do
+		-- force client to fetch info so we can get it later
+		C_Item.GetItemInfo(itemID)
+	end
+end
+
 function T:TrySetWatchedFaction(factionID, overrideInactive)
 	
 	local watchedFaction = C_Reputation.GetWatchedFactionData()
@@ -486,6 +493,8 @@ function Events:ADDON_LOADED(addon, ...)
 
 		T:SetupWatchBarOverlays()
 		T:SetupSettings()
+		
+		T:PrecacheItems()
 		
 		self:UnregisterEvent("ADDON_LOADED")
 	end
