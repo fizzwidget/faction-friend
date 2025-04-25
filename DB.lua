@@ -155,6 +155,10 @@ local F = {
 	FISHERFRIEND_CORBYN = 2100,
 	FISHERFRIEND_SHALETH = 2101,
 	FISHERFRIEND_IMPUS = 2102,
+
+-- Battle for Azeroth factions
+	RUSTBOLT_RESISTANCE = 2391,
+	RAJANI = 2415,
 	
 
 -- Dragonflight factions
@@ -470,6 +474,23 @@ DB.TurninsByQuest = {
 				[17326] = 1,	-- Stormpike Soldier's Flesh
 			},
 		},
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[208133] = 1,	-- Orgrimmar Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:2594"] = 2500,	-- Paracausal Flakes
+			},
+		},
+		A_ParacausalInsignia = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[208133] = 1,	-- Orgrimmar Insignia
+			}
+		},	
 	},
 	[F.GOBLIN] = {
 		-- Molten Front vendor (not really a quest, but it works here)
@@ -573,6 +594,23 @@ DB.TurninsByQuest = {
 				[70152] = 1,	-- Stormwind Writ of Commendation
 			},
 		},
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[208132] = 1,	-- Stormwind Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:2594"] = 2500,	-- Paracausal Flakes
+			},
+		},
+		A_ParacausalInsignia = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[208132] = 1,	-- Stormwind Insignia
+			}
+		},	
 	},
 	[F.DRAENEI] = {
 		-- Argent Tournament vendor (not really a quest, but it works here)
@@ -1379,6 +1417,23 @@ DB.TurninsByQuest = {
 				[129941] = 1,	-- Commendation of The Ebonblade
 			}
 		},
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[208617] = 1,	-- Ebon Blade Commendation Badge
+			},
+			value = 0,
+			buyValue = 260,
+			items = {
+				["currency:2594"] = 2600,	-- Paracausal Flakes
+			},
+		},
+		A_ParacausalInsignia = {
+			value = 260,
+			useItem = 1,
+			items = {
+				[208617] = 1,	-- Ebon Blade Commendation Badge
+			}
+		},	
 	},
 
 	-- Cataclysm factions
@@ -2514,6 +2569,16 @@ DB.TurninsByQuest = {
 				[146949] = 1, -- Legionfall Insignia
 			}
 		},
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[146949] = 1, -- Legionfall Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:2594"] = 2500,	-- Paracausal Flakes
+			},
+		},
 		InsigniaBoA = {
 			value = 250,
 			useItem = 1,
@@ -2681,6 +2746,45 @@ DB.TurninsByQuest = {
 		},
 	},
 	
+	-- Battle for Azeroth factions
+	[F.RUSTBOLT_RESISTANCE] = {
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[208134] = 1,	-- Rustbolt Resistance Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:2594"] = 2500,	-- Paracausal Flakes
+			},
+		},
+		A_ParacausalInsignia = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[208134] = 1,	-- Rustbolt Resistance Insignia
+			}
+		},	
+	},
+	[F.RAJANI] = {
+		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[173375] = 1,	-- Rajani Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:2594"] = 2500,	-- Paracausal Flakes
+			},
+		},
+		A_ParacausalInsignia = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[173375] = 1,	-- Rajani Insignia
+			}
+		},	
+	},
 	
 	-- Dragonflight factions
 	[F.MARUUK_CENTAUR] = {
