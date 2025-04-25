@@ -144,7 +144,10 @@ local F = {
 	FARONDIS_COURT = 1900,
 	VALARJAR = 1948,
 	CONJURER_MARGOSS = 1975,
+	TALONS_VENGEANCE = 2018, 
 	ARMIES_LEGIONFALL = 2045,
+	ARMY_OF_LIGHT = 2165,
+	AGUSSIAN_REACH = 2170,
 	
 	FISHERFRIEND_ILYSSIA = 2097,
 	FISHERFRIEND_RAYNAE = 2098,
@@ -2134,6 +2137,14 @@ DB.TurninsByQuest = {
 				[141992] = 1, -- Greater Nightfallen Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 750,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150930] = 1, -- Greater Nightfallen Insignia
+			}
+		},
 		Paragon_ArcaneTablet = {
 			value = 100,
 			useItem = 1,
@@ -2169,6 +2180,13 @@ DB.TurninsByQuest = {
 				[147413] = 1, -- Greater Nightfallen Insignia
 			}
 		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
+			}
+		},
 	},
 	[F.VALARJAR] = {
 		InsigniaBoP = {
@@ -2195,6 +2213,14 @@ DB.TurninsByQuest = {
 				[141987] = 1, -- Greater Valarjar Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 1500,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150925] = 1, -- Greater Valarjar Insignia
+			}
+		},
 		Paragon_InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2214,6 +2240,13 @@ DB.TurninsByQuest = {
 			useItem = 1,
 			items = {
 				[147414] = 1, -- Greater Valarjar Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
 			}
 		},
 	},
@@ -2242,6 +2275,14 @@ DB.TurninsByQuest = {
 				[141990] = 1, -- Greater Highmountain Tribe Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 1500,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150928] = 1, -- Greater Highmountain Tribe Insignia
+			}
+		},
 		Paragon_InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2261,6 +2302,13 @@ DB.TurninsByQuest = {
 			useItem = 1,
 			items = {
 				[147412] = 1, -- Greater Highmountain Tribe Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
 			}
 		},
 	},
@@ -2289,6 +2337,14 @@ DB.TurninsByQuest = {
 				[141988] = 1, -- Greater Dreamweaver Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 1500,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150926] = 1, -- Greater Dreamweaver Insignia
+			}
+		},
 		Paragon_InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2308,6 +2364,13 @@ DB.TurninsByQuest = {
 			useItem = 1,
 			items = {
 				[147411] = 1, -- Greater Dreamweaver Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
 			}
 		},
 	},
@@ -2336,6 +2399,14 @@ DB.TurninsByQuest = {
 				[141989] = 1, -- Greater Court of Farondis Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 1500,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150927] = 1, -- Greater Court of Farondis Insignia
+			}
+		},
 		Paragon_InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2355,6 +2426,13 @@ DB.TurninsByQuest = {
 			useItem = 1,
 			items = {
 				[147410] = 1, -- Greater Court of Farondis Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
 			}
 		},
 	},
@@ -2383,6 +2461,14 @@ DB.TurninsByQuest = {
 				[141991] = 1, -- Greater Wardens Insignia
 			}
 		},
+		InsigniaGreaterBoA = {
+			value = 1500,
+			maxStanding = 7, 
+			useItem = 1,
+			items = {
+				[150929] = 1, -- Greater Wardens Insignia
+			}
+		},
 		Paragon_InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2402,6 +2488,13 @@ DB.TurninsByQuest = {
 			useItem = 1,
 			items = {
 				[147415] = 1, -- Greater Wardens Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
 			}
 		},
 	},
@@ -2427,8 +2520,96 @@ DB.TurninsByQuest = {
 				[147727] = 1, -- Greater Legionfall Insignia
 			}
 		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
+			}
+		},
 	},
-
+	[F.ARMY_OF_LIGHT] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[152958] = 1, -- Army of the Light Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[152957] = 1, -- Army of the Light Insignia
+			}
+		},
+		InsigniaGreaterBoP = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[152956] = 1, -- Greater Army of the Light Insignia
+			}
+		},
+		InsigniaGreaterBoA = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[152955] = 1, -- Greater Army of the Light Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
+			}
+		},
+	},
+	[F.AGUSSIAN_REACH] = {
+		InsigniaBoP = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[152959] = 1, -- Argussian Reach Insignia
+			}
+		},
+		InsigniaBoA = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[152960] = 1, -- Argussian Reach Insignia
+			}
+		},
+		InsigniaGreaterBoP = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[152961] = 1, -- Greater Argussian Reach Insignia
+			}
+		},
+		InsigniaGreaterBoA = {
+			value = 750,
+			useItem = 1,
+			items = {
+				[152954] = 1, -- Greater Argussian Reach Insignia
+			}
+		},
+		DemonsSoulstone = {
+			value = 1000,
+			useItem = 1,
+			items = {
+				[153113] = 1, -- Demon's Soulstone
+			}
+		},
+	},
+	[F.TALONS_VENGEANCE] = {
+		MarkOfPrey = {
+			value = 100,
+			items = {
+				[142363] = 1, -- Mark of Prey
+			}
+		},
+	},
 	[F.CONJURER_MARGOSS] = {
 		DrownedMana_10 = {
 			value = 500,
