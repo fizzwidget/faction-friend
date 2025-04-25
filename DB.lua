@@ -106,7 +106,7 @@ local F = {
 	ANGLERS = 1302,
 	EMPEROR_SHAOHAO = 1492,
 	
--- NPC friendships
+	-- NPC friendships
 	CHEE_CHEE = 1277,
 	ELLA = 1275,
 	FARMER_FUNG = 1283,
@@ -154,7 +154,15 @@ local F = {
 	FISHERFRIEND_AKULE = 2099,
 	FISHERFRIEND_CORBYN = 2100,
 	FISHERFRIEND_SHALETH = 2101,
-	FISHERFRIEND_IMPUS = 2102, 
+	FISHERFRIEND_IMPUS = 2102,
+	
+
+-- Dragonflight factions
+	MARUUK_CENTAUR = 2503,
+	DRAGONSCALE_EXPEDITION = 2507,
+	VALDRAKKEN_ACCORD = 2510,
+	ISKAARA_TUSKARR = 2511,
+	
 }
 
 ------------------------------------------------------
@@ -2672,6 +2680,54 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
+	
+	
+	-- Dragonflight factions
+	[F.MARUUK_CENTAUR] = {
+		HuntingTropy = {
+			-- technically 3 quests, for 1x, 5x, or 20x items, but rep reward is same multiplier
+			value = 25,
+			items = {
+				[200093] = 1,	-- Centaur Hunting Trophy
+			},
+		},
+	},
+	[F.DRAGONSCALE_EXPEDITION] = {
+		DragonIslesArtifacts = {
+			-- technically 3 quests, for 1x, 5x, or 20x items, but rep reward is same multiplier
+			value = 25,
+			items = {
+				[192055] = 1,	-- Dragon Isles Artifact
+			},
+		},
+		VaultArtifacts = {
+			-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+			value = 30,
+			items = {
+				[201412] = 1,	-- Ancient Vault Artifact
+			},
+		},
+	},
+	[F.VALDRAKKEN_ACCORD] = {
+		TitanRelic = {
+			-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+			value = 25,
+			items = {
+				[199906] = 1,	-- Titan Relic
+			},
+		},
+	},
+	[F.ISKAARA_TUSKARR] = {
+		StolenTotems = {
+			-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+			value = 25,
+			items = {
+				[200071] = 1,	-- Sacred Tuskarr Totem
+			},
+		},
+
+	},
+
 	
 	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
 	[F.HONOR_HOLD] = {
