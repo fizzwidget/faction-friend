@@ -48,29 +48,22 @@ TODO for rewrite
 - shorter reputation watch bar menu when few factions / hide legacy factions?
 - potential gains count warband bank (and reagent bank? are any turnin items reagents?)
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
-- BUG: potential report flipflops showing 0 for some factions
 - content updates
 	- various Timewalking
 		- check all commendations/insignia purchaseable with timewarped badges https://www.wowhead.com/items?filter=158:107;1166:0;0:reputation
+		- Argent Dawn scourgestones quests returned
+	- Dragonflight
+		- insignia for all renown factions
+		
 	- Shadowlands
 		- stolen korthian supplies
 		- helsworn battle plans
 	- Battle for azeroth
-		- proudmoore: dented coin
-		- zandalari: island flotsam
-		- storm wake: lost sea scroll
-		- talanji: golden beetle
-		- embers: exotic spices
-		- voldunai: shimmering shell
-		- tortollan: soggy page
+		- dubloon items: test if using item is required
 		- champions: azeroth's tear
-		- honorbound: rusted horde insignia
-		- 7th legion: rusted alliance insignia
-		- most of the above purchaseable for seafarer dubloon
 		- unshackled / ankoan: abyssal conch
 			- creatable with shadow cloaked shell?
 		- nazjatar bodyguards?
-		- rustbolt: insignia for alts
 		- honeyback hive
 			- thin / rich / royal jelly
 	- ???
@@ -97,10 +90,12 @@ Other Improvements & Bug Fixes
 
 - When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
 - Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
+- Warlords of Draenor: Fixed a bug that prevented showing item tooltip info for Horde- or Alliance-only factions.
+- Cataclysm: Previously tracked Writs of Commendation for racial factions, but didn't track that they can be purchased with Marks of the World Tree; fixed.
 
-Content Updates
+Content Updates / Fixes
 
-- Dragonflight: Treasure collection turnins for the four major Patch 10.0 factions, Vault Artifacts, prior expansions' reputation items available from Paracausal Flakes vendors
+- Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors
 - Shadowlands:
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase > item turnin > use quest reward item)
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions

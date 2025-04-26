@@ -160,12 +160,12 @@ local F = {
 -- Battle for Azeroth factions
 	RUSTBOLT_RESISTANCE = 2391,
 	RAJANI = 2415,
-	PROUDMOORE_ADMIRALTY = 2160,
 	ZANDALARI_EMPIRE = 2103,
-	STORMS_WAKE = 2162,
 	TALANJIS_EXPEDITION = 2156,
-	ORDER_OF_EMBERS = 2161,
 	VOLDUNAI = 2158,
+	PROUDMOORE_ADMIRALTY = 2160,
+	ORDER_OF_EMBERS = 2161,
+	STORMS_WAKE = 2162,
 	TORTOLLAN_SEEKERS = 2163,
 
 -- Dragonflight factions
@@ -193,7 +193,7 @@ DB.BodyguardFactionID = {
 -- keeps Alliance/Horde-specific factions from showing up for opposing players
 ------------------------------------------------------
 DB.ExcludedFactions = {
-	Alliance = {
+	Alliance = { -- horde factions unavailable to alliance players
 		[F.FORSAKEN] = 1,
 		[F.TROLL] = 1,
 		[F.TAUREN] = 1,
@@ -209,12 +209,15 @@ DB.ExcludedFactions = {
 		[F.HELLSCREAM] = 1,
 		[F.SUNREAVER_ONSLAUGHT] = 1,
 		[F.DOMINANCE_OFFENSIVE] = 1,
-		[F.EXARCHS_COUNCIL] = 1,
-		[F.PROPHET_HAND] = 1,
-		[F.SHATARI_DEFENSE] = 1,
-		[F.WRYNNS_VANGUARD] = 1,
+		[F.VOLJINS_SPEAR] = 1,
+		[F.VOLJIN_HEADHUNTERS] = 1,
+		[F.FROSTWOLF_ORCS] = 1,
+		[F.LAUGHING_SKULL] = 1,
+		[F.ZANDALARI_EMPIRE] = 1,
+		[F.TALANJIS_EXPEDITION] = 1,
+		[F.VOLDUNAI] = 1,
 	},
-	Horde = {
+	Horde = { -- alliance factions unavailable to horde players
 		[F.HUMAN] = 1,
 		[F.GNOME] = 1,
 		[F.NELF] = 1,
@@ -229,57 +232,14 @@ DB.ExcludedFactions = {
 		[F.BARADIN] = 1,
 		[F.KIRIN_TOR_OFFENSIVE] = 1,
 		[F.OPERATION_SHIELDWALL] = 1,
-		[F.VOLJINS_SPEAR] = 1,
-		[F.VOLJIN_HEADHUNTERS] = 1,
-		[F.FROSTWOLF_ORCS] = 1,
-		[F.LAUGHING_SKULL] = 1,
+		[F.EXARCHS_COUNCIL] = 1,
+		[F.PROPHET_HAND] = 1,
+		[F.SHATARI_DEFENSE] = 1,
+		[F.WRYNNS_VANGUARD] = 1,
+		[F.PROUDMOORE_ADMIRALTY] = 1,
+		[F.ORDER_OF_EMBERS] = 1,
+		[F.STORMS_WAKE] = 1,
 	},
-}
-
-------------------------------------------------------
--- Items to precache, since they can appear in reports as created/purchased before getting cached by client otherwise
-------------------------------------------------------
--- TODO generate/augment this list at runtime from turnins with a "creates" item?
-DB.PrecacheItems = {
-	-- vanilla / no longer obtainable
-	12844, -- Argent Dawn Valor Token
-	19858, -- Zandalar Honor Token
-	
-	-- racial factions; purchased with champion's writ at argent tournament
-	45714, -- Darnassus Commendation Badge
-	45715, -- Exodar Commendation Badge
-	45716, -- Gnomeregan Commendation Badge
-	45717, -- Ironforge Commendation Badge
-	45718, -- Stormwind Commendation Badge
-	45719, -- Orgrimmar Commendation Badge
-	45720, -- Sen'jin Commendation Badge
-	45721, -- Silvermoon Commendation Badge
-	45722, -- Thunder Bluff Commendation Badge
-	45723, -- Undercity Commendation Badge
-	
-	-- cata tol barad factions; purchase with tol barad commendations
-	63517, -- Baradin's Wardens Commendation
-	63518, -- Hellscream's Reach Commendation
-	
-	-- racial factions; purchase with marks of the world tree at molten front
-	70145, -- Darnassus Writ of Commendation
-	70146, -- Exodar Writ of Commendation
-	70147, -- Gnomeregan Writ of Commendation
-	70148, -- Ironforge Writ of Commendation
-	70149, -- Orgrimmar Writ of Commendation
-	70150, -- Sen'jin Writ of Commendation
-	70151, -- Silvermoon Writ of Commendation
-	70152, -- Stormwind Writ of Commendation
-	70153, -- Thunder Bluff Writ of Commendation
-	70154, -- Undercity Writ of Commendation
-	71087, -- Gilneas Writ of Commendation
-	71088, -- Bilgewater Writ of Commendation
-	
-	-- mists isle of thunder factions; purchase with tattered historical parchments
-	95487, -- Sunreaver Onslaught Insignia 
-	95488, -- Greater Sunreaver Onslaught Insignia
-	95489, -- Kirin Tor Offensive Insignia 
-	95490, -- Greater Kirin Tor Offensive Insignia
 }
 
 ------------------------------------------------------
@@ -309,6 +269,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70153] = 1,	-- Thunder Bluff Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -339,6 +309,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70150] = 1,	-- Sen'jin Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -369,6 +349,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70154] = 1,	-- Undercity Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -399,6 +389,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70151] = 1,	-- Silvermoon Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -429,6 +429,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70149] = 1,	-- Orgrimmar Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -501,6 +511,16 @@ DB.TurninsByQuest = {
 	},
 	[F.GOBLIN] = {
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[71088] = 1,	-- Bilgewater Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -533,6 +553,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70145] = 1,	-- Darnassus Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -563,6 +593,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70147] = 1,	-- Gnomeregan Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -593,6 +633,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70152] = 1,	-- Stormwind Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -640,6 +690,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70146] = 1,	-- Exodar Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -670,6 +730,16 @@ DB.TurninsByQuest = {
 			},
 		},
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[70148] = 1,	-- Ironforge Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
@@ -725,6 +795,16 @@ DB.TurninsByQuest = {
 	},
 	[F.WORGEN] = {
 		-- Molten Front vendor (not really a quest, but it works here)
+		MarkOfWorldTree = {
+			creates = {
+				[71087] = 1,	-- Gilneas Writ of Commendation
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:416"] = 30,	-- Mark of the World Tree
+			},
+		},
 		A_CommendationWrit = {
 			value = 250,
 			useItem = 1,
