@@ -160,7 +160,13 @@ local F = {
 -- Battle for Azeroth factions
 	RUSTBOLT_RESISTANCE = 2391,
 	RAJANI = 2415,
-	
+	PROUDMOORE_ADMIRALTY = 2160,
+	ZANDALARI_EMPIRE = 2103,
+	STORMS_WAKE = 2162,
+	TALANJIS_EXPEDITION = 2156,
+	ORDER_OF_EMBERS = 2161,
+	VOLDUNAI = 2158,
+	TORTOLLAN_SEEKERS = 2163,
 
 -- Dragonflight factions
 	MARUUK_CENTAUR = 2503,
@@ -2892,6 +2898,209 @@ DB.TurninsByQuest = {
 				[173375] = 1,	-- Rajani Insignia
 			}
 		},	
+	},
+	[F.TORTOLLAN_SEEKERS] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[166501] = 1,	-- Soggy Page
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174519] = 1,	-- Verdant Hills of Chokingvine - Page 17
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[166501] = 1,	-- Soggy Page
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174519] = 1,	-- Verdant Hills of Chokingvine - Page 17
+			}
+		},	
+	},
+	[F.ZANDALARI_EMPIRE] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163620] = 1,	-- Island Flotsam
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174518] = 1,	-- Jani Figurine
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163620] = 1,	-- Island Flotsam
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174518] = 1,	-- Jani Figurine
+			}
+		},	
+	},
+	[F.TALANJIS_EXPEDITION] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163619] = 1,	-- Golden Beetle
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174506] = 1,	-- Golden Insect Wings
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163619] = 1,	-- Golden Beetle
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174506] = 1,	-- Golden Insect Wings
+			}
+		},	
+	},
+	[F.VOLDUNAI] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163618] = 1,	-- Shimmering Shell
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174501] = 1,	-- Ornate Voldunai Jewelry
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163618] = 1,	-- Shimmering Shell
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174501] = 1,	-- Ornate Voldunai Jewelry
+			}
+		},
+	},
+	[F.PROUDMOORE_ADMIRALTY] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163616] = 1,	-- Dented Coin
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174504] = 1,	-- Proudmoore War Copper
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163616] = 1,	-- Dented Coin
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174504] = 1,	-- Proudmoore War Copper
+			}
+		},
+	},
+	[F.STORMS_WAKE] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163615] = 1,	-- Lost Sea Scroll
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174505] = 1,	-- Tide-Speaker's Tome
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163615] = 1,	-- Lost Sea Scroll
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174505] = 1,	-- Tide-Speaker's Tome
+			}
+		},
+	},
+	[F.ORDER_OF_EMBERS] = {
+		C_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[163614] = 1,	-- Exotic Spices
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1710"] = 100,	-- Seafarer's Dubloon
+			},
+		},
+		B_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+			creates = {
+				[174503] = 1,	-- Exotically Spiced Carrot
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				[163614] = 1,	-- Exotic Spices
+			},
+		},
+		A_DubloonPurchaseQuest = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174503] = 1,	-- Exotically Spiced Carrot
+			}
+		},
 	},
 	
 	-- Dragonflight factions

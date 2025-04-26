@@ -102,7 +102,7 @@ Content Updates
 
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 factions, Vault Artifacts, prior expansions' reputation items available from Paracausal Flakes vendors
 - Shadowlands:
-- Battle for Azeroth: Treasures for Rustbolt Resistance
+- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase > item turnin > use quest reward item)
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Warlords of Draenor:
 - Mists of Pandaria: Hozen Peace Pipe
