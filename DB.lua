@@ -100,6 +100,7 @@ local F = {
 	SHADOPAN = 1270,
 	AUGUST_CELESTIALS = 1341,
 	TILLERS = 1272,
+	LOREWALKERS = 1345,
 	DOMINANCE_OFFENSIVE = 1375,
 	OPERATION_SHIELDWALL = 1376,
 	SHADOPAN_ASSAULT = 1435,
@@ -1505,6 +1506,12 @@ DB.TurninsByQuest = {
 				[143942] = 1, -- Commendation of the Order of the Cloud Serpent
 			}
 		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
 	},
 	[F.KLAXXI] = {
 		SeedsOfFear = {
@@ -1534,6 +1541,12 @@ DB.TurninsByQuest = {
 			value = 1000,
 			items = {
 				[94226] = 1, -- Stolen Klaxxi Insignia
+			}
+		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
 			}
 		},
 	},
@@ -1574,6 +1587,12 @@ DB.TurninsByQuest = {
 				[94227] = 1, -- Stolen Golden Lotus Insignia
 			}
 		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
 	},
 	[F.SHADOPAN] = {
 		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
@@ -1596,6 +1615,12 @@ DB.TurninsByQuest = {
 			value = 1000,
 			items = {
 				[94223] = 1, -- Stolen Shado-Pan Insignia
+			}
+		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
 			}
 		},
 	},
@@ -1622,6 +1647,12 @@ DB.TurninsByQuest = {
 				[94225] = 1, -- Stolen Celestial Insignia
 			}
 		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
 	},
 	[F.SHADOPAN_ASSAULT] = {
 		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
@@ -1644,6 +1675,62 @@ DB.TurninsByQuest = {
 			value = 1000,
 			items = {
 				[95496] = 1, -- Shado-Pan Assault Insignia
+			}
+		},
+	},
+	[F.ANGLERS] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143946] = 1, -- Commendation of The Anglers
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143946] = 1, -- Commendation of The Anglers
+			}
+		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
+	},
+	[F.TILLERS] = {
+		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+			creates = {
+				[143941] = 1, -- Commendation of The Tillers
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		A_TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143941] = 1, -- Commendation of The Tillers
+			}
+		},
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
+	},
+	[F.LOREWALKERS] = {
+		OfferingOfPeace = {
+			value = 1000,
+			items = {
+				[86592] = 1, -- Hozen Peace Pipe
 			}
 		},
 	},
@@ -2748,6 +2835,27 @@ DB.TurninsByQuest = {
 	
 	-- Battle for Azeroth factions
 	[F.RUSTBOLT_RESISTANCE] = {
+		LIKE = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[173736] = 1,	-- Layered Information Kernel of E-steam
+			}
+		},	
+		TKE = {
+			value = 250,
+			useItem = 1,
+			items = {
+				[174521] = 1,	-- Transferable Kernel of E-steam
+			}
+		},	
+		InsigniaBoA = {
+			value = 100,
+			useItem = 1,
+			items = {
+				[298138] = 1,	-- Rustbolt Resistance Insignia
+			}
+		},	
 		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
 			creates = {
 				[208134] = 1,	-- Rustbolt Resistance Insignia
@@ -3087,24 +3195,6 @@ DB.TurninsByQuest = {
 		},
 	},
 
-	[F.TILLERS] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[143941] = 1, -- Commendation of The Tillers
-			},
-			value = 0,
-			buyValue = 300,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 300,
-			items = {
-				[143941] = 1, -- Commendation of The Tillers
-			}
-		},
-	},
 	[F.DOMINANCE_OFFENSIVE] = {
 		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
 			creates = {
@@ -3138,24 +3228,6 @@ DB.TurninsByQuest = {
 			value = 300,
 			items = {
 				[143944] = 1, -- Commendation of Operation: Shieldwall
-			}
-		},
-	},
-	[F.ANGLERS] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[143946] = 1, -- Commendation of The Anglers
-			},
-			value = 0,
-			buyValue = 300,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 300,
-			items = {
-				[143946] = 1, -- Commendation of The Anglers
 			}
 		},
 	},

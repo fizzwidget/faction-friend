@@ -41,7 +41,8 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
 - faction report in special paragon tooltip
-- paragon info in context menu
+- paragon tooltip in context menu
+- setting to count purchaseable items when calculating potential?
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - shorter reputation watch bar menu when few factions / hide legacy factions?
@@ -49,7 +50,31 @@ TODO for rewrite
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
 - BUG: potential report flipflops showing 0 for some factions
 - content updates
-	- DF faction turnins
+	- various Timewalking
+		- check all commendations/insignia purchaseable with timewarped badges https://www.wowhead.com/items?filter=158:107;1166:0;0:reputation
+	- Shadowlands
+		- stolen korthian supplies
+		- helsworn battle plans
+	- Battle for azeroth
+		- proudmoore: dented coin
+		- zandalari: island flotsam
+		- storm wake: lost sea scroll
+		- talanji: golden beetle
+		- embers: exotic spices
+		- voldunai: shimmering shell
+		- tortollan: soggy page
+		- champions: azeroth's tear
+		- honorbound: rusted horde insignia
+		- 7th legion: rusted alliance insignia
+		- most of the above purchaseable for seafarer dubloon
+		- unshackled / ankoan: abyssal conch
+			- creatable with shadow cloaked shell?
+		- nazjatar bodyguards?
+		- rustbolt: insignia for alts
+		- honeyback hive
+			- thin / rich / royal jelly
+	- ???
+	- profit!
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
 	- Modern WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
@@ -72,6 +97,15 @@ Other Improvements & Bug Fixes
 
 - When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
 - Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
+
+Content Updates
+
+- Dragonflight: Treasure collection turnins for the four major Patch 10.0 factions, Vault Artifacts, prior expansions' reputation items available from Paracausal Flakes vendors
+- Shadowlands:
+- Battle for Azeroth: Treasures for Rustbolt Resistance
+- Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
+- Warlords of Draenor:
+- Mists of Pandaria: Hozen Peace Pipe
 
 Legacy
 
