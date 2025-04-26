@@ -134,9 +134,17 @@ function T:FactionLink(factionID, factionData, friendshipData)
 end
 
 function T:PrecacheItems()
-	for _, itemID in pairs(DB.PrecacheItems) do
-		-- force client to fetch info so we can get it later
-		C_Item.GetItemInfo(itemID)
+	-- call GetItemInfo ahead of time, so client caches info and can provide links/etc later
+	-- anything "created" in DB can appear in reports without player having seen the item
+	for _, quests in pairs(DB.TurninsByQuest) do
+		for quest, questInfo in pairs(quests) do
+			if questInfo.creates then
+				for itemID, _ in pairs(questInfo.creates) do
+					-- print("caching", itemID, "for", quest)
+					C_Item.GetItemInfo(itemID)
+				end
+			end
+		end
 	end
 end
 
@@ -174,7 +182,7 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 	
 	T.TooltipAddFactionInfo(GameTooltip, factionID)
 	
-	if (showHyperlinkInstructions) then
+	if showHyperlinkInstructions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
 		if InCombatLockdown() then
 			GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_DONT_CLICK)
@@ -523,9 +531,9 @@ function T:SetupReverseCache()
 	DB.TurninsByItem = {}	
 	for faction, quests in pairs(DB.TurninsByQuest) do
 		local myExcludedFactions = DB.ExcludedFactions[UnitFactionGroup("player")]
-		if (myExcludedFactions ~= nil and not myExcludedFactions[faction]) then
+		if myExcludedFactions ~= nil and not myExcludedFactions[faction] then
 			for quest, questInfo in pairs(quests) do
-				if (not questInfo.otherFactionRequired) then
+				if not questInfo.otherFactionRequired then
 					for itemID in pairs(questInfo.items) do
 						if not DB.TurninsByItem[itemID] then
 							DB.TurninsByItem[itemID] = {}
