@@ -41,6 +41,10 @@ function T:StandingForValue(value)
 end
 
 function T:ItemCount(itemID, includeBank)
+    if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
+        -- useful for debugging
+        return FFF_FakeItemCount[itemID]
+    end
     if (type(itemID) == "string") then
         -- currency
         local currencyID = strmatch(itemID, "currency:(%d+)")
@@ -49,10 +53,6 @@ function T:ItemCount(itemID, includeBank)
         return count
     end
     
-    if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
-        -- useful for debugging
-        return FFF_FakeItemCount[itemID]
-    end
     -- TODO check warband bank
     -- (and reagent bank? are any rep items reagents?)
     return C_Item.GetItemCount(itemID, includeBank)
@@ -187,6 +187,10 @@ local PotentialGainsMixin = {
 function T:FactionPotential(factionID, withReport, factionData)
     local calculator = CreateFromMixins(PotentialGainsMixin)
     
+    -- why doesn't CreateFromMixins do this?
+    wipe(calculator.itemsCreated)
+    wipe(calculator.itemsAccounted)
+
     if withReport then
         calculator.reportLines = {}
     end
@@ -258,12 +262,12 @@ function PG:QuestPotential(key, info)
     -- TODO handle major faction
     local maxStanding = info.maxStanding or 7	-- no point going past exalted 
     local maxValue = info.maxValue or PointsPerStanding[maxStanding]
-     potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
+    potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
     if info.buyValue then
         -- only track gain from currency purchases if no other turnins available
         -- TODO: option?
         -- TODO: better reporting
-        if totalPotential == 0 then
+        if self.totalPotential == 0 then
             -- if this "turnin" buys another item which is also a rep turnin,
             -- adjust the number we'll buy based on how much that turnin gives
             local buyPotentialValue, buyTurnins = self:AdjustedPotential(numTurnins, info.buyValue, info)
@@ -299,7 +303,7 @@ function PG:QuestPotential(key, info)
     
     -- Finally, throw what we've figured out into the report/tooltip
     if self.reportLines then
-        local header = self:CompleteFactionReport(potentialValue, numTurnins, useItem)
+        local header = self:CompleteFactionReport(potentialValue, numTurnins, info.useItem, createdItemLink)
         if header then 
             tinsert(self.reportLines, {[header] = reportItemLines})
         end
@@ -316,6 +320,7 @@ function PG:CountCreatedItems(questCreates, numTurnins)
             -- hack: grab first one 'cause it's always the only one in our dataset
         end
         self.itemsCreated[createdID] = (self.itemsCreated[createdID] or 0) + (qtyCreated * numTurnins)
+        -- print("created", self.itemsCreated[createdID], "x", createdItemLink, "from", numTurnins, "turnins")
     end
     if not createdItemLink then
         -- have something other than nil if we fail to load link
@@ -350,7 +355,7 @@ function PG:ItemTurninReport(itemID, itemLink, purchased)
     return lineItem
 end
 
-function PG:CompleteFactionReport(potentialValue, numTurnins, useItem)
+function PG:CompleteFactionReport(potentialValue, numTurnins, useItem, createdItemLink)
     local reportLineHeader
     if potentialValue > 0 then
         reportLineHeader = FFF_REPORT_NUM_POINTS:format(potentialValue)
