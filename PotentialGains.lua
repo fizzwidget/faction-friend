@@ -40,22 +40,55 @@ function T:StandingForValue(value)
     end
 end
 
-function T:ItemCount(itemID, includeBank)
+function T:ItemCount(itemID)
     if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
         -- useful for debugging
-        return FFF_FakeItemCount[itemID]
+        return FFF_FakeItemCount[itemID], 0, 0, 0
     end
     if (type(itemID) == "string") then
         -- currency
         local currencyID = strmatch(itemID, "currency:(%d+)")
         currencyID = tonumber(currencyID)
-        local count = C_CurrencyInfo.GetCurrencyInfo(currencyID).quantity
-        return count
+        local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+        local count = currencyInfo.quantity
+        local warbandCount = 0
+        if currencyInfo.isAccountTransferable then
+            local warbandData = C_CurrencyInfo.FetchCurrencyDataFromAccountCharacters(currencyID)
+            for _, characterData in pairs(warbandData or {}) do
+                warbandCount = warbandCount + characterData.quantity
+            end
+        end
+        
+        return count, 0, 0, warbandCount -- currency is never in bank/reagents
     end
     
-    -- TODO check warband bank
-    -- (and reagent bank? are any rep items reagents?)
-    return C_Item.GetItemCount(itemID, includeBank)
+    local function CountOnHand()
+        local includeUses = false
+        local includeBank, includeReagentBank, includeAccountBank = false, false, false
+        return C_Item.GetItemCount(itemID, includeBank, includeUses, includeReagentBank, includeAccountBank)
+    end
+    local function CountIncludingBank()
+        local includeUses = false
+        local includeBank, includeReagentBank, includeAccountBank = true, false, false
+        return C_Item.GetItemCount(itemID, includeBank, includeUses, includeReagentBank, includeAccountBank)
+    end
+    local function CountIncludingReagents()
+        local includeUses = false
+        local includeBank, includeReagentBank, includeAccountBank = false, true, false
+        return C_Item.GetItemCount(itemID, includeBank, includeUses, includeReagentBank, includeAccountBank)
+    end
+    local function CountIncludingWarband()
+        local includeUses = false
+        local includeBank, includeReagentBank, includeAccountBank = false, false, true
+        return C_Item.GetItemCount(itemID, includeBank, includeUses, includeReagentBank, includeAccountBank)
+    end
+
+    local onHand = CountOnHand()
+    local banked = CountIncludingBank() - onHand
+    local reagents = CountIncludingReagents() - onHand
+    local warband = CountIncludingWarband() - onHand
+    
+    return onHand, banked, reagents, warband
 end
 
 function T:ItemLink(itemID)
@@ -241,11 +274,12 @@ function PG:QuestPotential(key, info)
     -- first, figure out how many turnins' worth we have of each item the quest requres
     local turninCounts = {}
     for itemID, qtyPerTurnin in pairs(info.items) do
-        local countIncludingBank = T:ItemCount(itemID, true)
+        local onHand, banked, reagents, warband = T:ItemCount(itemID)
+        local totalCount = onHand + banked + reagents + warband
         local created = self.itemsCreated[itemID] or 0
         local alreadyCounted = self.itemsAccounted[itemID] or 0
-        local turnins = floor((countIncludingBank + created - alreadyCounted) / qtyPerTurnin)
-        -- print(key, "count:", countIncludingBank, "created:", created, "counted:", alreadyCounted, "turnins:", turnins)
+        local turnins = floor((totalCount + created - alreadyCounted) / qtyPerTurnin)
+        -- print(key, "count:", totalCount, "created:", created, "counted:", alreadyCounted, "turnins:", turnins)
         tinsert(turninCounts, turnins)
     end
 
@@ -333,19 +367,25 @@ function PG:ItemTurninReport(itemID, itemLink, purchased)
     local itemsForTurnin = self.itemsAccounted[itemID]
     local lineItem = FFF_REPORT_LINE_ITEM:format(itemsForTurnin, itemLink)
     -- TODO warband bank
-    local inBags = T:ItemCount(itemID, false)
-    local inBank = T:ItemCount(itemID, true) - inBags
-
+    local inBags, inBank, inReagents, inWarband = T:ItemCount(itemID)
+    local totalCount = inBags + inBank + inReagents + inWarband
+    
     local lineItemAdditions = {}
     if inBank > 0 and inBags < itemsForTurnin then
         tinsert(lineItemAdditions, FFF_COUNT_IN_BANK:format(min(inBank, itemsForTurnin)))
+    end
+    if inReagents > 0 and inBags < itemsForTurnin then
+        tinsert(lineItemAdditions, FFF_COUNT_IN_REAGENTS:format(min(inReagents, itemsForTurnin)))
+    end
+    if inWarband > 0 and inBags < itemsForTurnin then
+        tinsert(lineItemAdditions, FFF_COUNT_IN_WARBAND:format(min(inWarband, itemsForTurnin)))
     end
     local created = self.itemsCreated[itemID]
     local allText = purchased and FFF_ALL_PURCHASED or FFF_ALL_CREATED
     local countText = purchased and FFF_COUNT_PURCHASED or FFF_COUNT_CREATED
     if created and inBank == 0 and created == itemsForTurnin then
         tinsert(lineItemAdditions, allText)
-    elseif created and created > 0 and inBags + inBank < itemsForTurnin then
+    elseif created and created > 0 and totalCount < itemsForTurnin then
         tinsert(lineItemAdditions, countText:format(min(created, itemsForTurnin)))
     end
 
@@ -406,7 +446,8 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
             -- when calculating how many to buy, count the ones we already own
             -- before adjusting to fit within maximum
             for createdID, qtyCreated in pairs(info.creates) do
-                local alreadyOwned = T:ItemCount(createdID)
+                local inBags, inBank, inReagents, inWarband = T:ItemCount(createdID)
+                local alreadyOwned = inBags + inBank + inReagents + inWarband
                 numTurnins = numTurnins - alreadyOwned
                 break	-- there should only be one created item in this case
             end

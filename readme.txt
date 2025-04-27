@@ -40,31 +40,30 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- faction report in special paragon tooltip
+- faction report in special paragon tooltip, major faction renown tooltip
 - paragon tooltip in context menu
 - setting to count purchaseable items when calculating potential?
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - shorter reputation watch bar menu when few factions / hide legacy factions?
-- potential gains count warband bank (and reagent bank? are any turnin items reagents?)
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
+- BUG? potential gains counts exalted factions
 - content updates
 	- various Timewalking
 		- check all commendations/insignia purchaseable with timewarped badges https://www.wowhead.com/items?filter=158:107;1166:0;0:reputation
 		- Argent Dawn scourgestones quests returned
 	- Dragonflight
 		- insignia for all renown factions
-		
 	- Shadowlands
 		- stolen korthian supplies
 		- helsworn battle plans
+		- more?
 	- Battle for azeroth
-		- dubloon items: test if using item is required
 		- champions: azeroth's tear
 		- unshackled / ankoan: abyssal conch
 			- creatable with shadow cloaked shell?
 		- nazjatar bodyguards?
-		- honeyback hive
+		- honeyback hive?
 			- thin / rich / royal jelly
 	- ???
 	- profit!
@@ -88,7 +87,8 @@ New Features
 	
 Other Improvements & Bug Fixes
 
-- When gaining reputation with multiple factions at once, we switch the reputation watch bar to whichever faction gained the most.
+- Calculating available reputation gains counts items in the reagent bank and warband bank, and warband transferable currency on other characters.
+- When gaining reputation with multiple factions at once, switches the reputation watch bar to whichever faction gained the most.
 - Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
 - Warlords of Draenor: Fixed a bug that prevented showing item tooltip info for Horde- or Alliance-only factions.
 - Cataclysm: Previously tracked Writs of Commendation for racial factions, but didn't track that they can be purchased with Marks of the World Tree; fixed.
@@ -97,7 +97,7 @@ Content Updates / Fixes
 
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors
 - Shadowlands:
-- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase > item turnin > use quest reward item)
+- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase, turnin purchased item)
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Warlords of Draenor:
 - Mists of Pandaria: Hozen Peace Pipe

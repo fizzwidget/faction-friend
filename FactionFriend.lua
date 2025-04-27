@@ -138,11 +138,9 @@ function T:PrecacheItems()
 	-- anything "created" in DB can appear in reports without player having seen the item
 	for _, quests in pairs(DB.TurninsByQuest) do
 		for quest, questInfo in pairs(quests) do
-			if questInfo.creates then
-				for itemID, _ in pairs(questInfo.creates) do
-					-- print("caching", itemID, "for", quest)
-					C_Item.GetItemInfo(itemID)
-				end
+			for itemID, _ in pairs(questInfo.creates or {}) do
+				-- print("caching", itemID, "for", quest)
+				C_Item.GetItemInfo(itemID)
 			end
 		end
 	end
