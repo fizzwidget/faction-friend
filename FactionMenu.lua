@@ -75,10 +75,10 @@ function T.ShowFactionMenu(frame)
             
         end
         
-
-        root:CreateDivider()
-        root:CreateTitle(FFF_RECENT_FACTIONS)
-        
+        if #T.Recents > 0 then
+            root:CreateDivider()
+            root:CreateTitle(FFF_RECENT_FACTIONS)
+        end
         for index, factionID in pairs(T.Recents) do
             local factionData = C_Reputation.GetFactionDataByID(factionID)
             local radio = root:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
