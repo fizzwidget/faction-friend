@@ -35,10 +35,16 @@ function T:SetupSettings()
 
     -- TODO: header for menu settings?
     -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu
-    
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_WATCHBAR, FFF_OPTIONS_WATCHBAR_TIP:format(MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL)))
 
+
+    ------------------------------------------------------
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_POTENTIAL, FFF_OPTIONS_POTENTIAL_TIP))
+
+    Checkbox("IncludeTimewarped", false, FFF_OPTION_TIMEWARPED, FFF_OPTION_TIMEWARPED_TIP, nil, T.ReputationStatusBarUpdate)
     Checkbox("ShowPotential", true, FFF_OPTION_SHOW_POTENTIAL, FFF_OPTION_SHOW_POTENTIAL_TIP, nil, T.ReputationStatusBarUpdate)
+    
+    ------------------------------------------------------
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_WATCHBAR, FFF_OPTIONS_WATCHBAR_TIP:format(MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL)))
 
     local repGainParent = Checkbox("RepGained", true, FFF_OPTION_REP_GAINED, FFF_OPTION_REP_GAINED_TIP)
     Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_SWITCH, FFF_OPTION_GUILD_SWITCH_TIP, repGainParent)

@@ -41,11 +41,14 @@ function T:StandingForValue(value)
 end
 
 function T:ItemCount(itemID)
-    if (FFF_FakeItemCount and FFF_FakeItemCount[itemID]) then
+    if FFF_FakeItemCount and FFF_FakeItemCount[itemID] then
         -- useful for debugging
         return FFF_FakeItemCount[itemID], 0, 0, 0
     end
-    if (type(itemID) == "string") then
+    if itemID == "currency:1166" and not T.Settings.IncludeTimewarped then
+        return 0, 0, 0, 0
+    end
+    if type(itemID) == "string" then
         -- currency
         local currencyID = strmatch(itemID, "currency:(%d+)")
         currencyID = tonumber(currencyID)

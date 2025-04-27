@@ -42,7 +42,6 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 TODO for rewrite
 - faction report in special paragon tooltip, major faction renown tooltip
 - paragon tooltip in context menu
-- setting to count purchaseable items when calculating potential?
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - shorter reputation watch bar menu when few factions / hide legacy factions?
