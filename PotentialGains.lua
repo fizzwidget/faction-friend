@@ -340,7 +340,7 @@ function PG:QuestPotential(key, info)
     
     -- Finally, throw what we've figured out into the report/tooltip
     if self.reportLines then
-        local header = self:CompleteFactionReport(potentialValue, numTurnins, info.useItem, createdItemLink)
+        local header = self:CompleteQuestReport(potentialValue, numTurnins, info.useItem, createdItemLink)
         if header then 
             tinsert(self.reportLines, {[header] = reportItemLines})
         end
@@ -398,7 +398,7 @@ function PG:ItemTurninReport(itemID, itemLink, purchased)
     return lineItem
 end
 
-function PG:CompleteFactionReport(potentialValue, numTurnins, useItem, createdItemLink)
+function PG:CompleteQuestReport(potentialValue, numTurnins, useItem, createdItemLink)
     local reportLineHeader
     if potentialValue > 0 then
         reportLineHeader = FFF_REPORT_NUM_POINTS:format(potentialValue)
