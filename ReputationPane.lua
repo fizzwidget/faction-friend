@@ -258,7 +258,7 @@ function T:SearchFactionList(searchText)
     local results = {}
     for index = 1, T.MAX_FACTIONS do
         local factionData = C_Reputation.GetFactionDataByIndex(index)
-        if not factionData or factionData.factionID == 0 then break end
+        if not factionData or factionData.name == FACTION_INACTIVE then break end
         if strmatch(strlower(factionData.name), text) then
             tinsert(results, factionData)
         end
