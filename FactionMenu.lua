@@ -5,93 +5,15 @@ local addonName, T = ...
 -- Utilities
 ------------------------------------------------------
 
+local MAX_SHORT_MENU_FACTION_COUNT = 20
+
 function T.ShowFactionMenu(frame)
     MenuUtil.CreateContextMenu(frame, function(owner, root)
-        
-        local title = root:CreateTitle(T.Title .. " " .. T.Version)
-        title:AddInitializer(function(frame, description, menu)
-            frame.fontString:SetTextColor(GRAY_FONT_COLOR:GetRGBA())
-        end)
-        root:CreateSpacer()
-        
-        -- TODO still switch to short menu if you have few enough (visible) factions?
-        local topLevelButton, afterChild
-        for index = 1, C_Reputation.GetNumFactions() do
-            local factionData = C_Reputation.GetFactionDataByIndex(index)
-            
-            -- stop at inactive header
-            if not factionData or factionData.factionID == 0 then break end
-            
-            local factionID = factionData.factionID
-            if factionData.isHeader and not factionData.isChild then
-                if not factionData.isCollapsed then
-                    topLevelButton = root:CreateButton(factionData.name)
-                end
-                afterChild = false
-            elseif factionData.isHeader and factionData.isChild then
-                if not factionData.isCollapsed then
-                    topLevelButton:CreateSpacer()
-                end
-                if factionData.isHeaderWithRep then
-                    local radio = topLevelButton:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
-                    radio:AddInitializer(function(frame, description, menu)
-                        T.MenuFactionButtonSetup(frame, factionID, factionData)
-                    end)
-                    radio:SetTooltip(function(tooltip, element) 
-                        T.TooltipAddFactionInfo(tooltip, factionID, factionData)
-                    end)
-                else
-                    topLevelButton:CreateTitle(factionData.name)
-                end
-            else -- not isHeader; could be 2nd level or 3rd level
-                if not factionData.isChild and afterChild then
-                    -- put (only) one spacer between the end of a 
-                    -- subsection and the next peer to its subheader 
-                    -- (even if that peer is not itself a subheader)
-                    topLevelButton:ClearQueuedDescriptions()
-                    topLevelButton:QueueSpacer()
-                    afterChild = false
-                end
-                local radio = topLevelButton:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
-                if factionData.isChild then
-                    afterChild = true
-                end
                 
-                radio:AddInitializer(function(frame, description, menu)
-                    T.MenuFactionButtonSetup(frame, factionID, factionData)
-                    local textureWidth = frame.leftTexture1:GetWidth()
-                    if factionData.isChild then
-                        local indent = frame:AttachTexture()
-                        indent:SetSize(16, 16)
-                        indent:SetPoint("LEFT")
-
-                        frame.leftTexture1:SetPoint("LEFT", indent, "RIGHT")
-                    end
-                end)
-                radio:SetTooltip(function(tooltip, element) 
-                    T.TooltipAddFactionInfo(tooltip, factionID, factionData)
-                end)
-            end
-            
-        end
+        T.CreateFactionsMenu(root)
         
-        if #T.Recents > 0 then
-            root:CreateDivider()
-            root:CreateTitle(FFF_RECENT_FACTIONS)
-        end
-        for index, factionID in pairs(T.Recents) do
-            local factionData = C_Reputation.GetFactionDataByID(factionID)
-            local radio = root:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
-            radio:AddInitializer(function(frame, description, menu)
-                T.MenuFactionButtonSetup(frame, factionID, factionData)
-            end)
-            radio:SetTooltip(function(tooltip, element)
-                T.TooltipAddFactionInfo(tooltip, factionID, factionData)
-            end)
-        end
+        T.CreateRecentsMenu(root)
         
-        root:CreateDivider()
-
         local repPaneButton = root:CreateButton(FFF_SHOW_REPUTATION_PANE, T.MenuShowReputationOnClick)
         repPaneButton:SetEnabled(function()
             return not InCombatLockdown() 
@@ -102,13 +24,159 @@ function T.ShowFactionMenu(frame)
             end
         end)
         
-        root:CreateButton(FFF_SHOW_OPTIONS, T.MenuShowSettingsOnClick)
+        local settingsButton = root:CreateButton(FFF_SHOW_OPTIONS, T.MenuShowSettingsOnClick)
+        settingsButton:AddInitializer(function(frame, description, menu)
+            frame.fontString2 = frame:AttachFontString()
+            frame.fontString2:SetPoint("RIGHT")
+            frame.fontString2:SetTextColor(GRAY_FONT_COLOR:GetRGBA())
+            frame.fontString2:SetTextToFit("v. " .. T.Version)
+        end)
+
+    end)
+end
+
+function T.ShouldUseShortMenu()
+    local visibleCount = 0
+    for index = 1, C_Reputation.GetNumFactions() do
+        local factionData = C_Reputation.GetFactionDataByIndex(index)
+
+        -- stop at inactive header
+        if not factionData or factionData.name == FACTION_INACTIVE then break end
+
+        if not factionData.isCollapsed then
+            visibleCount = visibleCount + 1
+        end
+    end
+    return visibleCount <= MAX_SHORT_MENU_FACTION_COUNT
+end
+
+function T.CreateFactionsMenu(root)
+    local shortMenu = T.ShouldUseShortMenu()
+    
+    local topLevelButton, afterChild, afterHeader, afterFirstHeader
+    for index = 1, C_Reputation.GetNumFactions() do
+        local factionData = C_Reputation.GetFactionDataByIndex(index)
+        
+        -- stop at inactive header
+        if not factionData or factionData.name == FACTION_INACTIVE then break end
+        
+        local factionID = factionData.factionID
+        if factionData.isHeader and not factionData.isChild then
+            if not factionData.isCollapsed then     
+                if shortMenu and afterFirstHeader then
+                    root:CreateSpacer()
+                end           
+                if shortMenu then
+                    T.CreateShortMenuTopLevelHeader(root, factionData.name)
+                    afterFirstHeader = true
+                    afterHeader = true
+                elseif not factionData.isCollapsed then
+                    topLevelButton = root:CreateButton(factionData.name)
+                    afterFirstHeader = true
+                    afterHeader = true
+                end
+            end
+            afterChild = false
+        elseif factionData.isHeader and factionData.isChild then
+            local parent = shortMenu and root or topLevelButton
+            if not factionData.isCollapsed and not afterHeader then
+                parent:CreateSpacer()
+            end
+            if factionData.isHeaderWithRep then
+                local radio = parent:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
+                radio:AddInitializer(function(frame, description, menu)
+                    T.MenuFactionButtonSetup(frame, factionID, factionData)
+                end)
+                radio:SetTooltip(function(tooltip, element) 
+                    T.TooltipAddFactionInfo(tooltip, factionID, factionData)
+                end)
+                afterHeader = false
+            elseif not factionData.isCollapsed then
+                parent:CreateTitle(factionData.name)
+                afterHeader = false
+            end
+        else -- not isHeader; could be 2nd level or 3rd level
+            local parent = shortMenu and root or topLevelButton
+            if not factionData.isChild and afterChild then
+                -- put (only) one spacer between the end of a subsection and the next peer to its subheader 
+                -- (even if that peer is not itself a subheader)
+                parent:ClearQueuedDescriptions()
+                parent:QueueSpacer()
+                afterChild = false
+            end
+            local radio = parent:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
+            if factionData.isChild then
+                afterChild = true
+            end
+            afterHeader = false
+
+            radio:AddInitializer(function(frame, description, menu)
+                T.MenuFactionButtonSetup(frame, factionID, factionData)
+                local textureWidth = frame.leftTexture1:GetWidth()
+                if factionData.isChild then
+                    local indent = frame:AttachTexture()
+                    indent:SetSize(16, 16)
+                    indent:SetPoint("LEFT")
+    
+                    frame.leftTexture1:SetPoint("LEFT", indent, "RIGHT")
+                end
+            end)
+            radio:SetTooltip(function(tooltip, element) 
+                T.TooltipAddFactionInfo(tooltip, factionID, factionData)
+            end)
+        end
+        
+    end
+    if afterChild or afterHeader or afterFirstHeader then
+        -- must have created something, put a divider before next 
+        root:QueueDivider()
+    end
+end
+
+function T.CreateRecentsMenu(root)
+    if #T.Recents > 0 then
+        root:CreateTitle(FFF_RECENT_FACTIONS)
+    end
+    for index, factionID in pairs(T.Recents) do
+        local factionData = C_Reputation.GetFactionDataByID(factionID)
+        local radio = root:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
+        radio:AddInitializer(function(frame, description, menu)
+            T.MenuFactionButtonSetup(frame, factionID, factionData)
+        end)
+        radio:SetTooltip(function(tooltip, element)
+            T.TooltipAddFactionInfo(tooltip, factionID, factionData)
+        end)
+    end
+    if #T.Recents > 0 then
+        root:QueueDivider()
+    end
+end
+
+function T.CreateShortMenuTopLevelHeader(root, name)
+    local fancyName = strtrim(string.gsub(name, "(.)", "%1 "))
+    local header = root:CreateTitle(strupper(fancyName))
+    header:AddInitializer(function(frame, description, menu)
+        local left = frame:AttachTexture()
+        left:SetPoint("LEFT")
+        -- left:SetPoint("RIGHT", frame.fontString, "LEFT")
+        left:SetTexture("Interface\\Common\\UI-TooltipDivider-Transparent")
+        left:SetWidth(13)
+        left:SetHeight(13)
+        
+        frame.fontString:SetTextColor(GRAY_FONT_COLOR:GetRGBA())
+        -- frame.fontString:ClearAllPoints()
+        frame.fontString:SetPoint("LEFT", left, "RIGHT", 2, 0)
+    
+        local right = frame:AttachTexture()
+        right:SetPoint("LEFT", frame.fontString, "RIGHT", 2, 0)
+        right:SetPoint("RIGHT")
+        right:SetTexture("Interface\\Common\\UI-TooltipDivider-Transparent")
+        right:SetHeight(13)
     end)
 end
 
 function T.MenuFactionButtonSetup(frame, factionID, factionData)
     frame.fontString2 = frame:AttachFontString()
-    -- frame.fontString2:SetHeight(20)
     frame.fontString2:SetPoint("RIGHT")
     
     -- TODO something for paragon (also show paragon tooltip elsewhere?)

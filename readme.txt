@@ -44,7 +44,6 @@ TODO for rewrite
 - paragon tooltip in context menu
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
-- shorter reputation watch bar menu when few factions / hide legacy factions?
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
 - BUG? potential gains counts exalted factions
 - content updates
