@@ -186,10 +186,6 @@ function Search:OnLoad()
     end
 end
 
-function Search:OnShow()
-    -- TODO bug: placeholder text sometimes appears on top of user text after hide/re-show reputation frame
-end
-
 function Search:OnEnterPressed()
     local text = self:GetText()
     if strlen(text) < MIN_CHARACTER_SEARCH then return end
@@ -333,8 +329,7 @@ end
 -- Setup
 ------------------------------------------------------
 
-
-EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
+function T:SetupReputationPane()
     local shouldExpand = true
     T.ExpandAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
     T.ExpandAllButton:Setup(shouldExpand)
@@ -360,8 +355,11 @@ EventRegistry:RegisterCallback("CharacterFrame.Show", function(...)
     end)
     T.CleanupButton:SetPoint("BOTTOMLEFT", CharacterFramePortrait, "BOTTOMRIGHT", 0, 0)
     
-    T.SearchBox = CreateFrame("EditBox", "SearchBox", ReputationFrame, "FFF_SearchBoxTemplate")
+    T.SearchBox = CreateFrame("EditBox", nil, ReputationFrame, "FFF_SearchBoxTemplate")
     T.SearchBox:SetPoint("RIGHT", T.CollapseAllButton, "LEFT", -2, 0)
-    T.SearchBox:SetPoint("LEFT", T.CleanupButton, "RIGHT", 6, 0)
+    T.SearchBox:SetPoint("LEFT", T.CleanupButton, "RIGHT", 6, 0) 
     
-end)
+    EventRegistry:UnregisterCallback("CharacterFrame.Show", self);
+end
+
+EventRegistry:RegisterCallback("CharacterFrame.Show", T.SetupReputationPane, T)

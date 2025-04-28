@@ -18,7 +18,6 @@
 		<Size x="107" y="30"/>
 		<Scripts>
 			<OnLoad inherit="append" method="OnLoad"/>
-			<OnShow inherit="append" method="OnShow"/>
 			<OnEnterPressed inherit="append" method="OnEnterPressed"/>
 			<OnTextChanged inherit="append" method="OnTextChanged"/>
 			<OnEditFocusLost inherit="append" method="OnEditFocusLost"/>
