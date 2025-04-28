@@ -48,8 +48,7 @@ TODO for rewrite
 - BUG: reputation pane search box doesn't work after dismiss/re-show window
 - BUG? potential gains counts exalted factions
 - content updates
-	- various Timewalking
-		- check all commendations/insignia purchaseable with timewarped badges https://www.wowhead.com/items?filter=158:107;1166:0;0:reputation
+	- Classic
 		- Argent Dawn scourgestones quests returned
 	- Dragonflight
 		- insignia for all renown factions
@@ -86,14 +85,16 @@ New Features
 	
 Other Improvements & Bug Fixes
 
-- Calculating available reputation gains counts items in the reagent bank and warband bank, and warband transferable currency on other characters.
+- Calculating potential reputation gains counts items in the reagent bank and warband bank, and warband transferable currency on other characters.
+- Added an setting to ignore potential reputation gain from buying items with Timewarped Badges, since the vendors offering such are available only during Timewalking events. (Also, the list of factions you can gain reputation with can get noisy, making it harder to see which factions you can improve without spending currency.)
 - When gaining reputation with multiple factions at once, switches the reputation watch bar to whichever faction gained the most.
 - Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
 - Warlords of Draenor: Fixed a bug that prevented showing item tooltip info for Horde- or Alliance-only factions.
 - Cataclysm: Previously tracked Writs of Commendation for racial factions, but didn't track that they can be purchased with Marks of the World Tree; fixed.
 
-Content Updates / Fixes
+Content Updates
 
+- Timewalking: Commendations and Insignia purchaseable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors
 - Shadowlands:
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase, turnin purchased item)

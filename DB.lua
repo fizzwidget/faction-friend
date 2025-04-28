@@ -17,6 +17,8 @@ local F = {
 	ARGENT_DAWN = 529,
 	TIMBERMAW = 576,
 	THORIUM_BROTHERHOOD = 59,
+	WINTERSABER_TRAINERS = 589,
+	HYDRAXIAN_WATERLORDS = 749,
 -- Horde/Alliance racial factions   
 	HORDE = 67,
 		ORC = 76,
@@ -132,8 +134,8 @@ local F = {
 	FROSTWOLF_ORCS = 1445,
 	LAUGHING_SKULL = 1708,
 	-- Alliance
-	EXARCHS_COUNCIL = 1731,
-	PROPHET_HAND = 1847,
+	COUNCIL_OF_EXARCHS = 1731,
+	HAND_OF_PROPHET = 1847,
 	SHATARI_DEFENSE = 1710,
 	WRYNNS_VANGUARD = 1682,
 
@@ -148,7 +150,7 @@ local F = {
 	TALONS_VENGEANCE = 2018, 
 	ARMIES_LEGIONFALL = 2045,
 	ARMY_OF_LIGHT = 2165,
-	AGUSSIAN_REACH = 2170,
+	ARGUSSIAN_REACH = 2170,
 	
 	FISHERFRIEND_ILYSSIA = 2097,
 	FISHERFRIEND_RAYNAE = 2098,
@@ -232,8 +234,8 @@ DB.ExcludedFactions = {
 		[F.BARADIN] = 1,
 		[F.KIRIN_TOR_OFFENSIVE] = 1,
 		[F.OPERATION_SHIELDWALL] = 1,
-		[F.EXARCHS_COUNCIL] = 1,
-		[F.PROPHET_HAND] = 1,
+		[F.COUNCIL_OF_EXARCHS] = 1,
+		[F.HAND_OF_PROPHET] = 1,
 		[F.SHATARI_DEFENSE] = 1,
 		[F.WRYNNS_VANGUARD] = 1,
 		[F.PROUDMOORE_ADMIRALTY] = 1,
@@ -244,13 +246,14 @@ DB.ExcludedFactions = {
 
 ------------------------------------------------------
 -- For item tooltips and potential rep gain calculation
+-- Quest names starting with ZZ_ are order dependent; 
+-- check for creatable items before checking what those items are worth
 ------------------------------------------------------
 DB.TurninsByQuest = {
 	
 	-- Racial factions: Horde
 	[F.TAUREN] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45722] = 1,	-- Thunder Bluff Commendation Badge
 			},
@@ -260,7 +263,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -268,8 +271,7 @@ DB.TurninsByQuest = {
 				[45722] = 1,	-- Thunder Bluff Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70153] = 1,	-- Thunder Bluff Writ of Commendation
 			},
@@ -279,7 +281,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -289,8 +291,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.TROLL] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45720] = 1,	-- Sen'jin Commendation Badge
 			},
@@ -300,7 +301,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -308,8 +309,7 @@ DB.TurninsByQuest = {
 				[45720] = 1,	-- Sen'jin Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70150] = 1,	-- Sen'jin Writ of Commendation
 			},
@@ -319,7 +319,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -329,8 +329,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.FORSAKEN] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45723] = 1,	-- Undercity Commendation Badge
 			},
@@ -340,7 +339,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -348,8 +347,7 @@ DB.TurninsByQuest = {
 				[45723] = 1,	-- Undercity Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70154] = 1,	-- Undercity Writ of Commendation
 			},
@@ -359,7 +357,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -369,8 +367,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.BELF] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45721] = 1,	-- Silvermoon Commendation Badge
 			},
@@ -380,7 +377,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -388,8 +385,7 @@ DB.TurninsByQuest = {
 				[45721] = 1,	-- Silvermoon Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70151] = 1,	-- Silvermoon Writ of Commendation
 			},
@@ -399,7 +395,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -409,8 +405,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ORC] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45719] = 1,	-- Orgrimmar Commendation Badge
 			},
@@ -420,7 +415,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -428,8 +423,7 @@ DB.TurninsByQuest = {
 				[45719] = 1,	-- Orgrimmar Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70149] = 1,	-- Orgrimmar Writ of Commendation
 			},
@@ -439,7 +433,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -491,7 +485,7 @@ DB.TurninsByQuest = {
 				[17326] = 1,	-- Stormpike Soldier's Flesh
 			},
 		},
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[208133] = 1,	-- Orgrimmar Insignia
 			},
@@ -501,7 +495,7 @@ DB.TurninsByQuest = {
 				["currency:2594"] = 2500,	-- Paracausal Flakes
 			},
 		},
-		A_ParacausalInsignia = {
+		ParacausalInsignia = {
 			value = 250,
 			useItem = 1,
 			items = {
@@ -510,8 +504,7 @@ DB.TurninsByQuest = {
 		},	
 	},
 	[F.GOBLIN] = {
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[71088] = 1,	-- Bilgewater Writ of Commendation
 			},
@@ -521,7 +514,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -533,8 +526,7 @@ DB.TurninsByQuest = {
 	
 	-- Racial factions: Alliance
 	[F.NELF] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45714] = 1,	-- Darnassus Commendation Badge
 			},
@@ -544,7 +536,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -552,8 +544,7 @@ DB.TurninsByQuest = {
 				[45714] = 1,	-- Darnassus Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70145] = 1,	-- Darnassus Writ of Commendation
 			},
@@ -563,7 +554,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -573,8 +564,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.GNOME] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45716] = 1,	-- Gnomeregan Commendation Badge
 			},
@@ -584,7 +574,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -592,8 +582,7 @@ DB.TurninsByQuest = {
 				[45716] = 1,	-- Gnomeregan Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70147] = 1,	-- Gnomeregan Writ of Commendation
 			},
@@ -603,7 +592,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -613,8 +602,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.HUMAN] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45718] = 1,	-- Stormwind Commendation Badge
 			},
@@ -624,7 +612,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -632,8 +620,7 @@ DB.TurninsByQuest = {
 				[45718] = 1,	-- Stormwind Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70152] = 1,	-- Stormwind Writ of Commendation
 			},
@@ -643,7 +630,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -651,7 +638,7 @@ DB.TurninsByQuest = {
 				[70152] = 1,	-- Stormwind Writ of Commendation
 			},
 		},
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[208132] = 1,	-- Stormwind Insignia
 			},
@@ -661,7 +648,7 @@ DB.TurninsByQuest = {
 				["currency:2594"] = 2500,	-- Paracausal Flakes
 			},
 		},
-		A_ParacausalInsignia = {
+		ParacausalInsignia = {
 			value = 250,
 			useItem = 1,
 			items = {
@@ -670,8 +657,7 @@ DB.TurninsByQuest = {
 		},	
 	},
 	[F.DRAENEI] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45715] = 1,	-- Exodar Commendation Badge
 			},
@@ -681,7 +667,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -689,8 +675,7 @@ DB.TurninsByQuest = {
 				[45715] = 1,	-- Exodar Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70146] = 1,	-- Exodar Writ of Commendation
 			},
@@ -700,7 +685,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -710,8 +695,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.DWARF] = {
-		-- Argent Tournament vendor (not really a quest, but it works here)
-		ChampionWrit = {
+		ZZ_ChampionWrit = {
 			creates = {
 				[45717] = 1,	-- Ironforge Commendation Badge
 			},
@@ -721,7 +705,7 @@ DB.TurninsByQuest = {
 				[46114] = 1,	-- Champion's Writ
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -729,8 +713,7 @@ DB.TurninsByQuest = {
 				[45717] = 1,	-- Ironforge Commendation Badge
 			},
 		},
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[70148] = 1,	-- Ironforge Writ of Commendation
 			},
@@ -740,7 +723,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -794,8 +777,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.WORGEN] = {
-		-- Molten Front vendor (not really a quest, but it works here)
-		MarkOfWorldTree = {
+		ZZ_MarkOfWorldTree = {
 			creates = {
 				[71087] = 1,	-- Gilneas Writ of Commendation
 			},
@@ -805,7 +787,7 @@ DB.TurninsByQuest = {
 				["currency:416"] = 30,	-- Mark of the World Tree
 			},
 		},
-		A_CommendationWrit = {
+		CommendationWrit = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -905,9 +887,25 @@ DB.TurninsByQuest = {
 		},
 	},
 
-	-- Other factions
+	-- Other Classic factions
 	[F.ZANDALAR] = {
-		A_HonorTokens = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[224570] = 1, -- Commendation of the Zandalar Tribe
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[224570] = 1, -- Commendation of the Zandalar Tribe
+			}
+		},
+		HonorTokens = {
 			value = 50,
 			useItem = 1,
 			items = {
@@ -916,6 +914,22 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.BROOD_NOZDORMU] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[224558] = 1, -- Commendation of the Brood of Nozdormu
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[224558] = 1, -- Commendation of the Brood of Nozdormu
+			}
+		},
 		MortalChampions = {
 			value = 500,
 			items = {
@@ -980,7 +994,23 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ARGENT_DAWN] = {
-		A_ValorTokens = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[224567] = 1, -- Commendation of the Argent Dawn
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[224567] = 1, -- Commendation of the Argent Dawn
+			}
+		},
+		ValorTokens = {
 			value = 100,
 			useItem = 1,
 			items = {
@@ -989,6 +1019,22 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.TIMBERMAW] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[224566] = 1, -- Commendation of the Timbermaw Hold
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[224566] = 1, -- Commendation of the Timbermaw Hold
+			}
+		},
 		Totem_Winterfall = {
 			value = 1400,
 			minStanding = 4, 
@@ -1017,6 +1063,22 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.THORIUM_BROTHERHOOD] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[224571] = 1, -- Commendation of the Thorium Brotherhood
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[224571] = 1, -- Commendation of the Thorium Brotherhood
+			}
+		},
 		DarkIronResidue = {
 			value = 60,
 			minStanding = 5,
@@ -1054,6 +1116,42 @@ DB.TurninsByQuest = {
 			items = {
 				[11382] = 1,	-- Blood of the Mountain
 			},
+		},
+	},
+	[F.WINTERSABER_TRAINERS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				 [224565] = 1, -- Commendation of the Wintersaber Trainers
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				 [224565] = 1, -- Commendation of the Wintersaber Trainers
+			}
+		},
+	},
+	[F.HYDRAXIAN_WATERLORDS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				 [224561] = 1, -- Commendation of the Hydraxian Waterlords
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				 [224561] = 1, -- Commendation of the Hydraxian Waterlords
+			}
 		},
 	},
 
@@ -1103,7 +1201,7 @@ DB.TurninsByQuest = {
 				[25416] = 10,	-- Oshu'gun Crystal Fragment
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[129945] = 1,	-- Commendation of the Consortium
 			},
@@ -1113,7 +1211,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129945] = 1,	-- Commendation of the Consortium
@@ -1161,9 +1259,9 @@ DB.TurninsByQuest = {
 				[35188] = 15,	-- Nesingwary Lackey Ear
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
-				[129949] = 1,	-- Commendation of Cenarion Expedition
+				[129949] = 1,	-- Commendation of the Cenarion Expedition
 			},
 			value = 0,
 			buyValue = 500,
@@ -1171,10 +1269,10 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
-				[129949] = 1,	-- Commendation of Cenarion Expedition
+				[129949] = 1,	-- Commendation of the Cenarion Expedition
 			}
 		},
 	},
@@ -1323,7 +1421,7 @@ DB.TurninsByQuest = {
 				[25719] = 30,	-- Arakkoa Feather
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[129951] = 1,	-- Commendation of Lower City
 			},
@@ -1333,7 +1431,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129951] = 1,	-- Commendation of Lower City
@@ -1429,7 +1527,7 @@ DB.TurninsByQuest = {
 			},
 		},
 
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[129946] = 1,	-- Commendation of The Sha'tar
 			},
@@ -1439,10 +1537,64 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[129946] = 1,	-- Commendation of The Sha'tar
+			}
+		},
+	},
+	[F.HONOR_HOLD] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129948] = 1,	-- Commendation of Honor Hold
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129948] = 1,	-- Commendation of Honor Hold
+			}
+		},
+	},
+	[F.THRALLMAR] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129947] = 1,	-- Commendation of Thrallmar
+			}
+		},
+	},
+	[F.KEEPERS_OF_TIME] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129950] = 1,	-- Commendation of the Keepers of Time
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[129950] = 1,	-- Commendation of the Keepers of Time
 			}
 		},
 	},
@@ -1463,18 +1615,18 @@ DB.TurninsByQuest = {
 				[42780] = 10,	-- Relic of Ulduar
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[129943] = 1,	-- Commendation of the Sons of Hodir
 			},
 			value = 0,
-			buyValue = 500,
+			buyValue = 501,
 			items = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
-			value = 500,
+		TimewarpedCommendation = {
+			value = 501,
 			items = {
 				[129943] = 1,	-- Commendation of the Sons of Hodir
 			}
@@ -1488,23 +1640,23 @@ DB.TurninsByQuest = {
 				[43089] = 15,	-- Vrykul Bones
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
-				[129941] = 1,	-- Commendation of The Ebonblade
+				[129941] = 1,	-- Commendation of The Ebon Blade
 			},
 			value = 0,
-			buyValue = 500,
+			buyValue = 501,
 			items = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
-			value = 500,
+		TimewarpedCommendation = {
+			value = 501,
 			items = {
-				[129941] = 1,	-- Commendation of The Ebonblade
+				[129941] = 1,	-- Commendation of The Ebon Blade
 			}
 		},
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[208617] = 1,	-- Ebon Blade Commendation Badge
 			},
@@ -1514,7 +1666,7 @@ DB.TurninsByQuest = {
 				["currency:2594"] = 2600,	-- Paracausal Flakes
 			},
 		},
-		A_ParacausalInsignia = {
+		ParacausalInsignia = {
 			value = 260,
 			useItem = 1,
 			items = {
@@ -1522,11 +1674,100 @@ DB.TurninsByQuest = {
 			}
 		},	
 	},
+	[F.ALLIANCE_VANGUARD] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
+			},
+			value = 0,
+			buyValue = 501,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 501,
+			items = {
+				[129955] = 1,	-- Commendation of the Alliance Vanguard
+			}
+		},
+	},
+	[F.ARGENT_CRUSADE] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129942] = 1,	-- Commendation of the Argent Crusade
+			},
+			value = 0,
+			buyValue = 501,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 501,
+			items = {
+				[129942] = 1,	-- Commendation of the Argent Crusade
+			}
+		},
+	},
+	[F.HORDE_EXPEDITION] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129954] = 1,	-- Commendation of the Horde Expedition
+			},
+			value = 0,
+			buyValue = 501,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 501,
+			items = {
+				[129954] = 1,	-- Commendation of the Horde Expedition
+			}
+		},
+	},
+	[F.KIRIN_TOR] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129940] = 1,	-- Commendation of the Kirin Tor
+			},
+			value = 0,
+			buyValue = 501,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 501,
+			items = {
+				[129940] = 1,	-- Commendation of the Kirin Tor
+			}
+		},
+	},
+	[F.WYRMREST] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
+			},
+			value = 0,
+			buyValue = 501,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 501,
+			items = {
+				[129944] = 1,	-- Commendation of the Wyrmrest Accord
+			}
+		},
+	},
 
 	-- Cataclysm factions
 	[F.BARADIN] = {
-		-- vendors (not really a quest, but it works here)
-		TolBaradCommendations = {
+		ZZ_TolBaradCommendations = {
 			creates = {
 				[63517] = 1,	-- Baradin's Wardens Commendation
 			},
@@ -1536,7 +1777,7 @@ DB.TurninsByQuest = {
 				["currency:391"] = 16,		-- Tol Barad Commendations
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -1546,8 +1787,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.HELLSCREAM] = {
-		-- vendors (not really a quest, but it works here)
-		TolBaradCommendations = {
+		ZZ_TolBaradCommendations = {
 			creates = {
 				[63518] = 1,	-- Hellscream's Reach Commendation
 			},
@@ -1557,13 +1797,121 @@ DB.TurninsByQuest = {
 				["currency:391"] = 16,		-- Tol Barad Commendations
 			},
 		},
-		A_CommendationBadge = {
+		CommendationBadge = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
 			items = {
 				[63518] = 1,	-- Hellscream's Reach Commendation
 			},
+		},
+	},
+	[F.DRAGONMAW] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133150] = 1,	-- Commendation of the Dragonmaw Clan
+			}
+		},
+	},
+	[F.WILDHAMMER] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133151] = 1,	-- Commendation of the Wildhammer Clan
+			}
+		},
+	},
+	[F.EARTHEN_RING] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133159] = 1,	-- Commendation of the Earthen Ring
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133159] = 1,	-- Commendation of the Earthen Ring
+			}
+		},
+	},
+	[F.GUARDIANS_HYJAL] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133152] = 1,	-- Commendation of the Guardians of Hyjal
+			}
+		},
+	},
+	[F.RAMKAHEN] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133154] = 1,	-- Commendation of the Ramkahen
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133154] = 1,	-- Commendation of the Ramkahen
+			}
+		},
+	},
+	[F.THERAZANE] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[133160] = 1,	-- Commendation of Therazane
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[133160] = 1,	-- Commendation of Therazane
+			}
 		},
 	},
 	
@@ -1576,7 +1924,7 @@ DB.TurninsByQuest = {
 				[89155] = 1,	-- Onyx Egg
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143942] = 1, -- Commendation of the Order of the Cloud Serpent
 			},
@@ -1586,7 +1934,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143942] = 1, -- Commendation of the Order of the Cloud Serpent
@@ -1607,7 +1955,7 @@ DB.TurninsByQuest = {
 				[87903] = 5,	-- Dread Amber Shards
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143935] = 1, -- Commendation of The Klaxxi
 			},
@@ -1617,7 +1965,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143935] = 1, -- Commendation of The Klaxxi
@@ -1651,7 +1999,7 @@ DB.TurninsByQuest = {
 				[90815] = 1,	-- Relic of Guo-Lai
 			},
 		},	
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143937] = 1, -- Commendation of the Golden Lotus
 			},
@@ -1661,7 +2009,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143937] = 1, -- Commendation of the Golden Lotus
@@ -1681,7 +2029,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.SHADOPAN] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143936] = 1, -- Commendation of the Shado-Pan
 			},
@@ -1691,7 +2039,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143936] = 1, -- Commendation of the Shado-Pan
@@ -1711,7 +2059,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.AUGUST_CELESTIALS] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143938] = 1, -- Commendation of The August Celestials
 			},
@@ -1721,7 +2069,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143938] = 1, -- Commendation of The August Celestials
@@ -1741,7 +2089,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.SHADOPAN_ASSAULT] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143945] = 1, -- Commendation of the Shado-Pan Assault
 			},
@@ -1751,7 +2099,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143945] = 1, -- Commendation of the Shado-Pan Assault
@@ -1765,7 +2113,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ANGLERS] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143946] = 1, -- Commendation of The Anglers
 			},
@@ -1775,7 +2123,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143946] = 1, -- Commendation of The Anglers
@@ -1789,7 +2137,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.TILLERS] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143941] = 1, -- Commendation of The Tillers
 			},
@@ -1799,7 +2147,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 300,
 			items = {
 				[143941] = 1, -- Commendation of The Tillers
@@ -1817,6 +2165,60 @@ DB.TurninsByQuest = {
 			value = 1000,
 			items = {
 				[86592] = 1, -- Hozen Peace Pipe
+			}
+		},
+	},
+	[F.DOMINANCE_OFFENSIVE] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[143943] = 1, -- Commendation of the Dominance Offensive
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143943] = 1, -- Commendation of the Dominance Offensive
+			}
+		},
+	},
+	[F.OPERATION_SHIELDWALL] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[143944] = 1, -- Commendation of Operation: Shieldwall
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[143944] = 1, -- Commendation of Operation: Shieldwall
+			}
+		},
+	},
+	[F.EMPEROR_SHAOHAO] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[143947] = 1, -- Commendation of Emperor Shaohao
+			},
+			value = 0,
+			buyValue = 500,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 500,
+			items = {
+				[143947] = 1, -- Commendation of Emperor Shaohao
 			}
 		},
 	},
@@ -1983,8 +2385,7 @@ DB.TurninsByQuest = {
 	},
 
 	[F.SUNREAVER_ONSLAUGHT] = {
-		-- vendors (not really a quest, but it works here)
-		TatteredDocs_01 = {
+		ZZ_TatteredDocs_01 = {
 			creates = {
 				[95487] = 1,	-- Sunreaver Onslaught Insignia
 			},
@@ -1994,7 +2395,7 @@ DB.TurninsByQuest = {
 				[95491] = 1,		-- Tattered Historical Parchments
 			},
 		},
-		A_Insignia = {
+		Insignia = {
 			value = 25,
 			useItem = 1,
 			purchased = 1,
@@ -2002,7 +2403,7 @@ DB.TurninsByQuest = {
 				[95487] = 1,	-- Sunreaver Onslaught Insignia
 			},
 		},
-		TatteredDocs_10 = {
+		ZZ_TatteredDocs_10 = {
 			creates = {
 				[95488] = 1,	-- Greater Sunreaver Onslaught Insignia
 			},
@@ -2012,7 +2413,7 @@ DB.TurninsByQuest = {
 				[95491] = 10,		-- Tattered Historical Parchments
 			},
 		},
-		A_InsigniaGreater = {
+		InsigniaGreater = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -2020,7 +2421,7 @@ DB.TurninsByQuest = {
 				[95488] = 1,	-- Greater Sunreaver Onslaught Insignia
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143939] = 1, -- Commendation of the Sunreaver Onslaught
 			},
@@ -2030,7 +2431,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[143939] = 1, -- Commendation of the Sunreaver Onslaught
@@ -2038,8 +2439,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.KIRIN_TOR_OFFENSIVE] = {
-		-- vendors (not really a quest, but it works here)
-		TatteredDocs_01 = {
+		ZZ_TatteredDocs_01 = {
 			creates = {
 				[95489] = 1,	-- Kirin Tor Offensive Insignia
 			},
@@ -2049,7 +2449,7 @@ DB.TurninsByQuest = {
 				[95491] = 1,		-- Tattered Historical Parchments
 			},
 		},
-		A_Insignia = {
+		Insignia = {
 			value = 25,
 			useItem = 1,
 			purchased = 1,
@@ -2057,7 +2457,7 @@ DB.TurninsByQuest = {
 				[95489] = 1,	-- Kirin Tor Offensive Insignia
 			},
 		},
-		TatteredDocs_10 = {
+		ZZ_TatteredDocs_10 = {
 			creates = {
 				[95490] = 1,	-- Greater Kirin Tor Offensive Insignia
 			},
@@ -2067,7 +2467,7 @@ DB.TurninsByQuest = {
 				[95491] = 10,		-- Tattered Historical Parchments
 			},
 		},
-		A_InsigniaGreater = {
+		InsigniaGreater = {
 			value = 250,
 			useItem = 1,
 			purchased = 1,
@@ -2075,7 +2475,7 @@ DB.TurninsByQuest = {
 				[95490] = 1,	-- Greater Kirin Tor Offensive Insignia
 			},
 		},
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
+		ZZ_TimewarpedBadge = {
 			creates = {
 				[143940] = 1, -- Commendation of the Kirin Tor Offensive
 			},
@@ -2085,7 +2485,7 @@ DB.TurninsByQuest = {
 				["currency:1166"] = 50,	-- Timewarped Badge
 			},
 		},
-		A_TimewarpedCommendation = {
+		TimewarpedCommendation = {
 			value = 500,
 			items = {
 				[143940] = 1, -- Commendation of the Kirin Tor Offensive
@@ -2095,6 +2495,22 @@ DB.TurninsByQuest = {
 
 	-- Warlords of Draenor factions
 	[F.STEAMWHEEDLE_SOCIETY] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167926] = 1, -- Commendation of the Steamwheedle Preservation Society
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167926] = 1, -- Commendation of the Steamwheedle Preservation Society
+			}
+		},
 		ARareFind = {
 			value = 250,
 			minStanding = 4,	-- needs verifying 
@@ -2175,6 +2591,22 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ARAKKOA_OUTCASTS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167924] = 1, -- Commendation of the Arakkoa Outcasts
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167924] = 1, -- Commendation of the Arakkoa Outcasts
+			}
+		},
 		RelicRukhmar = {
 			value = 2500,
 			useItem = 1,
@@ -2191,6 +2623,22 @@ DB.TurninsByQuest = {
 		}
 	},
 	[F.AWAKENED_ORDER] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167925] = 1, -- Commendation of the Order of the Awakened
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167925] = 1, -- Commendation of the Order of the Awakened
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2200,6 +2648,22 @@ DB.TurninsByQuest = {
 		}
 	},
 	[F.SABERSTALKERS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167927] = 1, -- Commendation of the Saberstalkers
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167927] = 1, -- Commendation of the Saberstalkers
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2259,6 +2723,22 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.VOLJIN_HEADHUNTERS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[168017] = 1, -- Commendation of Vol'jin's Headhunters
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[168017] = 1, -- Commendation of Vol'jin's Headhunters
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2277,6 +2757,22 @@ DB.TurninsByQuest = {
 		}
 	},
 	[F.FROSTWOLF_ORCS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167928] = 1, -- Commendation of the Frostwolf Orcs
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167928] = 1, -- Commendation of the Frostwolf Orcs
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2286,6 +2782,22 @@ DB.TurninsByQuest = {
 		}
 	},
 	[F.LAUGHING_SKULL] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167930] = 1, -- Commendation of the Laughing Skull Orcs
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167930] = 1, -- Commendation of the Laughing Skull Orcs
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2294,7 +2806,23 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.EXARCHS_COUNCIL] = {
+	[F.COUNCIL_OF_EXARCHS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167929] = 1, -- Commendation of the Council of Exarchs
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167929] = 1, -- Commendation of the Council of Exarchs
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2303,7 +2831,23 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.PROPHET_HAND] = {
+	[F.HAND_OF_PROPHET] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[168018] = 1, -- Commendation of the Hand of the Prophet
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[168018] = 1, -- Commendation of the Hand of the Prophet
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2313,6 +2857,22 @@ DB.TurninsByQuest = {
 		}
 	},
 	[F.SHATARI_DEFENSE] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[167932] = 1, -- Commendation of the Sha'tari Defense
+			},
+			value = 0,
+			buyValue = 300,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
+		TimewarpedCommendation = {
+			value = 300,
+			items = {
+				[167932] = 1, -- Commendation of the Sha'tari Defense
+			}
+		},
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2333,6 +2893,16 @@ DB.TurninsByQuest = {
 
 	-- Legion factions
 	[F.NIGHTFALLEN] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141343] = 1, -- Nightfallen Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		ArcaneTablet = {
 			value = 100,
 			maxStanding = 7, 
@@ -2425,6 +2995,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.VALARJAR] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141338] = 1, -- Valarjar Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			maxStanding = 7, 
@@ -2487,6 +3067,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.HIGHMOUNTAIN_TRIBE] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141341] = 1, -- Highmountain Tribe Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			maxStanding = 7, 
@@ -2549,6 +3139,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.DREAMWEAVERS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141339] = 1, -- Dreamweaver Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			maxStanding = 7, 
@@ -2611,6 +3211,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.FARONDIS_COURT] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141340] = 1, -- Court of Farondis Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			maxStanding = 7, 
@@ -2673,6 +3283,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.WARDENS] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[141342] = 1, -- Wardens Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			maxStanding = 7, 
@@ -2735,6 +3355,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ARMIES_LEGIONFALL] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[146950] = 1, -- Legionfall Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2742,7 +3372,7 @@ DB.TurninsByQuest = {
 				[146949] = 1, -- Legionfall Insignia
 			}
 		},
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[146949] = 1, -- Legionfall Insignia
 			},
@@ -2775,6 +3405,16 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ARMY_OF_LIGHT] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[152957] = 1, -- Army of the Light Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2811,7 +3451,17 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.AGUSSIAN_REACH] = {
+	[F.ARGUSSIAN_REACH] = {
+		ZZ_TimewarpedBadge = {
+			creates = {
+				[152960] = 1, -- Argussian Reach Insignia
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1166"] = 50,	-- Timewarped Badge
+			},
+		},
 		InsigniaBoP = {
 			value = 250,
 			useItem = 1,
@@ -2942,7 +3592,7 @@ DB.TurninsByQuest = {
 				[298138] = 1,	-- Rustbolt Resistance Insignia
 			}
 		},	
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[208134] = 1,	-- Rustbolt Resistance Insignia
 			},
@@ -2952,7 +3602,7 @@ DB.TurninsByQuest = {
 				["currency:2594"] = 2500,	-- Paracausal Flakes
 			},
 		},
-		A_ParacausalInsignia = {
+		ParacausalInsignia = {
 			value = 250,
 			useItem = 1,
 			items = {
@@ -2961,7 +3611,7 @@ DB.TurninsByQuest = {
 		},	
 	},
 	[F.RAJANI] = {
-		B_ParacausalFlakes = { -- "A_" and "B_" keys for order dependency
+		ZZ_ParacausalFlakes = {
 			creates = {
 				[173375] = 1,	-- Rajani Insignia
 			},
@@ -2971,7 +3621,7 @@ DB.TurninsByQuest = {
 				["currency:2594"] = 2500,	-- Paracausal Flakes
 			},
 		},
-		A_ParacausalInsignia = {
+		ParacausalInsignia = {
 			value = 250,
 			useItem = 1,
 			items = {
@@ -2980,7 +3630,7 @@ DB.TurninsByQuest = {
 		},	
 	},
 	[F.TORTOLLAN_SEEKERS] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[166501] = 1,	-- Soggy Page
 			},
@@ -2990,7 +3640,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[166501] = 1,	-- Soggy Page
@@ -2998,7 +3648,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ZANDALARI_EMPIRE] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163620] = 1,	-- Island Flotsam
 			},
@@ -3008,7 +3658,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163620] = 1,	-- Island Flotsam
@@ -3016,7 +3666,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.TALANJIS_EXPEDITION] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163619] = 1,	-- Golden Beetle
 			},
@@ -3026,7 +3676,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163619] = 1,	-- Golden Beetle
@@ -3034,7 +3684,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.VOLDUNAI] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163618] = 1,	-- Shimmering Shell
 			},
@@ -3044,7 +3694,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163618] = 1,	-- Shimmering Shell
@@ -3052,7 +3702,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.PROUDMOORE_ADMIRALTY] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163616] = 1,	-- Dented Coin
 			},
@@ -3062,7 +3712,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163616] = 1,	-- Dented Coin
@@ -3070,7 +3720,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.STORMS_WAKE] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163615] = 1,	-- Lost Sea Scroll
 			},
@@ -3080,7 +3730,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163615] = 1,	-- Lost Sea Scroll
@@ -3088,7 +3738,7 @@ DB.TurninsByQuest = {
 		},
 	},
 	[F.ORDER_OF_EMBERS] = {
-		B_Dubloon = { -- "A_"/"B_"/"C_" keys for order dependency
+		ZZ_Dubloon = {
 			creates = {
 				[163614] = 1,	-- Exotic Spices
 			},
@@ -3098,7 +3748,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		A_DubloonPurchase = { -- "A_"/"B_"/"C_" keys for order dependency
+		DubloonPurchase = {
 			value = 250,
 			items = {
 				[163614] = 1,	-- Exotic Spices
@@ -3150,316 +3800,6 @@ DB.TurninsByQuest = {
 			},
 		},
 
-	},
-
-	
-	-- Old factions with only Timewalker turn-ins (Timewarped Badges)
-	[F.HONOR_HOLD] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129948] = 1,	-- Commendation of Honor Hold
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129948] = 1,	-- Commendation of Honor Hold
-			}
-		},
-	},
-	[F.ALLIANCE_VANGUARD] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129955] = 1,	-- Commendation of the Alliance Vanguard
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129955] = 1,	-- Commendation of the Alliance Vanguard
-			}
-		},
-	},
-	[F.ARGENT_CRUSADE] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129942] = 1,	-- Commendation of the Argent Crusade
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129942] = 1,	-- Commendation of the Argent Crusade
-			}
-		},
-	},
-	[F.DRAGONMAW] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133150] = 1,	-- Commendation of the Dragonmaw Clan
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133150] = 1,	-- Commendation of the Dragonmaw Clan
-			}
-		},
-	},
-	[F.EARTHEN_RING] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133159] = 1,	-- Commendation of the Earthen Ring
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133159] = 1,	-- Commendation of the Earthen Ring
-			}
-		},
-	},
-	[F.GUARDIANS_HYJAL] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133152] = 1,	-- Commendation of the Guardians of Hyjal
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133152] = 1,	-- Commendation of the Guardians of Hyjal
-			}
-		},
-	},
-	[F.HORDE_EXPEDITION] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129954] = 1,	-- Commendation of the Horde Expedition
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129954] = 1,	-- Commendation of the Horde Expedition
-			}
-		},
-	},
-	[F.KEEPERS_OF_TIME] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129950] = 1,	-- Commendation of the Keepers of Time
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129950] = 1,	-- Commendation of the Keepers of Time
-			}
-		},
-	},
-	[F.KIRIN_TOR] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129940] = 1,	-- Commendation of the Kirin Tor
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129940] = 1,	-- Commendation of the Kirin Tor
-			}
-		},
-	},
-	[F.RAMKAHEN] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133154] = 1,	-- Commendation of the Ramkahen
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133154] = 1,	-- Commendation of the Ramkahen
-			}
-		},
-	},
-	[F.WILDHAMMER] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133151] = 1,	-- Commendation of the Wildhammer Clan
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133151] = 1,	-- Commendation of the Wildhammer Clan
-			}
-		},
-	},
-	[F.WYRMREST] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129944] = 1,	-- Commendation of the Wyrmrest Accord
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129944] = 1,	-- Commendation of the Wyrmrest Accord
-			}
-		},
-	},
-	[F.THERAZANE] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[133160] = 1,	-- Commendation of Therazane
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[133160] = 1,	-- Commendation of Therazane
-			}
-		},
-	},
-	[F.THRALLMAR] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[129947] = 1,	-- Commendation of Thrallmar
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[129947] = 1,	-- Commendation of Thrallmar
-			}
-		},
-	},
-
-	[F.DOMINANCE_OFFENSIVE] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[143943] = 1, -- Commendation of the Dominance Offensive
-			},
-			value = 0,
-			buyValue = 300,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 300,
-			items = {
-				[143943] = 1, -- Commendation of the Dominance Offensive
-			}
-		},
-	},
-	[F.OPERATION_SHIELDWALL] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[143944] = 1, -- Commendation of Operation: Shieldwall
-			},
-			value = 0,
-			buyValue = 300,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 300,
-			items = {
-				[143944] = 1, -- Commendation of Operation: Shieldwall
-			}
-		},
-	},
-	[F.EMPEROR_SHAOHAO] = {
-		B_TimewarpedBadge = { -- "A_" and "B_" keys for order dependency
-			creates = {
-				[143947] = 1, -- Commendation of Emperor Shaohao
-			},
-			value = 0,
-			buyValue = 500,
-			items = {
-				["currency:1166"] = 50,	-- Timewarped Badge
-			},
-		},
-		A_TimewarpedCommendation = {
-			value = 500,
-			items = {
-				[143947] = 1, -- Commendation of Emperor Shaohao
-			}
-		},
 	},
 	
 }
