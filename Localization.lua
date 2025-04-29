@@ -26,7 +26,7 @@ FFF_COUNT_IN_REAGENTS			= "%d in reagent bank"	-- D in example below
 FFF_COUNT_IN_WARBAND			= "%d in warband"		-- D in example below
 FFF_COUNT_CREATED				= "%d from turnins"		-- E in example below
 FFF_ALL_CREATED					= "from turnins"		-- F in example below
-FFF_REPORT_PURCHASE				= "Purchase %dx %s with"
+FFF_REPORT_PURCHASE				= "Buy %dx %s"
 FFF_COUNT_PURCHASED				= "%d purchased"
 FFF_ALL_PURCHASED				= "purchased" 
 
