@@ -41,7 +41,6 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
 - faction report in special paragon tooltip, major faction renown tooltip
-- paragon tooltip in context menu
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - BUG? potential gains counts exalted factions

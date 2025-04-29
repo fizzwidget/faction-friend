@@ -325,7 +325,7 @@ function T:CollapseAllFactionHeaders(includeSubheaders)
 	end
 end
 
-function T:FactionAtMaximum(factionID, factionData, friendshipData) 
+function T:FactionAtMaximum(factionID, factionData, friendshipData, ignoreParagon) 
 	if not factionData then
 		factionData = C_Reputation.GetFactionDataByID(factionID)
 	end
@@ -337,8 +337,8 @@ function T:FactionAtMaximum(factionID, factionData, friendshipData)
 		return friendshipData.nextThreshold == nil
 	elseif C_Reputation.IsMajorFaction(factionID) then
 		return C_MajorFactions.HasMaximumRenown(factionID)
-	else
-		return factionData.reaction == MAX_REPUTATION_REACTION and not C_Reputation.IsFactionParagon(factionID)
+	elseif factionData.reaction == MAX_REPUTATION_REACTION then
+		return C_Reputation.IsFactionParagon(factionID) and ignoreParagon
 	end
 end
 
