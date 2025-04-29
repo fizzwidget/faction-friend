@@ -302,8 +302,6 @@ function PG:QuestPotential(key, info)
     potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
     if info.buyValue then
         -- only track gain from currency purchases if no other turnins available
-        -- TODO: option?
-        -- TODO: better reporting
         if self.totalPotential == 0 then
             -- if this "turnin" buys another item which is also a rep turnin,
             -- adjust the number we'll buy based on how much that turnin gives
@@ -369,7 +367,6 @@ end
 function PG:ItemTurninReport(itemID, itemLink, purchased)
     local itemsForTurnin = self.itemsAccounted[itemID]
     local lineItem = FFF_REPORT_LINE_ITEM:format(itemsForTurnin, itemLink)
-    -- TODO warband bank
     local inBags, inBank, inReagents, inWarband = T:ItemCount(itemID)
     local totalCount = inBags + inBank + inReagents + inWarband
     

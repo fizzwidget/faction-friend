@@ -204,7 +204,7 @@ function T.MenuFactionButtonSetChecked(factionID)
 end
 
 function T.MenuShowReputationOnClick()
-    -- TODO disable in combat 
+    -- can't click the menu button that leads to this during combat
     ToggleCharacter("ReputationFrame")
 end
 

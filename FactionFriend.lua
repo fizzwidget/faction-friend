@@ -555,7 +555,6 @@ function T.OnTooltipSetItem(tooltip, data)
 		local itemID = tonumber(id)
 		T:TooltipAddItemInfo(tooltip, itemID)
 	end
-	-- TODO also handle currency?
 	
 end
 
@@ -570,12 +569,9 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 
 	local firstLine = true
 	for factionID in pairs(itemInfo) do
-		
-		-- TODO major faction renown
-		
+				
 		local factionData = C_Reputation.GetFactionDataByID(factionID)
-		local color = FACTION_BAR_COLORS[factionData.reaction]
-		local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
+		local standingText, color = T:StandingText(factionID, false, factionData)
 		
 		if firstLine then
 			GameTooltip_AddBlankLineToTooltip(GameTooltip)
