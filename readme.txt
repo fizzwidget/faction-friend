@@ -44,7 +44,6 @@ TODO for rewrite
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
 - generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
-- BUG? potential gains counts exalted factions
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned

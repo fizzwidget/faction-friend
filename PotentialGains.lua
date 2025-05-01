@@ -297,8 +297,6 @@ function PG:QuestPotential(key, info)
     -- Now we can figure how much rep we stand to gain from this quest
     -- and how many turnins we'll do to get there (adjusted for how much we can actually gain)
     -- TODO handle major faction
-    local maxStanding = info.maxStanding or 7	-- no point going past exalted 
-    local maxValue = info.maxValue or PointsPerStanding[maxStanding]
     potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
     if info.buyValue then
         -- only track gain from currency purchases if no other turnins available
@@ -428,9 +426,8 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         potentialStanding = T:StandingForValue(potentialTotal)
     end
 
-    -- if current standing is below exalted, count only the turnins needed to reach exalted
-    local absMaxStanding = max(7, currentStanding)
-    local turninMaxStanding = info.maxStanding or absMaxStanding
+    -- if current standing is below max, count only the turnins needed to reach max
+    local turninMaxStanding = info.maxStanding or 7
     if turninValue > 0 and potentialStanding >= turninMaxStanding then
         local maxValue = info.maxValue or PointsPerStanding[turninMaxStanding]
         local absMaxValue = AbsMinForStanding[turninMaxStanding] + maxValue
