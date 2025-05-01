@@ -43,12 +43,13 @@ TODO for rewrite
 - faction report in special paragon tooltip, major faction renown tooltip
 - potential gains for friendship, paragon, major faction renown
 - faction report tooltip for friendship, paragon, major faction renown
+- generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
 - BUG? potential gains counts exalted factions
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
-	- Dragonflight
-		- insignia for all renown factions
+	- War Within
+		- severed threads commendation (for multiple possible factions)
 	- Shadowlands
 		- stolen korthian supplies
 		- helsworn battle plans
@@ -91,8 +92,8 @@ Other Improvements & Bug Fixes
 
 Content Updates
 
-- Timewalking: Commendations and Insignia purchaseable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions
-- Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors
+- Timewalking: Commendations and Insignia purchaseable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions (in addition to Burning Crusade, Wrath of the Lich King, Cataclysm, and Mists of Pandaria commendations already tracked).
+- Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchaseable with Flightstones if somehow you still have any)
 - Shadowlands:
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase, turnin purchased item)
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
