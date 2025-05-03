@@ -139,12 +139,14 @@ function T.CreateRecentsMenu(root)
     end
     for index, factionID in pairs(T.Recents) do
         local factionData = C_Reputation.GetFactionDataByID(factionID)
+        local friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+
         local radio = root:CreateRadio(factionData.name, T.MenuFactionButtonIsChecked, T.MenuFactionButtonSetChecked, factionID)
         radio:AddInitializer(function(frame, description, menu)
-            T.MenuFactionButtonSetup(frame, factionID, factionData)
+            T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
         end)
         radio:SetTooltip(function(tooltip, element)
-            T.MenuSetupFactionTooltip(tooltip, factionID, factionData)
+            T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
         end)
     end
     if #T.Recents > 0 then
@@ -175,16 +177,15 @@ function T.CreateShortMenuTopLevelHeader(root, name)
     end)
 end
 
-function T.MenuFactionButtonSetup(frame, factionID, factionData)
+function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
     frame.fontString2 = frame:AttachFontString()
     frame.fontString2:SetPoint("RIGHT")
     
-    -- TODO something for paragon (also show paragon tooltip elsewhere?)
     local text, color = T:StandingText(factionID, false, factionData)
     frame.fontString2:SetTextToFit(text)
     frame.fontString2:SetTextColor(color:GetRGBA())
     
-    local potential = T:FactionPotential(factionID, true, factionData)
+    local potential = T:FactionPotential(factionID, true, factionData, friendshipData)
     if potential > 0 then
         frame.icon = frame:AttachTexture()
         frame.icon:SetSize(16, 16)
@@ -193,12 +194,12 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData)
     end
 end
 
-function T.MenuSetupFactionTooltip(tooltip, factionID, factionData)
-    local atMax = T:FactionAtMaximum(factionID, factionData, nil, true)
+function T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
+    local atMax = T:FactionAtMaximum(factionID, factionData, friendshipData, true)
     if atMax then
         T.MenuSetupParagonToolip(tooltip, factionID, factionData)
     else
-        T.TooltipAddFactionInfo(tooltip, factionID, factionData)
+        T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData)
     end
 end
 
