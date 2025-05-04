@@ -25,20 +25,104 @@ local AbsMinForStanding = {
     [6] = PointsPerStanding[4] + PointsPerStanding[5],
     [7] = PointsPerStanding[4] + PointsPerStanding[5] + PointsPerStanding[6],
     [8] = PointsPerStanding[4] + PointsPerStanding[5] + PointsPerStanding[6] + PointsPerStanding[7],
-    [9] = PointsPerStanding[4] + PointsPerStanding[5] + PointsPerStanding[6] + PointsPerStanding[7] + PointsPerStanding[8],
 }
 
+-- so far this is as safe to assume as the old school reputation numbers
+-- but we don't know if it'll always be
+local MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL = 2500
 
 function T:StandingForValue(value)
-    value = min(value, AbsMinForStanding[9] - 1)	-- cap at max Exalted
+    value = min(value, AbsMinForStanding[8])	-- cap at max Exalted
     value = max(value, AbsMinForStanding[1])	-- and min Hated
-    for standingID = 1, 8 do
+    for standingID = 1, 7 do
         if (value >= AbsMinForStanding[standingID] and value < AbsMinForStanding[standingID+1]) then
             local pointsInto = value - AbsMinForStanding[standingID]
             return standingID, pointsInto, PointsPerStanding[standingID]
         end
     end
+    return MAX_REPUTATION_REACTION, 0, 0
 end
+
+function T:MajorFactionRenownForValue(value, currentRank, potential)
+    local absValue = (currentRank - 1) * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL + value
+    local absTotal = absValue + potential
+    local level = floor(absTotal / MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
+    local levelBase = level * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL
+    local pointsInto = absTotal - levelBase
+    return level + 1, pointsInto, levelBase
+end
+
+-- local terminology: "rank" means
+--  - major faction renown level (numeric)
+--  - friendship rank/reaction (good friend, best frend)
+--  - normal faction reaction (hated, neutral, friendly)
+--    - called standing in some places but sometimes that can mean the number of points (e.g. neutral 1234/3000)
+function T:GetRankInfo(factionID, factionData, friendshipData)
+    if not factionData then
+        factionData = C_Reputation.GetFactionDataByID(factionID)
+    end
+    if not friendshipData then
+        friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+    end
+    local info = {}
+    local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+    if isFriendship then
+        info.type = "friendship"
+        local repRankInfo = C_GossipInfo.GetFriendshipReputationRanks(factionID)
+        info.currentRank = repRankInfo.currentLevel
+        info.maxRank = repRankInfo.maxLevel
+        info.floorValue = friendshipData.reactionThreshold
+        info.currentValue = friendshipData.standing - info.floorValue
+        if friendshipData.nextThreshold then
+            info.nextRankValue = friendshipData.nextThreshold - info.floorValue
+            info.nextRank = min(info.currentRank + 1, info.maxRank)
+            info.nextRankName = FFF_NEXT_RANK -- can't get ranks for friendships
+        end
+        info.capValue = friendshipData.maxRep
+
+    elseif C_Reputation.IsFactionParagon(factionID) then
+        -- TODO what happens for paragon + major?
+        info.type = "paragon"
+        local paragonStanding, paragonThreshold, _, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
+        info.currentRank = 0 -- ?
+        info.maxRank = 2 -- ?
+        info.floorValue = 0
+        info.currentValue = mod(paragonStanding, paragonThreshold)
+        if hasRewardPending then
+            info.currentValue = info.currentValue + paragonThreshold
+        end
+        info.nextRankValue = paragonThreshold
+        info.nextRank = 1 -- ?
+        info.nextRankName = FFF_PARAGON_REWARD
+        info.capValue = paragonThreshold * 2 -- ?
+        
+    elseif C_Reputation.IsMajorFaction(factionID) then
+        info.type = "major"
+        local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)		
+        info.currentRank = majorFactionData.renownLevel
+        local renownLevelsInfo = C_MajorFactions.GetRenownLevels(factionID)
+        info.maxRank = renownLevelsInfo[#renownLevelsInfo].level
+        info.floorValue = 0
+        info.currentValue = majorFactionData.renownReputationEarned
+        info.nextRankValue = majorFactionData.renownLevelThreshold
+        info.nextRank = min(info.currentRank + 1, info.maxRank)
+        info.nextRankName = RENOWN_LEVEL_LABEL:format(info.nextRank)
+        info.capValue = info.maxRank * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL
+        
+    else
+        info.type = "standard"
+        info.currentRank = factionData.reaction
+        info.maxRank = MAX_REPUTATION_REACTION -- or minus one because you can't gain at exalted?
+        info.floorValue = factionData.currentReactionThreshold
+        info.currentValue = factionData.currentStanding - factionData.currentReactionThreshold
+        info.nextRankValue = factionData.nextReactionThreshold - info.floorValue
+        info.nextRank = min(info.currentRank + 1, info.maxRank)
+        info.nextRankName = GetText("FACTION_STANDING_LABEL"..info.nextRank, UnitSex("player"))
+        info.capValue = AbsMinForStanding[MAX_REPUTATION_REACTION]
+    end
+    return info
+end
+
 
 function T:ItemCount(itemID)
     if FFF_FakeItemCount and FFF_FakeItemCount[itemID] then
@@ -112,17 +196,49 @@ end
 -- Tooltip report
 ------------------------------------------------------
 
-function T:TooltipAddFactionReport(tooltip, factionID, factionData)
-    local potential, reportLines, factionData = T:FactionPotential(factionID, true, factionData)
-    
+function T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
+    local potentialTotal = potential + rankData.currentValue + rankData.floorValue
+
+    local text, color
+    if rankData.type == "standard" then
+        local potentialRank, pointsInto, localMax = T:StandingForValue(potentialTotal)
+        text = GetText("FACTION_STANDING_LABEL"..potentialRank, UnitSex("player"))
+        color = FACTION_BAR_COLORS[potentialRank]
+        
+        if potentialRank < MAX_REPUTATION_REACTION then
+            text = FFF_STANDING_VALUES:format(text, pointsInto, localMax)
+        end
+        
+    elseif rankData.type == "paragon" then
+        text = "paragon TODO"
+        color = NORMAL_FONT_COLOR
+        
+    elseif rankData.type == "major" then
+        local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential)
+        text = RENOWN_LEVEL_LABEL:format(potentialRank)
+        text = FFF_STANDING_VALUES:format(text, pointsInto, MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
+        color = BLUE_FONT_COLOR
+
+    else -- friendship
+        -- if > current rank, output e.g. "good friend + 2000"
+        text = "friendship TODO"
+        color = NORMAL_FONT_COLOR
+
+    end
+    return text, color
+end
+
+function T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipData, skipInitialPadding)
+    local potential, reportLines, rankData = T:FactionPotential(factionID, true, factionData)
     if potential == 0 then return end
     
     -- TODO friendship, paragon, major faction renown
     
-    GameTooltip_AddBlankLineToTooltip(tooltip)
+    if not skipInitialPadding then
+        GameTooltip_AddBlankLineToTooltip(tooltip)
+    end
     GameTooltip_AddNormalLine(tooltip, FFF_REPUTATION_TICK_TOOLTIP:format(potential))
     
-    local currentStandingColor = FACTION_BAR_COLORS[factionData.reaction]
     for _, reportLine in pairs(reportLines) do
         for reportHeader, itemLines in pairs(reportLine) do
             for index, line in pairs(itemLines) do
@@ -136,20 +252,20 @@ function T:TooltipAddFactionReport(tooltip, factionID, factionData)
         end
     end
     
-    local potentialTotal = potential + factionData.currentStanding
-    local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
-    local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
-    local potentialStandingColor = FACTION_BAR_COLORS[potentialStanding]
+    -- local potentialTotal = potential + factionData.currentStanding
+    -- local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
+    -- local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
+    -- local potentialStandingColor = FACTION_BAR_COLORS[potentialStanding]
+    -- 
+    -- if potentialStanding < MAX_REPUTATION_REACTION then
+    --     potentialStandingText = FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax)
+    -- end
     
-    if potentialStanding < MAX_REPUTATION_REACTION then
-        potentialStandingText = FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax)
-    end
+    local text, color = T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
 
     GameTooltip_AddColoredDoubleLine(tooltip,
-        FFF_AFTER_TURNINS_LABEL,
-        potentialStandingText,
-        HIGHLIGHT_FONT_COLOR,
-        potentialStandingColor
+        FFF_AFTER_TURNINS_LABEL, text,
+        HIGHLIGHT_FONT_COLOR, color
     )
 end
 
@@ -159,7 +275,9 @@ end
 
 -- debug only
 function FFF_PrintReport(factionID)
-    local potential, reportLines, factionData = T:FactionPotential(factionID, true)
+    local factionData = C_Reputation.GetFactionDataByID(factionID)
+
+    local potential, reportLines = T:FactionPotential(factionID, true, factionData)
     
     -- TODO friendship, paragon, major faction renown
     
@@ -218,9 +336,11 @@ local PotentialGainsMixin = {
     itemsCreated = {}
     -- reportLines: table
     -- factionData: table
+    -- friendshipData: table
+    -- rankData: table
 }
 
-function T:FactionPotential(factionID, withReport, factionData)
+function T:FactionPotential(factionID, withReport, factionData, friendshipData)
     local calculator = CreateFromMixins(PotentialGainsMixin)
     
     -- why doesn't CreateFromMixins do this?
@@ -236,31 +356,32 @@ end
 
 local PG = PotentialGainsMixin
 
-function PG:GetPotential(factionID, factionData)
-    local function reactionInRange(reaction, min, max, cap)
-        local atOrAboveMin = reaction >= (min or 1)
-        local atOrBelowMax = reaction <= (max or cap)
+function PG:GetPotential(factionID, factionData, friendshipData)
+    
+    local rankInRange = function(rank, min, max, cap)
+        local atOrAboveMin = rank >= (min or 1)
+        local atOrBelowMax = rank <= (max or cap)
         return atOrAboveMin and atOrBelowMax
     end
 
-    if factionData then
-        self.factionData = factionData
-    else
-        self.factionData = C_Reputation.GetFactionDataByID(factionID)
-    end
     local factionQuests = DB.TurninsByQuest[factionID]
     if (factionQuests == nil) then return 0 end
+
+    self.factionData = factionData or C_Reputation.GetFactionDataByID(factionID)
+    self.friendshipData = friendshipData or C_GossipInfo.GetFriendshipReputation(factionID)
+    self.rankData = T:GetRankInfo(factionID, factionData, friendshipData)
     
     local descending = function(a,b) return a > b end
     for key, info in GFWTable.PairsByKeys(factionQuests, descending) do
         -- is our rep in range for this quest?
-        local meetsRequirements = reactionInRange(self.factionData.reaction, info.minStanding, info.maxStanding, MAX_REPUTATION_REACTION)
+        local meetsRequirements = self.rankData.type == "paragon" or rankInRange(self.factionData.reaction, info.minStanding, info.maxStanding, self.rankData.maxRank)
         
         -- if quest requires another faction too,
         -- is our rep with them in range?
         if meetsRequirements and info.otherFactionRequired then
             local otherFactionData = C_Reputation.GetFactionDataByID(info.otherFactionRequired.faction)
-            meetsRequirements = meetsRequirements and reactionInRange(otherFactionData.reaction, info.otherFactionRequired.minStanding, info.otherFactionRequired.maxStanding, MAX_REPUTATION_REACTION)
+            local otherFactionRankData = T:GetRankInfo(info.otherFactionRequired.faction)
+            meetsRequirements = meetsRequirements and rankInRange(otherFactionData.reaction, info.otherFactionRequired.minStanding, info.otherFactionRequired.maxStanding, otherFactionRankData.maxRank)
         end
         
         if meetsRequirements then
@@ -268,7 +389,7 @@ function PG:GetPotential(factionID, factionData)
         end
     end
 
-    return self.totalPotential, self.reportLines, self.factionData
+    return self.totalPotential, self.reportLines, self.rankData
 end
 
 function PG:QuestPotential(key, info)
@@ -409,28 +530,45 @@ function PG:CompleteQuestReport(potentialValue, numTurnins, useItem, createdItem
 end
 
 function PG:AdjustedPotential(numTurnins, turninValue, info)
-    
-    -- these names aren't at all confusing now...
-    local currentStanding = self.factionData.reaction
-    local currentValue = self.factionData.currentStanding
-    
-    -- TODO handle friendship, paragon, major faction
-    
     -- figure out how much rep we can gain from what we have for the turnin
     -- but adjust how many turnins to make if it'll max us out
-    -- (whether in terms of how far the turnin goes or to max exalted)
+    -- (whether in terms of how far the turnin goes or to max)
+    local currentValue = self.rankData.currentValue + self.rankData.floorValue
+    
     local potentialValue = numTurnins * turninValue
-    local potentialStanding = currentStanding
+    local potentialRank = self.rankData.currentRank
     local potentialTotal = currentValue + potentialValue
-    if (potentialTotal > PointsPerStanding[currentStanding]) then
-        potentialStanding = T:StandingForValue(potentialTotal)
+    if self.rankData.nextRankValue and potentialTotal > self.rankData.nextRankValue then
+        if self.rankData.type == "standard" then
+            potentialRank = T:StandingForValue(potentialTotal)
+        elseif self.rankData.type == "major" then
+            potentialRank = T:MajorFactionRenownForValue(currentValue, self.rankData.currentRank, potentialValue)
+        else
+            potentialRank = self.rankData.nextRank
+        end
     end
+    -- DevTools_Dump(self.rankData)
+    -- print("turninValue", turninValue, "potentialRank", potentialRank, "potentialTotal", potentialTotal)
 
-    -- if current standing is below max, count only the turnins needed to reach max
-    local turninMaxStanding = info.maxStanding or 7
-    if turninValue > 0 and potentialStanding >= turninMaxStanding then
-        local maxValue = info.maxValue or PointsPerStanding[turninMaxStanding]
-        local absMaxValue = AbsMinForStanding[turninMaxStanding] + maxValue
+    -- count only the turnins needed to reach max
+    -- but only if we know how many ranks ahead
+    local turninMaxRank = info.maxStanding or self.rankData.maxRank
+    if turninValue > 0 and potentialRank >= turninMaxRank then
+        -- adjust potential to fit within cap or turnin max rank 
+        local absMaxValue
+        if self.rankData.type == "standard" then
+            maxValue = info.maxValue or PointsPerStanding[turninMaxRank]
+            absMaxValue = AbsMinForStanding[turninMaxRank] + maxValue
+        elseif self.rankData.type == "paragon" then
+            absMaxValue = self.rankData.maxRank * self.rankData.nextRankValue
+            DevTools_Dump(info)
+        elseif self.rankData.type == "major" then
+            absMaxValue = self.rankData.maxRank * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL
+        else -- friendship
+            -- just don't cap, assume huge value
+            -- TODO instead, limit to just the next rank?
+            absMaxValue = 60000
+        end
         if currentValue >= absMaxValue then
             potentialValue = 0
         end
@@ -439,10 +577,11 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         -- force numTurnins to integer, recalc potentialValue based on that
         -- because we can't do a fractional number of turnins...
         numTurnins = ceil(potentialValue / turninValue)
-        if turninValue == info.buyValue and potentialStanding > turninMaxStanding then
+        
+        if turninValue == info.buyValue and potentialRank > turninMaxRank then
             -- when calculating how many to buy, count the ones we already own
             -- before adjusting to fit within maximum
-            for createdID, qtyCreated in pairs(info.creates) do
+            for createdID, _ in pairs(info.creates) do
                 local inBags, inBank, inReagents, inWarband = T:ItemCount(createdID)
                 local alreadyOwned = inBags + inBank + inReagents + inWarband
                 numTurnins = numTurnins - alreadyOwned

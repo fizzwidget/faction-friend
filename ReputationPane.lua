@@ -123,14 +123,29 @@ end
 hooksecurefunc(ReputationEntryMixin, "Initialize", T.ReputationEntrySetupPotentialIcon)
 
 function T.ReputationEntryShowStandardTooltip(entry)
-    T:TooltipAddFactionReport(GameTooltip, entry.elementData.factionID, entry.elementData)
+    T:TooltipAddFactionReport(GameTooltip, entry.elementData.factionID)
     GameTooltip:Show()
 end
 
--- TODO more tooltip hooks once the report can handle them
--- ShowParagonRewardsTooltip
--- ShowMajorFactionRenownTooltip
+function T.ReputationEntryShowParagonTooltip(entry)
+    -- hide the "rewards" label 
+    local lastFontString = _G["EmbeddedItemTooltipTextLeft"..EmbeddedItemTooltip:NumLines()]
+    if lastFontString:GetText() == REWARDS then
+        lastFontString:SetText("")
+    end
+    
+    T:TooltipAddFactionReport(EmbeddedItemTooltip, entry.elementData.factionID, entry.elementData, nil, true)
+    
+    -- put the "rewards" label below our added text
+    GameTooltip_AddBlankLineToTooltip(EmbeddedItemTooltip)
+    GameTooltip_AddNormalLine(EmbeddedItemTooltip, REWARDS)
+
+    EmbeddedItemTooltip:Show()
+end
+
 -- TODO position added content above instruction line?
+hooksecurefunc(ReputationEntryMixin, "ShowMajorFactionRenownTooltip", T.ReputationEntryShowStandardTooltip)
+hooksecurefunc(ReputationEntryMixin, "ShowParagonRewardsTooltip", T.ReputationEntryShowParagonTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowFriendshipReputationTooltip", T.ReputationEntryShowStandardTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowStandardTooltip", T.ReputationEntryShowStandardTooltip)
 

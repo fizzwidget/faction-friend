@@ -40,10 +40,13 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- faction report in special paragon tooltip, major faction renown tooltip
-- potential gains for friendship, paragon, major faction renown
-- faction report tooltip for friendship, paragon, major faction renown
+- places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
+- paragon, friendship after turnins summary in tooltip
+- BUG: (again) showing potential turnins at exalted
+- BUG: not showing turnins for paragon
+- BUG: header factions in rep pane don't augment tooltip
+
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
