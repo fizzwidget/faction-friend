@@ -129,9 +129,9 @@ end
 
 -- TODO more tooltip hooks once the report can handle them
 -- ShowParagonRewardsTooltip
--- ShowFriendshipReputationTooltip
 -- ShowMajorFactionRenownTooltip
 -- TODO position added content above instruction line?
+hooksecurefunc(ReputationEntryMixin, "ShowFriendshipReputationTooltip", T.ReputationEntryShowStandardTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowStandardTooltip", T.ReputationEntryShowStandardTooltip)
 
 ------------------------------------------------------
