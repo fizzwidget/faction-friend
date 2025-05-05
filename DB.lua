@@ -169,7 +169,10 @@ local F = {
 	ORDER_OF_EMBERS = 2161,
 	STORMS_WAKE = 2162,
 	TORTOLLAN_SEEKERS = 2163,
-
+	CHAMPIONS_OF_AZEROTH = 2164,
+	UNSHACKLED = 2373,
+	WAVEBLADE_ANKOAN = 2400,
+	
 -- Dragonflight factions
 	MARUUK_CENTAUR = 2503,
 	DRAGONSCALE_EXPEDITION = 2507,
@@ -3646,7 +3649,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[166501] = 1,	-- Soggy Page
@@ -3664,7 +3667,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163620] = 1,	-- Island Flotsam
@@ -3682,7 +3685,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163619] = 1,	-- Golden Beetle
@@ -3700,7 +3703,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163618] = 1,	-- Shimmering Shell
@@ -3718,7 +3721,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163616] = 1,	-- Dented Coin
@@ -3736,7 +3739,7 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163615] = 1,	-- Lost Sea Scroll
@@ -3754,14 +3757,110 @@ DB.TurninsByQuest = {
 				["currency:1710"] = 100,	-- Seafarer's Dubloon
 			},
 		},
-		DubloonPurchase = {
+		IslandExpedition = {
 			value = 250,
 			items = {
 				[163614] = 1,	-- Exotic Spices
 			},
 		},
 	},
-	
+	[F.CHAMPIONS_OF_AZEROTH] = {
+		IslandExpedition = {
+			value = 250,
+			items = {
+				[163217] = 1,	-- Azeroth's Tear
+			},
+		},
+	},
+	[F.HONORBOUND] = {
+		IslandExpedition = {
+			value = 250,
+			items = {
+				[163621] = 1,	-- Rusted Horde Insignia
+			},
+		},
+	},
+	[F.SEVENTH_LEGION] = {
+		IslandExpedition = {
+			value = 250,
+			items = {
+				[163617] = 1,	-- Rusted Alliance Insignia
+			},
+		},
+	},
+	[F.UNSHACKLED] = {
+		BodyguardBox = {
+			value = 400,
+			items = {
+				[169942] = 1,	-- Vibrant Sea Blossom
+			},
+		},
+		ZZ_Manapearl = {
+			creates = {
+				[174522] = 1,	-- Waveswept Abyssal Conch
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1721"] = 100,	-- Prismatic Manapearl
+			},
+		},
+		ChestConch = {
+			value = 150,
+			items = {
+				[170079] = 1,	-- Abyssal Conch
+			},
+		},
+		SalvageConch = {
+			value = 250,
+			items = {
+				[173947] = 1,	-- Glittering Abyssal Conch
+			},
+		},
+		ManapearlConch = {
+			value = 250,
+			items = {
+				[174522] = 1,	-- Waveswept Abyssal Conch
+			},
+		},
+	},
+	[F.WAVEBLADE_ANKOAN] = {
+		BodyguardBox = {
+			value = 400,
+			items = {
+				[169941] = 1,	-- Ceremonial Ankoan Scabbard
+			},
+		},
+		ZZ_Manapearl = {
+			creates = {
+				[174523] = 1,	-- Waveswept Abyssal Conch
+			},
+			value = 0,
+			buyValue = 250,
+			items = {
+				["currency:1721"] = 100,	-- Prismatic Manapearl
+			},
+		},
+		ChestConch = {
+			value = 150,
+			items = {
+				[170081] = 1,	-- Abyssal Conch
+			},
+		},
+		SalvageConch = {
+			value = 250,
+			items = {
+				[173948] = 1,	-- Glittering Abyssal Conch
+			},
+		},
+		ManapearlConch = {
+			value = 250,
+			items = {
+				[174523] = 1,	-- Waveswept Abyssal Conch
+			},
+		},
+	},
+
 	-- Dragonflight factions
 	[F.MARUUK_CENTAUR] = {
 		HuntingTropy = {
