@@ -14,25 +14,32 @@ INSTALLATION: Put the GFW_FactionFriend folder into your World Of Warcraft/Inter
 FEATURES: 
 	- Automatically switches the Blizzard builtin reputation watch bar (i.e. the "Show as experience bar" option in the Reputation pane) when you gain reputation.
 		- If gaining reputation with multiple factions at once, the bar will switch to whichever faction gained the most.
-		- Factions marked as "Inactive" in the reputation pane won't be automatically switched to.
+		- Factions marked as Inactive in the reputation pane won't be automatically switched to.
 	
 	- Enhances the reputation watch bar with extra shading and a marker to show how much reputation you can readily gain by turning in and/or using items in your bags or bank.
 		- Mousing over the reputation watch bar (or the aforementioned marker) will show a summary of the reputation points that can be earned through turning in or consuming items.
-		- If your potential reputation gain from turnins is enough to reach a new standing (e.g. Friendly vs. Honored), the "empty" part of the bar will be shaded differently, and the tooltip will show your new standing (and how many points into it you'd be) after all turnins.
+		- If your potential reputation gain from turnins is enough to reach a new rank (e.g. Friendly vs. Honored), the "empty" part of the bar will be shaded differently, and the tooltip will show your new rank (and how many points into it you'd be) after all turnins.
 		
-	- Adds an icon to the builtin UI's Reputation panel for factions you can readily increase -- mouse over it for details. Didn't know your bank was full of stuff you could gain reputation from? Now you do! 
+	- Enhances the Character window's Reputation pane:
+		- A button to move all completed (exalted, max friendship, max renown) factions to Inactive
+		- A search field -- find a faction by part of its name and select it, expand any headers needed to make it visible, and scroll to it
+		- Buttons to expand/collapse all top-level headers (with modifier key options to expand/collapse more)
+		- Icons next to factions you can readily increase using items or currency you have (mouse over it for details). Didn't know your bank was full of stuff you could gain reputation from? Now you do! 
 
-	- Right-clicking the reputation watch bar will open a menu allowing you to quickly switch which faction it shows. (TIP: For a shorter / less complex menu, mark factions as "Inactive" in the reputation window to hide them.)
+	- Right-clicking the reputation watch bar will open a menu allowing you to quickly switch which faction it shows.
+		- A list of several factions you've recently gained/lost reputation with or watched using the bar
+		- A full menu showing the set of factions visible in the Character window's Reputation pane
+		- TIP: The menu honors filters set in the Reputation pane and doesn't include collapsed headings or factions marked as Inactive, so you can deactivate/collapse/filter factions there to simplify the menu. 
 	
 	
 CHAT COMMANDS:
 	/factionfriend (or /ff): shows or hides the options window.
 
 CAVEATS, KNOWN BUGS, ETC.: 
-	- The potential reputation gain shown on the bar is just an estimate: actual reputation gain may vary. (This is especially true in cases where racial abilities, guild perks, or other factors increase reputation gain: FactionFriend's rounding may not match Blizzard's.)
+	- The potential reputation gain shown is just an estimate: actual gains may vary. (This is especially true in cases where buffs or other factors increase reputation gain: FactionFriend's rounding may not match Blizzard's.)
 	- Some repeatable faction turnins offer an increased amount of reputation the first time they're completed; FactionFriend can't readily tell whether you've done a turnin before, so it always assumes the smaller amount.
-	- Some repeatable faction turnins only become available at a certain reputation level, or once prerequisite quests are completed. FactionFriend can't keep track of all the reasons a turnin might or might not be available; it just shows how much reputation you'd be able to earn if the turnins are possible. 
-	- FactionFriend only enhances the default Blizzard UI's reputation panel and reputation watch bar. However, we provide API hooks so that makers of replacement reputation bar addons can more easily provide similar enhancements. For details, see the readme-API.txt file. 
+	- Some repeatable faction turnins become available only once prerequisite quests are completed. FactionFriend can't keep track of all the reasons a turnin might or might not be available; it just shows how much reputation you'd be able to earn if the turnins are possible. (It does track reputation requirements for some turnins; for example, you can't turn in Aldor/Scryers items unless you're at least Neutral with the appropriate faction.)
+	- For "friendship" factions (Pandaria Halfhill citizens, Draenor bodyguards, Legion fishing NPCs, Shadowlands Ember Court NPCs, Dragonflight Valdrakken Accord members, etc), information about ranks other than the one you're currently progressing through isn't available to the UI, so FactionFriend can't indicate what rank you'll be after completing available turnins or estimate the maximum number of items to turn in.
 
 ------------------------------------------------------
 VERSION HISTORY
@@ -46,29 +53,24 @@ TODO for rewrite
 - BUG: (again) showing potential turnins at exalted
 - BUG: not showing turnins for paragon
 - BUG: header factions in rep pane don't augment tooltip
+- BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
-	- War Within
-		- severed threads commendation (for multiple possible factions)
 	- Shadowlands
 		- stolen korthian supplies
 		- helsworn battle plans
 		- more?
 	- Battle for azeroth
-		- champions: azeroth's tear
-		- unshackled / ankoan: abyssal conch
-			- creatable with shadow cloaked shell?
-		- nazjatar bodyguards?
 		- honeyback hive?
 			- thin / rich / royal jelly
 	- ???
 	- profit!
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
-	- Modern WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
-	- Modern WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
+	- New WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
+	- New WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
 	- More efficient, locale-independent handling of faction and item data should improve reliability and performance.
 	- TODO All relevant features support major faction renown, friendship factions, and paragon factions (those which provide repeatable rewards for continued reputation gain past Exalted), and correctly handle the change (from several expansions ago) where regular factions no longer earn up to 999 points of reputation at Exalted status.
 
@@ -98,7 +100,7 @@ Content Updates
 - The War Within: Severed Threads Commendation. (Is this the only item-based repeatable reputation gain this expansion so far? Let me know if you've found others!)
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchaseable with Flightstones if somehow you still have any)
 - Shadowlands:
-- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions (dubloon purchase, turnin purchased item)
+- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions 
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Warlords of Draenor:
 - Mists of Pandaria: Hozen Peace Pipe
