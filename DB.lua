@@ -177,6 +177,11 @@ local F = {
 	ISKAARA_TUSKARR = 2511,
 	LOAMM_NIFFEN = 2564,
 	DREAM_WARDENS = 2574,
+	
+-- War Within factions
+	GENERAL = 2605,
+	VIZIER = 2607,
+	WEAVER = 2601,
 }
 
 ------------------------------------------------------
@@ -4048,6 +4053,32 @@ DB.TurninsByQuest = {
 		},
 	},
 	
+	-- War Within factions
+	[F.GENERAL] = {
+		Commendation = {
+			value = 1500,
+			items = {
+				[237014] = 1, -- Severed Threads Commendation
+			}
+		},
+	},
+	[F.VIZIER] = {
+		Commendation = {
+			value = 1500,
+			items = {
+				[237014] = 1, -- Severed Threads Commendation
+			}
+		},
+	},
+	[F.WEAVER] = {
+		Commendation = {
+			value = 1500,
+			items = {
+				[237014] = 1, -- Severed Threads Commendation
+			}
+		},
+	},
+
 }
 
 
