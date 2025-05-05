@@ -227,6 +227,7 @@ DB.ExcludedFactions = {
 		[F.ZANDALARI_EMPIRE] = 1,
 		[F.TALANJIS_EXPEDITION] = 1,
 		[F.VOLDUNAI] = 1,
+		[F.UNSHACKLED] = 1,
 	},
 	Horde = { -- alliance factions unavailable to horde players
 		[F.HUMAN] = 1,
@@ -250,6 +251,7 @@ DB.ExcludedFactions = {
 		[F.PROUDMOORE_ADMIRALTY] = 1,
 		[F.ORDER_OF_EMBERS] = 1,
 		[F.STORMS_WAKE] = 1,
+		[F.WAVEBLADE_ANKOAN] = 1,
 	},
 }
 
