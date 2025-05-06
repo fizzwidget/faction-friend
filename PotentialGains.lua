@@ -13,7 +13,7 @@ local PointsPerStanding = {
     [5] = 6000,		-- Friendly
     [6] = 12000,	-- Honored
     [7] = 21000,	-- Revered
-    [8] = 1, -- Exalted doesn't really have points
+    [8] = 0, -- Exalted doesn't really have points
 }
 local AbsMinForStanding = {
     [1] = 0 - PointsPerStanding[3] - PointsPerStanding[2] - PointsPerStanding[1],
@@ -530,7 +530,7 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
     local potentialValue = numTurnins * turninValue
     local potentialRank = self.rankData.currentRank
     local potentialTotal = currentValue + potentialValue
-    if self.rankData.nextRankValue and potentialTotal > self.rankData.nextRankValue then
+    if self.rankData.nextRankValue and potentialTotal >= self.rankData.nextRankValue then
         if self.rankData.type == "standard" then
             potentialRank = T:StandingForValue(potentialTotal)
         elseif self.rankData.type == "major" then
