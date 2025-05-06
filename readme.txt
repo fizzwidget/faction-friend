@@ -49,22 +49,29 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 TODO for rewrite
 - places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
-- paragon, friendship after turnins summary in tooltip
+- paragon after turnins summary in tooltip
+- split DB.lua per expansion, eliminate excluded factions by always coding horde/alliance/neutral?
 - BUG: (again) showing potential turnins at exalted
 - BUG: not showing turnins for paragon
-- BUG: header factions in rep pane don't augment tooltip
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
-	- Shadowlands
-		- stolen korthian supplies
-		- helsworn battle plans
-		- more?
+	- Shadowlands -- needs investigate
+		https://www.wowhead.com/item=178591/ancient-venthyr-relic
+		https://www.wowhead.com/item=178588/fae-armaments
+		https://www.wowhead.com/item=178593/intricate-fae-groveweave
+		https://www.wowhead.com/item=178586/kyrian-armaments
+		https://www.wowhead.com/item=178587/maldraxxian-armaments
+		https://www.wowhead.com/item=178590/storied-maldraxxian-boneblade
+		https://www.wowhead.com/item=178592/venerable-kyrian-defender
+		https://www.wowhead.com/item=178589/venthyr-armaments
+		
+
 	- Battle for azeroth
-		- honeyback hive?
-			- thin / rich / royal jelly
+		- honeyback hive? thin / rich / royal jelly
+		- investigate whether warbound versions of island expedition quest rewards still appear
 	- ???
 	- profit!
 

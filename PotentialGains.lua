@@ -5,7 +5,6 @@ local DB = _G[addonName.."_DB"]
 -- Utilities
 ------------------------------------------------------
 
--- TODO refactor so we share more with major factions
 local PointsPerStanding = {
     [1] = 36000,	-- Hated
     [2] = 3000,		-- Hostile
@@ -220,20 +219,32 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
         color = BLUE_FONT_COLOR
 
     else -- friendship
-        -- if > current rank, output e.g. "good friend + 2000"
-        text = "friendship TODO"
-        color = NORMAL_FONT_COLOR
+        -- if > current rank, output e.g. "better friend + 2000", otherwise e.g. "good friend (3241/6000)"
+        local potentialTotal = rankData.currentValue + rankData.floorValue + potential
+        if rankData.nextRankValue and potentialTotal > rankData.nextRankValue then
+            local pointsInto = potentialTotal - rankData.nextRankValue
+            text = rankData.nextRankName .. " + " .. pointsInto
+        else
+            local newValue = potentialTotal - rankData.floorValue
+            local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
+            text = FFF_STANDING_VALUES:format(friendshipData.reaction, newValue, maxValue)
+        end
+        color = FACTION_BAR_COLORS[5] -- friendship is always green
 
     end
     return text, color
 end
 
 function T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipData, skipInitialPadding)
-    local potential, reportLines, rankData = T:FactionPotential(factionID, true, factionData)
+    if not factionData then
+        factionData = C_Reputation.GetFactionDataByID(factionID)
+    end
+    if not friendshipData then
+        friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+    end
+    local potential, reportLines, rankData = T:FactionPotential(factionID, true, factionData, friendshipData)
     if potential == 0 then return end
-    
-    -- TODO friendship, paragon, major faction renown
-    
+        
     if not skipInitialPadding then
         GameTooltip_AddBlankLineToTooltip(tooltip)
     end
@@ -252,21 +263,9 @@ function T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipDa
         end
     end
     
-    -- local potentialTotal = potential + factionData.currentStanding
-    -- local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
-    -- local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
-    -- local potentialStandingColor = FACTION_BAR_COLORS[potentialStanding]
-    -- 
-    -- if potentialStanding < MAX_REPUTATION_REACTION then
-    --     potentialStandingText = FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax)
-    -- end
-    
     local text, color = T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
 
-    GameTooltip_AddColoredDoubleLine(tooltip,
-        FFF_AFTER_TURNINS_LABEL, text,
-        HIGHLIGHT_FONT_COLOR, color
-    )
+    GameTooltip_AddColoredDoubleLine(tooltip, FFF_AFTER_TURNINS_LABEL, text, HIGHLIGHT_FONT_COLOR, color)
 end
 
 ------------------------------------------------------
@@ -276,17 +275,13 @@ end
 -- debug only
 function FFF_PrintReport(factionID)
     local factionData = C_Reputation.GetFactionDataByID(factionID)
-
-    local potential, reportLines = T:FactionPotential(factionID, true, factionData)
+    local friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
     
-    -- TODO friendship, paragon, major faction renown
+    local potential, reportLines, rankData = T:FactionPotential(factionID, true, factionData, friendshipData)
+        
+    local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
     
-    local standingText = GetText("FACTION_STANDING_LABEL"..factionData.reaction, UnitSex("player"))
-    local min = factionData.currentReactionThreshold
-    local max = factionData.nextReactionThreshold - min
-    local current = factionData.currentStanding - min
-    
-    print(factionData.name, "-", FFF_STANDING_VALUES:format(standingText, current, max))
+    print(factionData.name, standingText)
     print(FFF_REPUTATION_TICK_TOOLTIP:format(potential))
     
     for _, reportLine in pairs(reportLines) do
@@ -301,11 +296,9 @@ function FFF_PrintReport(factionID)
         end
     end
     
-    local potentialTotal = potential + factionData.currentStanding
-    local potentialStanding, pointsInto, localMax = T:StandingForValue(potentialTotal)
-    local potentialStandingText = GetText("FACTION_STANDING_LABEL"..potentialStanding, UnitSex("player"))
-
-    print(FFF_AFTER_TURNINS_LABEL, FFF_STANDING_VALUES:format(potentialStandingText, pointsInto, localMax))
+    local afterTurnins = T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
+    
+    print(FFF_AFTER_TURNINS_LABEL, afterTurnins)
 end
 
 -- more debug
@@ -417,7 +410,6 @@ function PG:QuestPotential(key, info)
 
     -- Now we can figure how much rep we stand to gain from this quest
     -- and how many turnins we'll do to get there (adjusted for how much we can actually gain)
-    -- TODO handle major faction
     potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
     if info.buyValue then
         -- only track gain from currency purchases if no other turnins available

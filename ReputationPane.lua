@@ -127,6 +127,11 @@ function T.ReputationEntryShowStandardTooltip(entry)
     GameTooltip:Show()
 end
 
+function T.ReputationEntryShowFriendshipTooltip(frame, factionID)
+    T:TooltipAddFactionReport(GameTooltip, factionID)
+    GameTooltip:Show()
+end
+
 function T.ReputationEntryShowParagonTooltip(entry)
     -- hide the "rewards" label 
     local lastFontString = _G["EmbeddedItemTooltipTextLeft"..EmbeddedItemTooltip:NumLines()]
@@ -146,8 +151,11 @@ end
 -- TODO position added content above instruction line?
 hooksecurefunc(ReputationEntryMixin, "ShowMajorFactionRenownTooltip", T.ReputationEntryShowStandardTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowParagonRewardsTooltip", T.ReputationEntryShowParagonTooltip)
-hooksecurefunc(ReputationEntryMixin, "ShowFriendshipReputationTooltip", T.ReputationEntryShowStandardTooltip)
+hooksecurefunc(ReputationEntryMixin, "ShowFriendshipReputationTooltip", T.ReputationEntryShowFriendshipTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowStandardTooltip", T.ReputationEntryShowStandardTooltip)
+hooksecurefunc(ReputationSubHeaderMixin, "ShowStandardTooltip", T.ReputationEntryShowStandardTooltip)
+hooksecurefunc(ReputationSubHeaderMixin, "ShowMajorFactionRenownTooltip", T.ReputationEntryShowStandardTooltip)
+hooksecurefunc(ReputationSubHeaderMixin, "ShowParagonRewardsTooltip", T.ReputationEntryShowParagonTooltip)
 
 ------------------------------------------------------
 -- Expand / Collapse All buttons
