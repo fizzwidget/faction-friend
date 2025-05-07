@@ -16,7 +16,9 @@ GFWTable.lua
 
 # core
 Localization.lua
-DB.lua
+
+DB_base.lua
+
 FactionFriend.lua
 
 FactionMenu.lua

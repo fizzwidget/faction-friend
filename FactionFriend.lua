@@ -526,17 +526,23 @@ end
 ------------------------------------------------------
 
 function T:SetupReverseCache()
+	local factions = {}
+	for _, factionID in pairs(DB.ID[UnitFactionGroup("player")]) do
+		factions[factionID] = 1
+	end
+	for _, factionID in pairs(DB.ID.Neutral) do
+		factions[factionID] = 1
+	end
 	DB.TurninsByItem = {}	
-	for faction, quests in pairs(DB.TurninsByQuest) do
-		local myExcludedFactions = DB.ExcludedFactions[UnitFactionGroup("player")]
-		if myExcludedFactions ~= nil and not myExcludedFactions[faction] then
+	for factionID, quests in pairs(DB.TurninsByQuest) do
+		if factions[factionID] then
 			for quest, questInfo in pairs(quests) do
 				if not questInfo.otherFactionRequired then
 					for itemID in pairs(questInfo.items) do
 						if not DB.TurninsByItem[itemID] then
 							DB.TurninsByItem[itemID] = {}
 						end
-						DB.TurninsByItem[itemID][faction] = true
+						DB.TurninsByItem[itemID][factionID] = true
 					end
 				end
 			end

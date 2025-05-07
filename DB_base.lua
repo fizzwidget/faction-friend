@@ -2,14 +2,15 @@
 -- LOCALIZATION: nothing locale-specific here (any localized names are all in comments)
 ------------------------------------------------------
 
-local addonName, T = ...
+local addonName, _ = ...
 _G[addonName.."_DB"] = {}
 local DB = _G[addonName.."_DB"]
-
+DB.ID = {}
 ------------------------------------------------------
 -- Faction IDs
 ------------------------------------------------------
-local F = {
+
+DB.ID.Neutral = {
 -- Classic
 	ZANDALAR = 270,
 	BROOD_NOZDORMU = 910,
@@ -17,37 +18,11 @@ local F = {
 	ARGENT_DAWN = 529,
 	TIMBERMAW = 576,
 	THORIUM_BROTHERHOOD = 59,
-	WINTERSABER_TRAINERS = 589,
 	HYDRAXIAN_WATERLORDS = 749,
--- Horde/Alliance racial factions   
-	HORDE = 67,
-		ORC = 76,
-		TAUREN = 81,
-		TROLL = 530,
-		FORSAKEN = 68,
-		BELF = 911,
-		GOBLIN = 1133,
-	ALLIANCE = 469,
-		DWARF = 47,
-		NELF = 69,
-		GNOME = 54,
-		HUMAN = 72,
-		DRAENEI = 930,
-		WORGEN = 1134,
--- Horde/Alliance Forces            
-	FROSTWOLF = 729,
-	DEFILERS = 510,
-	WARSONG_OUTRIDERS = 889,
-	STORMPIKE = 730,
-	ARATHOR = 509,
-	SILVERWING = 890,
-                                    
+
 -- Burning Crusade factions 	    
-	TRANQUILLIEN = 922,
 	CENARION_EXPEDITION = 942,
 	SPOREGGAR = 970,
-	KURENAI = 978,
-	MAGHAR = 941,
 	CONSORTIUM = 933,
 	ALDOR = 932,
 	SCRYER = 934,
@@ -55,24 +30,12 @@ local F = {
 	LOWER_CITY = 1011,
 	NETHERWING = 1015,
 	SKYGUARD = 1031,
-	HONOR_HOLD = 946,
-	THRALLMAR = 947,
 	KEEPERS_OF_TIME = 989,
 	SCALE_SANDS = 990,
 	SHATTERED_SUN = 1077,
 	VIOLET_EYE = 967,
                                     
 -- Wrath of the Lich King factions
-	HORDE_EXPEDITION = 1052,
-		HAND_VENGEANCE = 1067,
-		TAUNKA = 1064,
-		SUNREAVERS = 1124,
-		WARSONG_OFFENSIVE = 1085,
-	ALLIANCE_VANGUARD = 1037,
-		EXPLORERS = 1068,
-		FROSTBORN = 1126,
-		SILVER_COVENANT = 1094,
-		VALIANCE = 1050,
 	SONS_HODIR = 1119,
 	EBON_BLADE = 1098,
 	ARGENT_CRUSADE = 1106,
@@ -86,25 +49,15 @@ local F = {
 	AVENGERS_HYJAL = 1204,
 	GUARDIANS_HYJAL = 1158,
 	THERAZANE = 1171,
-	WILDHAMMER = 1174,
-	DRAGONMAW = 1172,
-	BARADIN = 1177,
-	HELLSCREAM = 1178,
 	
 -- Mists of Pandaria factions
-	HUOJIN = 1352,
-	TUSHUI = 1353,
 	ORDER_CLOUD_SERPENT = 1271,
 	KLAXXI = 1337,
 	GOLDEN_LOTUS = 1269,
-	KIRIN_TOR_OFFENSIVE = 1387,
-	SUNREAVER_ONSLAUGHT = 1388,
 	SHADOPAN = 1270,
 	AUGUST_CELESTIALS = 1341,
 	TILLERS = 1272,
 	LOREWALKERS = 1345,
-	DOMINANCE_OFFENSIVE = 1375,
-	OPERATION_SHIELDWALL = 1376,
 	SHADOPAN_ASSAULT = 1435,
 	ANGLERS = 1302,
 	EMPEROR_SHAOHAO = 1492,
@@ -127,17 +80,6 @@ local F = {
 	AWAKENED_ORDER = 1849,
 	SABERSTALKERS = 1850,
 	NAT_PAGLE_GARRISON = 1358,
-	
-	-- Horde
-	VOLJIN_HEADHUNTERS = 1848,
-	VOLJINS_SPEAR = 1681,
-	FROSTWOLF_ORCS = 1445,
-	LAUGHING_SKULL = 1708,
-	-- Alliance
-	COUNCIL_OF_EXARCHS = 1731,
-	HAND_OF_PROPHET = 1847,
-	SHATARI_DEFENSE = 1710,
-	WRYNNS_VANGUARD = 1682,
 
 -- Legion factions
 	HIGHMOUNTAIN_TRIBE = 1828,
@@ -162,18 +104,8 @@ local F = {
 -- Battle for Azeroth factions
 	RUSTBOLT_RESISTANCE = 2391,
 	RAJANI = 2415,
-	ZANDALARI_EMPIRE = 2103,
-	TALANJIS_EXPEDITION = 2156,
-	VOLDUNAI = 2158,
-	PROUDMOORE_ADMIRALTY = 2160,
-	ORDER_OF_EMBERS = 2161,
-	STORMS_WAKE = 2162,
 	TORTOLLAN_SEEKERS = 2163,
 	CHAMPIONS_OF_AZEROTH = 2164,
-	HONORBOUND = 2157,
-	SEVENTH_LEGION = 2159,
-	UNSHACKLED = 2373,
-	WAVEBLADE_ANKOAN = 2400,
 	
 -- Dragonflight factions
 	MARUUK_CENTAUR = 2503,
@@ -188,6 +120,85 @@ local F = {
 	VIZIER = 2607,
 	WEAVER = 2601,
 }
+local F = DB.ID.Neutral
+
+DB.ID.Horde = {
+-- Classic
+	ORC = 76,
+	TAUREN = 81,
+	TROLL = 530,
+	FORSAKEN = 68,
+	FROSTWOLF = 729,
+	DEFILERS = 510,
+	WARSONG_OUTRIDERS = 889,
+-- Burning Crusade
+	BELF = 911,
+	TRANQUILLIEN = 922,
+	THRALLMAR = 947,
+	MAGHAR = 941,
+-- Wrath of the Lich King
+	HORDE_EXPEDITION = 1052,
+-- Cataclysm
+	GOBLIN = 1133,
+	DRAGONMAW = 1172,
+	HELLSCREAM = 1178,
+-- Mists of Pandaria
+	HUOJIN = 1352,
+	DOMINANCE_OFFENSIVE = 1375,
+	SUNREAVER_ONSLAUGHT = 1388,
+-- Warlords of Draenor
+	VOLJIN_HEADHUNTERS = 1848,
+	VOLJINS_SPEAR = 1681,
+	FROSTWOLF_ORCS = 1445,
+	LAUGHING_SKULL = 1708,
+-- Battle for Azeroth
+	ZANDALARI_EMPIRE = 2103,
+	TALANJIS_EXPEDITION = 2156,
+	VOLDUNAI = 2158,
+	HONORBOUND = 2157,
+	UNSHACKLED = 2373,
+
+}
+local H = DB.ID.Horde
+
+DB.ID.Alliance = {
+-- Classic
+	DWARF = 47,
+	NELF = 69,
+	GNOME = 54,
+	HUMAN = 72,
+	WINTERSABER_TRAINERS = 589,
+	STORMPIKE = 730,
+	ARATHOR = 509,
+	SILVERWING = 890,
+-- Burning Crusade
+	DRAENEI = 930,
+	HONOR_HOLD = 946,
+	KURENAI = 978,
+-- Wrath of the Lich King
+	ALLIANCE_VANGUARD = 1037,
+-- Cataclysm
+	WORGEN = 1134,
+	WILDHAMMER = 1174,
+	BARADIN = 1177,
+-- Mists of Pandaria
+	TUSHUI = 1353,
+	OPERATION_SHIELDWALL = 1376,
+	KIRIN_TOR_OFFENSIVE = 1387,
+-- Warlords of Draenor
+	COUNCIL_OF_EXARCHS = 1731,
+	HAND_OF_PROPHET = 1847,
+	SHATARI_DEFENSE = 1710,
+	WRYNNS_VANGUARD = 1682,
+-- Battle for Azeroth
+	PROUDMOORE_ADMIRALTY = 2160,
+	ORDER_OF_EMBERS = 2161,
+	STORMS_WAKE = 2162,
+	SEVENTH_LEGION = 2159,
+	WAVEBLADE_ANKOAN = 2400,
+
+}
+local A = DB.ID.Alliance
 
 ------------------------------------------------------
 -- For bodyguard switching option
@@ -203,61 +214,6 @@ DB.BodyguardFactionID = {
 }
 
 ------------------------------------------------------
--- keeps Alliance/Horde-specific factions from showing up for opposing players
-------------------------------------------------------
-DB.ExcludedFactions = {
-	Alliance = { -- horde factions unavailable to alliance players
-		[F.FORSAKEN] = 1,
-		[F.TROLL] = 1,
-		[F.TAUREN] = 1,
-		[F.ORC] = 1,
-		[F.BELF] = 1,
-		[F.GOBLIN] = 1,
-		[F.HUOJIN] = 1,
-		[F.FROSTWOLF] = 1,
-		[F.MAGHAR] = 1,
-		[F.TRANQUILLIEN] = 1,
-		[F.WARSONG_OFFENSIVE] = 1,
-		[F.DRAGONMAW] = 1,
-		[F.HELLSCREAM] = 1,
-		[F.SUNREAVER_ONSLAUGHT] = 1,
-		[F.DOMINANCE_OFFENSIVE] = 1,
-		[F.VOLJINS_SPEAR] = 1,
-		[F.VOLJIN_HEADHUNTERS] = 1,
-		[F.FROSTWOLF_ORCS] = 1,
-		[F.LAUGHING_SKULL] = 1,
-		[F.ZANDALARI_EMPIRE] = 1,
-		[F.TALANJIS_EXPEDITION] = 1,
-		[F.VOLDUNAI] = 1,
-		[F.UNSHACKLED] = 1,
-	},
-	Horde = { -- alliance factions unavailable to horde players
-		[F.HUMAN] = 1,
-		[F.GNOME] = 1,
-		[F.NELF] = 1,
-		[F.DWARF] = 1,
-		[F.DRAENEI] = 1,
-		[F.WORGEN] = 1,
-		[F.TUSHUI] = 1,
-		[F.STORMPIKE] = 1,
-		[F.KURENAI] = 1,
-		[F.VALIANCE] = 1,
-		[F.WILDHAMMER] = 1,
-		[F.BARADIN] = 1,
-		[F.KIRIN_TOR_OFFENSIVE] = 1,
-		[F.OPERATION_SHIELDWALL] = 1,
-		[F.COUNCIL_OF_EXARCHS] = 1,
-		[F.HAND_OF_PROPHET] = 1,
-		[F.SHATARI_DEFENSE] = 1,
-		[F.WRYNNS_VANGUARD] = 1,
-		[F.PROUDMOORE_ADMIRALTY] = 1,
-		[F.ORDER_OF_EMBERS] = 1,
-		[F.STORMS_WAKE] = 1,
-		[F.WAVEBLADE_ANKOAN] = 1,
-	},
-}
-
-------------------------------------------------------
 -- For item tooltips and potential rep gain calculation
 -- Quest names starting with ZZ_ are order dependent; 
 -- check for creatable items before checking what those items are worth
@@ -265,7 +221,7 @@ DB.ExcludedFactions = {
 DB.TurninsByQuest = {
 	
 	-- Racial factions: Horde
-	[F.TAUREN] = {
+	[H.TAUREN] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45722] = 1,	-- Thunder Bluff Commendation Badge
@@ -303,7 +259,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.TROLL] = {
+	[H.TROLL] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45720] = 1,	-- Sen'jin Commendation Badge
@@ -341,7 +297,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.FORSAKEN] = {
+	[H.FORSAKEN] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45723] = 1,	-- Undercity Commendation Badge
@@ -379,7 +335,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.BELF] = {
+	[H.BELF] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45721] = 1,	-- Silvermoon Commendation Badge
@@ -417,7 +373,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.ORC] = {
+	[H.ORC] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45719] = 1,	-- Orgrimmar Commendation Badge
@@ -516,7 +472,7 @@ DB.TurninsByQuest = {
 			}
 		},	
 	},
-	[F.GOBLIN] = {
+	[H.GOBLIN] = {
 		ZZ_MarkOfWorldTree = {
 			creates = {
 				[71088] = 1,	-- Bilgewater Writ of Commendation
@@ -538,7 +494,7 @@ DB.TurninsByQuest = {
 	},
 	
 	-- Racial factions: Alliance
-	[F.NELF] = {
+	[A.NELF] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45714] = 1,	-- Darnassus Commendation Badge
@@ -576,7 +532,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.GNOME] = {
+	[A.GNOME] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45716] = 1,	-- Gnomeregan Commendation Badge
@@ -614,7 +570,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.HUMAN] = {
+	[A.HUMAN] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45718] = 1,	-- Stormwind Commendation Badge
@@ -669,7 +625,7 @@ DB.TurninsByQuest = {
 			}
 		},	
 	},
-	[F.DRAENEI] = {
+	[A.DRAENEI] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45715] = 1,	-- Exodar Commendation Badge
@@ -707,7 +663,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.DWARF] = {
+	[A.DWARF] = {
 		ZZ_ChampionWrit = {
 			creates = {
 				[45717] = 1,	-- Ironforge Commendation Badge
@@ -789,7 +745,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.WORGEN] = {
+	[A.WORGEN] = {
 		ZZ_MarkOfWorldTree = {
 			creates = {
 				[71087] = 1,	-- Gilneas Writ of Commendation
@@ -811,7 +767,7 @@ DB.TurninsByQuest = {
 	},
 	
 	-- Battleground factions
-	[F.FROSTWOLF] = {
+	[H.FROSTWOLF] = {
 		AV_RiderHarnesses = {
 			value = 1,
 			items = {
@@ -855,7 +811,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.STORMPIKE] = {
+	[A.STORMPIKE] = {
 		AV_RiderHarnesses = {
 			value = 1,
 			items = {
@@ -1131,7 +1087,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.WINTERSABER_TRAINERS] = {
+	[A.WINTERSABER_TRAINERS] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				 [224565] = 1, -- Commendation of the Wintersaber Trainers
@@ -1231,7 +1187,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.MAGHAR] = {
+	[H.MAGHAR] = {
 		Warbeads = {
 			value = 500,
 			minStanding = 4, 
@@ -1240,7 +1196,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.KURENAI] = {
+	[A.KURENAI] = {
 		Warbeads = {
 			value = 500,
 			minStanding = 4, 
@@ -1557,7 +1513,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.HONOR_HOLD] = {
+	[A.HONOR_HOLD] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[129948] = 1,	-- Commendation of Honor Hold
@@ -1575,7 +1531,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.THRALLMAR] = {
+	[H.THRALLMAR] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[129947] = 1,	-- Commendation of Thrallmar
@@ -1687,7 +1643,7 @@ DB.TurninsByQuest = {
 			}
 		},	
 	},
-	[F.ALLIANCE_VANGUARD] = {
+	[A.ALLIANCE_VANGUARD] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[129955] = 1,	-- Commendation of the Alliance Vanguard
@@ -1723,7 +1679,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.HORDE_EXPEDITION] = {
+	[H.HORDE_EXPEDITION] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[129954] = 1,	-- Commendation of the Horde Expedition
@@ -1779,7 +1735,7 @@ DB.TurninsByQuest = {
 	},
 
 	-- Cataclysm factions
-	[F.BARADIN] = {
+	[A.BARADIN] = {
 		ZZ_TolBaradCommendations = {
 			creates = {
 				[63517] = 1,	-- Baradin's Wardens Commendation
@@ -1799,7 +1755,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.HELLSCREAM] = {
+	[H.HELLSCREAM] = {
 		ZZ_TolBaradCommendations = {
 			creates = {
 				[63518] = 1,	-- Hellscream's Reach Commendation
@@ -1819,7 +1775,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.DRAGONMAW] = {
+	[H.DRAGONMAW] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[133150] = 1,	-- Commendation of the Dragonmaw Clan
@@ -1837,7 +1793,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.WILDHAMMER] = {
+	[A.WILDHAMMER] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[133151] = 1,	-- Commendation of the Wildhammer Clan
@@ -2181,7 +2137,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.DOMINANCE_OFFENSIVE] = {
+	[H.DOMINANCE_OFFENSIVE] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[143943] = 1, -- Commendation of the Dominance Offensive
@@ -2199,7 +2155,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.OPERATION_SHIELDWALL] = {
+	[A.OPERATION_SHIELDWALL] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[143944] = 1, -- Commendation of Operation: Shieldwall
@@ -2397,7 +2353,7 @@ DB.TurninsByQuest = {
 		},
 	},
 
-	[F.SUNREAVER_ONSLAUGHT] = {
+	[H.SUNREAVER_ONSLAUGHT] = {
 		ZZ_TatteredDocs_01 = {
 			creates = {
 				[95487] = 1,	-- Sunreaver Onslaught Insignia
@@ -2451,7 +2407,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.KIRIN_TOR_OFFENSIVE] = {
+	[A.KIRIN_TOR_OFFENSIVE] = {
 		ZZ_TatteredDocs_01 = {
 			creates = {
 				[95489] = 1,	-- Kirin Tor Offensive Insignia
@@ -2735,7 +2691,7 @@ DB.TurninsByQuest = {
 			}
 		},
 	},
-	[F.VOLJIN_HEADHUNTERS] = {
+	[H.VOLJIN_HEADHUNTERS] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[168017] = 1, -- Commendation of Vol'jin's Headhunters
@@ -2760,7 +2716,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.VOLJINS_SPEAR] = {
+	[H.VOLJINS_SPEAR] = {
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -2769,7 +2725,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.FROSTWOLF_ORCS] = {
+	[H.FROSTWOLF_ORCS] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[167928] = 1, -- Commendation of the Frostwolf Orcs
@@ -2794,7 +2750,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.LAUGHING_SKULL] = {
+	[H.LAUGHING_SKULL] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[167930] = 1, -- Commendation of the Laughing Skull Orcs
@@ -2819,7 +2775,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.COUNCIL_OF_EXARCHS] = {
+	[A.COUNCIL_OF_EXARCHS] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[167929] = 1, -- Commendation of the Council of Exarchs
@@ -2844,7 +2800,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.HAND_OF_PROPHET] = {
+	[A.HAND_OF_PROPHET] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[168018] = 1, -- Commendation of the Hand of the Prophet
@@ -2869,7 +2825,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.SHATARI_DEFENSE] = {
+	[A.SHATARI_DEFENSE] = {
 		ZZ_TimewarpedBadge = {
 			creates = {
 				[167932] = 1, -- Commendation of the Sha'tari Defense
@@ -2894,7 +2850,7 @@ DB.TurninsByQuest = {
 			}
 		}
 	},
-	[F.WRYNNS_VANGUARD] = {
+	[A.WRYNNS_VANGUARD] = {
 		MedallionOfLegion = {
 			value = 1000,
 			useItem = 1,
@@ -3660,7 +3616,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.ZANDALARI_EMPIRE] = {
+	[H.ZANDALARI_EMPIRE] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163620] = 1,	-- Island Flotsam
@@ -3678,7 +3634,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.TALANJIS_EXPEDITION] = {
+	[H.TALANJIS_EXPEDITION] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163619] = 1,	-- Golden Beetle
@@ -3696,7 +3652,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.VOLDUNAI] = {
+	[H.VOLDUNAI] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163618] = 1,	-- Shimmering Shell
@@ -3714,7 +3670,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.PROUDMOORE_ADMIRALTY] = {
+	[A.PROUDMOORE_ADMIRALTY] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163616] = 1,	-- Dented Coin
@@ -3732,7 +3688,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.STORMS_WAKE] = {
+	[A.STORMS_WAKE] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163615] = 1,	-- Lost Sea Scroll
@@ -3750,7 +3706,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.ORDER_OF_EMBERS] = {
+	[A.ORDER_OF_EMBERS] = {
 		ZZ_Dubloon = {
 			creates = {
 				[163614] = 1,	-- Exotic Spices
@@ -3776,7 +3732,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.HONORBOUND] = {
+	[H.HONORBOUND] = {
 		IslandExpedition = {
 			value = 250,
 			items = {
@@ -3784,7 +3740,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.SEVENTH_LEGION] = {
+	[A.SEVENTH_LEGION] = {
 		IslandExpedition = {
 			value = 250,
 			items = {
@@ -3792,7 +3748,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.UNSHACKLED] = {
+	[H.UNSHACKLED] = {
 		BodyguardBox = {
 			value = 400,
 			items = {
@@ -3828,7 +3784,7 @@ DB.TurninsByQuest = {
 			},
 		},
 	},
-	[F.WAVEBLADE_ANKOAN] = {
+	[A.WAVEBLADE_ANKOAN] = {
 		BodyguardBox = {
 			value = 400,
 			items = {
