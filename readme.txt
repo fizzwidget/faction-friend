@@ -50,9 +50,9 @@ TODO for rewrite
 - places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
 - paragon after turnins summary in tooltip
-- split DB.lua per expansion, eliminate excluded factions by always coding horde/alliance/neutral?
 - BUG: not showing turnins for paragon
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
+- BUG: off by one in counting items for turnin? (e.g. 20 fails to count as 2 turnins of 10, but 21 does)
 
 - content updates
 	- Classic

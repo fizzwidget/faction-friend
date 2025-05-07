@@ -14,11 +14,20 @@
 GFWUtils.lua
 GFWTable.lua
 
+# factions/turnins DB
+DB/01_base_vanilla.lua
+DB/02_bc.lua
+DB/03_wrath.lua
+DB/04_cata.lua
+DB/05_mists.lua
+DB/06_warlords.lua
+DB/07_legion.lua
+DB/08_bfa.lua
+DB/10_dragonflight.lua
+DB/11_tww.lua
+
 # core
 Localization.lua
-
-DB_base.lua
-
 FactionFriend.lua
 
 FactionMenu.lua
