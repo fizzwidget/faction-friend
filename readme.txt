@@ -48,7 +48,6 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
 - places that check major faction vs paragon need to check paragon first in case of paragon major faction?
-- generalize timewarped badge setting to "seasonal currency" and include dragon racing badges?
 - paragon after turnins summary in tooltip
 - BUG: not showing turnins for paragon
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
@@ -66,7 +65,8 @@ TODO for rewrite
 		https://www.wowhead.com/item=178590/storied-maldraxxian-boneblade
 		https://www.wowhead.com/item=178592/venerable-kyrian-defender
 		https://www.wowhead.com/item=178589/venthyr-armaments
-		
+	- Dragonflight
+		- renown quests for 1x, 5x, or 20x items actually do need separating so we count #turnins right?
 
 	- Battle for azeroth
 		- honeyback hive? thin / rich / royal jelly

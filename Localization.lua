@@ -56,8 +56,8 @@ FFF_OPTIONS_POTENTIAL_TIP		= "Estimated amount of reputation possible from items
 
 FFF_OPTION_SHOW_POTENTIAL		= "Show on reputation watch bar"
 FFF_OPTION_SHOW_POTENTIAL_TIP	= "Adds shading to the reputation watch bar indicating potential gain with the watched faction"
-FFF_OPTION_TIMEWARPED			= "Include Timewarped Badges"
-FFF_OPTION_TIMEWARPED_TIP		= "Uncheck to ignore reputation from purchasing faction Commendations or Insignia, which are available from Timewarped Badge vendors only during Timewalking events"
+FFF_OPTION_TIMEWARPED			= "Include time-limited purchases"
+FFF_OPTION_TIMEWARPED_TIP		= "Uncheck to ignore reputation from purchasing faction items that are available only during recurring events (Timewalking, Riders of Azeroth)"
 
 
 FFF_OPTIONS_WATCHBAR			= "Reputation watch bar"

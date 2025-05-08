@@ -124,12 +124,12 @@ end
 
 
 function T:ItemCount(itemID)
+    if DB.TimeLimitedPurchase[itemID] and not T.Settings.IncludeTimewarped then
+        return 0, 0, 0, 0
+    end
     if FFF_FakeItemCount and FFF_FakeItemCount[itemID] then
         -- useful for debugging
         return FFF_FakeItemCount[itemID], 0, 0, 0
-    end
-    if itemID == "currency:1166" and not T.Settings.IncludeTimewarped then
-        return 0, 0, 0, 0
     end
     if type(itemID) == "string" then
         -- currency
