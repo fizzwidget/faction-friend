@@ -421,7 +421,6 @@ function T:SetupWatchBarOverlays()
 		T.BarOverlays[i] = overlay
 		
 		barFrame:HookScript("OnEnter", function(frame)
-			-- TODO add to the Blizzard paragon tooltip for paragon
 			if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
 				T:ShowFactionToolip(frame.factionID, frame)
 			end
@@ -478,6 +477,34 @@ function T.ReputationStatusBarUpdate()
 		end
 	end
 end
+
+function T.ReputationWatchBarShowParagonTooltip(frame)
+
+	-- hide the "rewards" label 
+	local lastFontString = _G["EmbeddedItemTooltipTextLeft"..EmbeddedItemTooltip:NumLines()]
+	if lastFontString:GetText() == REWARDS then
+		lastFontString:SetText("")
+	end
+	local factionData = C_Reputation.GetFactionDataByID(frame.factionID)
+	T:TooltipAddFactionReport(EmbeddedItemTooltip, frame.factionID, factionData, nil, true)
+
+	-- put the "rewards" label below our added text
+	GameTooltip_AddBlankLineToTooltip(EmbeddedItemTooltip)
+	GameTooltip_AddNormalLine(EmbeddedItemTooltip, REWARDS)
+
+	EmbeddedItemTooltip:Show()
+end
+
+function T.ReputationWatchBarPrepareParagonTooltip(frame)
+	if not C_Reputation.IsFactionParagon(frame.factionID) then
+		-- this hook is only for paragon; other factions don't show their own tooltips
+		return
+	end
+	hooksecurefunc(frame, "UpdateTooltip", T.ReputationWatchBarShowParagonTooltip)
+end
+
+hooksecurefunc("ReputationParagonWatchBar_OnEnter", T.ReputationWatchBarPrepareParagonTooltip)
+
 
 ------------------------------------------------------
 -- Events

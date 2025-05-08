@@ -209,8 +209,18 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
         end
         
     elseif rankData.type == "paragon" then
-        text = "paragon TODO"
-        color = NORMAL_FONT_COLOR
+        local potentialTotal = rankData.currentValue + rankData.floorValue + potential
+        if rankData.nextRankValue and potentialTotal > rankData.nextRankValue then
+            local pointsInto = potentialTotal - rankData.nextRankValue
+            text = rankData.nextRankName -- .. " + " .. pointsInto -- can we gain past reward?
+        else
+            local newValue = potentialTotal - rankData.floorValue
+            local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
+            text = T:StandingText(factionID, false, factionData)
+            text = FFF_STANDING_VALUES:format(text, newValue, maxValue)
+        end
+        -- TODO switch color for standard+paragon, major+paragon
+        color = FACTION_BAR_COLORS[MAX_REPUTATION_REACTION]
         
     elseif rankData.type == "major" then
         local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential)
