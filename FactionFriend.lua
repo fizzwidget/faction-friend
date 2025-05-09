@@ -47,18 +47,6 @@ local GUILD_FACTION_ID = 1168
 -- infinite loop protection; 366 known factions on wowhead as of patch 11.1
 T.MAX_FACTIONS = 600
 
--- TODO: cache some of these all at once instead of memoized?
-
-T.FactionIndexForID = setmetatable({}, {__index = function(table, key)
-	for index = 1, T.MAX_FACTIONS do
-		local factionData = C_Reputation.GetFactionDataByIndex(index)
-		if not factionData then break end
-		if factionData.factionID == key then
-			return index
-		end
-	end
-end})
-
 T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 	for index = 1, T.MAX_FACTIONS do
 		local factionData = C_Reputation.GetFactionDataByIndex(index)
@@ -158,7 +146,17 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 		C_Reputation.SetWatchedFactionByID(factionID)
 	else
 		
-		local index = self.FactionIndexForID[factionID]
+		local factionIndexForID = function(key)
+			for index = 1, T.MAX_FACTIONS do
+				local factionData = C_Reputation.GetFactionDataByIndex(index)
+				if not factionData then break end
+				if factionData.factionID == key then
+					return index
+				end
+			end
+		end
+
+		local index = factionIndexForID(factionID)
 		if not index then
 			-- print("no switch: index not found for factionID", factionID)
 			return
