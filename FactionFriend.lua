@@ -551,6 +551,8 @@ end
 ------------------------------------------------------
 
 function T:SetupReverseCache()
+	if DB.TurninsByItem then return end
+
 	local factions = {}
 	for _, factionID in pairs(DB.ID[UnitFactionGroup("player")]) do
 		factions[factionID] = 1
@@ -613,3 +615,90 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 	end
 
 end
+
+------------------------------------------------------
+-- Highlight turnin items 
+------------------------------------------------------
+
+function T.UpdateItemButton(frame, itemInfo)
+	T:SetupReverseCache()
+	
+	local color = BLUE_FONT_COLOR
+	if itemInfo and DB.TurninsByItem[itemInfo.itemID] then
+		frame.IconQuestTexture:SetTexture(TEXTURE_ITEM_QUEST_BANG)
+		frame.IconQuestTexture:SetDesaturated(true)		
+		frame.IconQuestTexture:SetVertexColor(color:GetRGBA())
+		frame.IconQuestTexture:Show()
+	else
+		frame.IconQuestTexture:SetDesaturated(false)		
+		frame.IconQuestTexture:SetVertexColor(1,1,1,1)
+		frame.IconQuestTexture:Hide()
+	end	
+end
+
+function T.ContainerItemButtonUpdateQuestItem(frame, isQuestItem, questID, isActive)
+	if not T.Settings.HighlightItems then return end
+	
+	if questID then 
+		-- base UI already highlighted as regular quest item
+		return
+	end
+	local slotID, bagID = frame:GetSlotAndBagID()
+	local itemInfo = C_Container.GetContainerItemInfo(bagID, slotID)
+	T.UpdateItemButton(frame, itemInfo)
+end
+
+hooksecurefunc(ContainerFrameItemButtonMixin, "UpdateQuestItem", T.ContainerItemButtonUpdateQuestItem)
+
+function T.BankPanelItemButtonRefresh(frame)
+	if not T.Settings.HighlightItems then return end
+
+	local questItemInfo = frame.questItemInfo
+	if questItemInfo.questID then 
+		-- base UI already highlighted as regular quest item
+		return
+	end
+	
+	local itemInfo = frame.itemInfo
+	T.UpdateItemButton(frame, itemInfo)
+end
+	
+hooksecurefunc(BankPanelItemButtonMixin, "Refresh", T.BankPanelItemButtonRefresh)
+
+function T.BankFrameItemButton_Update(button)
+	if not T.Settings.HighlightItems then return end
+	if button.isBag then return end
+	
+	local container = button:GetParent():GetID()
+	local buttonID = button:GetID()
+	local questInfo = C_Container.GetContainerItemQuestInfo(container, buttonID)
+	if questInfo and questInfo.questID then 
+		-- base UI already highlighted as regular quest item
+		return
+	end
+	
+	local itemInfo = C_Container.GetContainerItemInfo(container, buttonID)
+	T.UpdateItemButton(button, itemInfo)
+end
+	
+hooksecurefunc("BankFrameItemButton_Update", T.BankFrameItemButton_Update)
+
+function T.LootFrameElementInit(frame)
+	if not T.Settings.HighlightItems then return end
+	
+	local slotIndex = frame:GetSlotIndex()
+	local texture, item, quantity, currencyID, itemQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(slotIndex)
+	if questID then 
+		-- base UI already highlighted as regular quest item
+		return
+	end
+	
+	local link = GetLootSlotLink(slotIndex)
+	local itemInfo
+	if link then
+		itemInfo = {itemID = GetItemInfoFromHyperlink(link)}
+	end
+	T.UpdateItemButton(frame, itemInfo)
+end
+	
+hooksecurefunc(LootFrameElementMixin, "Init", T.LootFrameElementInit)

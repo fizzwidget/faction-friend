@@ -32,6 +32,7 @@ function T:SetupSettings()
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
     Checkbox("ModifyChat", false, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
     Checkbox("MoveInactiveOnComplete", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
+    Checkbox("HighlightItems", true, FFF_OPTION_HIGHLIGHT_ITEMS, FFF_OPTION_HIGHLIGHT_ITEMS_TIP)
 
     -- TODO: header for menu settings?
     -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu

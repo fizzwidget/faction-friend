@@ -47,8 +47,10 @@ FFF_OPTION_TOOLTIP				= "Enhance item tooltips"
 FFF_OPTION_TOOLTIP_TIP			= "Adds info to tooltips for items that can be turned in or used to gain reputation"
 FFF_OPTION_MODIFY_CHAT			= "Enhance chat window output"
 FFF_OPTION_MODIFY_CHAT_TIP		= "Adds info to reputation messages in chat windows, including an estimated number of repeated reputation gains until the next rank/reward. (Use chat window settings to enable reputation messages.) "
-FFF_OPTION_MOVE_EXALTED			= "Move completed to Inactive"
-FFF_OPTION_MOVE_EXALTED_TIP		= "Automatically moves factions to Inactive upon reaching maximum standing, friendship, or renown" 
+FFF_OPTION_MOVE_EXALTED			= "Hide factions when completed"
+FFF_OPTION_MOVE_EXALTED_TIP		= "Automatically moves factions to Inactive upon reaching maximum reputation, friendship, or renown (excludes “paragon” factions with repeatable rewards for continued gains at maximum rank)" 
+FFF_OPTION_HIGHLIGHT_ITEMS		= "Highlight reputation items"
+FFF_OPTION_HIGHLIGHT_ITEMS_TIP	= "Makes items that can be turned in or used for reputation gain more visible in the default UI's bag, bank, and loot frames (similar to the default highlight for quest items)" 
 
 
 FFF_OPTIONS_POTENTIAL			= "Potential reputation gain"
