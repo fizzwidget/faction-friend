@@ -199,15 +199,19 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
     local potentialTotal = potential + rankData.currentValue + rankData.floorValue
 
     local text, color
-    if rankData.type == "standard" then
-        local potentialRank, pointsInto, localMax = T:StandingForValue(potentialTotal)
-        text = GetText("FACTION_STANDING_LABEL"..potentialRank, UnitSex("player"))
-        color = FACTION_BAR_COLORS[potentialRank]
-        
-        if potentialRank < MAX_REPUTATION_REACTION then
-            text = FFF_STANDING_VALUES:format(text, pointsInto, localMax)
+    if rankData.type == "friendship" then
+        -- if > current rank, output e.g. "better friend + 2000", otherwise e.g. "good friend (3241/6000)"
+        local potentialTotal = rankData.currentValue + rankData.floorValue + potential
+        if rankData.nextRankValue and potentialTotal > rankData.nextRankValue then
+            local pointsInto = potentialTotal - rankData.nextRankValue
+            text = rankData.nextRankName .. " + " .. pointsInto
+        else
+            local newValue = potentialTotal - rankData.floorValue
+            local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
+            text = FFF_STANDING_VALUES:format(friendshipData.reaction, newValue, maxValue)
         end
-        
+        color = FACTION_BAR_COLORS[5] -- friendship is always green
+
     elseif rankData.type == "paragon" then
         local potentialTotal = rankData.currentValue + rankData.floorValue + potential
         if rankData.nextRankValue and potentialTotal > rankData.nextRankValue then
@@ -228,18 +232,14 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
         text = FFF_STANDING_VALUES:format(text, pointsInto, MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
         color = BLUE_FONT_COLOR
 
-    else -- friendship
-        -- if > current rank, output e.g. "better friend + 2000", otherwise e.g. "good friend (3241/6000)"
-        local potentialTotal = rankData.currentValue + rankData.floorValue + potential
-        if rankData.nextRankValue and potentialTotal > rankData.nextRankValue then
-            local pointsInto = potentialTotal - rankData.nextRankValue
-            text = rankData.nextRankName .. " + " .. pointsInto
-        else
-            local newValue = potentialTotal - rankData.floorValue
-            local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
-            text = FFF_STANDING_VALUES:format(friendshipData.reaction, newValue, maxValue)
+    else -- standard
+        local potentialRank, pointsInto, localMax = T:StandingForValue(potentialTotal)
+        text = GetText("FACTION_STANDING_LABEL"..potentialRank, UnitSex("player"))
+        color = FACTION_BAR_COLORS[potentialRank]
+        
+        if potentialRank < MAX_REPUTATION_REACTION then
+            text = FFF_STANDING_VALUES:format(text, pointsInto, localMax)
         end
-        color = FACTION_BAR_COLORS[5] -- friendship is always green
 
     end
     return text, color
@@ -549,27 +549,26 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
             potentialRank = self.rankData.nextRank
         end
     end
+    -- print(self.factionData.name)
     -- DevTools_Dump(self.rankData)
-    -- print("turninValue", turninValue, "potentialRank", potentialRank, "potentialTotal", potentialTotal)
 
     -- count only the turnins needed to reach max
     -- but only if we know how many ranks ahead
     local turninMaxRank = info.maxStanding or self.rankData.maxRank
+    -- print("turninValue", turninValue, "potentialRank", potentialRank, "potentialTotal", potentialTotal, "turninMaxRank", turninMaxRank)
     if turninValue > 0 and potentialRank >= turninMaxRank then
         -- adjust potential to fit within cap or turnin max rank 
         local absMaxValue
-        if self.rankData.type == "standard" then
-            maxValue = info.maxValue or PointsPerStanding[turninMaxRank]
-            absMaxValue = AbsMinForStanding[turninMaxRank] + maxValue
+        if self.rankData.type == "friendship" then
+            absMaxValue = self.rankData.capValue
+            print("friensdhip cap", absMaxValue)
         elseif self.rankData.type == "paragon" then
             absMaxValue = self.rankData.maxRank * self.rankData.nextRankValue
-            DevTools_Dump(info)
         elseif self.rankData.type == "major" then
-            absMaxValue = self.rankData.maxRank * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL
-        else -- friendship
-            -- just don't cap, assume huge value
-            -- TODO instead, limit to just the next rank?
-            absMaxValue = 60000
+            absMaxValue = self.rankData.capValue
+        else -- standard
+            maxValue = info.maxValue or PointsPerStanding[turninMaxRank]
+            absMaxValue = AbsMinForStanding[turninMaxRank] + maxValue
         end
         if currentValue >= absMaxValue then
             potentialValue = 0
@@ -586,7 +585,7 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
             for createdID, _ in pairs(info.creates) do
                 local inBags, inBank, inReagents, inWarband = T:ItemCount(createdID)
                 local alreadyOwned = inBags + inBank + inReagents + inWarband
-                numTurnins = numTurnins - alreadyOwned
+                numTurnins = numTurnins - alreadyOwned -- TODO bug here? #turnins or #items/turnin
                 break	-- there should only be one created item in this case
             end
         end
