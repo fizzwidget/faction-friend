@@ -26,11 +26,22 @@ F.DREAM_WARDENS = 2574
 local Q = DB.TurninsByQuest
 	
 Q[F.MARUUK_CENTAUR] = {
-	HuntingTropy = {
-		-- technically 3 quests, for 1x, 5x, or 20x items, but rep reward is same multiplier
+	HuntingTropy_01 = {
 		value = 25,
 		items = {
 			[200093] = 1,	-- Centaur Hunting Trophy
+		},
+	},
+	HuntingTropy_05 = {
+		value = 125,
+		items = {
+			[200093] = 5,	-- Centaur Hunting Trophy
+		},
+	},
+	HuntingTropy_20 = {
+		value = 500,
+		items = {
+			[200093] = 20,	-- Centaur Hunting Trophy
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -73,18 +84,34 @@ Q[F.MARUUK_CENTAUR] = {
 	},
 }
 Q[F.DRAGONSCALE_EXPEDITION] = {
-	DragonIslesArtifacts = {
-		-- technically 3 quests, for 1x, 5x, or 20x items, but rep reward is same multiplier
+	DragonIslesArtifacts_01 = {
 		value = 25,
 		items = {
 			[192055] = 1,	-- Dragon Isles Artifact
 		},
 	},
-	VaultArtifacts = {
-		-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+	DragonIslesArtifacts_05 = {
+		value = 125,
+		items = {
+			[192055] = 5,	-- Dragon Isles Artifact
+		},
+	},
+	DragonIslesArtifacts_20 = {
+		value = 500,
+		items = {
+			[192055] = 20,	-- Dragon Isles Artifact
+		},
+	},
+	VaultArtifacts_01 = {
 		value = 30,
 		items = {
 			[201412] = 1,	-- Ancient Vault Artifact
+		},
+	},
+	VaultArtifacts_05 = {
+		value = 150,
+		items = {
+			[201412] = 5,	-- Ancient Vault Artifact
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -127,11 +154,16 @@ Q[F.DRAGONSCALE_EXPEDITION] = {
 	},
 }
 Q[F.VALDRAKKEN_ACCORD] = {
-	TitanRelic = {
-		-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+	TitanRelic_01 = {
 		value = 25,
 		items = {
 			[199906] = 1,	-- Titan Relic
+		},
+	},
+	TitanRelic_05 = {
+		value = 125,
+		items = {
+			[199906] = 5,	-- Titan Relic
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -184,11 +216,16 @@ Q[F.VALDRAKKEN_ACCORD] = {
 	},
 }
 Q[F.ISKAARA_TUSKARR] = {
-	StolenTotems = {
-		-- technically 2 quests, for 1x or 5x items, but rep reward is same multiplier
+	StolenTotems_01 = {
 		value = 25,
 		items = {
 			[200071] = 1,	-- Sacred Tuskarr Totem
+		},
+	},
+	StolenTotems_05 = {
+		value = 125,
+		items = {
+			[200071] = 5,	-- Sacred Tuskarr Totem
 		},
 	},
 	ZZ_FlightstoneInsignia = {
