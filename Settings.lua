@@ -1,5 +1,6 @@
 local addonName, T = ...
 
+
 function T:SetupSettings()
     local category, layout = Settings.RegisterVerticalLayoutCategory(T.Title)
     local settingsTable = T.Settings
@@ -28,6 +29,35 @@ function T:SetupSettings()
         end
         return init
     end
+
+    local function CheckboxDropdown(checkSettingKey, checkDefault, menuSettingKey, menuDefault, menuOptions, labelText, tooltipText)
+        local checkVariable = addonName .. "_" .. checkSettingKey
+        local checkSetting = Settings.RegisterAddOnSetting(
+            category, 
+            checkVariable, 
+            checkSettingKey, 
+            settingsTable,
+            type(checkDefault), 
+            labelText, 
+            checkDefault
+        )
+        local menuVariable = addonName .. "_" .. menuSettingKey
+        local menuSetting = Settings.RegisterAddOnSetting(
+            category,
+            menuVariable,
+            menuSettingKey,
+            settingsTable,
+            type(menuDefault),
+            labelText,
+            menuDefault
+        )
+        local initializer = CreateSettingsCheckboxDropdownInitializer(
+            checkSetting, labelText, tooltipText,
+            menuSetting, menuOptions, labelText, tooltipText
+        )
+        initializer:AddSearchTags(labelText, tooltipText)
+        return initializer
+    end
     
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
     Checkbox("ModifyChat", true, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
@@ -47,16 +77,21 @@ function T:SetupSettings()
     Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_SWITCH, FFF_OPTION_GUILD_SWITCH_TIP, repGainParent)
     Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_SWITCH, FFF_OPTION_BODYGUARD_SWITCH_TIP, repGainParent)
     
-    Checkbox("EnableMenu", true, FFF_OPTION_ENABLE_MENU, FFF_OPTION_ENABLE_MENU_TIP, nil, T.ReputationStatusBarUpdate)
-    -- TODO popup menu
-    -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu
-
+    local function MenuOptions(options)
+        local container = Settings.CreateControlTextContainer()
+        container:Add(T.MenuSetting.Both, FFF_OPTION_MENU_FULL_RECENT, FFF_OPTION_MENU_FULL_RECENT_TIP)
+        container:Add(T.MenuSetting.Recent, FFF_OPTION_MENU_RECENT, FFF_OPTION_MENU_RECENT_TIP)
+        container:Add(T.MenuSetting.List, FFF_OPTION_MENU_FULL, FFF_OPTION_MENU_FULL_TIP)
+        container:Add(T.MenuSetting.None, FFF_OPTION_MENU_NONE, FFF_OPTION_MENU_NONE_TIP)
+        return container:GetData()
+    end
+    layout:AddInitializer(CheckboxDropdown("EnableMenu", true, "MenuContent", T.MenuSetting.Both, MenuOptions, FFF_OPTION_ENABLE_MENU, FFF_OPTION_ENABLE_MENU_TIP))
 
     ------------------------------------------------------
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_REP_PANE, FFF_OPTIONS_REP_PANE_TIP))
     
     Checkbox("AddRepPaneControls", true, FFF_OPTION_ADD_CONTROLS, FFF_OPTION_ADD_CONTROLS_TIP, nil, T.UpdateReputationPaneControls)
-    Checkbox("HighlightFactions", true, FFF_OPTION_HIGHLIGHT, FFF_OPTION_HIGHLIGHT_TIP, nil)
+    Checkbox("HighlightFactions", true, FFF_OPTION_HIGHLIGHT, FFF_OPTION_HIGHLIGHT_TIP)
 
     Settings.RegisterAddOnCategory(category)
 

@@ -82,7 +82,15 @@ FFF_OPTION_GUILD_SWITCH_TIP		= "Uncheck to disable automatic watch bar switching
 FFF_OPTION_BODYGUARD_SWITCH 	= "Include bodyguards"
 FFF_OPTION_BODYGUARD_SWITCH_TIP	= "Uncheck to disable automatic watch bar switching for Barracks Bodyguards reputations in Warlords of Draenor. (Useful if you're gaining other reputations at the same time as bodyguard reputation.)"
 FFF_OPTION_ENABLE_MENU			= "Right-click for menu"
-FFF_OPTION_ENABLE_MENU_TIP		= "Adds a context menu to the reputation watch bar."
+FFF_OPTION_ENABLE_MENU_TIP		= "Adds a context menu to the reputation watch bar allowing you to quickly switch which faction it tracks."
+FFF_OPTION_MENU_FULL_RECENT		= "Recent factions + faction list"
+FFF_OPTION_MENU_FULL_RECENT_TIP	= "Shows factions recently tracked or with recent reputation changes, plus all factions currently visible in the Reputation pane. (For a simpler menu, collapse headers or move factions to Inactive.)"
+FFF_OPTION_MENU_RECENT			= "Recent factions"
+FFF_OPTION_MENU_RECENT_TIP		= "Shows factions recently tracked or with recent reputation changes."
+FFF_OPTION_MENU_FULL			= "Faction list"
+FFF_OPTION_MENU_FULL_TIP		= "Shows all factions currently visible in the Reputation pane. (For a simpler menu, collapse headers or move factions to Inactive.)"
+FFF_OPTION_MENU_NONE			= "No factions"
+FFF_OPTION_MENU_NONE_TIP		= "Shows only commands."
 
 FFF_OPTIONS_TIPS				= "Tip: For a simpler menu, use the Reputation pane to mark factions as inactive."
 

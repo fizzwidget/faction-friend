@@ -6,16 +6,25 @@ local addonName, T = ...
 ------------------------------------------------------
 
 local MAX_SHORT_MENU_FACTION_COUNT = 20
-
+T.MenuSetting = {
+    Both = 3,
+    Recent = 2,
+    List = 1,
+    None = 0
+}
 function T.ShowFactionMenu(frame)
     if not T.Settings.EnableMenu then return end
     
     MenuUtil.CreateContextMenu(frame, function(owner, root)
+        
+        local setting = T.Settings.MenuContent
+        if setting == T.MenuSetting.Both or setting == T.MenuSetting.List then
+            T.CreateFactionsMenu(root)
+        end
+        if setting == T.MenuSetting.Both or setting == T.MenuSetting.Recent then
+            T.CreateRecentsMenu(root)
+        end
                 
-        T.CreateFactionsMenu(root)
-        
-        T.CreateRecentsMenu(root)
-        
         local repPaneButton = root:CreateButton(FFF_SHOW_REPUTATION_PANE, T.MenuShowReputationOnClick)
         repPaneButton:SetEnabled(function()
             return not InCombatLockdown() 
