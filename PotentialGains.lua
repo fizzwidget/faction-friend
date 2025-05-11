@@ -445,7 +445,7 @@ function PG:QuestPotential(key, info)
     -- and include it in the report/tooltip
     local reportItemLines = {}
     for itemID, qtyPerTurnin in pairs(info.items) do
-        self.itemsAccounted[itemID] = numTurnins * qtyPerTurnin
+        self.itemsAccounted[itemID] = (self.itemsAccounted[itemID] or 0) + numTurnins * qtyPerTurnin
         
         -- get the link even if not reporting
         -- since that caches it for when next we need it
