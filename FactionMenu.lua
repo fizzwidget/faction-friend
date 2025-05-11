@@ -8,6 +8,8 @@ local addonName, T = ...
 local MAX_SHORT_MENU_FACTION_COUNT = 20
 
 function T.ShowFactionMenu(frame)
+    if not T.Settings.EnableMenu then return end
+    
     MenuUtil.CreateContextMenu(frame, function(owner, root)
                 
         T.CreateFactionsMenu(root)
@@ -185,12 +187,14 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
     frame.fontString2:SetTextToFit(text)
     frame.fontString2:SetTextColor(color:GetRGBA())
     
-    local potential = T:FactionPotential(factionID, true, factionData, friendshipData)
-    if potential > 0 then
-        frame.icon = frame:AttachTexture()
-        frame.icon:SetSize(16, 16)
-        frame.icon:SetPoint("LEFT", frame.fontString, "RIGHT")
-        frame.icon:SetTexture("Interface\\GossipFrame\\DailyQuestIcon")
+    if T.Settings.HighlightFactions then
+        local potential = T:FactionPotential(factionID, true, factionData, friendshipData)
+        if potential > 0 then
+            frame.icon = frame:AttachTexture()
+            frame.icon:SetSize(16, 16)
+            frame.icon:SetPoint("LEFT", frame.fontString, "RIGHT")
+            frame.icon:SetTexture("Interface\\GossipFrame\\DailyQuestIcon")
+        end
     end
 end
 

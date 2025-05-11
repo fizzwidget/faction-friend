@@ -62,8 +62,17 @@ FFF_OPTION_TIMEWARPED			= "Include time-limited purchases"
 FFF_OPTION_TIMEWARPED_TIP		= "Uncheck to ignore reputation from purchasing faction items that are available only during recurring events (Timewalking, Riders of Azeroth)"
 
 
+FFF_OPTIONS_REP_PANE			= "Reputation pane"
+FFF_OPTIONS_REP_PANE_TIP		= "Settings related to the Character window's Reputation pane"
+
+FFF_OPTION_ADD_CONTROLS			= "Enhanced faction list controls"
+FFF_OPTION_ADD_CONTROLS_TIP		= "Adds a cleanup button, search bar, and expand/collapse-all buttons to the top of the Reputation pane." 
+FFF_OPTION_HIGHLIGHT			= "Highlight exploitable factions"
+FFF_OPTION_HIGHLIGHT_TIP		= "Shows an icon next to factions you can increase using items and currency in your inventory. (Also applies to the reputation watch bar context menu.)" 
+
+
 FFF_OPTIONS_WATCHBAR			= "Reputation watch bar"
-FFF_OPTIONS_WATCHBAR_TIP		= "Settings related to the Blizzard UI's built-in reputation tracking bar (enabled through “%s” in the Character window's Reputation pane)"
+FFF_OPTIONS_WATCHBAR_TIP		= "Settings related to the default UI's reputation tracking bar (enabled through “%s” in the Character window's Reputation pane)"
 -- quoted substitution is base UI localized string MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL
 
 FFF_OPTION_REP_GAINED			= "Update for reputation gains"
@@ -72,6 +81,8 @@ FFF_OPTION_GUILD_SWITCH			= "Include guild"
 FFF_OPTION_GUILD_SWITCH_TIP		= "Uncheck to disable automatic watch bar switching for guild reputation. (Useful if you're gaining other reputations at the same time as guild reputation.)"
 FFF_OPTION_BODYGUARD_SWITCH 	= "Include bodyguards"
 FFF_OPTION_BODYGUARD_SWITCH_TIP	= "Uncheck to disable automatic watch bar switching for Barracks Bodyguards reputations in Warlords of Draenor. (Useful if you're gaining other reputations at the same time as bodyguard reputation.)"
+FFF_OPTION_ENABLE_MENU			= "Right-click for menu"
+FFF_OPTION_ENABLE_MENU_TIP		= "Adds a context menu to the reputation watch bar."
 
 FFF_OPTIONS_TIPS				= "Tip: For a simpler menu, use the Reputation pane to mark factions as inactive."
 

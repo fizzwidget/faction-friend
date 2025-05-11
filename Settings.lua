@@ -30,13 +30,9 @@ function T:SetupSettings()
     end
     
     Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
-    Checkbox("ModifyChat", false, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
+    Checkbox("ModifyChat", true, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
     Checkbox("MoveInactiveOnComplete", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
     Checkbox("HighlightItems", true, FFF_OPTION_HIGHLIGHT_ITEMS, FFF_OPTION_HIGHLIGHT_ITEMS_TIP)
-
-    -- TODO: header for menu settings?
-    -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu
-
 
     ------------------------------------------------------
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_POTENTIAL, FFF_OPTIONS_POTENTIAL_TIP))
@@ -51,6 +47,17 @@ function T:SetupSettings()
     Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_SWITCH, FFF_OPTION_GUILD_SWITCH_TIP, repGainParent)
     Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_SWITCH, FFF_OPTION_BODYGUARD_SWITCH_TIP, repGainParent)
     
+    Checkbox("EnableMenu", true, FFF_OPTION_ENABLE_MENU, FFF_OPTION_ENABLE_MENU_TIP, nil, T.ReputationStatusBarUpdate)
+    -- TODO popup menu
+    -- TODO: some place to put FFF_OPTIONS_TIPS about organizing menu
+
+
+    ------------------------------------------------------
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_REP_PANE, FFF_OPTIONS_REP_PANE_TIP))
+    
+    Checkbox("AddRepPaneControls", true, FFF_OPTION_ADD_CONTROLS, FFF_OPTION_ADD_CONTROLS_TIP, nil, T.UpdateReputationPaneControls)
+    Checkbox("HighlightFactions", true, FFF_OPTION_HIGHLIGHT, FFF_OPTION_HIGHLIGHT_TIP, nil)
+
     Settings.RegisterAddOnCategory(category)
 
 end

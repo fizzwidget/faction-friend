@@ -81,7 +81,8 @@ function T:ShowReputationPane(factionID, forceAll)
     -- select the faction
     if not isTopLevelHeader then
         -- top level isn't normally selectable
-        C_Reputation.SetSelectedFaction(T.FactionIndexForID[factionID])
+        local index = T:FactionIndexForID(factionID)
+        C_Reputation.SetSelectedFaction(index)
     end
     
     -- update rep frame & show it if we can
@@ -104,6 +105,13 @@ end
 
 function T.ReputationEntrySetupPotentialIcon(frame, elementData)
     icon = frame.Content.PotentialIcon
+    if not T.Settings.HighlightFactions then
+        if icon then
+            icon:Hide()
+        end
+        return
+    end
+    
     local potential = T:FactionPotential(elementData.factionID, false, elementData)
     if potential > 0 then
         if not icon then
@@ -352,7 +360,30 @@ end
 -- Setup
 ------------------------------------------------------
 
+function T:UpdateReputationPaneControls()
+    if not T.reputationPaneSetup then
+        T:SetupReputationPane()
+    end
+    local frames = {
+        T.ExpandAllButton,
+        T.CollapseAllButton,
+        T.CleanupButton,
+        T.SearchBox,
+    }
+    if T.Settings.AddRepPaneControls then
+        for _, frame in pairs(frames) do
+            frame:Show()
+        end
+    else
+        for _, frame in pairs(frames) do
+            frame:Hide()
+        end
+    end
+end
+
 function T:SetupReputationPane()
+    if not T.Settings.AddRepPaneControls then return end
+    
     local shouldExpand = true
     T.ExpandAllButton = CreateFrame("Button", nil, ReputationFrame, "FFF_ExpandCollapseButtonTemplate")
     T.ExpandAllButton:Setup(shouldExpand)
@@ -382,7 +413,9 @@ function T:SetupReputationPane()
     T.SearchBox:SetPoint("RIGHT", T.CollapseAllButton, "LEFT", -2, 0)
     T.SearchBox:SetPoint("LEFT", T.CleanupButton, "RIGHT", 6, 0) 
     
-    EventRegistry:UnregisterCallback("CharacterFrame.Show", self);
+    EventRegistry:UnregisterCallback("CharacterFrame.Show", self)
+    
+    T.reputationPaneSetup = true
 end
 
 EventRegistry:RegisterCallback("CharacterFrame.Show", T.SetupReputationPane, T)

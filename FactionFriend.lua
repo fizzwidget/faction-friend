@@ -57,6 +57,17 @@ T.FactionIDForName = setmetatable({}, {__index = function(table, key)
 	end
 end})
 
+function T:FactionIndexForID(factionID)
+	for index = 1, T.MAX_FACTIONS do
+		local factionData = C_Reputation.GetFactionDataByIndex(index)
+		if not factionData then break end
+		if factionData.factionID == factionID then
+			return index
+		end
+	end
+end
+
+
 local MAX_RECENTS = 8
 function T.AddToRecents(factionID)
 	-- remove it if it's already in the list
@@ -146,17 +157,7 @@ function T:TrySetWatchedFaction(factionID, overrideInactive)
 		C_Reputation.SetWatchedFactionByID(factionID)
 	else
 		
-		local factionIndexForID = function(key)
-			for index = 1, T.MAX_FACTIONS do
-				local factionData = C_Reputation.GetFactionDataByIndex(index)
-				if not factionData then break end
-				if factionData.factionID == key then
-					return index
-				end
-			end
-		end
-
-		local index = factionIndexForID(factionID)
+		local index = T:FactionIndexForID(factionID)
 		if not index then
 			-- print("no switch: index not found for factionID", factionID)
 			return
