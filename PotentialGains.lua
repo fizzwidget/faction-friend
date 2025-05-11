@@ -452,7 +452,7 @@ function PG:QuestPotential(key, info)
         local itemLink = T:ItemLink(itemID)
 
         if numTurnins > 0 and self.reportLines then
-            local lineItem = self:ItemTurninReport(itemID, itemLink, info.purchased)
+            local lineItem = self:ItemTurninReport(itemID, itemLink, numTurnins, qtyPerTurnin, info.purchased)
             tinsert(reportItemLines, lineItem)
         end
     end
@@ -485,8 +485,8 @@ function PG:CountCreatedItems(questCreates, numTurnins)
     return createdItemLink
 end
 
-function PG:ItemTurninReport(itemID, itemLink, purchased)
-    local itemsForTurnin = self.itemsAccounted[itemID]
+function PG:ItemTurninReport(itemID, itemLink, numTurnins, qtyPerTurnin, purchased)
+    local itemsForTurnin = numTurnins * qtyPerTurnin
     local lineItem = FFF_REPORT_LINE_ITEM:format(itemsForTurnin, itemLink)
     local inBags, inBank, inReagents, inWarband = T:ItemCount(itemID)
     local totalCount = inBags + inBank + inReagents + inWarband
