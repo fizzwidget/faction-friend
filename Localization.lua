@@ -110,6 +110,7 @@ FFF_COLLAPSE_SUBHEADERS_HINT	= "<Hold %s to collapse subheaders>"
 FFF_EXPAND_INACTIVE_HINT		= "<Hold %s to expand Inactive>"
 FFF_CLEAN_UP_FACTIONS			= "Clean Up Completed Factions"
 FFF_CLEAN_UP_FACTIONS_TIP		= "Moves factions with maximum reputation to Inactive"
+FFF_CLEAN_UP_FACTIONS_LIST		= "%d factions to clean up:"
 
 ------------------------------------------------------
 

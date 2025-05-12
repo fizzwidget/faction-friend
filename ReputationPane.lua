@@ -404,8 +404,17 @@ function T:SetupReputationPane()
         GameTooltip_SetTitle(GameTooltip, FFF_CLEAN_UP_FACTIONS)
         GameTooltip_AddColoredLine(GameTooltip, FFF_CLEAN_UP_FACTIONS_TIP, GRAY_FONT_COLOR)
         
-        -- TODO preprocess cleanup, show moves to be done in tooltip?
-        
+        local factions = T:FactionsForCleanup()
+        if #factions > 0 then
+            GameTooltip_AddBlankLineToTooltip(GameTooltip)
+            local header = FFF_CLEAN_UP_FACTIONS_LIST:format(#factions)
+            GameTooltip_AddColoredLine(GameTooltip, header, NORMAL_FONT_COLOR)
+            for _, factionID in pairs(factions) do
+                local factionData = C_Reputation.GetFactionDataByID(factionID)
+                local standingText, color = T:StandingText(factionID, false, factionData)
+                GameTooltip_AddColoredDoubleLine(GameTooltip, factionData.name, standingText, HIGHLIGHT_FONT_COLOR, color)
+            end
+        end
         GameTooltip:Show()
     end)
     T.CleanupButton:SetScript("OnClick", function()

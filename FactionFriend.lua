@@ -337,8 +337,24 @@ function T:FactionAtMaximum(factionID, factionData, friendshipData, ignoreParago
 	elseif C_Reputation.IsMajorFaction(factionID) then
 		return C_MajorFactions.HasMaximumRenown(factionID)
 	elseif factionData.reaction == MAX_REPUTATION_REACTION then
-		return C_Reputation.IsFactionParagon(factionID) and ignoreParagon
+		if C_Reputation.IsFactionParagon(factionID) then
+			return ignoreParagon
+		else
+			return true
+		end
 	end
+end
+
+function T:FactionsForCleanup()
+	local factionIDs = {}
+	for index = 1, T.MAX_FACTIONS do
+		local data = C_Reputation.GetFactionDataByIndex(index)
+		if data.factionID == 0 or data.name == FACTION_INACTIVE then break end
+		if T:FactionAtMaximum(data.factionID, data) and data.canSetInactive and data.factionID ~= GUILD_FACTION_ID then
+			tinsert(factionIDs, data.factionID)
+		end
+	end
+	return factionIDs
 end
 
 function T:CleanUpCompletedFactions()
