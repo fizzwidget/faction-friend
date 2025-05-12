@@ -4,25 +4,8 @@ local addonName, T = ...
 -- Utilities
 ------------------------------------------------------
 
-function T:ShowReputationPane(factionID, forceAll)
-    
-    -- force all filtering off
-    -- (can't know if factionID will be hidden by filters)
-    if forceAll then
-        -- TODO instead of forcing this for links, revert to searching all only after failing to search with current filters
-        C_Reputation.SetLegacyReputationsShown(true)
-        C_Reputation.SetReputationSortType(0)
-    end
-    
-    -- remember collapsed headers
-    local collapsed = T:GetCollapsedFactionHeaders()
-        
-    -- Blizzard bug: C_Reputation.ExpandAllFactionHeaders doesn't
-    T:ExpandAllFactionHeaders()
-    
-    -- iterate again to find headers containing factionID
-    local headerID, subHeaderID
-    local isTopLevelHeader
+function T:FindFaction(factionID)
+    local factionIndex, headerID, subHeaderID, isTopLevelHeader
     for index = 1, C_Reputation.GetNumFactions() do
         local data = C_Reputation.GetFactionDataByIndex(index)
         if data.isHeader and not data.isChild then
@@ -43,9 +26,31 @@ function T:ShowReputationPane(factionID, forceAll)
                 subHeaderID = nil
             end
             isTopLevelHeader = data.isHeader and not data.isChild
+            factionIndex = index
             break
         end
     end
+    return factionIndex, headerID, subHeaderID, isTopLevelHeader 
+end
+
+function T:ShowReputationPane(factionID, forceAll)
+    
+    -- force all filtering off
+    -- (can't know if factionID will be hidden by filters)
+    if forceAll then
+        -- TODO instead of forcing this for links, revert to searching all only after failing to search with current filters
+        C_Reputation.SetLegacyReputationsShown(true)
+        C_Reputation.SetReputationSortType(0)
+    end
+    
+    -- remember collapsed headers
+    local collapsed = T:GetCollapsedFactionHeaders()
+        
+    -- Blizzard bug: C_Reputation.ExpandAllFactionHeaders doesn't
+    T:ExpandAllFactionHeaders()
+    
+    -- iterate again to find headers containing factionID
+    local index, headerID, subHeaderID, isTopLevelHeader = T:FindFaction(factionID)
         
     -- for debug
     local function name(id)
@@ -81,7 +86,6 @@ function T:ShowReputationPane(factionID, forceAll)
     -- select the faction
     if not isTopLevelHeader then
         -- top level isn't normally selectable
-        local index = T:FactionIndexForID(factionID)
         C_Reputation.SetSelectedFaction(index)
     end
     

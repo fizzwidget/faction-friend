@@ -106,7 +106,7 @@ end
 EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
 	local type, addon, subtype, id = strsplit(":", link)
 	if type == "addon" and addon == addonName and subtype == "faction" then
-		T:ShowReputationPane(tonumber(id), forceAll)
+		T:ShowReputationPane(tonumber(id), true)
 	end
 end)
 
