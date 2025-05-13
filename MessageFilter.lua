@@ -79,6 +79,13 @@ end
 function T:CombatMessageFilter(event, message, ...)	
     local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
     local factionID = T.FactionIDForName[factionName]
+    
+    -- can't do anything if we don't know the faction yet
+    -- keep track of the message so we can try again when the faction becomes known
+    if not factionID then
+        T:QueueMessage(self, event, message, factionName, ...)
+        return true
+    end
         
     -- add to recents
     T.AddToRecents(factionID)
@@ -124,6 +131,23 @@ function T:CombatMessageFilter(event, message, ...)
     end
     
     return false, message, ...
+end
+
+T.MessageQueue = {}
+function T:QueueMessage(frame, event, message, factionName, ...)
+    if not T.MessageQueue[factionName] then
+        T.MessageQueue[factionName] = {}
+    end
+    tinsert(T.MessageQueue[factionName], {frame=frame, event=event, message=message, args={...}})
+end
+
+function T:HandleQueuedMessages(factionName)
+    local messages = T.MessageQueue[factionName] or {}
+    T.MessageQueue[factionName] = nil
+    for _, messageInfo in pairs(messages) do
+        local _, message = T.CombatMessageFilter(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+        ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+    end
 end
 
 function T:FactionStandingChangeFromMessage(message)
@@ -177,7 +201,9 @@ function T:SystemMessageFilter(event, message, ...)
         factionID = GUILD_FACTION_ID
         factionName = GetGuildInfo("player")
     end
-            
+    
+    T:HandleQueuedMessages(factionName)
+    
     -- add to recents
     T.AddToRecents(factionID)
         
@@ -189,7 +215,6 @@ function T:SystemMessageFilter(event, message, ...)
     if T.Settings.MoveInactiveOnComplete then
         T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
     end
-    -- TODO queued message stuff from original version?
 
     -- output modified message according to settings
     if not T.Settings.ModifyChat then

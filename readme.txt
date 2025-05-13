@@ -25,7 +25,7 @@ FEATURES:
 		- Highlights item icons in the default UIs for loot, bag inventory, and bank / reagent bank / warband bank for reputation-related items.
 		- Adds extra shading to the reputation watch bar showing the total amount of reputation you can gain by turning in and/or using items in your bags or bank.
 		- Shows a tooltip on reputation bars summarizing how many reputation points are available, which items to turn in or use, and how many of those items are required for the estimated reputation gain.
-		- Accounts for seconday reputation gains from items -- for example, if an item or currency can be exchanged for another item that increases reputation.
+		- If an item or currency can be exchanged for another item that increases reputation, FactionFriend shows the amount of reputation to gain based on the quantity you have of the first item/currency.
 		
 	- Enhances the Character window's Reputation pane:
 		- A button to move all completed (exalted, max friendship, max renown) factions to Inactive
@@ -58,7 +58,6 @@ TODO for rewrite
 - places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - for potential gains on friendship faction, limit to just the next rank
 - check limiting for paragon, can you earn rep past reward
-- chat command?
 - rework localization keys?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 - BUG: off by one in counting items for turnin? (e.g. 20 fails to count as 2 turnins of 10, but 21 does)
@@ -66,18 +65,8 @@ TODO for rewrite
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
-	- Shadowlands -- needs investigate
-		https://www.wowhead.com/item=178591/ancient-venthyr-relic
-		https://www.wowhead.com/item=178588/fae-armaments
-		https://www.wowhead.com/item=178593/intricate-fae-groveweave
-		https://www.wowhead.com/item=178586/kyrian-armaments
-		https://www.wowhead.com/item=178587/maldraxxian-armaments
-		https://www.wowhead.com/item=178590/storied-maldraxxian-boneblade
-		https://www.wowhead.com/item=178592/venerable-kyrian-defender
-		https://www.wowhead.com/item=178589/venthyr-armaments
 	- Dragonflight
-		- renown quests for 1x, 5x, or 20x items actually do need separating so we count #turnins right?
-
+		- warbound versions of valdrakken, expedition, centaur, iskaara turnin items drop when at max renown? or is that gone now that renown is warband?
 	- Battle for azeroth
 		- honeyback hive? thin / rich / royal jelly
 		- investigate whether warbound versions of island expedition quest rewards still appear when exalted
@@ -106,17 +95,17 @@ New Features
 Other Improvements & Bug Fixes
 
 - Calculating potential reputation gains counts items in the reagent bank and warband bank, and warband transferable currency on other characters.
-- Added an setting to ignore potential reputation gain from buying items with Timewarped Badges, since the vendors offering such are available only during Timewalking events. (Also, the list of factions you can gain reputation with can get noisy, making it harder to see which factions you can improve without spending currency.)
+- Added an setting to ignore potential reputation gain from items purchasable only during certain time-limited recurring events: includes Timewarped Badge purchases (Timewalking / Turbulent Timeways events) and Riders of Azeroth Badge purchases (Skyriding Cup events). Since these cover a large number of factions, ignoring them reduces noise in the list of factions you can readily increase reputation with.
 - When gaining reputation with multiple factions at once, switches the reputation watch bar to whichever faction gained the most.
-- Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings.
+- Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings / friendship ranks.
 - Warlords of Draenor: Fixed a bug that prevented showing item tooltip info for Horde- or Alliance-only factions.
 - Cataclysm: Previously tracked Writs of Commendation for racial factions, but didn't track that they can be purchased with Marks of the World Tree; fixed.
 
 Content Updates
 
-- Timewalking: Commendations and Insignia purchaseable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions (in addition to Burning Crusade, Wrath of the Lich King, Cataclysm, and Mists of Pandaria commendations already tracked).
+- Timewalking: Commendations and Insignia purchasable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions (in addition to Burning Crusade, Wrath of the Lich King, Cataclysm, and Mists of Pandaria commendations already tracked).
 - The War Within: Severed Threads Commendation. (Is this the only item-based repeatable reputation gain this expansion so far? Let me know if you've found others!)
-- Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchaseable with Flightstones if somehow you still have any)
+- Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchasable with Flightstones if somehow you still have any)
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions 
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Mists of Pandaria: Hozen Peace Pipe
