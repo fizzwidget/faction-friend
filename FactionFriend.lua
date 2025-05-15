@@ -350,8 +350,8 @@ function T:FactionsForCleanup()
 	local factionIDs = {}
 	for index = 1, T.MAX_FACTIONS do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if data.factionID == 0 or data.name == FACTION_INACTIVE then break end
-		if T:FactionAtMaximum(data.factionID, data) and data.canSetInactive and data.factionID ~= GUILD_FACTION_ID then
+		if not data then break end
+		if data.canSetInactive and data.factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) and C_Reputation.IsFactionActive(index) then
 			tinsert(factionIDs, data.factionID)
 		end
 	end
