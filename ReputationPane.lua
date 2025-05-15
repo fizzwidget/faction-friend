@@ -160,7 +160,6 @@ function T.ReputationEntryShowParagonTooltip(entry)
     EmbeddedItemTooltip:Show()
 end
 
--- TODO position added content above instruction line?
 hooksecurefunc(ReputationEntryMixin, "ShowMajorFactionRenownTooltip", T.ReputationEntryShowStandardTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowParagonRewardsTooltip", T.ReputationEntryShowParagonTooltip)
 hooksecurefunc(ReputationEntryMixin, "ShowFriendshipReputationTooltip", T.ReputationEntryShowFriendshipTooltip)
