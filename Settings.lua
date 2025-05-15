@@ -1,98 +1,124 @@
 local addonName, T = ...
+T.SettingsUI = {}
+local S = T.SettingsUI
+local L = _G[addonName.."_Locale"]
 
+-- add setup factories for other settings control types as needed
 
-function T:SetupSettings()
-    local category, layout = Settings.RegisterVerticalLayoutCategory(T.Title)
-    local settingsTable = T.Settings
-    T.SettingsCategoryID = category:GetID()
-    
-    -- TODO: setup factories for other settings control types as needed
-    -- TODO: shorter label locale-lookup keys, derive tooltip key from label
-    local function Checkbox(settingKey, defaultValue, labelText, tooltipText, parentInit, onValueChanged)
-        local variable = addonName .. "_" .. settingKey
-        local setting = Settings.RegisterAddOnSetting(
-            category, 
-            variable, 
-            settingKey, 
-            settingsTable,
-            type(defaultValue), 
-            labelText, 
-            defaultValue
-        )
-        local init = Settings.CreateCheckbox(category, setting, tooltipText)
-        if parentInit then
-            init:Indent()
-            init:SetParentInitializer(parentInit)
-        end
-        if onValueChanged then
-            Settings.SetOnValueChangedCallback(variable, onValueChanged)
-        end
-        return init
+function S:Checkbox(settingKey, defaultValue, parentInit, onValueChanged)
+    local variable = addonName .. "_" .. settingKey
+    local labelText = L.Setting[settingKey]
+    local setting = Settings.RegisterAddOnSetting(
+        self.category, 
+        variable, 
+        settingKey, 
+        self.table,
+        type(defaultValue), 
+        labelText, 
+        defaultValue
+    )
+    local init = Settings.CreateCheckbox(self.category, setting, L.SettingTooltip[settingKey])
+    if parentInit then
+        init:Indent()
+        init:SetParentInitializer(parentInit)
     end
-
-    local function CheckboxDropdown(checkSettingKey, checkDefault, menuSettingKey, menuDefault, menuOptions, labelText, tooltipText)
-        local checkVariable = addonName .. "_" .. checkSettingKey
-        local checkSetting = Settings.RegisterAddOnSetting(
-            category, 
-            checkVariable, 
-            checkSettingKey, 
-            settingsTable,
-            type(checkDefault), 
-            labelText, 
-            checkDefault
-        )
-        local menuVariable = addonName .. "_" .. menuSettingKey
-        local menuSetting = Settings.RegisterAddOnSetting(
-            category,
-            menuVariable,
-            menuSettingKey,
-            settingsTable,
-            type(menuDefault),
-            labelText,
-            menuDefault
-        )
-        local initializer = CreateSettingsCheckboxDropdownInitializer(
-            checkSetting, labelText, tooltipText,
-            menuSetting, menuOptions, labelText, tooltipText
-        )
-        initializer:AddSearchTags(labelText, tooltipText)
-        return initializer
+    if onValueChanged then
+        Settings.SetOnValueChangedCallback(variable, onValueChanged)
     end
-    
-    Checkbox("Tooltip", true, FFF_OPTION_TOOLTIP, FFF_OPTION_TOOLTIP_TIP)
-    Checkbox("ModifyChat", true, FFF_OPTION_MODIFY_CHAT, FFF_OPTION_MODIFY_CHAT_TIP)
-    Checkbox("MoveInactiveOnComplete", false, FFF_OPTION_MOVE_EXALTED, FFF_OPTION_MOVE_EXALTED_TIP)
-    Checkbox("HighlightItems", true, FFF_OPTION_HIGHLIGHT_ITEMS, FFF_OPTION_HIGHLIGHT_ITEMS_TIP)
+    return init
+end
 
-    ------------------------------------------------------
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_POTENTIAL, FFF_OPTIONS_POTENTIAL_TIP))
-
-    Checkbox("IncludeTimewarped", false, FFF_OPTION_TIMEWARPED, FFF_OPTION_TIMEWARPED_TIP, nil, T.ReputationStatusBarUpdate)
-    Checkbox("ShowPotential", true, FFF_OPTION_SHOW_POTENTIAL, FFF_OPTION_SHOW_POTENTIAL_TIP, nil, T.ReputationStatusBarUpdate)
-    
-    ------------------------------------------------------
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_WATCHBAR, FFF_OPTIONS_WATCHBAR_TIP:format(MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL)))
-
-    local repGainParent = Checkbox("RepGained", true, FFF_OPTION_REP_GAINED, FFF_OPTION_REP_GAINED_TIP)
-    Checkbox("IncludeGuild", false, FFF_OPTION_GUILD_SWITCH, FFF_OPTION_GUILD_SWITCH_TIP, repGainParent)
-    Checkbox("IncludeBodyguards", true, FFF_OPTION_BODYGUARD_SWITCH, FFF_OPTION_BODYGUARD_SWITCH_TIP, repGainParent)
-    
-    local function MenuOptions(options)
+-- menuOptions: table of string -> value
+-- string: key for getting text/tooltip (and referencing the option value without magic numbers in other code)
+-- value: number or whatever to read/write for this settings option
+function S:CheckboxDropdown(checkSettingKey, checkDefault, menuSettingKey, menuDefault, menuOptions)
+    -- Blizz UI allows separate label/tooltip for the checkbox and dropdown but they always keep both same
+    -- we'll follow that by using the checkbox key to get the same label/tooltip text for both
+    local labelText = L.Setting[checkSettingKey]
+    local tooltipText = L.SettingTooltip[checkSettingKey]
+    local checkVariable = addonName .. "_" .. checkSettingKey
+    local checkSetting = Settings.RegisterAddOnSetting(
+        self.category, 
+        checkVariable, 
+        checkSettingKey, 
+        self.table,
+        type(checkDefault), 
+        labelText, 
+        checkDefault
+    )
+    local menuVariable = addonName .. "_" .. menuSettingKey
+    local menuSetting = Settings.RegisterAddOnSetting(
+        self.category, 
+        menuVariable,
+        menuSettingKey,
+        self.table,
+        type(menuDefault),
+        labelText,
+        menuDefault
+    )
+    local function Menu(options)
+        -- invert the table so we can put the menu in value order
+        local keysForValues = {}
+        for key, value in pairs(menuOptions) do
+            keysForValues[value] = key
+        end
+        
         local container = Settings.CreateControlTextContainer()
-        container:Add(T.MenuSetting.Both, FFF_OPTION_MENU_FULL_RECENT, FFF_OPTION_MENU_FULL_RECENT_TIP)
-        container:Add(T.MenuSetting.Recent, FFF_OPTION_MENU_RECENT, FFF_OPTION_MENU_RECENT_TIP)
-        container:Add(T.MenuSetting.List, FFF_OPTION_MENU_FULL, FFF_OPTION_MENU_FULL_TIP)
-        container:Add(T.MenuSetting.None, FFF_OPTION_MENU_NONE, FFF_OPTION_MENU_NONE_TIP)
+        local descending = function(a,b) return a > b end
+        for value, key in GFWTable.PairsByKeys(keysForValues, descending) do
+            container:Add(value, L.Setting[menuSettingKey.."_"..key], L.SettingTooltip[menuSettingKey.."_"..key])
+        end
         return container:GetData()
     end
-    layout:AddInitializer(CheckboxDropdown("EnableMenu", true, "MenuContent", T.MenuSetting.Both, MenuOptions, FFF_OPTION_ENABLE_MENU, FFF_OPTION_ENABLE_MENU_TIP))
+    local initializer = CreateSettingsCheckboxDropdownInitializer(
+        checkSetting, labelText, tooltipText,
+        menuSetting, Menu, labelText, tooltipText
+    )
+    initializer:AddSearchTags(labelText, tooltipText)
+    self.layout:AddInitializer(initializer)
+end
+
+function S:SectionHeader(stringKey)
+    local title, tooltip = L.Setting[stringKey], L.SettingTooltip[stringKey]
+    self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(title, tooltip))
+end
+
+function S:Initialize()
+    self.category, self.layout = Settings.RegisterVerticalLayoutCategory(T.Title)
+    self.table = T.Settings
+    T.SettingsCategoryID = self.category:GetID()
+    
+    -- finish localized strings that need formatting
+    L.SettingTooltip.Heading_Watchbar = L.SettingTooltip.Heading_Watchbar:format(MAJOR_FACTION_WATCH_FACTION_BUTTON_LABEL)
+
+    
+    
+    self:Checkbox("Tooltip", true)
+    self:Checkbox("ModifyChat", true)
+    self:Checkbox("CleanUpOnComplete", false)
+    self:Checkbox("HighlightItems", true)
 
     ------------------------------------------------------
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(FFF_OPTIONS_REP_PANE, FFF_OPTIONS_REP_PANE_TIP))
-    
-    Checkbox("AddRepPaneControls", true, FFF_OPTION_ADD_CONTROLS, FFF_OPTION_ADD_CONTROLS_TIP, nil, T.UpdateReputationPaneControls)
-    Checkbox("HighlightFactions", true, FFF_OPTION_HIGHLIGHT, FFF_OPTION_HIGHLIGHT_TIP)
+    self:SectionHeader("Heading_Potential")
 
-    Settings.RegisterAddOnCategory(category)
+    self:Checkbox("IncludeTimewarped", false, nil, T.ReputationStatusBarUpdate)
+    self:Checkbox("ShowPotential", true, nil, T.ReputationStatusBarUpdate)
+    
+    ------------------------------------------------------
+    self:SectionHeader("Heading_Watchbar")
+
+    local repGainParent = self:Checkbox("RepGained", true)
+    self:Checkbox("IncludeGuild", false, repGainParent)
+    self:Checkbox("IncludeBodyguards", true, repGainParent)
+    
+    self:CheckboxDropdown("EnableMenu", true, "MenuContent", T.MenuSetting.Both, T.MenuSetting)
+
+    ------------------------------------------------------
+    self:SectionHeader("Heading_RepPane")
+    
+    self:Checkbox("AddRepPaneControls", true, nil, T.UpdateReputationPaneControls)
+    self:Checkbox("HighlightFactions", true)
+
+    Settings.RegisterAddOnCategory(self.category)
 
 end

@@ -111,7 +111,7 @@ function T:CombatMessageFilter(event, message, ...)
     local factionData = C_Reputation.GetFactionDataByID(factionID)
     local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
 
-    if T.Settings.MoveInactiveOnComplete then
+    if T.Settings.CleanUpOnComplete then
         T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
     end
     
@@ -212,7 +212,7 @@ function T:SystemMessageFilter(event, message, ...)
     local factionData = C_Reputation.GetFactionDataByID(factionID)
     local friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
 
-    if T.Settings.MoveInactiveOnComplete then
+    if T.Settings.CleanUpOnComplete then
         T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
     end
 

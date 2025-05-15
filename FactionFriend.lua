@@ -540,7 +540,7 @@ function Events:ADDON_LOADED(addon, ...)
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.SetWatchedFactionByIndex)
 
 		T:SetupWatchBarOverlays()
-		T:SetupSettings()
+		T.SettingsUI:Initialize()
 		
 		T:PrecacheItems()
 		
