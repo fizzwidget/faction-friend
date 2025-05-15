@@ -58,7 +58,6 @@ TODO for rewrite
 - places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - for potential gains on friendship faction, limit to just the next rank
 - check limiting for paragon, can you earn rep past reward
-- rework localization keys?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 - BUG: off by one in counting items for turnin? (e.g. 20 fails to count as 2 turnins of 10, but 21 does)
 
@@ -118,7 +117,7 @@ Legacy
 	- Customizing the color of reputation bars (caused taint errors, no longer works with some bars)
 	
 - Some changes have disrupted existing localizations:
-	- New Settings UI may truncate settings text
+	- Settings UI completely revamped; removed old localization strings taht are no longer valid
 	- Many new or changed text strings not localized
 	- If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend
 

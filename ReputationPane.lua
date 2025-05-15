@@ -1,4 +1,5 @@
 local addonName, T = ...
+local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
 -- Utilities
@@ -183,12 +184,12 @@ end
 
 function ExpandCollapse:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_TOP")
-    GameTooltip_SetTitle(GameTooltip, self.expand and FFF_EXPAND_ALL or FFF_COLLAPSE_ALL)
+    GameTooltip_SetTitle(GameTooltip, self.expand and L.ExpandAll or L.CollapseAll)
     if self.expand then
-        GameTooltip_AddInstructionLine(GameTooltip, FFF_EXPAND_SUBHEADERS_HINT:format(GetBindingText("ALT")))
-        GameTooltip_AddInstructionLine(GameTooltip, FFF_EXPAND_INACTIVE_HINT:format(GetBindingText("CTRL")))
+        GameTooltip_AddInstructionLine(GameTooltip, L.ExpandSubheaders:format(GetBindingText("ALT")))
+        GameTooltip_AddInstructionLine(GameTooltip, L.ExpandInactive:format(GetBindingText("CTRL")))
     else
-        GameTooltip_AddInstructionLine(GameTooltip, FFF_COLLAPSE_SUBHEADERS_HINT:format(GetBindingText("ALT")))
+        GameTooltip_AddInstructionLine(GameTooltip, L.CollapseSubheaders:format(GetBindingText("ALT")))
     end
     GameTooltip:Show()
 end
@@ -400,13 +401,13 @@ function T:SetupReputationPane()
     T.CleanupButton = CreateFrame("Button", nil, ReputationFrame, "BankAutoSortButtonTemplate")
     T.CleanupButton:SetScript("OnEnter", function(frame)
         GameTooltip:SetOwner(frame)
-        GameTooltip_SetTitle(GameTooltip, FFF_CLEAN_UP_FACTIONS)
-        GameTooltip_AddColoredLine(GameTooltip, FFF_CLEAN_UP_FACTIONS_TIP, GRAY_FONT_COLOR)
+        GameTooltip_SetTitle(GameTooltip, L.CleanUpButtonLabel)
+        GameTooltip_AddColoredLine(GameTooltip, L.CleanUpButtonTip, GRAY_FONT_COLOR)
         
         local factions = T:FactionsForCleanup()
         if #factions > 0 then
             GameTooltip_AddBlankLineToTooltip(GameTooltip)
-            local header = FFF_CLEAN_UP_FACTIONS_LIST:format(#factions)
+            local header = L.CleanUpSummary:format(#factions)
             GameTooltip_AddColoredLine(GameTooltip, header, NORMAL_FONT_COLOR)
             for _, factionID in pairs(factions) do
                 local factionData = C_Reputation.GetFactionDataByID(factionID)

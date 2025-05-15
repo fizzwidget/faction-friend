@@ -1,5 +1,6 @@
 local addonName, T = ...
 local DB = _G[addonName.."_DB"]
+local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
 -- Utilities
@@ -75,7 +76,7 @@ function T:GetRankInfo(factionID, factionData, friendshipData)
         if friendshipData.nextThreshold then
             info.nextRankValue = friendshipData.nextThreshold - info.floorValue
             info.nextRank = min(info.currentRank + 1, info.maxRank)
-            info.nextRankName = FFF_NEXT_RANK -- can't get ranks for friendships
+            info.nextRankName = L.NextRank -- can't get ranks for friendships
         end
         info.capValue = friendshipData.maxRep
 
@@ -92,7 +93,7 @@ function T:GetRankInfo(factionID, factionData, friendshipData)
         end
         info.nextRankValue = paragonThreshold
         info.nextRank = 1 -- ?
-        info.nextRankName = FFF_PARAGON_REWARD
+        info.nextRankName = L.ParagonReward
         info.capValue = paragonThreshold * 2 -- ?
         
     elseif C_Reputation.IsMajorFaction(factionID) then
@@ -208,7 +209,7 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
         else
             local newValue = potentialTotal - rankData.floorValue
             local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
-            text = FFF_STANDING_VALUES:format(friendshipData.reaction, newValue, maxValue)
+            text = L.RankWithValues:format(friendshipData.reaction, newValue, maxValue)
         end
         color = FACTION_BAR_COLORS[5] -- friendship is always green
 
@@ -221,7 +222,7 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
             local newValue = potentialTotal - rankData.floorValue
             local maxValue = rankData.nextRankValue and rankData.nextRankValue or (rankData.capValue - rankData.floorValue)
             text = T:StandingText(factionID, false, factionData)
-            text = FFF_STANDING_VALUES:format(text, newValue, maxValue)
+            text = L.RankWithValues:format(text, newValue, maxValue)
         end
         -- TODO switch color for standard+paragon, major+paragon
         color = FACTION_BAR_COLORS[MAX_REPUTATION_REACTION]
@@ -229,7 +230,7 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
     elseif rankData.type == "major" then
         local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential)
         text = RENOWN_LEVEL_LABEL:format(potentialRank)
-        text = FFF_STANDING_VALUES:format(text, pointsInto, MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
+        text = L.RankWithValues:format(text, pointsInto, MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
         color = BLUE_FONT_COLOR
 
     else -- standard
@@ -238,7 +239,7 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
         color = FACTION_BAR_COLORS[potentialRank]
         
         if potentialRank < MAX_REPUTATION_REACTION then
-            text = FFF_STANDING_VALUES:format(text, pointsInto, localMax)
+            text = L.RankWithValues:format(text, pointsInto, localMax)
         end
 
     end
@@ -258,7 +259,7 @@ function T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipDa
     if not skipInitialPadding then
         GameTooltip_AddBlankLineToTooltip(tooltip)
     end
-    GameTooltip_AddNormalLine(tooltip, FFF_REPUTATION_TICK_TOOLTIP:format(potential))
+    GameTooltip_AddNormalLine(tooltip, L.TotalPotentialLabel:format(potential))
     
     for _, reportLine in pairs(reportLines) do
         for reportHeader, itemLines in pairs(reportLine) do
@@ -275,7 +276,7 @@ function T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipDa
     
     local text, color = T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
 
-    GameTooltip_AddColoredDoubleLine(tooltip, FFF_AFTER_TURNINS_LABEL, text, HIGHLIGHT_FONT_COLOR, color)
+    GameTooltip_AddColoredDoubleLine(tooltip, L.AfterTurninsLabel, text, HIGHLIGHT_FONT_COLOR, color)
 end
 
 ------------------------------------------------------
@@ -292,7 +293,7 @@ function FFF_PrintReport(factionID)
     local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
     
     print(factionData.name, standingText)
-    print(FFF_REPUTATION_TICK_TOOLTIP:format(potential))
+    print(L.TotalPotentialLabel:format(potential))
     
     for _, reportLine in pairs(reportLines) do
         for reportHeader, itemLines in pairs(reportLine) do
@@ -308,7 +309,7 @@ function FFF_PrintReport(factionID)
     
     local afterTurnins = T:AfterTurninsText(potential, factionID, factionData, friendshipData, rankData)
     
-    print(FFF_AFTER_TURNINS_LABEL, afterTurnins)
+    print(L.AfterTurninsLabel, afterTurnins)
 end
 
 -- more debug
@@ -480,30 +481,30 @@ function PG:CountCreatedItems(questCreates, numTurnins)
     end
     if not createdItemLink then
         -- have something other than nil if we fail to load link
-        createdItemLink = FFF_UNKNOWN_ITEM:format(createdID)
+        createdItemLink = L.L.ReportLineItem:format(createdID)
     end
     return createdItemLink
 end
 
 function PG:ItemTurninReport(itemID, itemLink, numTurnins, qtyPerTurnin, purchased)
     local itemsForTurnin = numTurnins * qtyPerTurnin
-    local lineItem = FFF_REPORT_LINE_ITEM:format(itemsForTurnin, itemLink)
+    local lineItem = L.ReportLineItem:format(itemsForTurnin, itemLink)
     local inBags, inBank, inReagents, inWarband = T:ItemCount(itemID)
     local totalCount = inBags + inBank + inReagents + inWarband
     
     local lineItemAdditions = {}
     if inBank > 0 and inBags < itemsForTurnin then
-        tinsert(lineItemAdditions, FFF_COUNT_IN_BANK:format(min(inBank, itemsForTurnin)))
+        tinsert(lineItemAdditions, L.CountInBank:format(min(inBank, itemsForTurnin)))
     end
     if inReagents > 0 and inBags < itemsForTurnin then
-        tinsert(lineItemAdditions, FFF_COUNT_IN_REAGENTS:format(min(inReagents, itemsForTurnin)))
+        tinsert(lineItemAdditions, L.CountInReagents:format(min(inReagents, itemsForTurnin)))
     end
     if inWarband > 0 and inBags < itemsForTurnin then
-        tinsert(lineItemAdditions, FFF_COUNT_IN_WARBAND:format(min(inWarband, itemsForTurnin)))
+        tinsert(lineItemAdditions, L.CountInWarband:format(min(inWarband, itemsForTurnin)))
     end
     local created = self.itemsCreated[itemID]
-    local allText = purchased and FFF_ALL_PURCHASED or FFF_ALL_CREATED
-    local countText = purchased and FFF_COUNT_PURCHASED or FFF_COUNT_CREATED
+    local allText = purchased and L.AllPurchased or L.AllCreated
+    local countText = purchased and L.CountPurchased or L.CountCreated
     if created and inBank == 0 and created == itemsForTurnin then
         tinsert(lineItemAdditions, allText)
     elseif created and created > 0 and totalCount < itemsForTurnin then
@@ -519,14 +520,14 @@ end
 function PG:CompleteQuestReport(potentialValue, numTurnins, useItem, createdItemLink)
     local reportLineHeader
     if potentialValue > 0 then
-        reportLineHeader = FFF_REPORT_NUM_POINTS:format(potentialValue)
+        reportLineHeader = L.ReportPoints:format(potentialValue)
         if numTurnins > 1 and not useItem then
-            reportLineHeader = reportLineHeader  ..GRAY_FONT_COLOR:WrapTextInColorCode(FFF_REPORT_NUM_TURNINS:format(numTurnins))
+            reportLineHeader = reportLineHeader  ..GRAY_FONT_COLOR:WrapTextInColorCode(L.ReportNumTurnins:format(numTurnins))
         end
         return reportLineHeader ..":"
     elseif potentialValue == 0 and numTurnins > 0 then
         -- this represents a purchase
-        reportLineHeader = FFF_REPORT_PURCHASE:format(numTurnins, createdItemLink)
+        reportLineHeader = L.ReportPurchase:format(numTurnins, createdItemLink)
         return reportLineHeader ..":"
     end
 end

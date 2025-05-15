@@ -1,5 +1,6 @@
 local addonName, T = ...
 local DB = _G[addonName.."_DB"]
+local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
 -- Message filter for reputation / standing change
@@ -250,11 +251,11 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
     if isFriendship then
         local isMaxRank = friendshipData.nextThreshold == nil
         if isMaxRank then
-            return FFF_AT_MAXIMUM
+            return L.AtMaximum
         else
             maxValue = friendshipData.nextThreshold
             currentValue = friendshipData.standing
-            nextStatusName = FFF_NEXT_RANK -- can't get next name for friendships
+            nextStatusName = L.NextRank -- can't get next name for friendships
         end
     elseif C_Reputation.IsMajorFaction(factionID) then
         local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
@@ -263,7 +264,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
         maxValue = majorFactionData.renownLevelThreshold
 
         if C_MajorFactions.HasMaximumRenown(factionID) then
-            nextStatusName = FFF_MAXIMUM
+            nextStatusName = L.Maximum
         else 
             nextStatusName = RENOWN_LEVEL_LABEL:format(majorFactionData.renownLevel + 1)
         end
@@ -284,9 +285,9 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
             if hasRewardPending then
                 currentValue = currentValue + threshold
             end
-            nextStatusName = FFF_PARAGON_REWARD
+            nextStatusName = L.ParagonReward
         elseif isCapped then
-            return FFF_AT_MAXIMUM
+            return L.AtMaximum
         else
             maxValue = factionData.nextReactionThreshold
             currentValue = factionData.currentStanding
@@ -300,7 +301,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
     
     local repToNext = maxValue - currentValue
     local gainsToNext = repToNext / amount
-    local message = format(FFF_REPEAT_TURNINS, gainsToNext, nextStatusName)
+    local message = format(L.RepeatTurnins, gainsToNext, nextStatusName)
     
     return message
 end

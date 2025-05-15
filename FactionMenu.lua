@@ -1,5 +1,5 @@
 local addonName, T = ...
--- local DB = _G[addonName.."_DB"]
+local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
 -- Utilities
@@ -25,17 +25,17 @@ function T.ShowFactionMenu(frame)
             T.CreateRecentsMenu(root)
         end
                 
-        local repPaneButton = root:CreateButton(FFF_SHOW_REPUTATION_PANE, T.MenuShowReputationOnClick)
+        local repPaneButton = root:CreateButton(L.ShowReputation, T.MenuShowReputationOnClick)
         repPaneButton:SetEnabled(function()
             return not InCombatLockdown() 
         end)
         repPaneButton:SetTooltip(function(tooltip, element) 
             if InCombatLockdown() then
-                GameTooltip_SetTitle(tooltip, FFF_TOOLTIP_DONT_CLICK)
+                GameTooltip_SetTitle(tooltip, L.NoClickInCombat)
             end
         end)
         
-        local settingsButton = root:CreateButton(FFF_SHOW_OPTIONS, T.MenuShowSettingsOnClick)
+        local settingsButton = root:CreateButton(L.ShowSettings, T.MenuShowSettingsOnClick)
         settingsButton:AddInitializer(function(frame, description, menu)
             frame.fontString2 = frame:AttachFontString()
             frame.fontString2:SetPoint("RIGHT")
@@ -146,7 +146,7 @@ end
 
 function T.CreateRecentsMenu(root)
     if #T.Recents > 0 then
-        root:CreateTitle(FFF_RECENT_FACTIONS)
+        root:CreateTitle(L.RecentFactions)
     end
     for index, factionID in pairs(T.Recents) do
         local factionData = C_Reputation.GetFactionDataByID(factionID)

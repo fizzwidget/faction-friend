@@ -16,30 +16,34 @@ local S = Locale.Setting
 local T = Locale.SettingTooltip
 ------------------------------------------------------
 
-FFF_UNKNOWN_ITEM				= "(Item #%d)"
-FFF_REPUTATION_TICK_TOOLTIP		= "%d reputation points available:"
-FFF_AFTER_TURNINS_LABEL			= "After turnins:"
-FFF_STANDING_VALUES 			= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
+L.RankWithValues 		= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
 
-FFF_FACTION_STANDING			= "%s (%s)" -- e.g. "Ratchet (Neutral)"
-FFF_REPEAT_TURNINS				= "(%.1f more times to %s.)"
-FFF_MAXIMUM						= "maximum"
-FFF_NEXT_RANK					= "next rank"
-FFF_PARAGON_REWARD				= "reward"
-FFF_AT_MAXIMUM					= "(At maximum.)"
-FFF_TOOLTIP_CLICK_FOR_DETAILS	= "<Click to view details>"
-FFF_TOOLTIP_DONT_CLICK			= "<Unavailable while in combat>"
-FFF_REPORT_LINE_ITEM			= "%dx %s"				-- C in example below
-FFF_REPORT_NUM_TURNINS			= " (%d turnins)"		-- B in example below
-FFF_REPORT_NUM_POINTS			= "%d points"			-- A in example below
-FFF_COUNT_IN_BANK				= "%d in bank"			-- D in example below
-FFF_COUNT_IN_REAGENTS			= "%d in reagent bank"	-- D in example below
-FFF_COUNT_IN_WARBAND			= "%d in warband"		-- D in example below
-FFF_COUNT_CREATED				= "%d from turnins"		-- E in example below
-FFF_ALL_CREATED					= "from turnins"		-- F in example below
-FFF_REPORT_PURCHASE				= "Buy %dx %s"
-FFF_COUNT_PURCHASED				= "%d purchased"
-FFF_ALL_PURCHASED				= "purchased" 
+-- Chat message repeat gains estimate
+L.RepeatTurnins			= "(%.1f more times to %s.)"
+L.Maximum				= "maximum"
+L.NextRank				= "next rank"
+L.ParagonReward			= "reward"
+L.AtMaximum				= "(At maximum.)"
+
+-- HoverTips faction tooltip integration
+L.ClickForDetails		= "<Click to view details>"
+L.NoClickInCombat		= "<Unavailable while in combat>"
+
+-- Potential gains report in faction tooltips
+L.UnknownItem			= "(Item #%d)"
+L.TotalPotentialLabel	= "%d reputation points available:"
+L.AfterTurninsLabel		= "After turnins:"
+L.ReportLineItem		= "%dx %s"				-- C in example below
+L.ReportNumTurnins		= " (%d turnins)"		-- B in example below
+L.ReportPoints			= "%d points"			-- A in example below
+L.CountInBank			= "%d in bank"			-- D in example below
+L.CountInReagents		= "%d in reagent bank"	-- D in example below
+L.CountInWarband		= "%d in warband"		-- D in example below
+L.CountCreated			= "%d from turnins"		-- E in example below
+L.AllCreated			= "from turnins"		-- F in example below
+L.ReportPurchase		= "Buy %dx %s"
+L.CountPurchased		= "%d purchased"
+L.AllPurchased			= "purchased" 
 
 -- example 1:
 --	100 points (2 turnins):		20x [Invader's Scourgestone] (13 in bank)
@@ -53,22 +57,22 @@ FFF_ALL_PURCHASED				= "purchased"
 --  |---A----|		|------------C----------|  |----F-----|
 
 -- Item Tooltip
-FFF_FACTION_TURNIN				= "Reputation turnin for"
+L.TurninForFaction		= "Reputation turnin for"
 
 -- ReputationWatchBar menu
-FFF_RECENT_FACTIONS				= "Recent factions"
-FFF_SHOW_REPUTATION_PANE		= "Show Reputation Pane"
-FFF_SHOW_OPTIONS				= "Show FactionFriend Settings"
+L.RecentFactions		= "Recent factions"
+L.ShowReputation		= "Show Reputation Pane"
+L.ShowSettings			= "Show FactionFriend Settings"
 
 -- Reputation frame additions
-FFF_EXPAND_ALL					= "Expand All Headers"
-FFF_COLLAPSE_ALL				= "Collapse All Headers"
-FFF_EXPAND_SUBHEADERS_HINT		= "<Hold %s to expand subheaders>"
-FFF_COLLAPSE_SUBHEADERS_HINT	= "<Hold %s to collapse subheaders>"
-FFF_EXPAND_INACTIVE_HINT		= "<Hold %s to expand Inactive>"
-FFF_CLEAN_UP_FACTIONS			= "Clean Up Completed Factions"
-FFF_CLEAN_UP_FACTIONS_TIP		= "Moves factions with maximum reputation to Inactive"
-FFF_CLEAN_UP_FACTIONS_LIST		= "%d factions to clean up:"
+L.ExpandAll				= "Expand All Headers"
+L.CollapseAll			= "Collapse All Headers"
+L.ExpandSubheaders		= "<Hold %s to expand subheaders>"
+L.CollapseSubheaders	= "<Hold %s to collapse subheaders>"
+L.ExpandInactive		= "<Hold %s to expand Inactive>"
+L.CleanUpButtonLabel	= "Clean Up Completed Factions"
+L.CleanUpButtonTip		= "Moves factions with maximum reputation to Inactive"
+L.CleanUpSummary		= "%d factions to clean up:"
 
 
 -- Settings panel
@@ -123,24 +127,24 @@ T.MenuContent_None		= "Shows only commands."
 
 if (GetLocale() == "deDE") then
 	
-FFF_UNKNOWN_ITEM				= "(Unbekannter Gegenstand #%d)"
-FFF_REPUTATION_TICK_TOOLTIP		= "%d Rufpunkte möglich:"
-FFF_AFTER_TURNINS_LABEL			= "Nach Abgabe:"
-FFF_AFTER_TURNINS_INFO			= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
+L.UnknownItem			= "(Unbekannter Gegenstand #%d)"
+L.TotalPotentialLabel	= "%d Rufpunkte möglich:"
+L.AfterTurninsLabel		= "Nach Abgabe:"
+L.RankWithValues		= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
 
-FFF_REPORT_LINE_ITEM			= "%dx %s"				-- C in example below
-FFF_REPORT_NUM_TURNINS			= " (%d Abgaben)"		-- B in example below
-FFF_REPORT_NUM_POINTS			= "%d Punkte"			-- A in example below 
-FFF_COUNT_IN_BANK				= " (%d auf der Bank)"	-- D in example below
-FFF_COUNT_CREATED				= "%d von Abgaben"		-- E in example below
-FFF_ALL_CREATED					= "von Abgaben"			-- F in example below
+L.ReportLineItem		= "%dx %s"				-- C in example below
+L.ReportNumTurnins		= " (%d Abgaben)"		-- B in example below
+L.ReportPoints			= "%d Punkte"			-- A in example below 
+L.CountInBank			= " (%d auf der Bank)"	-- D in example below
+L.CountCreated			= "%d von Abgaben"		-- E in example below
+L.AllCreated			= "von Abgaben"			-- F in example below
 
 -- Item Tooltip
-FFF_FACTION_TURNIN				= "Ruf-Abgabe für"
+L.TurninForFaction		= "Ruf-Abgabe für"
 
 -- ReputationWatchBar menu
-FFF_SHOW_REPUTATION_PANE		= "Zeige Ruf Balken"
-FFF_SHOW_OPTIONS				= "Zeige FactionFriend Optionen"
+L.ShowReputation		= "Zeige Ruf Balken"
+L.ShowSettings			= "Zeige FactionFriend Optionen"
 
 end
 
@@ -148,40 +152,38 @@ end
 
 if (GetLocale() == "frFR") then
 
-FFF_UNKNOWN_ITEM					= "(Objet inconnu #%d)"
-FFF_REPUTATION_TICK_TOOLTIP			= "%d points de réputation disponibles:"
-FFF_AFTER_TURNINS_LABEL				= "Après retour:"
-FFF_AFTER_TURNINS_INFO				= "%s (%d/%d)"
-FFF_REPEAT_TURNINS					= "(%.1f gains équivalents pour atteindre le rang %s.)"
-FFF_MAXIMUM							= "maximum";
-FFF_NEXT_RANK						= "suivant"
+L.UnknownItem			= "(Objet inconnu #%d)"
+L.TotalPotentialLabel	= "%d points de réputation disponibles:"
+L.AfterTurninsLabel		= "Après retour:"
+L.RankWithValues		= "%s (%d/%d)"
+L.RepeatTurnins			= "(%.1f gains équivalents pour atteindre le rang %s.)"
+L.Maximum				= "maximum";
+L.NextRank				= "suivant"
 
-FFF_REPORT_LINE_ITEM				= "%dx %s"
-FFF_REPORT_NUM_TURNINS				= " (%d retours)"
-FFF_REPORT_NUM_POINTS				= "%d points"
-FFF_COUNT_IN_BANK					= "%d en banque"
-FFF_COUNT_CREATED					= "%d en retour"
-FFF_ALL_CREATED						= "en retour"
-FFF_REPORT_PURCHASE					= "Achat %dx %s avec"
-FFF_COUNT_PURCHASED					= "%d acheté"
-FFF_ALL_PURCHASED					= "acheté" 
+L.ReportLineItem		= "%dx %s"
+L.ReportNumTurnins		= " (%d retours)"
+L.ReportPoints			= "%d points"
+L.CountInBank			= "%d en banque"
+L.CountCreated			= "%d en retour"
+L.AllCreated			= "en retour"
+L.ReportPurchase		= "Achat %dx %s avec"
+L.CountPurchased		= "%d acheté"
+L.AllPurchased			= "acheté" 
 
 -- Item Tooltip
-FFF_FACTION_TURNIN					= "Gain de réputation envers"
+L.TurninForFaction		= "Gain de réputation envers"
 
 -- ReputationWatchBar menu
 
-FFF_RECENT_FACTIONS					= "Dernières factions affichées"
-FFF_SHOW_REPUTATION_PANE			= "Affiche l'onglet des réputations"
-FFF_SHOW_OPTIONS					= "Options de FactionFriend"
+L.RecentFactions		= "Dernières factions affichées"
+L.ShowReputation		= "Affiche l'onglet des réputations"
+L.ShowSettings			= "Options de FactionFriend"
 
 end
 
 ------------------------------------------------------
 
 if (GetLocale() == "esES" or GetLocale() == "esMX") then
-
--- FFF_OPTION_NO_BODYGUARD_AUTOSWITCH   = "No cambie de barras para la reputación guardaespaldas"
 
 -- localizers: copy the rest from enUS at the top
 	
@@ -191,8 +193,6 @@ end
 
 if (GetLocale() == "ptBR") then
 
--- FFF_OPTION_NO_BODYGUARD_AUTOSWITCH 			= "Não ligue bar para a reputação guarda-costas"
-
 -- localizers: copy the rest from enUS at the top
 
 end
@@ -200,8 +200,6 @@ end
 ------------------------------------------------------
 
 if (GetLocale() == "ruRU") then
-
--- FFF_OPTION_NO_BODYGUARD_AUTOSWITCH 			= "Не включайте планку для телохранителя репутации"
 
 -- localizers: copy the rest from enUS at the top
 

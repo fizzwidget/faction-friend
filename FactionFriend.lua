@@ -5,6 +5,7 @@ local addonName, T = ...
 _G[addonName] = T
 
 local DB = _G[addonName.."_DB"]
+local L = _G[addonName.."_Locale"].Text
 
 T.Title = C_AddOns.GetAddOnMetadata(addonName, "Title")
 T.Version = C_AddOns.GetAddOnMetadata(addonName, "Version")
@@ -182,9 +183,9 @@ function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstru
 	if showHyperlinkInstructions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
 		if InCombatLockdown() then
-			GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_DONT_CLICK)
+			GameTooltip_AddInstructionLine(GameTooltip, L.NoClickInCombat)
 		else
-			GameTooltip_AddInstructionLine(GameTooltip, FFF_TOOLTIP_CLICK_FOR_DETAILS)
+			GameTooltip_AddInstructionLine(GameTooltip, L.ClickForDetails)
 		end
 	end
 	
@@ -235,7 +236,7 @@ function T:StandingText(factionID, includePoints, factionData, friendshipData)
 		if includePoints and friendshipData.nextThreshold then -- not maxed
 			local current = friendshipData.standing - friendshipData.reactionThreshold
 			local max = friendshipData.nextThreshold - friendshipData.reactionThreshold
-			reactionText = FFF_STANDING_VALUES:format(reactionText, current, max)
+			reactionText = L.RankWithValues:format(reactionText, current, max)
 		end
 
 		-- friendship is always green 
@@ -251,7 +252,7 @@ function T:StandingText(factionID, includePoints, factionData, friendshipData)
 			-- no need to check if maxed out because max renown isn't a separate standing?
 			local current = majorFactionData.renownReputationEarned
 			local max = majorFactionData.renownLevelThreshold
-			renownText = FFF_STANDING_VALUES:format(renownText, current, max)
+			renownText = L.RankWithValues:format(renownText, current, max)
 		end
 					
 		return renownText, BLUE_FONT_COLOR
@@ -266,7 +267,7 @@ function T:StandingText(factionID, includePoints, factionData, friendshipData)
 			
 			local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
 			if not isCapped then
-				standingText = FFF_STANDING_VALUES:format(standingText, current, max)
+				standingText = L.RankWithValues:format(standingText, current, max)
 			end
 		end
 
@@ -625,7 +626,7 @@ function T:TooltipAddItemInfo(tooltip, itemID)
 		
 		if firstLine then
 			GameTooltip_AddBlankLineToTooltip(GameTooltip)
-			GameTooltip_AddNormalLine(tooltip, FFF_FACTION_TURNIN)
+			GameTooltip_AddNormalLine(tooltip, L.TurninForFaction)
 			firstLine = false
 		end
 		GameTooltip_AddColoredDoubleLine(tooltip, factionData.name, standingText, HIGHLIGHT_FONT_COLOR, color)
