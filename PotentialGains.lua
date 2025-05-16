@@ -481,7 +481,7 @@ function PG:CountCreatedItems(questCreates, numTurnins)
     end
     if not createdItemLink then
         -- have something other than nil if we fail to load link
-        createdItemLink = L.L.ReportLineItem:format(createdID)
+        createdItemLink = L.UnknownItem:format(createdID)
     end
     return createdItemLink
 end
