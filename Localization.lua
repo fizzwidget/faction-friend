@@ -19,7 +19,7 @@ local T = Locale.SettingTooltip
 L.RankWithValues 		= "%s (%d/%d)"			-- e.g. "Friendly (2150/6000)"
 
 -- Chat message repeat gains estimate
-L.RepeatTurnins			= "(%.1f more times to %s.)"
+L.RepeatTurnins			= "(%d more times to %s.)"
 L.Maximum				= "maximum"
 L.NextRank				= "next rank"
 L.ParagonReward			= "reward"
@@ -156,7 +156,7 @@ L.UnknownItem			= "(Objet inconnu #%d)"
 L.TotalPotentialLabel	= "%d points de réputation disponibles:"
 L.AfterTurninsLabel		= "Après retour:"
 L.RankWithValues		= "%s (%d/%d)"
-L.RepeatTurnins			= "(%.1f gains équivalents pour atteindre le rang %s.)"
+L.RepeatTurnins			= "(%d gains équivalents pour atteindre le rang %s.)"
 L.Maximum				= "maximum";
 L.NextRank				= "suivant"
 

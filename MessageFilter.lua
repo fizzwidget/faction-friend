@@ -300,7 +300,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
     end
     
     local repToNext = maxValue - currentValue
-    local gainsToNext = repToNext / amount
+    local gainsToNext = ceil(repToNext / amount)
     local message = format(L.RepeatTurnins, gainsToNext, nextStatusName)
     
     return message
