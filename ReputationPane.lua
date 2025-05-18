@@ -6,6 +6,7 @@ local L = _G[addonName.."_Locale"].Text
 ------------------------------------------------------
 
 function T:FindFaction(factionID)
+    -- TODO doesn't find inactive factions
     local factionIndex, headerID, subHeaderID, isTopLevelHeader
     for index = 1, C_Reputation.GetNumFactions() do
         local data = C_Reputation.GetFactionDataByIndex(index)
@@ -54,16 +55,16 @@ function T:ShowReputationPane(factionID, forceAll)
     local index, headerID, subHeaderID, isTopLevelHeader = T:FindFaction(factionID)
         
     -- for debug
-    local function name(id)
-        return id and C_Reputation.GetFactionDataByID(id).name
-    end
-    local function names(table)
-        local names = {}
-        for key in pairs(table) do
-            tinsert(names, name(key))
-        end
-        return names
-    end
+    -- local function name(id)
+    --     return id and C_Reputation.GetFactionDataByID(id).name
+    -- end
+    -- local function names(table)
+    --     local names = {}
+    --     for key in pairs(table) do
+    --         tinsert(names, name(key))
+    --     end
+    --     return names
+    -- end
 
     -- DevTools_Dump({faction = name(factionID), subHeader = name(subHeaderID), header = name(headerID)})
     
@@ -80,15 +81,15 @@ function T:ShowReputationPane(factionID, forceAll)
         collapsed[factionID] = nil
     end
     -- print("after:", strjoin(", ", unpack(names(collapsed))))
-
-    -- restore collapsed state
-    T:SetCollapsedFactionHeaders(collapsed)
     
     -- select the faction
     if not isTopLevelHeader then
         -- top level isn't normally selectable
         C_Reputation.SetSelectedFaction(index)
     end
+
+    -- restore collapsed state
+    T:SetCollapsedFactionHeaders(collapsed)
     
     -- update rep frame & show it if we can
     if not ReputationFrame:IsVisible() and InCombatLockdown() then
@@ -289,8 +290,8 @@ function T:SearchFactionList(searchText)
     local results = {}
     for index = 1, T.MAX_FACTIONS do
         local factionData = C_Reputation.GetFactionDataByIndex(index)
-        if not factionData or factionData.name == FACTION_INACTIVE then break end
-        if strmatch(strlower(factionData.name), text) then
+        if not factionData then break end
+        if C_Reputation.IsFactionActive(index) and strmatch(strlower(factionData.name), text) then
             tinsert(results, factionData)
         end
     end
