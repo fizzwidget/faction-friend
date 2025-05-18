@@ -50,16 +50,6 @@ local GUILD_FACTION_ID = 1168
 -- infinite loop protection; 366 known factions on wowhead as of patch 11.1
 T.MAX_FACTIONS = 600
 
-T.FactionIDForName = setmetatable({}, {__index = function(table, key)
-	for index = 1, T.MAX_FACTIONS do
-		local factionData = C_Reputation.GetFactionDataByIndex(index)
-		if not factionData then break end
-		if factionData.name == key then
-			return factionData.factionID
-		end
-	end
-end})
-
 function T:FactionIndexForID(factionID)
 	for index = 1, T.MAX_FACTIONS do
 		local factionData = C_Reputation.GetFactionDataByIndex(index)

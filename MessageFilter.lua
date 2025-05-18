@@ -6,6 +6,28 @@ local L = _G[addonName.."_Locale"].Text
 -- Message filter for reputation / standing change
 ------------------------------------------------------
 
+function T:ReputationFactionIDForName(name)
+    if not T.FactionNamesWithReputation then
+        T.FactionNamesWithReputation = {}
+    end
+    local cache = T.FactionNamesWithReputation
+    local cachedFactionID = cache[name]
+    if cachedFactionID then return cachedFactionID end
+    
+    for index = 1, T.MAX_FACTIONS do
+        local data = C_Reputation.GetFactionDataByIndex(index)
+        if not data then break end
+        -- we use this only for identifying factionID that just changed rep / standing
+        -- so ignore factions that don't have reputation
+        -- (which helps pick the right one when two factions have same name)
+        -- TODO: other ways to avoid name conflicts needed for TWW Bilgewater
+        if data.name == name and (data.isHeaderWithRep or not data.isHeader) then
+            cache[name] = data.factionID
+            return data.factionID
+        end
+    end
+end
+
 function T:ParseFactionMessage(message, patternList)
     for _, pattern in pairs(patternList) do
         local regex = T.Patterns[pattern]
@@ -79,7 +101,7 @@ end
 
 function T:CombatMessageFilter(event, message, ...)	
     local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
-    local factionID = T.FactionIDForName[factionName]
+    local factionID = T:ReputationFactionIDForName(factionName)
     
     -- can't do anything if we don't know the faction yet
     -- keep track of the message so we can try again when the faction becomes known
@@ -197,7 +219,7 @@ function T:SystemMessageFilter(event, message, ...)
         return false
     end
 
-    local factionID = T.FactionIDForName[factionName]
+    local factionID = T:ReputationFactionIDForName(factionName)
     if not factionID and isGuild then
         factionID = GUILD_FACTION_ID
         factionName = GetGuildInfo("player")

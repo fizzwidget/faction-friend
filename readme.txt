@@ -48,6 +48,7 @@ CAVEATS, KNOWN BUGS, ETC.:
 	- Some repeatable faction turnins offer an increased amount of reputation the first time they're completed; FactionFriend can't readily tell whether you've done a turnin before, so it always assumes the smaller amount.
 	- Some repeatable faction turnins become available only once prerequisite quests are completed. FactionFriend can't keep track of all the reasons a turnin might or might not be available; it just shows how much reputation you'd be able to earn if the turnins are possible. (It does track reputation requirements for some turnins; for example, you can't turn in Aldor/Scryers items unless you're at least Neutral with the appropriate faction.)
 	- For "friendship" factions (Pandaria Halfhill citizens, Draenor bodyguards, Legion fishing NPCs, Shadowlands Ember Court, Dragonflight Valdrakken Accord members, etc), information about ranks other than the one you're currently progressing through isn't available to the UI, so FactionFriend can't indicate what rank you'll be after completing available turnins or estimate the maximum number of items to turn in.
+	- Some of my Undermine buddies have set up multiple fronts for the same cartels (to hide trade secrets from the competition, of course). FactionFriend has a few tricks to make sure it's tracking the right faction, but you might see unexpected behavior when gaining reputation with certain cartels.
 
 ------------------------------------------------------
 VERSION HISTORY
@@ -63,8 +64,6 @@ TODO for rewrite
 - content updates
 	- Classic
 		- Argent Dawn scourgestones quests returned
-	- Dragonflight
-		- warbound versions of valdrakken, expedition, centaur, iskaara turnin items drop when at max renown? or is that gone now that renown is warband?
 	- Battle for azeroth
 		- honeyback hive? thin / rich / royal jelly
 		- investigate whether warbound versions of island expedition quest rewards still appear when exalted
