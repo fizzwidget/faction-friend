@@ -208,7 +208,7 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
 end
 
 function T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
-    local atMax = T:FactionAtMaximum(factionID, factionData, friendshipData, true)
+    local atMax = T:FactionAtMaximum(factionID, factionData, friendshipData)
     if atMax then
         T.MenuSetupParagonToolip(tooltip, factionID, factionData)
     else

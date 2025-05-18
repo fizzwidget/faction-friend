@@ -224,9 +224,12 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
             text = T:StandingText(factionID, false, factionData)
             text = L.RankWithValues:format(text, newValue, maxValue)
         end
-        -- TODO switch color for standard+paragon, major+paragon
-        color = FACTION_BAR_COLORS[MAX_REPUTATION_REACTION]
-        
+        -- paragon can be also a major faction
+        if C_Reputation.IsMajorFaction(factionID) then
+            color = BLUE_FONT_COLOR
+        else
+            color = FACTION_BAR_COLORS[MAX_REPUTATION_REACTION]
+        end
     elseif rankData.type == "major" then
         local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential)
         text = RENOWN_LEVEL_LABEL:format(potentialRank)
@@ -562,7 +565,6 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         local absMaxValue
         if self.rankData.type == "friendship" then
             absMaxValue = self.rankData.capValue
-            print("friensdhip cap", absMaxValue)
         elseif self.rankData.type == "paragon" then
             absMaxValue = self.rankData.maxRank * self.rankData.nextRankValue
         elseif self.rankData.type == "major" then

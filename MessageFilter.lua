@@ -248,6 +248,8 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
     local nextStatusName
     
     local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+    local isMajorFaction = C_Reputation.IsMajorFaction(factionID)
+    local isParagon = C_Reputation.IsFactionParagon(factionID)
     if isFriendship then
         local isMaxRank = friendshipData.nextThreshold == nil
         if isMaxRank then
@@ -257,7 +259,21 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
             currentValue = friendshipData.standing
             nextStatusName = L.NextRank -- can't get next name for friendships
         end
-    elseif C_Reputation.IsMajorFaction(factionID) then
+    elseif isParagon then
+        local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
+        
+        maxValue = threshold
+        
+        -- TODO TEMP
+        print("hasRewardPending", hasRewardPending, "currentValue", currentValue, "threshold", threshold) 
+        currentValue = currentStanding % threshold
+        -- show overflow if reward is pending
+        if hasRewardPending then
+            currentValue = currentValue + threshold
+        end
+        nextStatusName = L.ParagonReward
+
+    elseif isMajorFaction then
         local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
         
         currentValue = majorFactionData.renownReputationEarned
@@ -273,20 +289,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
 
     else
         local isCapped = factionData.reaction == MAX_REPUTATION_REACTION
-        if C_Reputation.IsFactionParagon(factionID) then
-            local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
-
-            maxValue = threshold
-
-            -- TODO is this condition applicable?
-            -- if ( not hasRewardPending and currentValue and threshold ) then
-            currentValue = mod(currentStanding, threshold)
-            -- show overflow if reward is pending
-            if hasRewardPending then
-                currentValue = currentValue + threshold
-            end
-            nextStatusName = L.ParagonReward
-        elseif isCapped then
+        if isCapped then
             return L.AtMaximum
         else
             maxValue = factionData.nextReactionThreshold

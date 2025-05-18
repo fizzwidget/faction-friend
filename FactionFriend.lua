@@ -325,7 +325,7 @@ function T:CollapseAllFactionHeaders(includeSubheaders)
 	end
 end
 
-function T:FactionAtMaximum(factionID, factionData, friendshipData, ignoreParagon) 
+function T:FactionAtMaximum(factionID, factionData, friendshipData)
 	if not factionData then
 		factionData = C_Reputation.GetFactionDataByID(factionID)
 	end
@@ -338,11 +338,7 @@ function T:FactionAtMaximum(factionID, factionData, friendshipData, ignoreParago
 	elseif C_Reputation.IsMajorFaction(factionID) then
 		return C_MajorFactions.HasMaximumRenown(factionID)
 	elseif factionData.reaction == MAX_REPUTATION_REACTION then
-		if C_Reputation.IsFactionParagon(factionID) then
-			return ignoreParagon
-		else
-			return true
-		end
+		return true
 	end
 end
 
@@ -352,7 +348,9 @@ function T:FactionsForCleanup()
 		local data = C_Reputation.GetFactionDataByIndex(index)
 		if not data then break end
 		if data.canSetInactive and data.factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) and C_Reputation.IsFactionActive(index) then
-			tinsert(factionIDs, data.factionID)
+			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
+				tinsert(factionIDs, data.factionID)
+			end
 		end
 	end
 	return factionIDs
@@ -370,9 +368,11 @@ function T:CleanUpCompletedFactions()
 	-- because moving changes positions after
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if T:FactionAtMaximum(data.factionID, data) and data.factionID ~= GUILD_FACTION_ID then
-			-- print("moving", data.name, "to inactive")
-			C_Reputation.SetFactionActive(index, false)
+		if data.canSetInactive and data.factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) then
+			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
+				-- print("moving", data.name, "to inactive")
+				C_Reputation.SetFactionActive(index, false)
+			end
 		end
 	end
 	
@@ -381,9 +381,8 @@ function T:CleanUpCompletedFactions()
 end
 
 function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
-	-- FactionAtMaximum accounts for not paragon faction
 	-- cleaning up guild causes issues, don't
-	if factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData, friendshipData) then
+	if factionData.canSetInactive and factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID) then
 		
 		-- remember current expand/collapse state
 		-- and expand all so we can see the whole list
@@ -404,7 +403,6 @@ function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
 		
 		-- restore expand/collapse state
 		T:SetCollapsedFactionHeaders(collapsed)
-
 	end
 end
 

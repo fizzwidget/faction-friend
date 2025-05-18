@@ -81,8 +81,6 @@ S.Tooltip				= "Enhance item tooltips"
 T.Tooltip				= "Adds info to tooltips for items that can be turned in or used to gain reputation"
 S.ModifyChat			= "Enhance chat window output"
 T.ModifyChat			= "Adds info to reputation messages in chat windows, including an estimated number of repeated reputation gains until the next rank/reward. (Use chat window settings to enable reputation messages.) "
-S.CleanUpOnComplete		= "Hide factions when completed"
-T.CleanUpOnComplete		= "Automatically moves factions to Inactive upon reaching maximum reputation, friendship, or renown (excludes “paragon” factions with repeatable rewards for continued gains at maximum rank)" 
 S.HighlightItems		= "Highlight reputation items"
 T.HighlightItems		= "Makes items that can be turned in or used for reputation gain more visible in the default UI's bag, bank, and loot frames (similar to the default highlight for quest items)" 
 
@@ -122,6 +120,14 @@ S.MenuContent_List		= "Faction list"
 T.MenuContent_List		= "Shows all factions currently visible in the Reputation pane. (For a simpler menu, collapse headers or move factions to Inactive.)"
 S.MenuContent_None		= "No factions"
 T.MenuContent_None		= "Shows only commands."
+
+S.Heading_Cleanup		= "Completed faction cleanup" 
+T.Heading_Cleanup		= "Settings for moving factions with maximum reputation, friendship, or renown to Inactive status"
+
+S.CleanUpOnComplete		= "Automatically on completion"
+T.CleanUpOnComplete		= "Moves factions to Inactive immediately upon reaching maximum reputation, friendship, or renown." 
+S.CleanUpParagon		= "Include paragon factions"
+T.CleanUpParagon		= "Uncheck to prevent factions with paragon status (at maximum rank, but with repeatable rewards for continued reputation gain) from being moved to Inactive." 
 
 ------------------------------------------------------
 

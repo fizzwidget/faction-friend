@@ -95,7 +95,6 @@ function S:Initialize()
     
     self:Checkbox("Tooltip", true)
     self:Checkbox("ModifyChat", true)
-    self:Checkbox("CleanUpOnComplete", false)
     self:Checkbox("HighlightItems", true)
 
     ------------------------------------------------------
@@ -118,6 +117,12 @@ function S:Initialize()
     
     self:Checkbox("AddRepPaneControls", true, nil, T.UpdateReputationPaneControls)
     self:Checkbox("HighlightFactions", true)
+
+    ------------------------------------------------------
+    self:SectionHeader("Heading_Cleanup")
+    
+    self:Checkbox("CleanUpOnComplete", false)
+    self:Checkbox("CleanUpParagon", false)
 
     Settings.RegisterAddOnCategory(self.category)
 

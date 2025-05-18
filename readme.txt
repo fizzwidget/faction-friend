@@ -55,9 +55,9 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- places that check major faction vs paragon need to check paragon first in case of paragon major faction?
 - for potential gains on friendship faction, limit to just the next rank
 - check limiting for paragon, can you earn rep past reward
+- BUG: not counting potential right for some friendships, paragons?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 - BUG: off by one in counting items for turnin? (e.g. 20 fails to count as 2 turnins of 10, but 21 does)
 
