@@ -57,9 +57,8 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 TODO for rewrite
 - for potential gains on friendship faction, limit to just the next rank
 - check limiting for paragon, can you earn rep past reward
-- BUG: not counting potential right for some friendships, paragons?
+- BUG: (?) not counting potential right for some friendships, paragons? not limiting purchases?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
-- BUG: off by one in counting items for turnin? (e.g. 20 fails to count as 2 turnins of 10, but 21 does)
 
 - content updates
 	- Classic
@@ -76,7 +75,7 @@ Remodeled from a fresh start for current WoW (11.x and The War Within), gaining 
 	- New WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
 	- New WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
 	- More efficient, locale-independent handling of faction and item data should improve reliability and performance.
-	- TODO All relevant features support major faction renown, friendship factions, and paragon factions (those which provide repeatable rewards for continued reputation gain past Exalted), and correctly handle changes to Exalted status from several expansions ago.
+	- All relevant features support major faction renown, friendship factions, and paragon factions (those which provide repeatable rewards for continued reputation gain past Exalted). Correctly handles Exalted status no longer (as of a few expansions ago) having 999 points of reputation available to earn.
 
 New Features
 
