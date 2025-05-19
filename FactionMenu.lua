@@ -205,6 +205,14 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
             frame.icon:SetTexture("Interface\\GossipFrame\\DailyQuestIcon")
         end
     end
+    
+    -- icon for paragon hasRewardPending
+    if C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then
+        frame.icon2 = frame:AttachTexture()
+        frame.icon2:SetSize(13, 13)
+        frame.icon2:SetPoint("RIGHT", frame.fontString2, "LEFT", -2, 0)
+        frame.icon2:SetAtlas("ParagonReputation_Bag")
+    end
 end
 
 function T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
