@@ -31,6 +31,7 @@ A.ORDER_OF_EMBERS = 2161
 A.STORMS_WAKE = 2162
 A.SEVENTH_LEGION = 2159
 A.WAVEBLADE_ANKOAN = 2400
+A.HONEYBACK_HIVE = 2395
 
 ------------------------------------------------------
 -- For item tooltips and potential rep gain calculation
@@ -317,6 +318,26 @@ Q[A.WAVEBLADE_ANKOAN] = {
 		value = 250,
 		items = {
 			[174523] = 1,	-- Waveswept Abyssal Conch
+		},
+	},
+}
+Q[A.HONEYBACK_HIVE] = {
+	ThinJelly = {
+		value = 20,
+		items = {
+			[168822] = 1,	-- Thin Jelly
+		},
+	},
+	RichJelly = {
+		value = 80,
+		items = {
+			[168825] = 1,	-- Rich Jelly
+		},
+	},
+	RoyalJelly = {
+		value = 20,
+		items = {
+			[168828] = 1,	-- Royal Jelly
 		},
 	},
 }

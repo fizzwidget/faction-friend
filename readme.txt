@@ -56,7 +56,6 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- for potential gains on friendship faction, limit to just the next rank
 - check limiting for paragon, can you earn rep past reward
 - BUG: (?) not counting potential right for some friendships, paragons? not limiting purchases?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
@@ -65,7 +64,6 @@ TODO for rewrite
 	- Classic
 		- Argent Dawn scourgestones quests returned
 	- Battle for azeroth
-		- honeyback hive? thin / rich / royal jelly
 		- investigate whether warbound versions of island expedition quest rewards still appear when exalted
 	- ???
 	- profit!
@@ -103,7 +101,7 @@ Content Updates
 - Timewalking: Commendations and Insignia purchasable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions (in addition to Burning Crusade, Wrath of the Lich King, Cataclysm, and Mists of Pandaria commendations already tracked).
 - The War Within: Severed Threads Commendation. (Is this the only item-based repeatable reputation gain this expansion so far? Let me know if you've found others!)
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchasable with Flightstones if somehow you still have any)
-- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions 
+- Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions, jelly for Honeyback Hive
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Mists of Pandaria: Hozen Peace Pipe
 
