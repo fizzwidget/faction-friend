@@ -280,10 +280,10 @@ function T:GetCollapsedFactionHeaders()
 	return collapsed
 end
 
-function T:SetCollapsedFactionHeaders(collapsed)
+function T:SetCollapsedFactionHeaders(collapsed, expandInactive)
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if collapsed[data.factionID] then
+		if collapsed[data.factionID] or data.name == FACTION_INACTIVE and not expandInactive then
 			C_Reputation.CollapseFactionHeader(index)
 		end
 	end	
