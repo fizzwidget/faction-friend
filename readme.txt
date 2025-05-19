@@ -61,8 +61,6 @@ TODO for rewrite
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 
 - content updates
-	- Classic
-		- Argent Dawn scourgestones quests returned
 	- Battle for azeroth
 		- investigate whether warbound versions of island expedition quest rewards still appear when exalted
 	- ???
@@ -104,6 +102,7 @@ Content Updates
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions, jelly for Honeyback Hive
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Mists of Pandaria: Hozen Peace Pipe
+- Classic: Somehow, Scourgestones have returned...
 
 Legacy
 

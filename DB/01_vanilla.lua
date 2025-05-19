@@ -697,6 +697,46 @@ Q[F.ARGENT_DAWN] = {
 			[12844] = 1,	-- Argent Dawn Valor Token
 		},
 	},
+	ZZ_NewInvader_50 = {
+		value = 125,
+		creates = {
+			[12844] = 5,	-- Argent Dawn Valor Token
+		},
+		buyValue = 500,
+		items = {
+			[206374] = 50,	-- Invader's Scourgestone
+		},
+	},
+	ZZ_NewInvader_10 = {
+		value = 25,
+		creates = {
+			[12844] = 5,	-- Argent Dawn Valor Token
+		},
+		buyValue = 100,
+		items = {
+			[206374] = 10,	-- Invader's Scourgestone
+		},
+	},
+	ZZ_NewCorruptor_05 = {
+		value = 250,
+		creates = {
+			[12844] = 5,	-- Argent Dawn Valor Token
+		},
+		buyValue = 500,
+		items = {
+			[206375] = 5,	-- Corruptor's Scourgestone
+		},
+	},
+	ZZ_NewCorruptor_01 = {
+		value = 50,
+		creates = {
+			[12844] = 5,	-- Argent Dawn Valor Token
+		},
+		buyValue = 100,
+		items = {
+			[206375] = 1,	-- Corruptor's Scourgestone
+		},
+	},
 }
 Q[F.TIMBERMAW] = {
 	ZZ_TimewarpedBadge = {
