@@ -295,7 +295,7 @@ function FFF_PrintReport(factionID)
         
     local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
     
-    print(factionData.name, standingText)
+    print(T:FactionLink(factionID, factionData, friendshipData), standingText)
     print(L.TotalPotentialLabel:format(potential))
     
     for _, reportLine in pairs(reportLines) do
