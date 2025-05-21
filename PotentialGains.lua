@@ -550,6 +550,9 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         elseif self.rankData.type == "major" then
             potentialRank = T:MajorFactionRenownForValue(currentValue, self.rankData.currentRank, potentialValue)
         else
+        elseif self.rankData.type == "friendship" then
+            potentialRank = self.rankData.maxRank -- might not reach cap, but we use this for limiting turnins to cap
+        else -- paragon
             potentialRank = self.rankData.nextRank
         end
     end
