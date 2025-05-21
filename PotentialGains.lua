@@ -427,7 +427,7 @@ function PG:QuestPotential(key, info)
     potentialValue, numTurnins = self:AdjustedPotential(numTurnins, info.value, info)
     if info.buyValue then
         -- only track gain from currency purchases if no other turnins available
-        if self.totalPotential == 0 then
+        if info.value ~= 0 or self.totalPotential == 0 then
             -- if this "turnin" buys another item which is also a rep turnin,
             -- adjust the number we'll buy based on how much that turnin gives
             local buyPotentialValue, buyTurnins = self:AdjustedPotential(numTurnins, info.buyValue, info)
