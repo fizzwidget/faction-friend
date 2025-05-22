@@ -43,10 +43,12 @@ function T:StandingForValue(value)
     return MAX_REPUTATION_REACTION, 0, 0
 end
 
-function T:MajorFactionRenownForValue(value, currentRank, potential)
+function T:MajorFactionRenownForValue(value, currentRank, potential, maxRank)
     local absValue = (currentRank - 1) * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL + value
-    local absTotal = absValue + potential
+    local absMax = MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL * maxRank
+    local absTotal = min(absValue + potential, absMax)
     local level = floor(absTotal / MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
+    level = min(level, maxRank - 1)
     local levelBase = level * MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL
     local pointsInto = absTotal - levelBase
     return level + 1, pointsInto, levelBase
@@ -231,7 +233,7 @@ function T:AfterTurninsText(potential, factionID, factionData, friendshipData, r
             color = FACTION_BAR_COLORS[MAX_REPUTATION_REACTION]
         end
     elseif rankData.type == "major" then
-        local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential)
+        local potentialRank, pointsInto = T:MajorFactionRenownForValue(rankData.currentValue, rankData.currentRank, potential, rankData.maxRank)
         text = RENOWN_LEVEL_LABEL:format(potentialRank)
         text = L.RankWithValues:format(text, pointsInto, MAJOR_FACTION_POINTS_PER_RENOWN_LEVEL)
         color = BLUE_FONT_COLOR
@@ -480,7 +482,7 @@ function PG:CountCreatedItems(questCreates, numTurnins)
             -- hack: grab first one 'cause it's always the only one in our dataset
         end
         self.itemsCreated[createdID] = (self.itemsCreated[createdID] or 0) + (qtyCreated * numTurnins)
-        -- print("created", self.itemsCreated[createdID], "x", createdItemLink, "from", numTurnins, "turnins")
+        -- print("created", (qtyCreated * numTurnins), "x", createdItemLink, "from", numTurnins, "turnins, total", self.itemsCreated[createdID])
     end
     if not createdItemLink then
         -- have something other than nil if we fail to load link
@@ -548,8 +550,7 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         if self.rankData.type == "standard" then
             potentialRank = T:StandingForValue(potentialTotal)
         elseif self.rankData.type == "major" then
-            potentialRank = T:MajorFactionRenownForValue(currentValue, self.rankData.currentRank, potentialValue)
-        else
+            potentialRank = T:MajorFactionRenownForValue(currentValue, self.rankData.currentRank, potentialValue, self.rankData.maxRank)
         elseif self.rankData.type == "friendship" then
             potentialRank = self.rankData.maxRank -- might not reach cap, but we use this for limiting turnins to cap
         else -- paragon
