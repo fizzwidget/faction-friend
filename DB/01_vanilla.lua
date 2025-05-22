@@ -710,7 +710,7 @@ Q[F.ARGENT_DAWN] = {
 	ZZ_NewInvader_10 = {
 		value = 25,
 		creates = {
-			[12844] = 5,	-- Argent Dawn Valor Token
+			[12844] = 1,	-- Argent Dawn Valor Token
 		},
 		buyValue = 100,
 		items = {
@@ -730,7 +730,7 @@ Q[F.ARGENT_DAWN] = {
 	ZZ_NewCorruptor_01 = {
 		value = 50,
 		creates = {
-			[12844] = 5,	-- Argent Dawn Valor Token
+			[12844] = 1,	-- Argent Dawn Valor Token
 		},
 		buyValue = 100,
 		items = {
