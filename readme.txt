@@ -57,14 +57,8 @@ v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
 - check limiting for paragon, can you earn rep past reward
-- BUG: (?) not counting potential right for some friendships, paragons? not limiting purchases?
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
-
-- content updates
-	- Battle for azeroth
-		- investigate whether warbound versions of island expedition quest rewards still appear when exalted
-	- ???
-	- profit!
+- Battle for Azeroth: investigate whether warbound versions of island expedition quest rewards still appear when exalted
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
 	- New WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
@@ -99,6 +93,7 @@ Content Updates
 - Timewalking: Commendations and Insignia purchasable with Timewarped Badges for Classic, Warlords of Draenor, and Legion factions (in addition to Burning Crusade, Wrath of the Lich King, Cataclysm, and Mists of Pandaria commendations already tracked).
 - The War Within: Severed Threads Commendation. (Is this the only item-based repeatable reputation gain this expansion so far? Let me know if you've found others!)
 - Dragonflight: Treasure collection turnins for the four major Patch 10.0 renown factions, Vault Artifacts, reputation items for certain past expansions' factions from Paracausal Flakes vendors, Insignia for the six major renown factions (some purchasable with Flightstones if somehow you still have any)
+- Shadowlands: This place is dead to me. (Actually, I couldn't find any item-based repeatable reputation gains in this whole expansion. Let me know if I've missed any?)
 - Battle for Azeroth: Treasures for Rustbolt Resistance, Island Expedition items for major Zandalar and Kul Tiras factions, Honorbound / 7th Legion, and Champions of Azeroth (turnin for an item that drops in expeditions or for some factions can be purchased with dubloons), various items for Nazjatar factions, jelly for Honeyback Hive
 - Legion: Patch 7.3 Argus factions, Talon's Vengeance faction, more Greater Insignia items and Demon's Soulstone for all factions
 - Mists of Pandaria: Hozen Peace Pipe
@@ -112,7 +107,7 @@ Legacy
 	- Customizing the color of reputation bars (caused taint errors, no longer works with some bars)
 	
 - Some changes have disrupted existing localizations:
-	- Settings UI completely revamped; removed old localization strings taht are no longer valid
+	- Settings UI completely revamped; removed old localization strings that are no longer valid
 	- Many new or changed text strings not localized
 	- If you'd like to help with localization, visit https://github.com/fizzwidget/faction-friend
 
