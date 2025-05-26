@@ -379,8 +379,7 @@ function PG:GetPotential(factionID, factionData, friendshipData)
     self.friendshipData = friendshipData or C_GossipInfo.GetFriendshipReputation(factionID)
     self.rankData = T:GetRankInfo(factionID, factionData, friendshipData)
     
-    local descending = function(a,b) return a > b end
-    for key, info in GFWTable.PairsByKeys(factionQuests, descending) do
+    for key, info in T:PairsByKeys(factionQuests) do
         -- is our rep in range for this quest?
         local meetsRequirements = self.rankData.type == "paragon" or rankInRange(self.factionData.reaction, info.minStanding, info.maxStanding, self.rankData.maxRank)
         

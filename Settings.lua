@@ -64,8 +64,7 @@ function S:CheckboxDropdown(checkSettingKey, checkDefault, menuSettingKey, menuD
         end
         
         local container = Settings.CreateControlTextContainer()
-        local descending = function(a,b) return a > b end
-        for value, key in GFWTable.PairsByKeys(keysForValues, descending) do
+        for value, key in T:PairsByKeys(keysForValues) do
             container:Add(value, L.Setting[menuSettingKey.."_"..key], L.SettingTooltip[menuSettingKey.."_"..key])
         end
         return container:GetData()

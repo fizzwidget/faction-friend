@@ -38,7 +38,28 @@ local GUILD_FACTION_ID = 1168
 -- Utilities
 ------------------------------------------------------
 
--- infinite loop protection; 366 known factions on wowhead as of patch 11.1
+function T:PairsByKeys(table, comparator)
+	if not comparator then
+		-- descending by default seems odd, but it's what we use most in this mod
+		comparator = function(a, b) return a > b end
+	end
+	local keys = {}
+	for key in pairs(table) do
+		tinsert(keys, key) 
+	end
+	sort(keys, comparator)
+	local i = 0 -- iterator variable
+	local iterator = function()
+		i = i + 1
+		if keys[i] == nil then return nil
+		else return keys[i], table[keys[i]]
+		end
+	end
+	return iterator
+end
+
+-- infinite loop protection for when iterating past GetNumFactions() to find collapsed/hidden
+-- 366 known factions on wowhead as of patch 11.1
 T.MAX_FACTIONS = 600
 
 function T:FactionIndexForID(factionID)
@@ -50,7 +71,6 @@ function T:FactionIndexForID(factionID)
 		end
 	end
 end
-
 
 local MAX_RECENTS = 8
 function T.AddToRecents(factionID)

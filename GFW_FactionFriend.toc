@@ -10,9 +10,6 @@
 ## SavedVariablesPerCharacter: GFW_FactionFriend_Recents
 ## OptionalDeps: GFW_HoverTips
 
-# libraries
-GFWTable.lua
-
 # factions/turnins DB
 DB/00_base.lua
 DB/01_vanilla.lua
