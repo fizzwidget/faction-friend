@@ -85,6 +85,7 @@ Other Improvements & Bug Fixes
 - Added an setting to ignore potential reputation gain from items purchasable only during certain time-limited recurring events: includes Timewarped Badge purchases (Timewalking / Turbulent Timeways events) and Riders of Azeroth Badge purchases (Skyriding Cup events). Since these cover a large number of factions, ignoring them reduces noise in the list of factions you can readily increase reputation with.
 - When gaining reputation with multiple factions at once, switches the reputation watch bar to whichever faction gained the most.
 - Always shows a tooltip with at least basic reputation info when mousing over the reputation watch bar, since the default UI doesn't provide for easily distinguishing renown levels / reputation standings / friendship ranks.
+- Chat window message parsing is now more locale-independent: actions that triggered from system messages should work properly in more languages.
 - Warlords of Draenor: Fixed a bug that prevented showing item tooltip info for Horde- or Alliance-only factions.
 - Cataclysm: Previously tracked Writs of Commendation for racial factions, but didn't track that they can be purchased with Marks of the World Tree; fixed.
 

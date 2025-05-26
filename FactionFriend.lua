@@ -28,15 +28,6 @@ local Events = T.EventHandlers
 _G[addonName .. "_Settings"] = {}
 _G[addonName .. "_Recents"] = {}
 
--- FormatToPattern cache
-T.Patterns = setmetatable({}, {__index = function(table, key)
-	-- TODO does FormatToPattern correctly handle reordered format string tokens?
-	local value = GFWUtils.FormatToPattern(_G[key])
-	rawset(table, key, value)
-	return value
-end})
-
-
 ------------------------------------------------------
 -- Constants
 ------------------------------------------------------

@@ -3,6 +3,50 @@ local DB = _G[addonName.."_DB"]
 local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
+-- Utilities
+------------------------------------------------------
+
+T.FormatMatchInfo = {}
+function T:FormatMatch(text, formatStringName)
+    
+    local pattern, reorders = T.FormatMatchInfo[formatStringName]
+    if not pattern then
+        pattern = _G[formatStringName]
+        
+        -- record the order of reordering specifiers (e.g. %2$s)	
+        reorders = {}
+        for index in string.gmatch(pattern, "%%(%d+)%$[diouXxfgbcsq]") do
+            tinsert(reorders, tonumber(index))
+        end
+        -- then strip the reordering specifiers
+        pattern = pattern:gsub("%%%d+%$([diouXxfgbcsq])", "%%%1") 
+
+        -- so we can transform the format string to a ~regex~ pattern
+        pattern = pattern:gsub("%%(%d-[diu])", "%%d") -- strip field widths from int
+        pattern = pattern:gsub("%%(%d-%.?%d-[gef])", "%%f") -- and from float
+        pattern = pattern:gsub("([%$%(%)%.%[%]%*%+%-%?%^])", "%%%1") -- convert special characters
+        pattern = pattern:gsub("%%c", "(.)") -- %c to (.)
+        pattern = pattern:gsub("%%s", "(.+)") -- %s to (.+)
+        pattern = pattern:gsub("%%d", "(%%d+)") -- %d to (%d+)
+        pattern = pattern:gsub("%%f", "(%%d+%%.*%%d*)") -- %g or %f to (%d+%.*%d*)
+        
+        -- cache it
+        T.FormatMatchInfo[formatStringName] = pattern, reorders
+    end
+
+    -- search input text according to the pattern
+    local matches = {strmatch(text, pattern)}
+    local output = {}
+    for index in pairs(matches) do
+        -- reorder the output according to saved reorders (no reordering if no reorders)
+        local reorderedIndex = reorders and reorders[index] or index
+        output[index] = matches[reorderedIndex]
+    end
+    return unpack(output)
+
+end
+
+------------------------------------------------------
 -- Message filter for reputation / standing change
 ------------------------------------------------------
 
@@ -30,8 +74,7 @@ end
 
 function T:ParseFactionMessage(message, patternList)
     for _, pattern in pairs(patternList) do
-        local regex = T.Patterns[pattern]
-        local match1, match2 = strmatch(message, regex)
+        local match1, match2 = T:FormatMatch(message, pattern)
         if match1 then
             -- for the patterns we use:
             -- faction amount gain: match1 is factionName, match1 is amount or nil
