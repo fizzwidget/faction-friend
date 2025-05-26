@@ -159,7 +159,7 @@ function T:CombatMessageFilter(event, message, ...)
     -- check name of guild faction
     -- message might have either actual guild name or a generic token
     if not factionID and (factionName == GUILD or factionName == GUILD_REPUTATION) then
-        factionID = GUILD_FACTION_ID
+        factionID = T.GUILD_FACTION_ID
         factionName = GetGuildInfo("player")
     end
     
@@ -264,7 +264,7 @@ function T:SystemMessageFilter(event, message, ...)
 
     local factionID = T:ReputationFactionIDForName(factionName)
     if not factionID and isGuild then
-        factionID = GUILD_FACTION_ID
+        factionID = T.GUILD_FACTION_ID
         factionName = GetGuildInfo("player")
     end
     
@@ -300,7 +300,7 @@ function T:SystemMessageFilter(event, message, ...)
 end
 
 function T:ShouldSetWatchedFaction(factionID)
-    if factionID == GUILD_FACTION_ID then
+    if factionID == T.GUILD_FACTION_ID then
         return self.Settings.IncludeGuild
     elseif DB.BodyguardFactionID[factionID] then
         return self.Settings.IncludeBodyguards

@@ -32,7 +32,7 @@ _G[addonName .. "_Recents"] = {}
 -- Constants
 ------------------------------------------------------
 
-local GUILD_FACTION_ID = 1168
+T.GUILD_FACTION_ID = 1168
 
 ------------------------------------------------------
 -- Utilities
@@ -350,7 +350,7 @@ function T:FactionsForCleanup()
 	for index = 1, T.MAX_FACTIONS do
 		local data = C_Reputation.GetFactionDataByIndex(index)
 		if not data then break end
-		if data.canSetInactive and data.factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) and C_Reputation.IsFactionActive(index) then
+		if data.canSetInactive and data.factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) and C_Reputation.IsFactionActive(index) then
 			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
 				tinsert(factionIDs, data.factionID)
 			end
@@ -371,7 +371,7 @@ function T:CleanUpCompletedFactions()
 	-- because moving changes positions after
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
-		if data.canSetInactive and data.factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) then
+		if data.canSetInactive and data.factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) then
 			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
 				-- print("moving", data.name, "to inactive")
 				C_Reputation.SetFactionActive(index, false)
@@ -385,7 +385,7 @@ end
 
 function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
 	-- cleaning up guild causes issues, don't
-	if factionData.canSetInactive and factionID ~= GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID) then
+	if factionData.canSetInactive and factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID) then
 		
 		-- remember current expand/collapse state
 		-- and expand all so we can see the whole list
