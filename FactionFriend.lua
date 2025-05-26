@@ -34,6 +34,10 @@ _G[addonName .. "_Recents"] = {}
 
 T.GUILD_FACTION_ID = 1168
 
+-- infinite loop protection for when iterating past GetNumFactions() to find collapsed/hidden
+-- 366 known factions on wowhead as of patch 11.1
+T.MAX_FACTIONS = 600
+
 ------------------------------------------------------
 -- Utilities
 ------------------------------------------------------
@@ -57,10 +61,6 @@ function T:PairsByKeys(table, comparator)
 	end
 	return iterator
 end
-
--- infinite loop protection for when iterating past GetNumFactions() to find collapsed/hidden
--- 366 known factions on wowhead as of patch 11.1
-T.MAX_FACTIONS = 600
 
 function T:FactionIndexForID(factionID)
 	for index = 1, T.MAX_FACTIONS do
@@ -92,136 +92,6 @@ function T.AddToRecents(factionID)
 		_G[addonName .. "_Recents"] = { unpack(T.Recents, #T.Recents - MAX_RECENTS + 1) }
 		T.Recents = _G[addonName .. "_Recents"]
 	end
-end
-
-function T.SetWatchedFactionByID(factionID)
-	T.AddToRecents(factionID)
-	T:ReputationStatusBarUpdate()
-end
-
-function T.SetWatchedFactionByIndex(index)
-	local factionData = C_Reputation.GetFactionDataByIndex(index)
-	if factionData then
-		T.AddToRecents(factionData.factionID)
-	end
-	T:ReputationStatusBarUpdate()
-end
-
-EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
-	local type, addon, subtype, id = strsplit(":", link)
-	if type == "addon" and addon == addonName and subtype == "faction" then
-		T:ShowReputationPane(tonumber(id), true)
-	end
-end)
-
-function T:FactionLink(factionID, factionData, friendshipData)
-	if not factionData then
-		factionData = C_Reputation.GetFactionDataByID(factionID)
-	end
-	if not friendshipData then
-		friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
-	end
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-	
-	local color
-	if isFriendship then
-		color = RGBTableToColorCode(FACTION_BAR_COLORS[5])
-	elseif C_Reputation.IsMajorFaction(factionID) then
-		color = RGBTableToColorCode(BLUE_FONT_COLOR)
-		
-	else
-		color = RGBTableToColorCode(FACTION_BAR_COLORS[factionData.reaction])
-	end
-	
-	return format("%s|Haddon:%s:faction:%d|h[%s]|h|r", color, addonName, factionID, factionData.name)
-end
-
-function T:PrecacheItems()
-	-- call GetItemInfo ahead of time, so client caches info and can provide links/etc later
-	-- anything "created" in DB can appear in reports without player having seen the item
-	for _, quests in pairs(DB.TurninsByQuest) do
-		for quest, questInfo in pairs(quests) do
-			for itemID, _ in pairs(questInfo.creates or {}) do
-				-- print("caching", itemID, "for", quest)
-				C_Item.GetItemInfo(itemID)
-			end
-		end
-	end
-end
-
-function T:TrySetWatchedFaction(factionID, overrideInactive)
-	
-	local watchedFaction = C_Reputation.GetWatchedFactionData()
-	if watchedFaction and watchedFaction.factionID == factionID then
-		-- print("no switch: already watching factionID", factionID)
-		return
-	end
-	
-	if overrideInactive then
-		C_Reputation.SetWatchedFactionByID(factionID)
-	else
-		
-		local index = T:FactionIndexForID(factionID)
-		if not index then
-			-- print("no switch: index not found for factionID", factionID)
-			return
-		end
-	
-		if C_Reputation.IsFactionActive(index) then
-			C_Reputation.SetWatchedFactionByID(factionID)
-		end
-	end
-end
-
-function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstructions)
-	
-	if anchor then
-		GameTooltip:SetOwner(anchorFrame, "ANCHOR_TOPLEFT")
-	else
-		GameTooltip_SetDefaultAnchor(GameTooltip, anchorFrame)
-	end
-	
-	T.TooltipAddFactionInfo(GameTooltip, factionID)
-	
-	if showHyperlinkInstructions then
-		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		if InCombatLockdown() then
-			GameTooltip_AddInstructionLine(GameTooltip, L.NoClickInCombat)
-		else
-			GameTooltip_AddInstructionLine(GameTooltip, L.ClickForDetails)
-		end
-	end
-	
-	GameTooltip:Show()
-
-end
-
-function T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData)
-	if not factionData then
-		factionData = C_Reputation.GetFactionDataByID(factionID)
-	end
-	if not friendshipData then
-		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
-	end
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-
-	GameTooltip_SetTitle(tooltip, factionData.name, HIGHLIGHT_FONT_COLOR)
-	
-	if C_Reputation.IsAccountWideReputation(factionID) then
-		GameTooltip_AddColoredLine(tooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
-	end
-		
-	if isFriendship then
-		local wrapText = true
-		tooltip:AddLine(friendshipData.text, nil, nil, nil, wrapText)
-	end
-	
-	local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
-	GameTooltip_AddColoredLine(tooltip, standingText, color)
-	
-	-- more lines from potential gains report
-	T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipData)
-
 end
 
 function T:StandingText(factionID, includePoints, factionData, friendshipData)
@@ -279,6 +149,125 @@ function T:StandingText(factionID, includePoints, factionData, friendshipData)
 	
 end
 
+function T:FactionAtMaximum(factionID, factionData, friendshipData)
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+	end
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+	if isFriendship then
+		return friendshipData.nextThreshold == nil
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		return C_MajorFactions.HasMaximumRenown(factionID)
+	elseif factionData.reaction == MAX_REPUTATION_REACTION then
+		return true
+	end
+end
+
+function T:PrecacheItems()
+	-- call GetItemInfo ahead of time, so client caches info and can provide links/etc later
+	-- anything "created" in DB can appear in reports without player having seen the item
+	for _, quests in pairs(DB.TurninsByQuest) do
+		for quest, questInfo in pairs(quests) do
+			for itemID, _ in pairs(questInfo.creates or {}) do
+				-- print("caching", itemID, "for", quest)
+				C_Item.GetItemInfo(itemID)
+			end
+		end
+	end
+end
+
+------------------------------------------------------
+-- Links and tooltips
+------------------------------------------------------
+
+EventRegistry:RegisterCallback("SetItemRef", function(ownerID, link)
+	local type, addon, subtype, id = strsplit(":", link)
+	if type == "addon" and addon == addonName and subtype == "faction" then
+		T:ShowReputationPane(tonumber(id), true)
+	end
+end)
+
+function T:FactionLink(factionID, factionData, friendshipData)
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
+	end
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+	
+	local color
+	if isFriendship then
+		color = RGBTableToColorCode(FACTION_BAR_COLORS[5])
+	elseif C_Reputation.IsMajorFaction(factionID) then
+		color = RGBTableToColorCode(BLUE_FONT_COLOR)
+		
+	else
+		color = RGBTableToColorCode(FACTION_BAR_COLORS[factionData.reaction])
+	end
+	
+	return format("%s|Haddon:%s:faction:%d|h[%s]|h|r", color, addonName, factionID, factionData.name)
+end
+
+function T:ShowFactionToolip(factionID, anchorFrame, anchor, showHyperlinkInstructions)
+	
+	if anchor then
+		GameTooltip:SetOwner(anchorFrame, "ANCHOR_TOPLEFT")
+	else
+		GameTooltip_SetDefaultAnchor(GameTooltip, anchorFrame)
+	end
+	
+	T.TooltipAddFactionInfo(GameTooltip, factionID)
+	
+	if showHyperlinkInstructions then
+		GameTooltip_AddBlankLineToTooltip(GameTooltip)
+		if InCombatLockdown() then
+			GameTooltip_AddInstructionLine(GameTooltip, L.NoClickInCombat)
+		else
+			GameTooltip_AddInstructionLine(GameTooltip, L.ClickForDetails)
+		end
+	end
+	
+	GameTooltip:Show()
+
+end
+
+function T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData)
+	if not factionData then
+		factionData = C_Reputation.GetFactionDataByID(factionID)
+	end
+	if not friendshipData then
+		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
+	end
+	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
+
+	GameTooltip_SetTitle(tooltip, factionData.name, HIGHLIGHT_FONT_COLOR)
+	
+	if C_Reputation.IsAccountWideReputation(factionID) then
+		GameTooltip_AddColoredLine(tooltip, REPUTATION_TOOLTIP_ACCOUNT_WIDE_LABEL, ACCOUNT_WIDE_FONT_COLOR, false)
+	end
+		
+	if isFriendship then
+		local wrapText = true
+		tooltip:AddLine(friendshipData.text, nil, nil, nil, wrapText)
+	end
+	
+	local standingText, color = T:StandingText(factionID, true, factionData, friendshipData)
+	GameTooltip_AddColoredLine(tooltip, standingText, color)
+	
+	-- more lines from potential gains report
+	T:TooltipAddFactionReport(tooltip, factionID, factionData, friendshipData)
+
+end
+
+
+------------------------------------------------------
+-- Faction list model management
+------------------------------------------------------
+
 function T:GetCollapsedFactionHeaders()
 	local collapsed = {}
 	for i = 1, T.MAX_FACTIONS do
@@ -328,22 +317,9 @@ function T:CollapseAllFactionHeaders(includeSubheaders)
 	end
 end
 
-function T:FactionAtMaximum(factionID, factionData, friendshipData)
-	if not factionData then
-		factionData = C_Reputation.GetFactionDataByID(factionID)
-	end
-	if not friendshipData then
-		friendshipData = C_GossipInfo.GetFriendshipReputation(factionID)
-	end
-	local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
-	if isFriendship then
-		return friendshipData.nextThreshold == nil
-	elseif C_Reputation.IsMajorFaction(factionID) then
-		return C_MajorFactions.HasMaximumRenown(factionID)
-	elseif factionData.reaction == MAX_REPUTATION_REACTION then
-		return true
-	end
-end
+------------------------------------------------------
+-- Clean up completed factions
+------------------------------------------------------
 
 function T:FactionsForCleanup()
 	local factionIDs = {}
@@ -422,7 +398,48 @@ function T.ShowAddonTooltip(frame, link)
 end
 
 ------------------------------------------------------
--- Reputation watch bar 
+-- Watched faction management
+------------------------------------------------------
+
+function T:TrySetWatchedFaction(factionID, overrideInactive)
+	
+	local watchedFaction = C_Reputation.GetWatchedFactionData()
+	if watchedFaction and watchedFaction.factionID == factionID then
+		-- print("no switch: already watching factionID", factionID)
+		return
+	end
+	
+	if overrideInactive then
+		C_Reputation.SetWatchedFactionByID(factionID)
+	else
+		
+		local index = T:FactionIndexForID(factionID)
+		if not index then
+			-- print("no switch: index not found for factionID", factionID)
+			return
+		end
+	
+		if C_Reputation.IsFactionActive(index) then
+			C_Reputation.SetWatchedFactionByID(factionID)
+		end
+	end
+end
+
+function T.SetWatchedFactionByID(factionID)
+	T.AddToRecents(factionID)
+	T:ReputationStatusBarUpdate()
+end
+
+function T.SetWatchedFactionByIndex(index)
+	local factionData = C_Reputation.GetFactionDataByIndex(index)
+	if factionData then
+		T.AddToRecents(factionData.factionID)
+	end
+	T:ReputationStatusBarUpdate()
+end
+
+------------------------------------------------------
+-- Reputation watch bar shading / interaction
 ------------------------------------------------------
 
 function T:SetupWatchBarOverlays()
@@ -521,7 +538,6 @@ function T.ReputationWatchBarPrepareParagonTooltip(frame)
 end
 
 hooksecurefunc("ReputationParagonWatchBar_OnEnter", T.ReputationWatchBarPrepareParagonTooltip)
-
 
 ------------------------------------------------------
 -- Events
