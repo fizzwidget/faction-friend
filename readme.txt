@@ -56,7 +56,6 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- check limiting for paragon, can you earn rep past reward
 - BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 - Battle for Azeroth: investigate whether warbound versions of island expedition quest rewards still appear when exalted
 

@@ -23,6 +23,7 @@ L.RepeatTurnins			= "(%d more times to %s.)"
 L.Maximum				= "maximum"
 L.NextRank				= "next rank"
 L.ParagonReward			= "reward"
+L.ParagonRewardReady	= "(Reward now available!)"
 L.AtMaximum				= "(At maximum.)"
 
 -- HoverTips faction tooltip integration

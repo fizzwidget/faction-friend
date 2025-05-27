@@ -85,17 +85,17 @@ function T:GetRankInfo(factionID, factionData, friendshipData)
     elseif C_Reputation.IsFactionParagon(factionID) then
         info.type = "paragon"
         local paragonStanding, paragonThreshold, _, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
-        info.currentRank = 0 -- ?
-        info.maxRank = 2 -- ?
+        info.currentRank = 0
+        info.maxRank = 1
         info.floorValue = 0
         info.currentValue = mod(paragonStanding, paragonThreshold)
         if hasRewardPending then
             info.currentValue = info.currentValue + paragonThreshold
         end
         info.nextRankValue = paragonThreshold
-        info.nextRank = 1 -- ?
+        info.nextRank = 1
         info.nextRankName = L.ParagonReward
-        info.capValue = paragonThreshold * 2 -- ?
+        info.capValue = paragonThreshold
         
     elseif C_Reputation.IsMajorFaction(factionID) then
         info.type = "major"

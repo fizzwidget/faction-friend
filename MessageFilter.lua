@@ -326,18 +326,18 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
         end
     elseif isParagon then
         local currentStanding, threshold, rewardQuestID, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
-        
-        maxValue = threshold
-        
-        -- TODO TEMP
-        print("hasRewardPending", hasRewardPending, "currentValue", currentValue, "threshold", threshold) 
-        currentValue = currentStanding % threshold
-        -- show overflow if reward is pending
         if hasRewardPending then
-            currentValue = currentValue + threshold
+            return L.ParagonRewardReady
+        else        
+            maxValue = threshold
+            currentValue = currentStanding % threshold
+            -- show overflow if reward is pending
+            if hasRewardPending then
+                currentValue = currentValue + threshold
+            end
+            nextStatusName = L.ParagonReward
         end
-        nextStatusName = L.ParagonReward
-
+        
     elseif isMajorFaction then
         local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID)
         
