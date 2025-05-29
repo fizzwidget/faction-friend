@@ -2,7 +2,7 @@ local addonName, T = ...
 local L = _G[addonName.."_Locale"].Text
 
 ------------------------------------------------------
--- Utilities
+-- Menu creation
 ------------------------------------------------------
 
 local MAX_SHORT_MENU_FACTION_COUNT = 20
@@ -215,6 +215,10 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
     end
 end
 
+------------------------------------------------------
+-- Menu item tooltips
+------------------------------------------------------
+
 function T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
     local atMax = T:FactionAtMaximum(factionID, factionData, friendshipData)
     if atMax then
@@ -275,6 +279,10 @@ function T.MenuSetupParagonToolip(tooltip, factionID, factionData)
     end
 
 end
+
+------------------------------------------------------
+-- Menu button handlers
+------------------------------------------------------
 
 function T.MenuFactionButtonIsChecked(factionID)
     local data = C_Reputation.GetWatchedFactionData()

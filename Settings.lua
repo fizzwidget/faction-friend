@@ -3,7 +3,9 @@ T.SettingsUI = {}
 local S = T.SettingsUI
 local L = _G[addonName.."_Locale"]
 
--- add setup factories for other settings control types as needed
+------------------------------------------------------
+-- Proto mixin for quick settings UI element creation
+------------------------------------------------------
 
 function S:Checkbox(settingKey, defaultValue, parentInit, onValueChanged)
     local variable = addonName .. "_" .. settingKey
@@ -81,6 +83,10 @@ function S:SectionHeader(stringKey)
     local title, tooltip = L.Setting[stringKey], L.SettingTooltip[stringKey]
     self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(title, tooltip))
 end
+
+------------------------------------------------------
+-- Settings setup
+------------------------------------------------------
 
 function S:Initialize()
     self.category, self.layout = Settings.RegisterVerticalLayoutCategory(T.Title)
