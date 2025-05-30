@@ -361,7 +361,7 @@ end
 
 function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
 	-- cleaning up guild causes issues, don't
-	if factionData.canSetInactive and factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID) then
+	if factionData.canSetInactive and factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and (T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID)) then
 		
 		-- remember current expand/collapse state
 		-- and expand all so we can see the whole list
