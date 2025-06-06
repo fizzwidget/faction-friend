@@ -46,10 +46,6 @@ function T:FormatMatch(text, formatStringName)
 
 end
 
-------------------------------------------------------
--- Message filter for reputation / standing change
-------------------------------------------------------
-
 function T:ReputationFactionIDForName(name)
     if not T.FactionNamesWithReputation then
         T.FactionNamesWithReputation = {}
@@ -78,11 +74,16 @@ function T:ParseFactionMessage(message, patternList)
         if match1 then
             -- for the patterns we use:
             -- faction amount gain: match1 is factionName, match1 is amount or nil
+            -- faction standing change for guild: match1 is new standing
             -- faction standing change: match1 is new standing, match2 is factionName or nil
             return match1, match2, pattern
         end
     end
 end
+
+------------------------------------------------------
+-- Combat message filter for reputation change
+------------------------------------------------------
 
 function T:FactionAmountChangeFromMessage(message)
     
@@ -127,6 +128,7 @@ function T:FactionAmountChangeFromMessage(message)
     end
 end
 
+-- timer-based queue for accumulating / sorting "same time" gains
 T.QueuedFactionGains = {}
 T.QueuedFactionGainsCheckTimer = nil
 function T:QueuedFactionGainsCheck(timer)
@@ -142,6 +144,24 @@ function T:QueuedFactionGainsCheck(timer)
     wipe(T.QueuedFactionGains)
 end
 
+-- programmatically triggered queue for order dependency of getting factino info
+T.CombatMessageQueue = {}
+function T:QueueCombatMessage(frame, event, message, factionName, ...)
+    if not T.CombatMessageQueue[factionName] then
+        T.CombatMessageQueue[factionName] = {}
+    end
+    tinsert(T.CombatMessageQueue[factionName], {frame=frame, event=event, message=message, args={...}})
+end
+
+function T:HandleQueuedCombatMessages(factionName)
+    if not factionName then return end
+    local messages = T.CombatMessageQueue[factionName] or {}
+    T.CombatMessageQueue[factionName] = nil
+    for _, messageInfo in pairs(messages) do
+        ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+    end
+end
+
 function T:CombatMessageFilter(event, message, ...)	
     local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
     local factionID = T:ReputationFactionIDForName(factionName)
@@ -149,7 +169,7 @@ function T:CombatMessageFilter(event, message, ...)
     -- can't do anything if we don't know the faction yet
     -- keep track of the message so we can try again when the faction becomes known
     if not factionID then
-        T:QueueMessage(self, event, message, factionName, ...)
+        T:QueueCombatMessage(self, event, message, factionName, ...)
         return true
     end
         
@@ -199,60 +219,74 @@ function T:CombatMessageFilter(event, message, ...)
     return false, message, ...
 end
 
-T.MessageQueue = {}
-function T:QueueMessage(frame, event, message, factionName, ...)
-    if not T.MessageQueue[factionName] then
-        T.MessageQueue[factionName] = {}
-    end
-    tinsert(T.MessageQueue[factionName], {frame=frame, event=event, message=message, args={...}})
-end
-
-function T:HandleQueuedMessages(factionName)
-    local messages = T.MessageQueue[factionName] or {}
-    T.MessageQueue[factionName] = nil
-    for _, messageInfo in pairs(messages) do
-        local _, message = T.CombatMessageFilter(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
-        ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
-    end
-end
+------------------------------------------------------
+-- Message filter for standing (rank) change
+------------------------------------------------------
 
 function T:FactionStandingChangeFromMessage(message)
     local newStanding, factionName, pattern
 
+    local noNameGuildPattern = {
+        "FACTION_STANDING_CHANGED_GUILD", -- no factionName
+    }
     local factionPatterns = {
         "FACTION_STANDING_CHANGED",
         "FACTION_STANDING_CHANGED_ACCOUNT_WIDE",
     }
-    
     local friendshipPatterns = {
         "FRIENDSHIP_STANDING_CHANGED",
         "FRIENDSHIP_STANDING_CHANGED_ACCOUNT_WIDE",
     }
-    local guildPatterns = {
-        "FACTION_STANDING_CHANGED_GUILD", -- no factionName
+    local withNameGuildPattern = {
+        -- Test this after factionPatterns (even though FACTION_STANDING_CHANGED_GUILD needs to test before)
+        -- because in locales where they're the same, FACTION_STANDING_CHANGED should look up guild
+        -- if we know what your guild name is
+        
         "FACTION_STANDING_CHANGED_GUILDNAME",
     }
     
     local isGuild, isFriendship
     
+    -- this has no factionName
+    newStanding, _, pattern = self:ParseFactionMessage(message, noNameGuildPattern)
+    if pattern then
+        isGuild = true
+        return newStanding, factionName, pattern, isFriendship, isGuild
+    end
+    
     newStanding, factionName, pattern = self:ParseFactionMessage(message, factionPatterns)
-    if factionName then
+    if pattern then
         return newStanding, factionName, pattern
     end
     
     -- these reverse standing and factionName
     factionName, newStanding, pattern = self:ParseFactionMessage(message, friendshipPatterns)
-    if factionName then
+    if pattern then
         isFriendship = true
         return newStanding, factionName, pattern, isFriendship, isGuild
     end
     
-    newStanding, factionName, pattern = self:ParseFactionMessage(message, guildPatterns)
-    if factionName then
+    -- this needs to be last because normal FACTION_STANDING_CHANGED should match "gained %d with %s" first
+    newStanding, _, pattern = self:ParseFactionMessage(message, withNameGuildPattern)
+    if pattern then
         isGuild = true
         return newStanding, factionName, pattern, isFriendship, isGuild
     end
 
+end
+
+
+T.SystemMessageQueue = {}
+function T:QueueSystemMessage(frame, event, message, ...)
+    tinsert(T.SystemMessageQueue, {frame=frame, event=event, message=message, args={...}})
+end
+
+function T:HandleQueuedSystemMessages()
+    local messages = T.SystemMessageQueue or {}
+    T.SystemMessageQueue = {}
+    for _, messageInfo in pairs(messages) do
+        ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+    end
 end
 
 function T:SystemMessageFilter(event, message, ...)
@@ -266,9 +300,29 @@ function T:SystemMessageFilter(event, message, ...)
     if not factionID and isGuild then
         factionID = T.GUILD_FACTION_ID
         factionName = GetGuildInfo("player")
+
+        -- on joining a guild, FACTION_STANDING_CHANGED_GUILD fires before GetGuildInfo can return data
+        -- and FACTION_STANDING_CHANGED_GUILD doesn't include guild name
+        -- queue handling this system message until guild info is ready
+        if not factionName then
+            if not T.EventHandlers.PLAYER_GUILD_UPDATE then
+                -- create this function first time we need it so we don't have to register/unregister
+                T.EventHandlers.PLAYER_GUILD_UPDATE = function(self, unit)
+                    local guildName = GetGuildInfo("player")
+                    if not guildName then return end
+                    
+                    T:HandleQueuedSystemMessages()
+                    self:UnregisterEvent("PLAYER_GUILD_UPDATE")
+                end
+            end
+
+            T:QueueSystemMessage(self, event, message, ...)
+            return false
+        end
     end
-    
-    T:HandleQueuedMessages(factionName)
+
+    -- take care of any rep-increase messages that predate first learning the faction
+    T:HandleQueuedCombatMessages(factionName)
     
     -- add to recents
     T.AddToRecents(factionID)
@@ -287,6 +341,10 @@ function T:SystemMessageFilter(event, message, ...)
         return false
     end
 
+    -- change guild pattern without factionName so we can use a link
+    if pattern == "FACTION_STANDING_CHANGED_GUILD" then
+        pattern = "FACTION_STANDING_CHANGED_GUILDNAME"
+    end
     local link = T:FactionLink(factionID, factionData, friendshipData)
     local message
     if isFriendship then
