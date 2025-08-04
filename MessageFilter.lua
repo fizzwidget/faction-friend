@@ -164,6 +164,12 @@ end
 
 function T:CombatMessageFilter(event, message, ...)	
     local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
+    if not factionName then 
+        -- likely missing localized string pattern (this happens for Brann in Delves)
+        -- print("factionName not parsed from combat message")    
+        return false 
+    end
+
     local factionID = T:ReputationFactionIDForName(factionName)
     
     -- can't do anything if we don't know the faction yet
