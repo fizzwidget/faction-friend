@@ -576,11 +576,6 @@ function Events:UNIT_INVENTORY_CHANGED(unit)
 	T.ReputationStatusBarUpdate()
 end
 
-function Events:PLAYERREAGENTBANKSLOTS_CHANGED(slot)
-	if not T.Settings.ShowPotential then return end
-	T.ReputationStatusBarUpdate()
-end
-
 ------------------------------------------------------
 -- Item tooltip 
 ------------------------------------------------------
@@ -699,24 +694,6 @@ function T.BankPanelItemButtonRefresh(frame)
 end
 	
 hooksecurefunc(BankPanelItemButtonMixin, "Refresh", T.BankPanelItemButtonRefresh)
-
-function T.BankFrameItemButton_Update(button)
-	if not T.Settings.HighlightItems then return end
-	if button.isBag then return end
-	
-	local container = button:GetParent():GetID()
-	local buttonID = button:GetID()
-	local questInfo = C_Container.GetContainerItemQuestInfo(container, buttonID)
-	if questInfo and questInfo.questID then 
-		-- base UI already highlighted as regular quest item
-		return
-	end
-	
-	local itemInfo = C_Container.GetContainerItemInfo(container, buttonID)
-	T.UpdateItemButton(button, itemInfo)
-end
-	
-hooksecurefunc("BankFrameItemButton_Update", T.BankFrameItemButton_Update)
 
 function T.LootFrameElementInit(frame)
 	if not T.Settings.HighlightItems then return end
