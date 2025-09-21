@@ -46,23 +46,29 @@ function T:FormatMatch(text, formatStringName)
 
 end
 
-function T:ReputationFactionIDForName(name)
+-- not a general faction name to ID map: resolves name collisions using 
+-- assumptions related to reputation-gain messages 
+function T:ReputationGainFactionID(name, isWarband)
     if not T.FactionNamesWithReputation then
         T.FactionNamesWithReputation = {}
     end
+    local cacheKey = name .. (isWarband and "|W" or "")
     local cache = T.FactionNamesWithReputation
-    local cachedFactionID = cache[name]
+    local cachedFactionID = cache[cacheKey]
     if cachedFactionID then return cachedFactionID end
     
     for index = 1, T.MAX_FACTIONS do
         local data = C_Reputation.GetFactionDataByIndex(index)
-        if not data then break end
         -- we use this only for identifying factionID that just changed rep / standing
-        -- so ignore factions that don't have reputation
-        -- (which helps pick the right one when two factions have same name)
-        -- TODO: other ways to avoid name conflicts needed for TWW Bilgewater
-        if data.name == name and (data.isHeaderWithRep or not data.isHeader) then
-            cache[name] = data.factionID
+        -- if data then print(data.name, name == data.name, data.isAccountWide, isWarband) end
+        if (data and data.name == name)
+        -- ignore factions that don't have a reputation bar
+        -- (handles collision between War Within / Classic Steamwheedle Cartel)
+        and (data.isHeaderWithRep or not data.isHeader) 
+        -- match whether the faction we're looking for is account wide
+        -- (handles collision between War Within / Classic Bilgewater Cartel)        
+        and ((data.isAccountWide and isWarband) or not (data.isAccountWide or isWarband)) then -- xnor
+            cache[cacheKey] = data.factionID
             return data.factionID
         end
     end
@@ -170,8 +176,12 @@ function T:CombatMessageFilter(event, message, ...)
         return false 
     end
 
-    local factionID = T:ReputationFactionIDForName(factionName)
-    
+    local isWarbandFaction = strsub(pattern, -strlen("ACCOUNT_WIDE")) == "ACCOUNT_WIDE"
+    local factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
+    if not factionID then
+        factionID = T:ReputationGainFactionID(factionName) -- recheck since some ACCOUNT_WIDE formats aren't unique
+    end
+
     -- can't do anything if we don't know the faction yet
     -- keep track of the message so we can try again when the faction becomes known
     if not factionID then
@@ -302,7 +312,12 @@ function T:SystemMessageFilter(event, message, ...)
         return false
     end
 
-    local factionID = T:ReputationFactionIDForName(factionName)
+    local isWarbandFaction = strsub(pattern, -strlen("ACCOUNT_WIDE")) == "ACCOUNT_WIDE"
+    local factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
+    if not factionID then
+        factionID = T:ReputationGainFactionID(factionName) -- recheck since some ACCOUNT_WIDE formats aren't unique
+    end
+    
     if not factionID and isGuild then
         factionID = T.GUILD_FACTION_ID
         factionName = GetGuildInfo("player")
