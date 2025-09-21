@@ -48,7 +48,6 @@ CAVEATS, KNOWN BUGS, ETC.:
 	- Some repeatable faction turnins offer an increased amount of reputation the first time they're completed; FactionFriend can't readily tell whether you've done a turnin before, so it always assumes the smaller amount.
 	- Some repeatable faction turnins become available only once prerequisite quests are completed. FactionFriend can't keep track of all the reasons a turnin might or might not be available; it just shows how much reputation you'd be able to earn if the turnins are possible. (It does track reputation requirements for some turnins; for example, you can't turn in Aldor/Scryers items unless you're at least Neutral with the appropriate faction.)
 	- For "friendship" factions (Pandaria Halfhill citizens, Draenor bodyguards, Legion fishing NPCs, Shadowlands Ember Court, Dragonflight Valdrakken Accord members, etc), information about ranks other than the one you're currently progressing through isn't available to the UI, so FactionFriend can't indicate what rank you'll be after completing available turnins or estimate the maximum number of items to turn in.
-	- Some of my Undermine buddies have set up multiple fronts for the same cartels (to hide trade secrets from the competition, of course). FactionFriend has a few tricks to make sure it's tracking the right faction, but you might see unexpected behavior when gaining reputation with certain cartels.
 
 ------------------------------------------------------
 VERSION HISTORY
@@ -56,7 +55,6 @@ VERSION HISTORY
 v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
 TODO for rewrite
-- BUG: (?) Undermine cartels with the same name as vanilla/cata goblin factions
 - Battle for Azeroth: investigate whether warbound versions of island expedition quest rewards still appear when exalted
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
