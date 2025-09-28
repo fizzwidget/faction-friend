@@ -563,6 +563,9 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
     local turninMaxRank = info.maxStanding or self.rankData.maxRank
     -- print("turninValue", turninValue, "potentialRank", potentialRank, "potentialTotal", potentialTotal, "turninMaxRank", turninMaxRank)
     if turninValue > 0 and potentialRank >= turninMaxRank then
+        -- TODO don't seem to be getting here when enough items owned (not yet bought) for reaching exalted
+        -- so we don't reduce # to buy by # owned
+        
         -- adjust potential to fit within cap or turnin max rank 
         local absMaxValue
         if self.rankData.type == "friendship" then
@@ -583,15 +586,17 @@ function PG:AdjustedPotential(numTurnins, turninValue, info)
         -- force numTurnins to integer, recalc potentialValue based on that
         -- because we can't do a fractional number of turnins...
         numTurnins = ceil(potentialValue / turninValue)
-        
-        if turninValue == info.buyValue and potentialRank > turninMaxRank then
+        -- print("potentialValue", potentialValue, "maxPotential", maxPotential, "numTurnins", numTurnins)
+        if turninValue == info.buyValue and potentialRank >= turninMaxRank then
             -- when calculating how many to buy, count the ones we already own
             -- before adjusting to fit within maximum
+            -- print("checking for deductions")
             for createdID, _ in pairs(info.creates) do
                 local inBags, inBank, inReagents, inWarband = T:ItemCount(createdID)
                 local alreadyOwned = inBags + inBank + inReagents + inWarband
+                -- print("reducing turnins for", createdID, "by", alreadyOwned/30)
                 numTurnins = numTurnins - alreadyOwned -- TODO bug here? #turnins or #items/turnin
-                break	-- there should only be one created item in this case
+                break	-- there should only be one kind of created item in this case
             end
         end
         potentialValue = numTurnins * turninValue
