@@ -402,6 +402,7 @@ end
 ------------------------------------------------------
 
 function T:TrySetWatchedFaction(factionID, overrideInactive)
+	if not T.Settings.RepGained then return end
 	
 	local watchedFaction = C_Reputation.GetWatchedFactionData()
 	if watchedFaction and watchedFaction.factionID == factionID then
