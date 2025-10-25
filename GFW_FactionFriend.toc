@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Version: 11.2
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
