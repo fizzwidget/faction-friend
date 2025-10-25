@@ -46,9 +46,6 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 
 ### v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
 
-TODO for rewrite
-- Battle for Azeroth: investigate whether warbound versions of island expedition quest rewards still appear when exalted
-
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
 	- New WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
 	- New WoW settings system gets rid of bulky library dependencies and provides for searchable settings.
