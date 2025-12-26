@@ -18,6 +18,9 @@ F.ISKAARA_TUSKARR = 2511
 F.LOAMM_NIFFEN = 2564
 F.DREAM_WARDENS = 2574
 
+F.WRATHION = 2517
+F.SABELLIAN = 2518
+
 ------------------------------------------------------
 -- For item tooltips and potential rep gain calculation
 -- Quest names starting with ZZ_ are order dependent; 
@@ -348,6 +351,34 @@ Q[F.DREAM_WARDENS] = {
 		useItem = 1,
 		items = {
 			[210423] = 1, -- Dream Wardens Insignia Q4++
+		},
+	},
+}
+Q[F.WRATHION] = {
+	Sargha_01 = {
+		value = 50,
+		items = {
+			[201991] = 1,	-- Sargha's Signet
+		},
+	},
+	Sargha_10 = {
+		value = 500,
+		items = {
+			[201991] = 10,	-- Sargha's Signet
+		},
+	},
+}
+Q[F.SABELLIAN] = {
+	Sargha_01 = {
+		value = 50,
+		items = {
+			[200224] = 1,	-- Mark of Sargha
+		},
+	},
+	Sargha_10 = {
+		value = 500,
+		items = {
+			[200224] = 10,	-- Mark of Sargha
 		},
 	},
 }
