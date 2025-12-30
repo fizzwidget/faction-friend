@@ -164,6 +164,9 @@ function T:HandleQueuedCombatMessages(factionName)
     local messages = T.CombatMessageQueue[factionName] or {}
     T.CombatMessageQueue[factionName] = nil
     for _, messageInfo in pairs(messages) do
+        -- TODO this might not work as intended
+        -- especially when switching to frame:MessageEventHandler
+        -- we queue on behalf of our event-handling frame, but we want all actual ChatFrames to handle the queued message
         ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
     end
 end

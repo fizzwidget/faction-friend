@@ -552,8 +552,8 @@ function Events:ADDON_LOADED(addon, ...)
 		T.Settings = _G[addonName .. "_Settings"]
 		T.Recents = _G[addonName .. "_Recents"]
 		
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_FACTION_CHANGE", T.CombatMessageFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
+		ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_COMBAT_FACTION_CHANGE", T.CombatMessageFilter)
+		ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_SYSTEM", T.SystemMessageFilter)
 		
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByID", T.SetWatchedFactionByID)
 		hooksecurefunc(C_Reputation, "SetWatchedFactionByIndex", T.SetWatchedFactionByIndex)
