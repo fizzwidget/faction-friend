@@ -44,7 +44,7 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 
 ## Version History
 
-### v. 11.xxxx - 2025/xxxx/xxxx - Major Update!
+### v. 11.2 - 2025/12/30 - Revived
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
 	- New WoW menu system eliminates a lot of custom code and avoids "action blocked because of an addon" errors. (Related: the "Show Reputation Pane" action in the reputation watch bar context menu is disabled during combat and shows a tooltip to explain this.)
