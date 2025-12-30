@@ -1,20 +1,37 @@
-## Interface: 80000
-## Version: 8.0.1
+## Interface: 110207
+## Version: 11.2
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
 ## Title: Fizzwidget FactionFriend
 ## Notes: Switches WoW's builtin reputation watch bar automatically and helps keep track of faction turnin items.
-## X-Category: Interface Enhancements
-## SavedVariables: GFW_FactionFriend_DB
-## SavedVariablesPerCharacter: FFF_RecentFactions, FFF_LastTabardID
-GFWUtils.lua
-GFWTable.lua
+## Category: User Interface
+## IconTexture: Interface/Icons/achievement_reputation_08
+## SavedVariables: GFW_FactionFriend_Settings
+## SavedVariablesPerCharacter: GFW_FactionFriend_Recents
+## OptionalDeps: GFW_HoverTips
 
-Libs.xml
+# factions/turnins DB
+DB/00_base.lua
+DB/01_vanilla.lua
+DB/02_bc.lua
+DB/03_wrath.lua
+DB/04_cata.lua
+DB/05_mists.lua
+DB/06_warlords.lua
+DB/07_legion.lua
+DB/08_bfa.lua
+DB/10_dragonflight.lua
+DB/11_tww.lua
 
-LocaleSupport.lua
+# core
 Localization.lua
-FFF_ItemInfo.lua
 FactionFriend.lua
-FactionFriend.xml
+
+FactionMenu.lua
+MessageFilter.lua
+PotentialGains.lua
+ReputationPane.lua
+Settings.lua
+
+ReputationPane.xml
