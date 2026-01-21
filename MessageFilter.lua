@@ -231,6 +231,8 @@ function T:CombatMessageFilter(event, message, ...)
     if amount > 0 then
         local addendum = T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
         message = format(_G[pattern], link, amount) .. " " .. addendum
+    elseif amount < 0 then
+        message = format(_G[pattern], link, -1 * amount)
     else
         message = format(_G[pattern], link)
     end
