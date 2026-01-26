@@ -44,6 +44,12 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 
 ## Version History
 
+### v. 12.0 - 2026/01/xx
+
+- Updated TOC to allow use on WoW Patch 12.0+ (Midnight pre-patch)
+- Fixed issues with maxed-out factions / Paragon factions on 12.0
+- Fixed bug where faction decrease chat messages incorrectly showed zero reputation points
+
 ### v. 11.2 - 2025/12/30 - Revived
 
 Remodeled from a fresh start for current WoW (11.x and The War Within), gaining efficiency, eliminating fragile dependencies, and using modern WoW UI infrastructure. Some benefits from the refurbishing:
