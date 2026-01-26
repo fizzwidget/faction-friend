@@ -398,7 +398,7 @@ function T:RepeatGainsMessage(factionID, amount, factionData, friendshipData)
     
     local isFriendship = friendshipData and friendshipData.friendshipFactionID > 0
     local isMajorFaction = C_Reputation.IsMajorFaction(factionID)
-    local isParagon = C_Reputation.IsFactionParagon(factionID)
+    local isParagon = C_Reputation.IsFactionParagonForCurrentPlayer(factionID)
     if isFriendship then
         local isMaxRank = friendshipData.nextThreshold == nil
         if isMaxRank then

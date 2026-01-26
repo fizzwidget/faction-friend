@@ -207,7 +207,7 @@ function T.MenuFactionButtonSetup(frame, factionID, factionData, friendshipData)
     end
     
     -- icon for paragon hasRewardPending
-    if C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then
+    if C_Reputation.IsFactionParagonForCurrentPlayer(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then
         frame.icon2 = frame:AttachTexture()
         frame.icon2:SetSize(13, 13)
         frame.icon2:SetPoint("RIGHT", frame.fontString2, "LEFT", -2, 0)
@@ -220,8 +220,7 @@ end
 ------------------------------------------------------
 
 function T.MenuSetupFactionTooltip(tooltip, factionID, factionData, friendshipData)
-    local atMax = T:FactionAtMaximum(factionID, factionData, friendshipData)
-    if atMax then
+    if C_Reputation.IsFactionParagonForCurrentPlayer(factionID) then
         T.MenuSetupParagonToolip(tooltip, factionID, factionData)
     else
         T.TooltipAddFactionInfo(tooltip, factionID, factionData, friendshipData)

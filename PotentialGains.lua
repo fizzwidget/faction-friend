@@ -82,7 +82,7 @@ function T:GetRankInfo(factionID, factionData, friendshipData)
         end
         info.capValue = friendshipData.maxRep
 
-    elseif C_Reputation.IsFactionParagon(factionID) then
+    elseif C_Reputation.IsFactionParagonForCurrentPlayer(factionID) then
         info.type = "paragon"
         local paragonStanding, paragonThreshold, _, hasRewardPending, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
         info.currentRank = 0

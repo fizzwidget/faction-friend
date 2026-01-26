@@ -327,7 +327,7 @@ function T:FactionsForCleanup()
 		local data = C_Reputation.GetFactionDataByIndex(index)
 		if not data then break end
 		if data.canSetInactive and data.factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) and C_Reputation.IsFactionActive(index) then
-			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
+			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagonForCurrentPlayer(data.factionID) then
 				tinsert(factionIDs, data.factionID)
 			end
 		end
@@ -348,7 +348,7 @@ function T:CleanUpCompletedFactions()
 	for index = C_Reputation.GetNumFactions(), 1, -1 do
 		local data = C_Reputation.GetFactionDataByIndex(index)
 		if data.canSetInactive and data.factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(data.factionID, data) then
-			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(data.factionID) then
+			if T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagonForCurrentPlayer(data.factionID) then
 				-- print("moving", data.name, "to inactive")
 				C_Reputation.SetFactionActive(index, false)
 			end
@@ -361,7 +361,7 @@ end
 
 function T:CleanUpFactionIfCompleted(factionID, factionData, friendshipData)
 	-- cleaning up guild causes issues, don't
-	if factionData.canSetInactive and factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and (T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagon(factionID)) then
+	if factionData.canSetInactive and factionID ~= T.GUILD_FACTION_ID and T:FactionAtMaximum(factionID, factionData) and (T.Settings.CleanUpParagon or not C_Reputation.IsFactionParagonForCurrentPlayer(factionID)) then
 		
 		-- remember current expand/collapse state
 		-- and expand all so we can see the whole list
@@ -456,7 +456,7 @@ function T:SetupWatchBarOverlays()
 		T.BarOverlays[i] = overlay
 		
 		barFrame:HookScript("OnEnter", function(frame)
-			if frame.factionID and not C_Reputation.IsFactionParagon(frame.factionID) then
+			if frame.factionID and not C_Reputation.IsFactionParagonForCurrentPlayer(frame.factionID) then
 				T:ShowFactionToolip(frame.factionID, frame)
 			end
 		end)
@@ -514,7 +514,6 @@ function T.ReputationStatusBarUpdate()
 end
 
 function T.ReputationWatchBarShowParagonTooltip(frame)
-
 	-- hide the "rewards" label 
 	local lastFontString = _G["EmbeddedItemTooltipTextLeft"..EmbeddedItemTooltip:NumLines()]
 	if lastFontString:GetText() == REWARDS then
@@ -530,15 +529,7 @@ function T.ReputationWatchBarShowParagonTooltip(frame)
 	EmbeddedItemTooltip:Show()
 end
 
-function T.ReputationWatchBarPrepareParagonTooltip(frame)
-	if not C_Reputation.IsFactionParagon(frame.factionID) then
-		-- this hook is only for paragon; other factions don't show their own tooltips
-		return
-	end
-	hooksecurefunc(frame, "UpdateTooltip", T.ReputationWatchBarShowParagonTooltip)
-end
-
-hooksecurefunc("ReputationParagonWatchBar_OnEnter", T.ReputationWatchBarPrepareParagonTooltip)
+hooksecurefunc("ReputationParagonFrame_SetupParagonTooltip", T.ReputationWatchBarShowParagonTooltip)
 
 ------------------------------------------------------
 -- Events
