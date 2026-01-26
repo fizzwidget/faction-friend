@@ -1,5 +1,5 @@
-## Interface: 110207
-## Version: 11.2
+## Interface: 120000
+## Version: 12.0
 ## Author: Gazmik Fizzwidget
 ## X-Website: http://fizzwidget.com/factionfriend
 ## X-Appcast: http://fizzwidget.com/notes/factionfriend/feed
