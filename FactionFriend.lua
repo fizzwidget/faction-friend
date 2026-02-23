@@ -653,7 +653,7 @@ function T.UpdateItemButton(frame, itemInfo)
 		frame.IconQuestTexture:Show()
 	else
 		frame.IconQuestTexture:SetDesaturated(false)		
-		frame.IconQuestTexture:SetVertexColor(1,1,1,1)
+		frame.IconQuestTexture:SetVertexColor(1,1,1,1) -- BUG this doesn't execute for some slots
 		frame.IconQuestTexture:Hide()
 	end	
 end
