@@ -49,6 +49,7 @@ end
 -- not a general faction name to ID map: resolves name collisions using 
 -- assumptions related to reputation-gain messages 
 function T:ReputationGainFactionID(name, isWarband)
+    assert(name ~= nil and name ~= "")
     if not T.FactionNamesWithReputation then
         T.FactionNamesWithReputation = {}
     end
@@ -56,7 +57,17 @@ function T:ReputationGainFactionID(name, isWarband)
     local cache = T.FactionNamesWithReputation
     local cachedFactionID = cache[cacheKey]
     if cachedFactionID then return cachedFactionID end
-    
+
+    if name == GUILD or name == GUILD_REPUTATION then
+        cache[name] = T.GUILD_FACTION_ID
+
+        local guildName = GetGuildInfo("player")
+        if guildName then 
+            cache[guildName] = T.GUILD_FACTION_ID
+        end
+        return T.GUILD_FACTION_ID
+    end
+
     for index = 1, T.MAX_FACTIONS do
         local data = C_Reputation.GetFactionDataByIndex(index)
         -- we use this only for identifying factionID that just changed rep / standing
@@ -152,43 +163,66 @@ end
 
 -- programmatically triggered queue for order dependency of getting factino info
 T.CombatMessageQueue = {}
-function T:QueueCombatMessage(frame, event, message, factionName, ...)
-    if not T.CombatMessageQueue[factionName] then
-        T.CombatMessageQueue[factionName] = {}
+function T:QueueCombatMessage(frame, event, message, factionName, isWarbandFaction, ...)
+    assert(factionName ~= nil and factionName ~= "")
+    local cacheKey = factionName .. (isWarbandFaction and "|W" or "")
+    if not T.CombatMessageQueue[cacheKey] then
+        T.CombatMessageQueue[cacheKey] = {}
     end
-    tinsert(T.CombatMessageQueue[factionName], {frame=frame, event=event, message=message, args={...}})
+    tinsert(T.CombatMessageQueue[cacheKey], {frame=frame, event=event, message=message, args={...}})
 end
 
-function T:HandleQueuedCombatMessages(factionName)
-    if not factionName then return end
-    local messages = T.CombatMessageQueue[factionName] or {}
-    T.CombatMessageQueue[factionName] = nil
+function T:HandleQueuedCombatMessages(cacheKey)
+    if not cacheKey then return end
+    local messages = T.CombatMessageQueue[cacheKey] or {}
+    local factionName, isWarband = strsplit("|", cacheKey)
+    if not messages then
+        -- print("trying to handle queue for", cacheKey, "failed")
+        return
+    end
+    
+    T.CombatMessageQueue[cacheKey] = nil
     for _, messageInfo in pairs(messages) do
-        -- TODO this might not work as intended
-        -- especially when switching to frame:MessageEventHandler
+        -- BUG errors on 12.0, ChatFrame_MessageEventHandler
         -- we queue on behalf of our event-handling frame, but we want all actual ChatFrames to handle the queued message
-        ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+        -- ChatFrame_MessageEventHandler(messageInfo.frame, messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+        -- print("processing", messageInfo.event, messageInfo.message)
+        ChatFrameUtil.ForEachChatFrame(function(frame)
+            if frame:IsEventRegistered(messageInfo.event) then
+                if frame.MessageEventHandler then
+                    frame:MessageEventHandler(messageInfo.event, messageInfo.message, unpack(messageInfo.args))
+                end
+            end
+        end)
     end
 end
 
-function T:CombatMessageFilter(event, message, ...)	
+function T:CombatMessageFilter(event, message, ...)
     local factionName, amount, pattern = T:FactionAmountChangeFromMessage(message)
     if not factionName then 
         -- likely missing localized string pattern (this happens for Brann in Delves)
         -- print("factionName not parsed from combat message")    
         return false 
     end
+    -- print(event, message, ...)
 
+    local factionID = T.ChangedFaction
     local isWarbandFaction = strsub(pattern, -strlen("ACCOUNT_WIDE")) == "ACCOUNT_WIDE"
-    local factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
+    if not factionID then
+        factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
+        -- print("factionID lookup", factionName, isWarbandFaction, factionID)
+    end
     if not factionID then
         factionID = T:ReputationGainFactionID(factionName) -- recheck since some ACCOUNT_WIDE formats aren't unique
+        -- print("factionID fallback", factionName, factionID)
     end
 
     -- can't do anything if we don't know the faction yet
     -- keep track of the message so we can try again when the faction becomes known
-    if not factionID then
-        T:QueueCombatMessage(self, event, message, factionName, ...)
+    if --[[T.TestQueue or]] not factionID then
+        T:QueueCombatMessage(self, event, message, factionName, isWarbandFaction, ...)
+        -- print(T.TestQueue and "testing queue" or "queued", event, message, factionName, ...)
+        -- T.TestQueue = nil
         return true
     end
         
@@ -316,15 +350,21 @@ function T:SystemMessageFilter(event, message, ...)
         -- lots of CHAT_MSG_SYSTEM we're not interested in
         return false
     end
-
-    local isWarbandFaction = strsub(pattern, -strlen("ACCOUNT_WIDE")) == "ACCOUNT_WIDE"
-    local factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
-    if not factionID then
-        factionID = T:ReputationGainFactionID(factionName) -- recheck since some ACCOUNT_WIDE formats aren't unique
-    end
+    -- print(event, message, ...)
+    local factionID
     
-    if not factionID and isGuild then
+    if isGuild then
         factionID = T.GUILD_FACTION_ID
+    else
+        assert(factionName, "should have nil factionName only if guild")
+        local isWarbandFaction = strsub(pattern, -strlen("ACCOUNT_WIDE")) == "ACCOUNT_WIDE"
+        factionID = T:ReputationGainFactionID(factionName, isWarbandFaction)
+        if not factionID then
+            factionID = T:ReputationGainFactionID(factionName) -- recheck since some ACCOUNT_WIDE formats aren't unique
+        end
+    end
+        
+    if not factionID and isGuild then
         factionName = GetGuildInfo("player")
 
         -- on joining a guild, FACTION_STANDING_CHANGED_GUILD fires before GetGuildInfo can return data
