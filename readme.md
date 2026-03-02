@@ -44,11 +44,14 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 
 ## Version History
 
-### v. 12.0 - 2026/01/xx
+### v. 12.0 - 2026/03/01
 
-- Updated TOC to allow use on WoW Patch 12.0+ (Midnight pre-patch)
+- Updated TOC to allow use on WoW Patch 12.0+ (Midnight)
 - Fixed issues with maxed-out factions / Paragon factions on 12.0
 - Fixed bug where faction decrease chat messages incorrectly showed zero reputation points
+- Fixed error or missing chat message when earning reputation with a faction before "discovering" that faction
+- Fixed error when joining a guild
+- Fixed cases where guild reputation didn't benefit from the Enhance chat window output" setting
 
 ### v. 11.2 - 2025/12/30 - Revived
 
