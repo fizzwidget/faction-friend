@@ -570,7 +570,8 @@ end
 
 function Events:FACTION_STANDING_CHANGED(factionID, updatedStanding)
 	local factionData = C_Reputation.GetFactionDataByID(factionID)
-
+	if not factionData then return end
+	
 	-- chat message for rep gain can fire before faction info by index is available
 	-- but FACTION_STANDING_CHANGED fires shortly after and provides an ID
 	-- stash that so we can reprocess the chat messages without needing to look up ID
