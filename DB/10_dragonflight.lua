@@ -29,22 +29,40 @@ F.SABELLIAN = 2518
 local Q = DB.TurninsByQuest
 	
 Q[F.MARUUK_CENTAUR] = {
-	HuntingTropy_01 = {
+	HuntingTrophy_01 = {
 		value = 25,
 		items = {
 			[200093] = 1,	-- Centaur Hunting Trophy
 		},
 	},
-	HuntingTropy_05 = {
+	HuntingTrophy_05 = {
 		value = 125,
 		items = {
 			[200093] = 5,	-- Centaur Hunting Trophy
 		},
 	},
-	HuntingTropy_20 = {
+	HuntingTrophy_20 = {
 		value = 500,
 		items = {
 			[200093] = 20,	-- Centaur Hunting Trophy
+		},
+	},
+	HuntingTrophyBoA_01 = {
+		value = 25,
+		items = {
+			[200447] = 1,	-- Centaur Hunting Trophy
+		},
+	},
+	HuntingTrophyBoA_05 = {
+		value = 125,
+		items = {
+			[200447] = 5,	-- Centaur Hunting Trophy
+		},
+	},
+	HuntingTrophyBoA_20 = {
+		value = 500,
+		items = {
+			[200447] = 20,	-- Centaur Hunting Trophy
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -88,33 +106,51 @@ Q[F.MARUUK_CENTAUR] = {
 }
 Q[F.DRAGONSCALE_EXPEDITION] = {
 	DragonIslesArtifacts_01 = {
-		value = 25,
+		value = 15,
 		items = {
 			[192055] = 1,	-- Dragon Isles Artifact
 		},
 	},
 	DragonIslesArtifacts_05 = {
-		value = 125,
+		value = 75,
 		items = {
 			[192055] = 5,	-- Dragon Isles Artifact
 		},
 	},
 	DragonIslesArtifacts_20 = {
-		value = 500,
+		value = 300,
 		items = {
 			[192055] = 20,	-- Dragon Isles Artifact
+		},
+	},
+	DragonIslesArtifactsBoA_01 = {
+		value = 15,
+		items = {
+			[200443] = 1,	-- Dragon Isles Artifact
+		},
+	},
+	DragonIslesArtifactsBoA_05 = {
+		value = 75,
+		items = {
+			[200443] = 5,	-- Dragon Isles Artifact
+		},
+	},
+	DragonIslesArtifactsBoA_20 = {
+		value = 300,
+		items = {
+			[200443] = 20,	-- Dragon Isles Artifact
 		},
 	},
 	VaultArtifacts_01 = {
 		value = 30,
 		items = {
-			[201412] = 1,	-- Ancient Vault Artifact
+			[201411] = 1,	-- Ancient Vault Artifact
 		},
 	},
 	VaultArtifacts_05 = {
 		value = 150,
 		items = {
-			[201412] = 5,	-- Ancient Vault Artifact
+			[201411] = 5,	-- Ancient Vault Artifact
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -158,15 +194,27 @@ Q[F.DRAGONSCALE_EXPEDITION] = {
 }
 Q[F.VALDRAKKEN_ACCORD] = {
 	TitanRelic_01 = {
-		value = 25,
+		value = 15,
 		items = {
 			[199906] = 1,	-- Titan Relic
 		},
 	},
 	TitanRelic_05 = {
-		value = 125,
+		value = 75,
 		items = {
 			[199906] = 5,	-- Titan Relic
+		},
+	},
+	TitanRelicBoA_01 = {
+		value = 15,
+		items = {
+			[200450] = 1,	-- Titan Relic
+		},
+	},
+	TitanRelicBoA_05 = {
+		value = 75,
+		items = {
+			[200450] = 5,	-- Titan Relic
 		},
 	},
 	ZZ_FlightstoneInsignia = {
@@ -220,15 +268,27 @@ Q[F.VALDRAKKEN_ACCORD] = {
 }
 Q[F.ISKAARA_TUSKARR] = {
 	StolenTotems_01 = {
-		value = 25,
+		value = 15,
 		items = {
 			[200071] = 1,	-- Sacred Tuskarr Totem
 		},
 	},
 	StolenTotems_05 = {
-		value = 125,
+		value = 75,
 		items = {
 			[200071] = 5,	-- Sacred Tuskarr Totem
+		},
+	},
+	StolenTotemsBoA_01 = {
+		value = 15,
+		items = {
+			[200449] = 1,	-- Sacred Tuskarr Totem
+		},
+	},
+	StolenTotemsBoA_05 = {
+		value = 75,
+		items = {
+			[200449] = 5,	-- Sacred Tuskarr Totem
 		},
 	},
 	ZZ_FlightstoneInsignia = {
