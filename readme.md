@@ -44,6 +44,18 @@ It's amazing the lengths some will go to to win friends. Gaining the trust of fu
 
 ## Version History
 
+### v. 12.0.1 - 2026/04/26
+
+- TOC bump for WoW v12.0.5
+- Fixed error when gaining reputation with a faction the client doesn't (yet) have info for
+- Fixed missing reputation tracking for Ancient Vault Artifact (Dragonscale Expedition)
+- Added reputation tracking for Warbound versions of Dragonflight items (which, since WoW v11.0, appear only once you're at maximum renown with the associated faction, making further reputation gain useful only for "paragon" goodie bags)
+	- Centaur Hunting Trophy (Maruuk Centaur)
+	- Dragon Isles Artifact (Dragonscale Expedition)
+	- Titan Relic (Valdrakken Accord)
+	- Sacred Tuskarr Totem (Iskaara Tuskarr)
+- Corrected reputation amounts for Dragon Isles Artifact (Dragonscale Expedition), Titan Relic (Valdrakken Accord), Sacred Tuskarr Totem (Iskaara Tuskarr)
+
 ### v. 12.0 - 2026/03/01
 
 - Updated TOC to allow use on WoW Patch 12.0+ (Midnight)
